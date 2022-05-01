@@ -1,5 +1,4 @@
-
-#include "../states/states.h"
+#include "states.h"
 
 
 void new_process( 
