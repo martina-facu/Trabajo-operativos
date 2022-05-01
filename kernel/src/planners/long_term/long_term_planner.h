@@ -1,5 +1,5 @@
 #include "states.h"
-
+#include <stdbool.h>
 
 void new_process( 
     int process_id,
