@@ -10,4 +10,3 @@ process *BLOCKED[];
 process *SUSPENDED_BLOCKED[];
 process *SUSPENDED_READY[];
 process *EXIT[];
-
