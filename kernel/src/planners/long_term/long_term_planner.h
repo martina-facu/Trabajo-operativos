@@ -1,5 +1,5 @@
-#include "states.h"
-
+#include "../states.h"
+#include <stdbool.h>
 
 void new_process( 
     int process_id,
@@ -36,7 +36,7 @@ pages_table* get_pages_table_from_memory(int process_id){
 void change_to_ready (int process_id) {
     if(has_ready_state_space()){
         process *process = NEW[process_id];
-        READY[READY_FREE_SPACE] = process;
+        READY[READY_FREE_SPACE - 1] = process;
         READY_FREE_SPACE--;
     }
 }
@@ -50,3 +50,4 @@ void long_term_planner(
         pages_table *pt = get_pages_table_from_memory(process_id);
         change_to_ready(process_id);   
     }
+
