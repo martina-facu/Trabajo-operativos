@@ -1,4 +1,4 @@
-#include "states.h"
+#include "../states.h"
 #include <stdbool.h>
 
 void new_process( 
