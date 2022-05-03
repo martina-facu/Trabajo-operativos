@@ -4,7 +4,7 @@
 void new_process( 
     int process_id,
     int process_size, 
-    char *instructions[]   
+    instruccion instructions[]   
    ) {
         process *process;
         pages_table *pt;
@@ -44,7 +44,7 @@ void change_to_ready (int process_id) {
 void long_term_planner(
     int process_id,
     int process_size, 
-    char *instructions[]   
+    instruccion instructions[]   
     ) {
         new_process(process_id, process_size, instructions);
         pages_table *pt = get_pages_table_from_memory(process_id);

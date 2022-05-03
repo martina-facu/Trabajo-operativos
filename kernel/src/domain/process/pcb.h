@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "../instruccions/instruccion.h"
 
 typedef struct {
     int page_number;
@@ -13,7 +14,7 @@ typedef struct {
     int program_counter;
     pages_table *pages_table;
     double brust_stimate; 
-    char *instructions[]; //NO_OP, I/O, READ, WRITE, COPY, EXIT
+    instruccion instructions[]; //NO_OP, I/O, READ, WRITE, COPY, EXIT
 } pcb;
 
 
@@ -23,7 +24,7 @@ pcb *pcb_create(
     int program_counter,
     pages_table *pages_table,
     double brust_stimate,
-    char *instructions[]){
+    instruccion instructions[]){
         pcb *process = (pcb *) malloc(sizeof(pcb));
         process->pid = pid;
         process->size = size;
