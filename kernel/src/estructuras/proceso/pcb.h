@@ -25,14 +25,14 @@ pcb *pcb_create(
     tabla_paginas *tabla_paginas,
     double estimado_rafaga,
     instruccion instrucciones[]){
-        pcb *process = (pcb *) malloc(sizeof(pcb));
-        process->pid = pid;
-        process->tamano = tamano;
-        process->program_counter = program_counter;
-        process->tabla_paginas = tabla_paginas;
-        process->estimado_rafaga = estimado_rafaga;
+        pcb *proceso = (pcb *) malloc(sizeof(pcb));
+        proceso->pid = pid;
+        proceso->tamano = tamano;
+        proceso->program_counter = program_counter;
+        proceso->tabla_paginas = tabla_paginas;
+        proceso->estimado_rafaga = estimado_rafaga;
         for(int i = 0; i < tamano; i++){
-            process->instrucciones[i] = instrucciones[i];
+            proceso->instrucciones[i] = instrucciones[i];
         };
-        return process;
+        return proceso;
     };
