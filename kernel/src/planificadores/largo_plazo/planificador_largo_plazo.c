@@ -1,4 +1,4 @@
-#include "../estados.h"
+#include "../estados.c"
 #include <stdbool.h>
 
 void proceso_estado_new( 
