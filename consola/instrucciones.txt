@@ -5,12 +5,3 @@ COPY 0 4
 READ 0
 EXIT
 
-
-NO_OP = 1
-I/O = 2
-WRITE=3
-COPY = 4
-READ = 5
-EXIT = 6
-
-consola "c:/casa" 700
