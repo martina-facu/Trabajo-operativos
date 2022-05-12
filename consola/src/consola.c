@@ -4,10 +4,11 @@
 #include <sys/stat.h>
 #include "./consolaConfig.h"
 #include "./commons/string.h"
+#include "./commons/collections/queue.h"
 
 typedef struct {
 	char* parametros[2];
-	char* id; //NO_OP, I/O, READ, WRITE, COPY, EXIT
+	int id; //NO_OP, I/O, READ, WRITE, COPY, EXIT
 } Instruccion;
 
 // void exit_gracefully(int return_nr) {
@@ -33,7 +34,6 @@ void definirCodigo(char* id, int* codigo) {
 	if (string_contains(id, "EXIT")) {
 		*codigo = 6;
 	}
-
 }
 
 int main(int argc, char** argv) {
@@ -45,16 +45,21 @@ int main(int argc, char** argv) {
 	char* tamanio_proceso = argv[2];
 	char* filename = argv[1];
 
-	FILE* input_file = fopen(
-			"/home/utnso/tp-2022-1c-9-12/consola/instrucciones.txt", "r");
-	//FILE* input_file = fopen("../Debug/instrucciones.txt", "r");
+	FILE* input_file = fopen("/home/utnso/tp-2022-1c-9-12/consola/instrucciones.txt", "r");
+
 	if (!input_file)
 		exit(EXIT_FAILURE);
 
 	char *contents = NULL;
 	size_t len = 0;
-	while (getline(&contents, &len, input_file) != -1) {
-		//contents = contenido de la linea
+
+	t_queue * instrucciones = queue_create();
+
+	while (getline(&contents, &len, input_file) != -1) {//contents = contenido de la linea
+
+//		Instruccion insturccion = {
+//				instruccion.id->id;
+//		};
 
 		char** parametros = string_split(contents, " ");
 
@@ -68,28 +73,8 @@ int main(int argc, char** argv) {
 
 		definirCodigo(id, &codigo);
 
-		switch (codigo) {
-		case 1:
-			printf("\n%s", parametro1);
-			break;
-		case 2:
-			printf("\n%s", parametro1);
-			break;
-		case 3:
-			printf("\n%s", parametro1);
-			printf("\n%s", parametro2);
-			break;
-		case 4:
-			printf("\n%s", parametro1);
-			printf("\n%s", parametro2);
-			break;
-		case 5:
-			printf("\n%s", parametro1);
-			break;
-		default:
-			printf("\n No hay parametros para esta operacion");
-			break;
-		}
+		queue_push(t_queue *instrucciones, void *element); //hay que pasar la estructura a un stream
+
 
 		printf("\n codigo de op %d", codigo);
 	}
@@ -97,10 +82,31 @@ int main(int argc, char** argv) {
 	fclose(input_file);
 	free(contents);
 
-	//leerInstrucciones(argv[0]);
 	//close(sockfd);
 	return EXIT_SUCCESS;
 }
 
-//printf("%s",argv[1]); comprobar que el path es el que se mando 
-//"../intrucciones.txt"
+
+
+//switch (codigo) {
+//	case 1:
+//	printf("\n%s", parametro1);
+//	break;
+//	case 2:
+//	printf("\n%s", parametro1);
+//	break;
+//	case 3:
+//	printf("\n%s", parametro1);
+//	printf("\n%s", parametro2);
+//	break;
+//	case 4:
+//	printf("\n%s", parametro1);
+//	printf("\n%s", parametro2);
+//	break;
+//	case 5:
+//	printf("\n%s", parametro1);
+//	break;
+//	default:
+//	printf("\n No hay parametros para esta operacion");
+//	break;
+//}
