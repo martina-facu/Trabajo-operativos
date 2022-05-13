@@ -36,6 +36,33 @@ void definirCodigo(char* id, int* codigo) {
 	}
 }
 
+int definirCantidadParametros(codigo){
+	switch (codigo) {
+		case 1:
+			return 1;
+		break;
+		case 2:
+			return 1;
+		break;
+		case 3:
+			return 2;
+		break;
+		case 4:
+			return 2;
+		break;
+		case 5:
+			return 1;
+		break;
+		case 5:
+			return 0;
+		break;
+		default:
+		printf("\n No hay parametros para esta operacion");
+		break;
+	}
+}
+
+
 int main(int argc, char** argv) {
 
 	//Conecta como cliente al Kernel
@@ -45,7 +72,7 @@ int main(int argc, char** argv) {
 	char* tamanio_proceso = argv[2];
 	char* filename = argv[1];
 
-	FILE* input_file = fopen("/home/utnso/tp-2022-1c-9-12/consola/instrucciones.txt", "r");
+	FILE* input_file = fopen("/home/utnso/tp-2022-1c-9-12/consola/instrucciones.txt", "r");//harcodeado
 
 	if (!input_file)
 		exit(EXIT_FAILURE);
@@ -57,23 +84,18 @@ int main(int argc, char** argv) {
 
 	while (getline(&contents, &len, input_file) != -1) {//contents = contenido de la linea
 
-//		Instruccion insturccion = {
-//				instruccion.id->id;
-//		};
 
 		char** parametros = string_split(contents, " ");
 
 		char* id = parametros[0];
-		char* parametro1 = parametros[1];
-		char* parametro2 = parametros[2];
+		char* parametro1 = atoi(parametros[1]);
+		char* parametro2 = atoi(parametros[2]); //dudoso para saber si te va a venir null o no
 
 		printf("\n%s", id);
 
 		int codigo = -1;
 
 		definirCodigo(id, &codigo);
-
-		queue_push(t_queue *instrucciones, void *element); //hay que pasar la estructura a un stream
 
 
 		printf("\n codigo de op %d", codigo);
@@ -85,28 +107,3 @@ int main(int argc, char** argv) {
 	//close(sockfd);
 	return EXIT_SUCCESS;
 }
-
-
-
-//switch (codigo) {
-//	case 1:
-//	printf("\n%s", parametro1);
-//	break;
-//	case 2:
-//	printf("\n%s", parametro1);
-//	break;
-//	case 3:
-//	printf("\n%s", parametro1);
-//	printf("\n%s", parametro2);
-//	break;
-//	case 4:
-//	printf("\n%s", parametro1);
-//	printf("\n%s", parametro2);
-//	break;
-//	case 5:
-//	printf("\n%s", parametro1);
-//	break;
-//	default:
-//	printf("\n No hay parametros para esta operacion");
-//	break;
-//}
