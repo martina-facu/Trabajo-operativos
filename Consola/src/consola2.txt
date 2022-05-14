@@ -1,0 +1,149 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdint.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <commons/collections/list.h>
+#include <commons/string.h>
+#include <commons/config.h>
+
+//typedef enum id_instr{NO_OP, IO,READ,WRITE,EXIT,COPY};
+
+typedef struct{
+	char nombre[6];
+	t_list* parametros;
+}t_instruccion;
+
+typedef struct{
+	uint32_t size;
+	void* stream;
+}t_buffer;
+
+typedef struct{
+	uint8_t codigo_operacion;
+	t_buffer* buffer;
+}t_paquete;
+
+void mostrar(t_list* list){
+	int aux = list_size(list);
+	for(int i=0;i<aux;i++){
+		int* aux2= list_get(list,i);
+		printf("%d ", *aux2);
+	}
+	printf("\n");
+}
+void mostrar_instrucciones(t_list* list){
+	int aux = list_size(list);
+	t_instruccion* instruccion = malloc(sizeof(instruccion));
+	for(int i=0;i<aux;i++){
+		instruccion= list_get(list,i);
+		printf("nombre instrucion:%s parametros:  ", instruccion->nombre);
+		mostrar(instruccion->parametros);
+	}
+}
+
+
+
+int calcular_espacio_instrucciones (t_list* instrucciones){
+	int size = list_size(instrucciones)*sizeof(t_instruccion);
+	t_instruccion* instruccion = malloc(sizeof(instruccion));
+	int aux=list_size(instrucciones);
+
+	for(int i=0;i<aux;i++){
+		instruccion= list_get(instrucciones,i);
+		size+= sizeof(uint32_t); //longitud del nombre
+		size+=strlen(instruccion->nombre)+1; //cantidad de byte por caracter + el /0//
+		size+=sizeof(uint32_t); //cant de parametros
+		size+=sizeof(uint32_t)*list_size(instruccion->parametros); //un int por parametro
+	}
+	return size;
+}
+
+void llenar_stream(t_list* instrucciones,void* stream){
+	int desplazamiento=0;
+	t_instruccion* instruccion = malloc(sizeof(instruccion));
+	int aux=list_size(instrucciones);
+	memcpy(stream+desplazamiento,&aux,sizeof(uint32_t));
+	desplazamiento= sizeof(uint32_t);
+	int aux2;
+	int* prm;
+	for(int i=0;i<aux;i++){
+		instruccion= list_get(instrucciones,i);
+		aux2= strlen(instruccion->nombre)+1;
+		memcpy(stream+desplazamiento,&aux2,sizeof(uint32_t));
+		desplazamiento+=sizeof(uint32_t);
+		memcpy(stream+desplazamiento,instruccion->nombre,strlen(instruccion->nombre)+1);
+		desplazamiento+=strlen(instruccion->nombre)+1;
+		int cant_prm= list_size(instruccion->parametros);
+		memcpy(stream+desplazamiento,&cant_prm,sizeof(uint32_t));
+		desplazamiento+= sizeof(uint32_t);
+		for(int i=0;i<cant_prm;i++){
+			prm= list_get(instruccion->parametros,i);
+			memcpy(stream+desplazamiento,prm,sizeof(uint32_t));
+			desplazamiento+=sizeof(uint32_t);
+		}
+	}
+}
+
+
+int main(void) {
+	FILE* codigo;
+	codigo=fopen("/home/utnso/Escritorio/codigo2.txt","r");
+
+	if(codigo==NULL){
+		perror("error al leer el archivo");
+		return -1;
+	}
+	int acum=0; // acumulador de la cantidad de parametros que agregue
+	t_list* instrucciones = list_create();
+	char aux[25];
+	int* parametro;
+	// ---------------------------------------------------------------- CARGAR LISTA DE INSTRUCCIONES -----------------------------------------------------------------------------------//
+	while(!feof(codigo)){
+		t_instruccion* instruccion = malloc(sizeof(t_instruccion));
+		instruccion->parametros= list_create();
+		fgets(aux,25,codigo);
+		char** buffer = string_split(aux," ");
+		strcpy(instruccion->nombre,buffer[0]);
+		for(int i=1;buffer[i]!=NULL;i++){
+			parametro= malloc(sizeof(int));
+			*parametro=atoi(buffer[i]);
+			list_add(instruccion->parametros,parametro);
+			acum++;
+		}
+		list_add(instrucciones,instruccion);
+	}
+	mostrar_instrucciones(instrucciones);
+
+	 // ---------------------------------------------------------------------------- SERIALIZACION ----------------------------------------------------------------------------------------//
+
+	t_buffer* buffer = malloc(sizeof(t_buffer));
+
+	buffer->size =  calcular_espacio_instrucciones(instrucciones);
+
+	void* stream = malloc(buffer->size);
+	llenar_stream(instrucciones,stream);
+
+	buffer->stream=stream;
+
+	t_paquete* paquete = malloc(sizeof(t_paquete));
+
+	paquete->codigo_operacion= 0;
+	paquete->buffer= buffer;
+
+	void* a_enviar = malloc(buffer->size + sizeof(uint8_t) + sizeof(uint32_t));
+	int offset = 0;
+
+	memcpy(a_enviar + offset, &(paquete->codigo_operacion), sizeof(uint8_t));
+	offset += sizeof(uint8_t);
+	memcpy(a_enviar + offset, &(paquete->buffer->size), sizeof(uint32_t));
+	offset += sizeof(uint32_t);
+	memcpy(a_enviar + offset, paquete->buffer->stream, paquete->buffer->size);
+
+//	send(unSocket, a_enviar, buffer->size + sizeof(uint8_t) + sizeof(uint32_t), 0);
+	return EXIT_SUCCESS;
+}
