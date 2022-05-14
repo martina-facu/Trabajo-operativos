@@ -105,19 +105,19 @@ void levantar_servidor_kernel() {
 	sin_size = sizeof(struct sockaddr_in);
 
 
-//	while (1) {
-//		int *idSocketCliente = (int *)malloc(sizeof(int32_t));
-//		idSocketCliente[0] = -1; //TODO: que pasa con esta variable con varios hilos ?
-//		if ((idSocketCliente[0] = accept(sockfd, (struct sockaddr *) &their_addr, &sin_size))
-//				== -1) {
-//			perror("Error al usar accept");
-//		}
-//
-//		//CREAMOS UN HILO PARA ATENDERLO
-//		pthread_t punteroHilo;
-//		pthread_create(&punteroHilo, NULL, (void*) atender, idSocketCliente);
-//		//espero a q termine el hilo (para evitar quilombo por ahora)
-//		pthread_join(punteroHilo,NULL);
-//
-//	}
+	while (1) {
+		int *idSocketCliente = (int *)malloc(sizeof(int32_t));
+		idSocketCliente[0] = -1; //TODO: que pasa con esta variable con varios hilos ?
+		if ((idSocketCliente[0] = accept(sockfd, (struct sockaddr *) &their_addr, &sin_size))
+				== -1) {
+			perror("Error al usar accept");
+		}
+
+		//CREAMOS UN HILO PARA ATENDERLO
+		pthread_t punteroHilo;
+		pthread_create(&punteroHilo, NULL, (void*) atender, idSocketCliente);
+		//espero a q termine el hilo (para evitar quilombo por ahora)
+		pthread_join(punteroHilo,NULL);
+
+	}
 }

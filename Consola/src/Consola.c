@@ -172,15 +172,12 @@ int main() {
 //	char* tamanio_proceso = argv[2];
 //	char* filename = argv[1];
 
-	FILE* input_file = fopen("/home/utnso/tp-2022-1c-9-12/consola/instrucciones.txt", "r"); //harcodeado
+	FILE* input_file = fopen("/home/utnso/tp-2022-1c-9-12/Consola/instrucciones.txt", "r"); //harcodeado
 
 	if(input_file==NULL){
 		perror("error al leer el archivo");
 		return -1;
 	}
-
-	if (!input_file)
-		exit(EXIT_FAILURE);
 
 	char *contents = NULL;
 	size_t len = 0;
