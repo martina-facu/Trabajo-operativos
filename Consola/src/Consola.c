@@ -10,6 +10,8 @@
 #include <commons/collections/list.h>
 #include <commons/string.h>
 #include <commons/config.h>
+#include "../../Shared/utils/instrucciones.h"
+
 
 
 int crear_conexion(char *ip, char* puerto)
@@ -45,21 +47,6 @@ int crear_conexion(char *ip, char* puerto)
 //   exit(return_nr);
 // }
 
-//------------------------------------------Estructuras ----------------------------------------------------------
-typedef struct {
-	t_list* parametros;
-	uint8_t id; //NO_OP, I/O, READ, WRITE, COPY, EXIT
-} Instruccion;
-
-typedef struct {
-	uint32_t size;
-	void* stream;
-} t_buffer;
-
-typedef struct {
-	uint8_t codigo_operacion;
-	t_buffer* buffer;
-} t_paquete;
 
 //----------------------------------Funciones---------------------------------------------
 int definirCodigo(char* id) {
@@ -232,8 +219,8 @@ int main() {
 	memcpy(a_enviar + offset, paquete->buffer->stream, paquete->buffer->size);
 
 	 // ------------------------------------------------------------------------------ CONEXION ----------------------------------------------------------------------------------------//
-	t_config* config = config_create("kernel.config");
-	char* ip= config_get_string_value(config,"IP_KERNEL");
+	t_config* config = config_create("consola.config");
+	char* ip= config_get_string_value(config,"IP_KERNEL");//falta el codigo de la configuracion
 	char* puerto= config_get_string_value(config,"PUERTO_KERNEL");
 	int conexion= crear_conexion(ip,puerto);
 	send(conexion,a_enviar,buffer->size+sizeof(uint8_t)+sizeof(uint32_t),0);
