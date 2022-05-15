@@ -10,6 +10,7 @@
 #include <commons/collections/list.h>
 #include <commons/string.h>
 #include <commons/config.h>
+//#include "./instrucciones.h"
 
 
 void llenar_stream(t_list* instrucciones,void* stream){
@@ -18,7 +19,7 @@ void llenar_stream(t_list* instrucciones,void* stream){
 	uint32_t aux=list_size(instrucciones);
 	memcpy(stream+desplazamiento,&aux,sizeof(uint32_t)); // CANT DE INSTRUCCIONES
 	desplazamiento+= sizeof(uint32_t);
-	int aux2;
+	uint8_t aux2;
 	int* prm;
 	for(int i=0;i<list_size(instrucciones);i++){
 		instruccion= list_get(instrucciones,i);

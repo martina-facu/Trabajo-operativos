@@ -16,8 +16,6 @@
 #include "../../Shared/utils/protocolo.c"
 
 
-//_-----------------------------------Funcionalidad------------------------------------------
-
 int main() {
 
 	//Conecta como cliente al Kernel
