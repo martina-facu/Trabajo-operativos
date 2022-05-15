@@ -11,4 +11,4 @@
 #include <commons/string.h>
 #include <commons/config.h>
 
-void llenar_stream(t_list* instrucciones,void* stream);
+int crear_conexion(char *ip, char* puerto);
