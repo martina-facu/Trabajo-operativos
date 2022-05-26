@@ -39,3 +39,44 @@ int crear_conexion(char *ip, char* puerto)
 
 	return socket_cliente;
 }
+
+int iniciar_servidor(char *ip, t_config* config)
+{
+	// Quitar esta línea cuando hayamos terminado de implementar la funcion
+
+	struct addrinfo hints, *servinfo;
+
+	memset(&hints, 0, sizeof(hints));
+	hints.ai_family = AF_UNSPEC;
+	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_flags = AI_PASSIVE;
+
+	getaddrinfo(ip, config_get_string_value(config,"PUERTO_ESCUCHA"), &hints, &servinfo); // TODO : hacer que lea del archivo bien el puerto
+
+	// Creamos el socket de escucha del servidor
+	int socketserv=socket(servinfo->ai_family,servinfo->ai_socktype,servinfo->ai_protocol);
+	// Asociamos el socket a un puerto
+	if(bind(socketserv,servinfo->ai_addr,servinfo->ai_addrlen)!=0){
+		perror("fallo el bind");
+		return 1;
+	}
+	// Escuchamos las conexiones entrantes
+	if(listen(socketserv,SOMAXCONN)==-1){
+		perror("error en listen");
+		return -1;
+	}
+
+	freeaddrinfo(servinfo);
+	return socketserv;
+}
+
+int esperar_cliente(int socket_servidor)
+{
+	int socket_cliente=accept(socket_servidor,NULL,NULL);
+	if(socket_cliente==-1){
+		perror("error al aceptar");
+		return -1;
+	}
+
+	return socket_cliente;
+}

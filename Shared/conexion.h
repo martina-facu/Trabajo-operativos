@@ -1,3 +1,6 @@
+#ifndef CONEXION
+#define CONEXION
+
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
@@ -12,3 +15,8 @@
 #include <commons/config.h>
 
 int crear_conexion(char *ip, char* puerto);
+int iniciar_servidor(char *ip, t_config* config);
+int esperar_cliente(int socket_servidor);
+
+
+#endif
