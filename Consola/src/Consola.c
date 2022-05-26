@@ -15,7 +15,7 @@
 //#include "../../Shared/utils/protocolo.c"
 #include "../../Shared/utils/protocolo.h"
 
-t_list* obtenerIntrucciones(FILE* input_file){
+t_list* obtener_intrucciones(FILE* input_file){
 	char *contents = NULL;
 	size_t len = 0;
 
@@ -46,6 +46,39 @@ t_list* obtenerIntrucciones(FILE* input_file){
 	return instrucciones;
 }
 
+t_paquete* empaquetar_instrucciones(t_list* instrucciones){
+	t_buffer* buffer = malloc(sizeof(t_buffer));
+
+	buffer->size = calcular_espacio_instrucciones(instrucciones);
+	void* stream = malloc(buffer->size);
+
+	llenar_stream(instrucciones,stream);
+	buffer->stream=stream;
+
+	t_paquete* paquete = malloc(sizeof(t_paquete));
+
+	paquete->codigo_operacion= 0;
+	paquete->buffer= buffer;
+	paquete->size = buffer->size+sizeof(uint8_t)+sizeof(uint32_t);
+
+	return paquete;
+}
+
+void* serializar_instrucciones(t_paquete* paquete){
+	t_buffer* buffer = paquete->buffer;
+
+	void* a_enviar = malloc(buffer->size + sizeof(uint8_t) + sizeof(uint32_t));
+	int offset = 0;
+
+	memcpy(a_enviar + offset, &(paquete->codigo_operacion), sizeof(uint8_t));
+	offset += sizeof(uint8_t);
+	memcpy(a_enviar + offset, &(buffer->size), sizeof(uint32_t));
+	offset += sizeof(uint32_t);
+	memcpy(a_enviar + offset, buffer->stream, buffer->size);
+
+	return a_enviar;
+}
+
 int main(int argc, char *argv[]) {
 
 	/*Conecta como cliente al Kernel
@@ -62,40 +95,22 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 
-
-	t_list* instrucciones = obtenerIntrucciones(input_file);
+	t_list* instrucciones = obtener_intrucciones(input_file);
 
 	mostrar_instrucciones(instrucciones);
+
 	 // ---------------------------------------------------------------------------- SERIALIZACION ----------------------------------------------------------------------------------------//
+	t_paquete* paquete= empaquetar_instrucciones(instrucciones);
 
-	t_buffer* buffer = malloc(sizeof(t_buffer));
-
-	buffer->size = calcular_espacio_instrucciones(instrucciones);
-	void* stream = malloc(buffer->size);
-
-	llenar_stream(instrucciones,stream);
-	buffer->stream=stream;
-
-	t_paquete* paquete = malloc(sizeof(t_paquete));
-
-	paquete->codigo_operacion= 0;
-	paquete->buffer= buffer;
-
-	void* a_enviar = malloc(buffer->size + sizeof(uint8_t) + sizeof(uint32_t));
-	int offset = 0;
-
-	memcpy(a_enviar + offset, &(paquete->codigo_operacion), sizeof(uint8_t));
-	offset += sizeof(uint8_t);
-	memcpy(a_enviar + offset, &(paquete->buffer->size), sizeof(uint32_t));
-	offset += sizeof(uint32_t);
-	memcpy(a_enviar + offset, paquete->buffer->stream, paquete->buffer->size);
+	void* a_enviar = serializar_instrucciones(paquete);
 
 	 // ------------------------------------------------------------------------------ CONEXION ----------------------------------------------------------------------------------------//
 	t_config* config = config_create("consola.config");
 	char* ip= config_get_string_value(config,"IP_KERNEL");//falta el codigo de la configuracion
 	char* puerto= config_get_string_value(config,"PUERTO_KERNEL");
+
 	int conexion= crear_conexion(ip,puerto);
-	send(conexion,a_enviar,buffer->size+sizeof(uint8_t)+sizeof(uint32_t),0);
+	send(conexion,a_enviar,paquete->size,0);
 	close(conexion);
 	return EXIT_SUCCESS;
 }
