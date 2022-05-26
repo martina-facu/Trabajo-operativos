@@ -68,12 +68,11 @@ int getCantidadParametros(int id) {
 }
 
 void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones){
-	instrucciones = list_create();
 	void* stream = buffer->stream;
 	uint32_t* prm;
-	int cant_instrucciones;
+	uint32_t cant_instrucciones;
 	int cant_prm;
-	int id;
+	uint8_t id;
 	memcpy(&cant_instrucciones,stream,sizeof(uint32_t));
 	stream+=sizeof(uint32_t);
 	for(int i=0;i<cant_instrucciones;i++){
@@ -105,7 +104,7 @@ int iniciar_servidor(void)
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 	t_config* config = config_create("kernel.config");
-	getaddrinfo(config_get_string_value(config,"127.0.0.1"), config_get_string_value(config,"PUERTO_ESCUCHA"), &hints, &servinfo);
+	getaddrinfo("127.0.0.1", config_get_string_value(config,"PUERTO_ESCUCHA"), &hints, &servinfo);
 
 	// Creamos el socket de escucha del servidor
 	int socketserv=socket(servinfo->ai_family,servinfo->ai_socktype,servinfo->ai_protocol);
@@ -139,20 +138,28 @@ int main(){
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 	paquete->buffer = malloc(sizeof(t_buffer));
 	int socket_serv = iniciar_servidor();
-	esperar_cliente(socket_serv);
-	recv(socket_serv, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
-	printf("%d", paquete->codigo_operacion);
+	int cliente=esperar_cliente(socket_serv);
+
+	recv(cliente, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
 	// Después ya podemos recibir el buffer. Primero su tamaño seguido del contenido
-	recv(socket_serv, &(paquete->buffer->size), sizeof(uint32_t), 0);
+	recv(cliente, &(paquete->buffer->size), sizeof(uint32_t), 0);
 	paquete->buffer->stream = malloc(paquete->buffer->size);
-	printf("%d",paquete->buffer->size);
-	recv(socket_serv, paquete->buffer->stream, paquete->buffer->size, 0);
+	recv(cliente, paquete->buffer->stream, paquete->buffer->size, 0);
 
 	t_list* instrucciones = list_create();
-
 	deserializar_instrucciones(paquete->buffer,instrucciones);
 
 	mostrar_instrucciones(instrucciones);
+
+//	void* a_enviar = malloc(sizeof(uint8_t));
+//	int offset = 0;
+//
+//	memcpy(a_enviar + offset, &(paquete->codigo_operacion), sizeof(uint8_t));
+//	offset += sizeof(uint8_t);
+
+	uint8_t recibido = 1;
+	send(cliente,&recibido,sizeof(uint8_t),0);
+
 	close(socket_serv);
 
 	return 0;
