@@ -8,7 +8,6 @@
 #include <netdb.h>
 #include <commons/collections/list.h>
 
-//#pragma once
 #ifndef INSTRUCCIONES
 #define INSTRUCCIONES
 

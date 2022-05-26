@@ -51,7 +51,6 @@ int main(){
 	int socket_serv = 0;
 	int cliente = 0;
 
-
 	t_list* instrucciones = obtener_instrucciones_deserializadas(&socket_serv,&cliente);
 
 	mostrar_instrucciones(instrucciones);
