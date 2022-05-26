@@ -11,27 +11,11 @@
 #include <commons/string.h>
 #include <commons/config.h>
 #include "../../Shared/utils/instrucciones.h"
-#include "../../Shared/utils/instrucciones.c"
 #include "../../Shared/conexion.c"
-#include "../../Shared/utils/protocolo.c"
+//#include "../../Shared/utils/protocolo.c"
+#include "../../Shared/utils/protocolo.h"
 
-
-int main() {
-
-	//Conecta como cliente al Kernel
-	/*int sockfd = conectar_kernel();
-	 saludo_inicial_kernel(sockfd);*/
-
-//	char* tamanio_proceso = argv[2];
-//	char* filename = argv[1];
-
-	FILE* input_file = fopen("instrucciones.txt", "r"); //harcodeado
-
-	if(input_file==NULL){
-		perror("error al leer el archivo");
-		return -1;
-	}
-
+t_list* obtenerIntrucciones(FILE* input_file){
 	char *contents = NULL;
 	size_t len = 0;
 
@@ -41,7 +25,7 @@ int main() {
 
 		char** linea = string_split(contents, " ");
 		char* nombre = linea[0];
-		int id = definirCodigo(nombre);
+		uint8_t id = definirCodigo(nombre);
 
 		Instruccion* instruccion = malloc(sizeof(Instruccion));
 		instruccion->id = id;
@@ -53,13 +37,35 @@ int main() {
 			list_add(instruccion->parametros, parametro);
 		}
 		list_add(instrucciones, instruccion);
-
 	}
-
-	mostrar_instrucciones(instrucciones);
 
 	fclose(input_file);
 	free(contents);
+
+	//hay que ver si hay que liberar las variables adentro de los while y de los if o que pasa con esas variables
+	return instrucciones;
+}
+
+int main(int argc, char *argv[]) {
+
+	/*Conecta como cliente al Kernel
+	 int sockfd = conectar_kernel();
+	 saludo_inicial_kernel(sockfd);*/
+
+//	char* filename = argv[1];
+//	char* tamanio_proceso = argv[2];
+
+	FILE* input_file = fopen("instrucciones.txt", "r"); // TODO: leer los parametros de la consola
+
+	if(input_file==NULL){
+		perror("error al leer el archivo");
+		return -1;
+	}
+
+
+	t_list* instrucciones = obtenerIntrucciones(input_file);
+
+	mostrar_instrucciones(instrucciones);
 	 // ---------------------------------------------------------------------------- SERIALIZACION ----------------------------------------------------------------------------------------//
 
 	t_buffer* buffer = malloc(sizeof(t_buffer));
