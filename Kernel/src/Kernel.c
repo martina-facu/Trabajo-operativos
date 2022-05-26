@@ -149,8 +149,17 @@ int main(){
 	t_list* instrucciones = list_create();
 	deserializar_instrucciones(paquete->buffer,instrucciones);
 
-
 	mostrar_instrucciones(instrucciones);
+
+//	void* a_enviar = malloc(sizeof(uint8_t));
+//	int offset = 0;
+//
+//	memcpy(a_enviar + offset, &(paquete->codigo_operacion), sizeof(uint8_t));
+//	offset += sizeof(uint8_t);
+
+	uint8_t recibido = 1;
+	send(cliente,&recibido,sizeof(uint8_t),0);
+
 	close(socket_serv);
 
 	return 0;

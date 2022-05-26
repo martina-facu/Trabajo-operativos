@@ -111,6 +111,16 @@ int main(int argc, char *argv[]) {
 
 	int conexion= crear_conexion(ip,puerto);
 	send(conexion,a_enviar,paquete->size,0);
+
+	uint8_t respuesta = 0;
+	recv(conexion,&respuesta, sizeof(uint8_t), 0);
+
+	if(respuesta == 1){
+		printf("\n termine con exito");
+	}else{
+		printf("No termine con exito");
+	}
+
 	close(conexion);
 	return EXIT_SUCCESS;
 }
