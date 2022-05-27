@@ -27,10 +27,10 @@ int crear_conexion(char *ip, char* puerto)
 
 	if(connect(socket_cliente, server_info->ai_addr,server_info->ai_addrlen)==0)
 		{
-		printf("me conecte con exito");
+		printf("\nme conecte con exito");
 	}
 	else{
-		printf("error: NO ME PUDE CONECTAR");
+		printf("\nerror: NO ME PUDE CONECTAR");
 		return -1;
 	}
 

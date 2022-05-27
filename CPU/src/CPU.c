@@ -1,18 +1,5 @@
-/*
- ============================================================================
- Name        : Memoria.c
- Author      : 
- Version     :
- Copyright   : Your copyright notice
- Description : Hello World in C, Ansi-style
- ============================================================================
- */
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <commons/collections/list.h>
-#include <commons/string.h>
-#include <commons/config.h>
 #include <commons/collections/list.h>
 #include <commons/string.h>
 #include <commons/config.h>
@@ -52,6 +39,7 @@ int main(void) {
 	uint8_t handshake1 = 5;
 	send(cliente2, &handshake1, sizeof(uint8_t), 0);
 
-//	printf("%s",string_itoa(454545));
+	close(socket_dispatch);
+	close(socket_interrupt);
 	return EXIT_SUCCESS;
 }
