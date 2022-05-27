@@ -13,31 +13,24 @@
 #include "../../Shared/conexion.c"
 
 
-t_list* obtener_instrucciones_deserializadas(int* socket_serv, int* cliente){
+t_list* obtener_instrucciones_deserializadas(int socket_serv, int cliente){
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 
 	paquete->buffer = malloc(sizeof(t_buffer));
 	t_buffer* buffer = paquete->buffer;
 
-	t_config* config = config_create("kernel.config");
-	*socket_serv = iniciar_servidor("127.0.0.1",config);
-
-	int cliente_aux = esperar_cliente(*socket_serv);
-
 	//recibimos el codigo del tipo de mensaje que nos llega
-	recv(cliente_aux, &(paquete->codigo_operacion), sizeof(uint8_t), 0); // TODO : ver si podemos agregar alguna funcionalidad a que se envie el codigo de la operacion o sino sacarlo
+	recv(cliente, &(paquete->codigo_operacion), sizeof(uint8_t), 0); // TODO : ver si podemos agregar alguna funcionalidad a que se envie el codigo de la operacion o sino sacarlo
 
 	//recibo el tamaño del paquete
-	recv(cliente_aux, &(buffer->size), sizeof(uint32_t), 0);
+	recv(cliente, &(buffer->size), sizeof(uint32_t), 0);
 
 	//recibo el buffer con las instrucciones
 	buffer->stream = malloc(buffer->size);
-	recv(cliente_aux, buffer->stream, buffer->size, 0);
+	recv(cliente, buffer->stream, buffer->size, 0);
 
 	t_list* instrucciones = list_create();
 	deserializar_instrucciones(buffer,instrucciones);
-
-	*cliente = cliente_aux;
 
 	return instrucciones;
 }
@@ -48,15 +41,53 @@ void avisar_proceso_finalizado(int cliente){
 }
 
 int main(){
-	int socket_serv = 0;
-	int cliente = 0;
+	t_config* config = config_create("kernel.config");
 
-	t_list* instrucciones = obtener_instrucciones_deserializadas(&socket_serv,&cliente);
+//	Conectarse con la cpu
+	char * ip_cpu = malloc(sizeof(char)*30);
+	strcpy(ip_cpu,config_get_string_value(config,"IP_CPU"));
+	printf("%s",ip_cpu);
 
+//	Dispatch
+	char* puerto_dispatch= config_get_string_value(config,"PUERTO_CPU_DISPATCH");
+	printf("\n %s",puerto_dispatch);
+
+	int cpu_dispatch= crear_conexion(ip_cpu,puerto_dispatch);
+	printf("\n conexion dispatch: %d",cpu_dispatch);
+
+	uint8_t handshake = 2;
+
+	send(cpu_dispatch,&handshake,sizeof(uint8_t),0);
+
+	uint8_t respuesta = 0;
+	recv(cpu_dispatch,&respuesta, sizeof(uint8_t), 0);
+	printf("Mensaje recibido dispatch: %d", respuesta);
+
+//	Interrupt
+	char* puerto_interrupt= config_get_string_value(config,"PUERTO_CPU_INTERRUPT");
+	int cpu_interrupt= crear_conexion(ip_cpu,puerto_interrupt);
+	uint8_t handshake1 = 3;
+	send(cpu_interrupt,&handshake1,sizeof(uint8_t),0);
+
+	uint8_t respuesta1 = 0;
+	recv(cpu_interrupt,&respuesta1, sizeof(uint8_t), 0);
+	printf("Mensaje recibido interrupt: %d", respuesta1);
+
+//	Conectarse con la Memoria
+
+//	para consola
+	char* puerto_escucha = config_get_string_value(config,"PUERTO_ESCUCHA");
+
+	int socket_serv = iniciar_servidor("127.0.0.1",puerto_escucha);
+	int cliente = esperar_cliente(socket_serv);
+
+	t_list* instrucciones = obtener_instrucciones_deserializadas(socket_serv,cliente);
 	mostrar_instrucciones(instrucciones);
 
 	avisar_proceso_finalizado(cliente);
 
+	close(cpu_dispatch);
+	close(cpu_interrupt);
 	close(socket_serv);
 
 	return 0;

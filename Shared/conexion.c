@@ -40,7 +40,7 @@ int crear_conexion(char *ip, char* puerto)
 	return socket_cliente;
 }
 
-int iniciar_servidor(char *ip, t_config* config)
+int iniciar_servidor(char *ip, char* puerto_escucha)
 {
 	// Quitar esta línea cuando hayamos terminado de implementar la funcion
 
@@ -51,7 +51,7 @@ int iniciar_servidor(char *ip, t_config* config)
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 
-	getaddrinfo(ip, config_get_string_value(config,"PUERTO_ESCUCHA"), &hints, &servinfo); // TODO : hacer que lea del archivo bien el puerto
+	getaddrinfo(ip, puerto_escucha, &hints, &servinfo); // TODO : hacer que lea del archivo bien el puerto
 
 	// Creamos el socket de escucha del servidor
 	int socketserv=socket(servinfo->ai_family,servinfo->ai_socktype,servinfo->ai_protocol);
