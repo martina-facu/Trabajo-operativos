@@ -73,8 +73,6 @@ int main(){
 	recv(cpu_interrupt,&respuesta1, sizeof(uint8_t), 0);
 	printf("Mensaje recibido interrupt: %d", respuesta1);
 
-//	Conectarse con la Memoria
-
 //	para consola
 	char* puerto_escucha = config_get_string_value(config,"PUERTO_ESCUCHA");
 
