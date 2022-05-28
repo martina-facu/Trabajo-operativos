@@ -1,15 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdint.h>
-#include <ctype.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <commons/collections/list.h>
-#include <commons/string.h>
-#include <commons/config.h>
+#include "conexion.h"
 
 int crear_conexion(char *ip, char* puerto)
 {
@@ -27,15 +16,56 @@ int crear_conexion(char *ip, char* puerto)
 
 	if(connect(socket_cliente, server_info->ai_addr,server_info->ai_addrlen)==0)
 		{
-		printf("me conecte con exito");
+		printf("\nme conecte con exito");
 	}
 	else{
-		printf("error: NO ME PUDE CONECTAR");
+		printf("\nerror: NO ME PUDE CONECTAR");
 		return -1;
 	}
 
 
 	freeaddrinfo(server_info);
+
+	return socket_cliente;
+}
+
+int iniciar_servidor(char *ip, char* puerto_escucha)
+{
+	// Quitar esta línea cuando hayamos terminado de implementar la funcion
+
+	struct addrinfo hints, *servinfo;
+
+	memset(&hints, 0, sizeof(hints));
+	hints.ai_family = AF_UNSPEC;
+	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_flags = AI_PASSIVE;
+
+	getaddrinfo(ip, puerto_escucha, &hints, &servinfo); // TODO : hacer que lea del archivo bien el puerto
+
+	// Creamos el socket de escucha del servidor
+	int socketserv=socket(servinfo->ai_family,servinfo->ai_socktype,servinfo->ai_protocol);
+	// Asociamos el socket a un puerto
+	if(bind(socketserv,servinfo->ai_addr,servinfo->ai_addrlen)!=0){
+		perror("fallo el bind");
+		return 1;
+	}
+	// Escuchamos las conexiones entrantes
+	if(listen(socketserv,SOMAXCONN)==-1){
+		perror("error en listen");
+		return -1;
+	}
+
+	freeaddrinfo(servinfo);
+	return socketserv;
+}
+
+int esperar_cliente(int socket_servidor)
+{
+	int socket_cliente=accept(socket_servidor,NULL,NULL);
+	if(socket_cliente==-1){
+		perror("error al aceptar");
+		return -1;
+	}
 
 	return socket_cliente;
 }

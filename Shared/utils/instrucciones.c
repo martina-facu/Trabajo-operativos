@@ -1,16 +1,7 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdint.h>
-#include <ctype.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <unistd.h>
-#include <netdb.h>
-#include <commons/collections/list.h>
-//#include <instrucciones.h>
+#include "instrucciones.h"
 
 
-int definirCodigo(char* id) {
+uint8_t definirCodigo(char* id) {
 	if (string_contains(id, "NO_OP")) {
 		return 1;
 	}
@@ -33,7 +24,7 @@ int definirCodigo(char* id) {
 	}
 }
 
-int getCantidadParametros(int id) {
+int getCantidadParametros(uint8_t id) {
 	switch (id) {
 	case 1: case 2: case 5:
 		return 1;

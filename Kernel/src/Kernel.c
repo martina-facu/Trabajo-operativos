@@ -1,159 +1,108 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdint.h>
 #include <ctype.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
-#include <sys/socket.h>
 #include <netdb.h>
 #include <commons/collections/list.h>
 #include <commons/string.h>
 #include <commons/config.h>
+#include <conexion.h>
+#include <instrucciones.h>
+#include <protocolo.h>
 
 
-char* nombre[6]={"NO_OP", "I/O", "WRITE", "COPY", "READ", "EXIT"};
+t_list* obtener_instrucciones_deserializadas(int socket_serv, int cliente){
+	t_paquete* paquete = malloc(sizeof(t_paquete));
 
-typedef struct {
-	t_list* parametros;
-	int id; //NO_OP, I/O, READ, WRITE, COPY, EXIT
-} Instruccion;
+	paquete->buffer = malloc(sizeof(t_buffer));
+	t_buffer* buffer = paquete->buffer;
 
-typedef struct {
-	uint32_t size;
-	void* stream;
-} t_buffer;
+	//recibimos el codigo del tipo de mensaje que nos llega
+	recv(cliente, &(paquete->codigo_operacion), sizeof(uint8_t), 0); // TODO : ver si podemos agregar alguna funcionalidad a que se envie el codigo de la operacion o sino sacarlo
 
-typedef struct {
-	uint8_t codigo_operacion;
-	t_buffer* buffer;
-} t_paquete;
+	//recibo el tamaño del paquete
+	recv(cliente, &(buffer->size), sizeof(uint32_t), 0);
 
-void mostrar_parametros(t_list* list){
-	int aux = list_size(list);
+	//recibo el buffer con las instrucciones
+	buffer->stream = malloc(buffer->size);
+	recv(cliente, buffer->stream, buffer->size, 0);
 
-	for(int i=0;i<aux;i++){
-		int* parametro= list_get(list,i);
-		printf(" %d ", *parametro);
-	}
-	printf("\n");
-}
-void mostrar_instrucciones(t_list* list){
-	int aux = list_size(list);
-	Instruccion* instruccion = malloc(sizeof(instruccion));
+	t_list* instrucciones = list_create();
+	deserializar_instrucciones(buffer,instrucciones);
 
-	for(int i=0;i<aux;i++){
-		instruccion= list_get(list,i);
-		printf("\nEl codigo de la instruccion es: %d , nombre: %s \n parametros: ", instruccion->id, nombre[(instruccion->id)-1]);
-		mostrar_parametros(instruccion->parametros);
-	}
+	return instrucciones;
 }
 
-int getCantidadParametros(int id) {
-	switch (id) {
-	case 1: case 2: case 5:
-		return 1;
-		break;
-	case 3: case 4:
-		return 2;
-		break;
-	case 6:
-		return 0;
-		break;
-	default:
-		printf("\n Se ingreso una operacion incorrecta");
-		return -1;
-		break;
-	}
-}
-
-void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones){
-	instrucciones = list_create();
-	void* stream = buffer->stream;
-	uint32_t* prm;
-	int cant_instrucciones;
-	int cant_prm;
-	int id;
-	memcpy(&cant_instrucciones,stream,sizeof(uint32_t));
-	stream+=sizeof(uint32_t);
-	for(int i=0;i<cant_instrucciones;i++){
-		Instruccion* instruccion = malloc(sizeof(Instruccion));
-		instruccion->parametros= list_create();
-		memcpy(&id,stream,sizeof(uint8_t));
-		stream+=sizeof(uint8_t);
-		instruccion->id = id;
-		cant_prm = getCantidadParametros(instruccion->id);
-		for(int i=0;i<cant_prm;i++){
-			prm= malloc(sizeof(uint32_t));
-			memcpy(prm,stream,sizeof(uint32_t));
-			stream+=sizeof(uint32_t);
-			list_add(instruccion->parametros,prm);
-		}
-		list_add(instrucciones,instruccion);
-	}
-}
-
-int iniciar_servidor(void)
-{
-	// Quitar esta línea cuando hayamos terminado de implementar la funcio
-
-
-	struct addrinfo hints, *servinfo;
-
-	memset(&hints, 0, sizeof(hints));
-	hints.ai_family = AF_UNSPEC;
-	hints.ai_socktype = SOCK_STREAM;
-	hints.ai_flags = AI_PASSIVE;
-	t_config* config = config_create("kernel.config");
-	getaddrinfo(config_get_string_value(config,"127.0.0.1"), config_get_string_value(config,"PUERTO_ESCUCHA"), &hints, &servinfo);
-
-	// Creamos el socket de escucha del servidor
-	int socketserv=socket(servinfo->ai_family,servinfo->ai_socktype,servinfo->ai_protocol);
-	// Asociamos el socket a un puerto
-	if(bind(socketserv,servinfo->ai_addr,servinfo->ai_addrlen)!=0){
-		perror("fallo el bind");
-		return 1;
-	}
-	// Escuchamos las conexiones entrantes
-	if(listen(socketserv,SOMAXCONN)==-1){
-		perror("error en listen");
-		return -1;
-	}
-
-	freeaddrinfo(servinfo);
-	return socketserv;
-}
-
-int esperar_cliente(int socket_servidor)
-{
-	int socket_cliente=accept(socket_servidor,NULL,NULL);
-	if(socket_cliente==-1){
-		perror("error al aceptar");
-		return -1;
-	}
-
-	return socket_cliente;
+void avisar_proceso_finalizado(int cliente){
+	uint8_t recibido = 1;
+	send(cliente,&recibido,sizeof(uint8_t),0);
 }
 
 int main(){
-	t_paquete* paquete = malloc(sizeof(t_paquete));
-	paquete->buffer = malloc(sizeof(t_buffer));
-	int socket_serv = iniciar_servidor();
-	esperar_cliente(socket_serv);
-	recv(socket_serv, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
-	printf("%d", paquete->codigo_operacion);
-	// Después ya podemos recibir el buffer. Primero su tamaño seguido del contenido
-	recv(socket_serv, &(paquete->buffer->size), sizeof(uint32_t), 0);
-	paquete->buffer->stream = malloc(paquete->buffer->size);
-	printf("%d",paquete->buffer->size);
-	recv(socket_serv, paquete->buffer->stream, paquete->buffer->size, 0);
+	t_config* config = config_create("kernel.config");
 
-	t_list* instrucciones = list_create();
+//	Conexion con memoria
+	char * ip_memoria = malloc(sizeof(char)*30);
+	strcpy(ip_memoria,config_get_string_value(config,"IP_MEMORIA"));
+	printf("\nIp de la memoria: %s",ip_memoria);
 
-	deserializar_instrucciones(paquete->buffer,instrucciones);
+	char* puerto_memoria= config_get_string_value(config,"PUERTO_MEMORIA");
+	int conexion_memoria= crear_conexion(ip_memoria,puerto_memoria);
 
+	uint8_t handshake_memoria = 3;
+	send(conexion_memoria,&handshake_memoria,sizeof(uint8_t),0);
+
+	uint8_t respuesta_memoria = 0;
+	recv(conexion_memoria,&respuesta_memoria, sizeof(uint8_t), 0);
+	printf("\nMensaje recibido de la memoria: %d", respuesta_memoria);
+
+//	Conexion con la cpu
+	char * ip_cpu = malloc(sizeof(char)*30);
+	strcpy(ip_cpu,config_get_string_value(config,"IP_CPU"));
+	printf("\nIp cpu: %s",ip_cpu);
+
+//	Dispatch
+	char* puerto_dispatch= config_get_string_value(config,"PUERTO_CPU_DISPATCH");
+	printf("\nPuerto dispatch: %s",puerto_dispatch);
+
+	int cpu_dispatch= crear_conexion(ip_cpu,puerto_dispatch);
+	printf("\nConexion dispatch: %d",cpu_dispatch);
+
+	uint8_t handshake = 2;
+
+	send(cpu_dispatch,&handshake,sizeof(uint8_t),0);
+
+	uint8_t respuesta = 0;
+	recv(cpu_dispatch,&respuesta, sizeof(uint8_t), 0);
+	printf("\nMensaje recibido dispatch: %d", respuesta);
+
+//	Interrupt
+	char* puerto_interrupt= config_get_string_value(config,"PUERTO_CPU_INTERRUPT");
+	int cpu_interrupt= crear_conexion(ip_cpu,puerto_interrupt);
+	uint8_t handshake1 = 3;
+	send(cpu_interrupt,&handshake1,sizeof(uint8_t),0);
+
+	uint8_t respuesta1 = 0;
+	recv(cpu_interrupt,&respuesta1, sizeof(uint8_t), 0);
+	printf("\nMensaje recibido interrupt: %d", respuesta1);
+
+//	Servidor para la consola
+	char* puerto_escucha = config_get_string_value(config,"PUERTO_ESCUCHA");
+
+	int socket_serv = iniciar_servidor("127.0.0.1",puerto_escucha);
+	int cliente = esperar_cliente(socket_serv);
+
+	t_list* instrucciones = obtener_instrucciones_deserializadas(socket_serv,cliente);
 	mostrar_instrucciones(instrucciones);
+
+	avisar_proceso_finalizado(cliente);
+
+	close(cpu_dispatch);
+	close(cpu_interrupt);
 	close(socket_serv);
+	close(conexion_memoria);
 
 	return 0;
 }
