@@ -106,7 +106,7 @@ int main(int argc, char *argv[]) {
 
 	 // ------------------------------------------------------------------------------ CONEXION ----------------------------------------------------------------------------------------//
 	t_config* config = config_create("consola.config");
-	char* ip= config_get_string_value(config,"IP_KERNEL");//falta el codigo de la configuracion
+	char* ip= config_get_string_value(config,"IP_KERNEL");
 	char* puerto= config_get_string_value(config,"PUERTO_KERNEL");
 
 	int conexion= crear_conexion(ip,puerto);
@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
 	if(respuesta == 1){
 		printf("\n termine con exito");
 	}else{
-		printf("No termine con exito");
+		printf("\n No termine con exito");
 	}
 
 	close(conexion);
