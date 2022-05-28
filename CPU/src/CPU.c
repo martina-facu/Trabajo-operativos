@@ -3,7 +3,7 @@
 #include <commons/collections/list.h>
 #include <commons/string.h>
 #include <commons/config.h>
-#include "../../Shared/conexion.c"
+#include <conexion.h>
 
 int main(void) {
 	t_config* config = config_create("cpu.config");

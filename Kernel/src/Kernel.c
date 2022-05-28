@@ -8,9 +8,9 @@
 #include <commons/collections/list.h>
 #include <commons/string.h>
 #include <commons/config.h>
-#include "../../Shared/utils/instrucciones.h"
-#include "../../Shared/utils/protocolo.h"
-#include "../../Shared/conexion.c"
+#include <conexion.h>
+#include <instrucciones.h>
+#include <protocolo.h>
 
 
 t_list* obtener_instrucciones_deserializadas(int socket_serv, int cliente){
