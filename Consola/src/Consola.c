@@ -10,10 +10,8 @@
 #include <commons/collections/list.h>
 #include <commons/string.h>
 #include <commons/config.h>
-#include "../../Shared/utils/instrucciones.h"
-#include "../../Shared/conexion.c"
-//#include "../../Shared/utils/protocolo.c"
-#include "../../Shared/utils/protocolo.h"
+#include <conexion.h>
+#include <instrucciones.h>
 
 t_list* obtener_intrucciones(FILE* input_file){
 	char *contents = NULL;
@@ -22,7 +20,6 @@ t_list* obtener_intrucciones(FILE* input_file){
 	t_list* instrucciones = list_create();
 	uint32_t* parametro;
 	while (getline(&contents, &len, input_file) != -1) { //contents = contenido de la linea
-
 		char** linea = string_split(contents, " ");
 		char* nombre = linea[0];
 		uint8_t id = definirCodigo(nombre);

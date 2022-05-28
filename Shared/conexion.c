@@ -1,15 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdint.h>
-#include <ctype.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <commons/collections/list.h>
-#include <commons/string.h>
-#include <commons/config.h>
+#include "conexion.h"
 
 int crear_conexion(char *ip, char* puerto)
 {
@@ -27,10 +16,10 @@ int crear_conexion(char *ip, char* puerto)
 
 	if(connect(socket_cliente, server_info->ai_addr,server_info->ai_addrlen)==0)
 		{
-		printf("me conecte con exito");
+		printf("\nme conecte con exito");
 	}
 	else{
-		printf("error: NO ME PUDE CONECTAR");
+		printf("\nerror: NO ME PUDE CONECTAR");
 		return -1;
 	}
 
@@ -40,7 +29,7 @@ int crear_conexion(char *ip, char* puerto)
 	return socket_cliente;
 }
 
-int iniciar_servidor(char *ip, t_config* config)
+int iniciar_servidor(char *ip, char* puerto_escucha)
 {
 	// Quitar esta línea cuando hayamos terminado de implementar la funcion
 
@@ -51,7 +40,7 @@ int iniciar_servidor(char *ip, t_config* config)
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 
-	getaddrinfo(ip, config_get_string_value(config,"PUERTO_ESCUCHA"), &hints, &servinfo); // TODO : hacer que lea del archivo bien el puerto
+	getaddrinfo(ip, puerto_escucha, &hints, &servinfo); // TODO : hacer que lea del archivo bien el puerto
 
 	// Creamos el socket de escucha del servidor
 	int socketserv=socket(servinfo->ai_family,servinfo->ai_socktype,servinfo->ai_protocol);
