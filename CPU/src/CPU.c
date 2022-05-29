@@ -5,6 +5,8 @@
 #include <commons/config.h>
 #include <conexion.h>
 
+
+
 int main(void) {
 	t_config* config = config_create("cpu.config");
 

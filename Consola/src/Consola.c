@@ -49,7 +49,7 @@ t_paquete* empaquetar_instrucciones(t_list* instrucciones){
 	buffer->size = calcular_espacio_instrucciones(instrucciones);
 	void* stream = malloc(buffer->size);
 
-	llenar_stream(instrucciones,stream);
+	llenar_stream_instruccion(instrucciones,stream);
 	buffer->stream=stream;
 
 	t_paquete* paquete = malloc(sizeof(t_paquete));

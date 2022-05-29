@@ -9,9 +9,10 @@
 #include <commons/string.h>
 #include <commons/config.h>
 #include <conexion.h>
-#include <instrucciones.h>
 #include <protocolo.h>
-
+#include <pcb.h>
+#include <instrucciones.h>
+#include "./planificadores/estados.h"
 
 t_list* obtener_instrucciones_deserializadas(int socket_serv, int cliente){
 	t_paquete* paquete = malloc(sizeof(t_paquete));
@@ -35,10 +36,30 @@ t_list* obtener_instrucciones_deserializadas(int socket_serv, int cliente){
 	return instrucciones;
 }
 
+
+
 void avisar_proceso_finalizado(int cliente){
 	uint8_t recibido = 1;
 	send(cliente,&recibido,sizeof(uint8_t),0);
 }
+
+
+Pcb* crear_pcb(t_list* instrucciones){
+	//TODO: get_tabla_paginas
+	Tabla_paginas *tabla_paginas = malloc(sizeof(Tabla_paginas));
+	// TODO: estimar_rafaga
+	double estimado_rafaga = 3.2; //estimar_rafaga(instrucciones);
+	Pcb* pcb = pcb_create(
+		id_proceso,
+		5, //tamano
+		tabla_paginas,
+		estimado_rafaga,
+		instrucciones
+	);
+	return pcb;
+}
+
+
 
 int main(){
 	t_config* config = config_create("kernel.config");
@@ -78,6 +99,8 @@ int main(){
 	recv(cpu_dispatch,&respuesta, sizeof(uint8_t), 0);
 	printf("\nMensaje recibido dispatch: %d", respuesta);
 
+
+
 //	Interrupt
 	char* puerto_interrupt= config_get_string_value(config,"PUERTO_CPU_INTERRUPT");
 	int cpu_interrupt= crear_conexion(ip_cpu,puerto_interrupt);
@@ -98,6 +121,11 @@ int main(){
 	mostrar_instrucciones(instrucciones);
 
 	avisar_proceso_finalizado(cliente);
+
+// crear PCB, serializar y enviar a CPU
+	Pcb* pcb = crear_pcb(instrucciones);
+	t_paquete *paquete = pcb_serializar(pcb);
+	send(cpu_dispatch,&paquete,sizeof(t_paquete),0);
 
 	close(cpu_dispatch);
 	close(cpu_interrupt);

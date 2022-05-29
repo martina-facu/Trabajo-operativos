@@ -1,6 +1,6 @@
 #include "protocolo.h"
 
-void llenar_stream(t_list* instrucciones,void* stream){
+void llenar_stream_instruccion(t_list* instrucciones,void* stream){
 	int desplazamiento=0;
 	Instruccion* instruccion = malloc(sizeof(instruccion));
 	uint32_t aux=list_size(instrucciones);
