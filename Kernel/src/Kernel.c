@@ -47,16 +47,14 @@ void avisar_proceso_finalizado(int cliente){
 }
 
 
-Pcb* crear_pcb(t_list* instrucciones){
+Pcb* crear_pcb(t_list* instrucciones, double estimacion_inicial){
 	//TODO: get_tabla_paginas
 	Tabla_paginas *tabla_paginas = malloc(sizeof(Tabla_paginas));
-	// TODO: estimar_rafaga
-	double estimado_rafaga = 3.2; //estimar_rafaga(instrucciones);
 	Pcb* pcb = pcb_create(
 		id_proceso,
 		5, //tamano
 		tabla_paginas,
-		estimado_rafaga,
+		estimacion_inicial,
 		instrucciones
 	);
 	return pcb;
@@ -126,7 +124,7 @@ int main(){
 	avisar_proceso_finalizado(cliente);
 
 // crear PCB, serializar y enviar a CPU
-	Pcb* pcb = crear_pcb(instrucciones);
+	Pcb* pcb = crear_pcb(instrucciones, config_get_double_value(config, "ESTIMACION_INICIAL"));
 	t_paquete *paquete = pcb_serializar(pcb);
 	mostrar_pcb(pcb);
 	//send(cpu_dispatch,&paquete,sizeof(t_paquete),0);
