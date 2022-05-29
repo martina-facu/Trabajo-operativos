@@ -5,6 +5,7 @@
 #include <commons/config.h>
 #include <conexion.h>
 #include <pcb.h>
+#include <paquete.h>
 
 
 
@@ -29,6 +30,16 @@ int main(void) {
 
 	send(cliente1, &handshake, sizeof(uint8_t), 0);
 
+	t_paquete *pcb;
+	recv(cliente1, pcb, sizeof(uint8_t), 0);
+	uint8_t pcb_recibido = 1;
+	Pcb deserializado = pcb_deserializar(pcb);
+	pcb_mostrar(deserializado);
+
+//	send(cliente1, &pcb_recibido, sizeof(uint8_t), 0);
+
+
+
 //	Interrupt
 	char* puerto_interrupt = config_get_string_value(config,"PUERTO_ESCUCHA_INTERRUPT");
 	printf("\n puerto interrupt %s",puerto_dispatch);
@@ -41,6 +52,10 @@ int main(void) {
 	printf("\n Mensaje recibido interrupt: %d", mensaje1);
 	uint8_t handshake1 = 5;
 	send(cliente2, &handshake1, sizeof(uint8_t), 0);
+
+	//Recibir pcb de kernel
+
+
 
 	close(socket_dispatch);
 	close(socket_interrupt);

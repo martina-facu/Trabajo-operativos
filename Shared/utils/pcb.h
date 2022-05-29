@@ -5,6 +5,7 @@
 #include "./tabla_paginas.h"
 #include <commons/collections/list.h>
 #include <stdlib.h>
+#include "./instrucciones.h"
 
 typedef struct {
    uint32_t pid;
@@ -24,7 +25,7 @@ Pcb *pcb_create(
 
 t_paquete *pcb_serializar(Pcb *pcb);
 
-Pcb deserializar_pcb(t_paquete *paquete);
+Pcb pcb_deserializar(t_paquete *paquete);
 
-void mostrar_pcb(Pcb* pcb);
+void pcb_mostrar(Pcb pcb);
 #endif

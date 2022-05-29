@@ -116,20 +116,22 @@ int main(){
 
 //	Servidor para la consola
 	char* puerto_escucha = config_get_string_value(config,"PUERTO_ESCUCHA");
-
 	int socket_serv = iniciar_servidor("127.0.0.1",puerto_escucha);
 	int cliente = esperar_cliente(socket_serv);
-
 	t_list* instrucciones = obtener_instrucciones_deserializadas(socket_serv,cliente);
-	mostrar_instrucciones(instrucciones);
-
 	avisar_proceso_finalizado(cliente);
 
-// crear PCB, serializar y enviar a CPU
+//crear PCB, serializar y enviar a CPU
 	Pcb* pcb = crear_pcb(instrucciones);
 	t_paquete *paquete = pcb_serializar(pcb);
-	mostrar_pcb(pcb);
-	//send(cpu_dispatch,&paquete,sizeof(t_paquete),0);
+	uint8_t respuesta_pcb = 0;
+	Pcb deserializado = pcb_deserializar(paquete);
+
+	pcb_mostrar(deserializado);
+
+	send(cpu_dispatch,&paquete,sizeof(t_paquete),0);
+	recv(cpu_dispatch,&respuesta_pcb, sizeof(uint8_t), 0);
+	printf("\nPCB SE RECIBIO: %d", respuesta_pcb);
 
 	close(cpu_dispatch);
 	close(cpu_interrupt);

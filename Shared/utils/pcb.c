@@ -27,16 +27,16 @@ t_paquete *pcb_serializar(Pcb *pcb){
     return paquete;
 };
 
-Pcb deserializar_pcb(t_paquete *paquete){
+Pcb pcb_deserializar(t_paquete *paquete){
     Pcb pcb;
     memcpy(&pcb, paquete->buffer->stream, sizeof(Pcb));
     return pcb;
 };
 
-void mostrar_pcb(Pcb* pcb){
-    printf("PID: %d\n", pcb->pid);
-    printf("TAMANO: %d\n", pcb->tamano);
-    printf("PC: %d\n", pcb->program_counter);
-    printf("ESTIMADO_RAFAGA: %f\n", pcb->estimado_rafaga);
-    printf("INSTRUCCIONES: %d\n", pcb->instrucciones->elements_count);
+void pcb_mostrar(Pcb pcb){
+    printf("PID: %d\n", pcb.pid);
+    printf("TAMANO: %d\n", pcb.tamano);
+    printf("PC: %d\n", pcb.program_counter);
+    printf("ESTIMADO_RAFAGA: %f\n", pcb.estimado_rafaga);
+    mostrar_instrucciones(pcb.instrucciones);
 };
