@@ -33,10 +33,10 @@ Pcb deserializar_pcb(t_paquete *paquete){
     return pcb;
 };
 
-void mostrar_pcb(Pcb pcb){
-    printf("PID: %d\n", pcb.pid);
-    printf("TAMANO: %d\n", pcb.tamano);
-    printf("PC: %d\n", pcb.program_counter);
-    printf("ESTIMADO_RAFAGA: %f\n", pcb.estimado_rafaga);
-    printf("INSTRUCCIONES: %d\n", pcb.instrucciones->elements_count);
+void mostrar_pcb(Pcb* pcb){
+    printf("PID: %d\n", pcb->pid);
+    printf("TAMANO: %d\n", pcb->tamano);
+    printf("PC: %d\n", pcb->program_counter);
+    printf("ESTIMADO_RAFAGA: %f\n", pcb->estimado_rafaga);
+    printf("INSTRUCCIONES: %d\n", pcb->instrucciones->elements_count);
 };

@@ -26,5 +26,5 @@ t_paquete *pcb_serializar(Pcb *pcb);
 
 Pcb deserializar_pcb(t_paquete *paquete);
 
-void mostrar_pcb(Pcb pcb);
+void mostrar_pcb(Pcb* pcb);
 #endif

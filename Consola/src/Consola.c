@@ -12,6 +12,7 @@
 #include <commons/config.h>
 #include <conexion.h>
 #include <instrucciones.h>
+#include <paquete.h>
 
 t_list* obtener_intrucciones(FILE* input_file){
 	char *contents = NULL;

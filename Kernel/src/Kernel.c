@@ -14,6 +14,9 @@
 #include <instrucciones.h>
 #include "./planificadores/estados.h"
 
+
+uint32_t id_proceso = 0;
+
 t_list* obtener_instrucciones_deserializadas(int socket_serv, int cliente){
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 
@@ -125,7 +128,8 @@ int main(){
 // crear PCB, serializar y enviar a CPU
 	Pcb* pcb = crear_pcb(instrucciones);
 	t_paquete *paquete = pcb_serializar(pcb);
-	send(cpu_dispatch,&paquete,sizeof(t_paquete),0);
+	mostrar_pcb(pcb);
+	//send(cpu_dispatch,&paquete,sizeof(t_paquete),0);
 
 	close(cpu_dispatch);
 	close(cpu_interrupt);
