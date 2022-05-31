@@ -44,38 +44,6 @@ t_list* obtener_intrucciones(FILE* input_file){
 	return instrucciones;
 }
 
-t_paquete* empaquetar_instrucciones(t_list* instrucciones){
-	t_buffer* buffer = malloc(sizeof(t_buffer));
-
-	buffer->size = calcular_espacio_instrucciones(instrucciones);
-	void* stream = malloc(buffer->size);
-
-	llenar_stream_instruccion(instrucciones,stream);
-	buffer->stream=stream;
-
-	t_paquete* paquete = malloc(sizeof(t_paquete));
-
-	paquete->codigo_operacion= 0;
-	paquete->buffer= buffer;
-	paquete->size = buffer->size+sizeof(uint8_t)+sizeof(uint32_t);
-
-	return paquete;
-}
-
-void* serializar_instrucciones(t_paquete* paquete){
-	t_buffer* buffer = paquete->buffer;
-
-	void* a_enviar = malloc(buffer->size + sizeof(uint8_t) + sizeof(uint32_t));
-	int offset = 0;
-
-	memcpy(a_enviar + offset, &(paquete->codigo_operacion), sizeof(uint8_t));
-	offset += sizeof(uint8_t);
-	memcpy(a_enviar + offset, &(buffer->size), sizeof(uint32_t));
-	offset += sizeof(uint32_t);
-	memcpy(a_enviar + offset, buffer->stream, buffer->size);
-
-	return a_enviar;
-}
 
 int main(int argc, char *argv[]) {
 

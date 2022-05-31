@@ -47,7 +47,7 @@ void avisar_proceso_finalizado(int cliente){
 }
 
 
-Pcb* crear_pcb(t_list* instrucciones, double estimacion_inicial){
+Pcb* crear_pcb(t_list* instrucciones, int estimacion_inicial){
 	//TODO: get_tabla_paginas
 	Tabla_paginas *tabla_paginas = malloc(sizeof(Tabla_paginas));
 	Pcb* pcb = pcb_create(
