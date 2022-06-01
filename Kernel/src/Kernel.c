@@ -47,7 +47,7 @@ void avisar_proceso_finalizado(int cliente){
 }
 
 
-Pcb* crear_pcb(t_list* instrucciones, int estimacion_inicial){
+Pcb* crear_pcb(t_list* instrucciones, double estimacion_inicial){
 	//TODO: get_tabla_paginas
 	Tabla_paginas *tabla_paginas = malloc(sizeof(Tabla_paginas));
 	Pcb* pcb = pcb_create(
@@ -130,6 +130,13 @@ int main(){
 	send(cpu_dispatch,&paquete,sizeof(t_paquete),0);
 	recv(cpu_dispatch,&respuesta_pcb, sizeof(uint8_t), 0);
 	printf("\nPCB SE RECIBIO: %d", respuesta_pcb);
+
+	void* stream;
+	pcb_serializar(pcb,stream);
+	t_buffer* buffer = crear_buffer(stream,pcb_calcular_espacio(pcb));
+	t_paquete* paquete = pcb_empaquetar(buffer);
+	void* a_enviar =serializar(paquete);
+	send(cpu_dispatch,a_enviar,sizeof(t_paquete),0);
 
 	close(cpu_dispatch);
 	close(cpu_interrupt);

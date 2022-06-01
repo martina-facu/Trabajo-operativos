@@ -77,3 +77,15 @@ int calcular_espacio_instrucciones(t_list* instrucciones){
 	return size;
 }
 
+t_buffer* intrucciones_armar_buffer (t_list* instrucciones){
+	t_buffer* buffer = malloc(sizeof(t_buffer));
+
+	buffer->size = calcular_espacio_instrucciones(instrucciones);
+
+	void* stream = malloc(buffer->size);
+
+	llenar_stream_instruccion(instrucciones,stream);
+	buffer->stream=stream;
+
+	return buffer;
+}

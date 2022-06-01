@@ -47,12 +47,10 @@ t_list* obtener_intrucciones(FILE* input_file){
 
 int main(int argc, char *argv[]) {
 
-	/*Conecta como cliente al Kernel
-	 int sockfd = conectar_kernel();
-	 saludo_inicial_kernel(sockfd);*/
-
 //	char* filename = argv[1];
 //	char* tamanio_proceso = argv[2];
+
+	uint8_t* tamanio_proceso = 10;
 
 	FILE* input_file = fopen("instrucciones.txt", "r"); // TODO: leer los parametros de la consola
 
@@ -66,6 +64,9 @@ int main(int argc, char *argv[]) {
 	mostrar_instrucciones(instrucciones);
 
 	 // ---------------------------------------------------------------------------- SERIALIZACION ----------------------------------------------------------------------------------------//
+	//t_buffer* buffer= intrucciones_armar_buffer(instrucciones);
+	//t_paquete* paquete= empaquetar_instrucciones(buffer);
+
 	t_paquete* paquete= empaquetar_instrucciones(instrucciones);
 
 	void* a_enviar = serializar_instrucciones(paquete);
