@@ -23,11 +23,11 @@ Pcb *pcb_create(
    double estimado_rafaga,
    t_list* instrucciones);
 
-t_paquete *pcb_serializar(Pcb *pcb, void* stream);
+void *pcb_serializar(Pcb *pcb, void* stream);
 
-Pcb pcb_deserializar(t_paquete *paquete);
+Pcb *pcb_deserializar(t_buffer* buffer);
 
-void pcb_mostrar(Pcb pcb);
+void pcb_mostrar(Pcb* pcb);
 
 t_buffer* crear_buffer(void* stream, int tamano);
 

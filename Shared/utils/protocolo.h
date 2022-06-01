@@ -21,6 +21,6 @@ void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones);
 
 t_paquete* empaquetar_instrucciones(t_list* instrucciones);
 
-void* serializar_instrucciones(t_paquete* paquete);
+void* serializar_paquete(t_paquete* paquete);
 
 #endif

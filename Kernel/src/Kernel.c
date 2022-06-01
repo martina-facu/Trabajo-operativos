@@ -121,22 +121,14 @@ int main(){
 
 // crear PCB, serializar y enviar a CPU
 	Pcb* pcb = crear_pcb(instrucciones, config_get_double_value(config, "ESTIMACION_INICIAL"));
-	t_paquete *paquete = pcb_serializar(pcb);
-	uint8_t respuesta_pcb = 0;
-	Pcb deserializado = pcb_deserializar(paquete);
-
-	pcb_mostrar(deserializado);
-
-	send(cpu_dispatch,&paquete,sizeof(t_paquete),0);
-	recv(cpu_dispatch,&respuesta_pcb, sizeof(uint8_t), 0);
-	printf("\nPCB SE RECIBIO: %d", respuesta_pcb);
 
 	void* stream;
 	pcb_serializar(pcb,stream);
 	t_buffer* buffer = crear_buffer(stream,pcb_calcular_espacio(pcb));
 	t_paquete* paquete = pcb_empaquetar(buffer);
-	void* a_enviar =serializar(paquete);
+	void* a_enviar = serializar_paquete(paquete);
 	send(cpu_dispatch,a_enviar,sizeof(t_paquete),0);
+
 
 	close(cpu_dispatch);
 	close(cpu_interrupt);

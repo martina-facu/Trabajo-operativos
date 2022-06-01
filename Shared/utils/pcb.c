@@ -44,7 +44,8 @@ void *pcb_serializar(Pcb *pcb, void* stream){
     desplazamiento+=sizeof(uint32_t);
     memcpy(stream,&pcb->estimado_rafaga,sizeof(double));
     desplazamiento+=sizeof(uint32_t);
-    llenar_stream_instrucciones(pcb->instrucciones,stream);
+    llenar_stream_instruccion(pcb->instrucciones,stream);
+    return NULL;
 };
 
 t_buffer* crear_buffer(void* stream, int tamano){
@@ -87,10 +88,10 @@ Pcb* pcb_deserializar(t_buffer* buffer){
     return pcb;
 };
 
-void pcb_mostrar(Pcb pcb){
-    printf("PID: %d\n", pcb.pid);
-    printf("TAMANO: %d\n", pcb.tamano);
-    printf("PC: %d\n", pcb.program_counter);
-    printf("ESTIMADO_RAFAGA: %f\n", pcb.estimado_rafaga);
-    mostrar_instrucciones(pcb.instrucciones);
+void pcb_mostrar(Pcb* pcb){
+    printf("PID: %d\n", pcb->pid);
+    printf("TAMANO: %d\n", pcb->tamano);
+    printf("PC: %d\n", pcb->program_counter);
+    printf("ESTIMADO_RAFAGA: %f\n", pcb->estimado_rafaga);
+    mostrar_instrucciones(pcb->instrucciones);
 };

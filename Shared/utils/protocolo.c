@@ -50,17 +50,7 @@ void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones){
 	free(cant_parametros);
 }
 
-t_paquete* empaquetar_instrucciones(t_list* instrucciones){ // TODO : hacer que la fucion reciba un buffer
-	//Estaria en la funcion armar_buffer_instrucion ---------------->
-	t_buffer* buffer = malloc(sizeof(t_buffer));
-
-	buffer->size = calcular_espacio_instrucciones(instrucciones);
-
-	void* stream = malloc(buffer->size);
-
-	llenar_stream_instruccion(instrucciones,stream);
-	buffer->stream=stream;
-	//-------------------------------------------------->
+t_paquete* empaquetar_buffer(t_buffer* buffer){ // TODO : hacer que la fucion reciba un buffer
 	
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 
@@ -71,7 +61,7 @@ t_paquete* empaquetar_instrucciones(t_list* instrucciones){ // TODO : hacer que 
 	return paquete;
 }
 
-void* serializar_instrucciones(t_paquete* paquete){ // serializar_paquete
+void* serializar_paquete(t_paquete* paquete){ // serializar_paquete
 	t_buffer* buffer = paquete->buffer;
 
 	void* a_enviar = malloc(buffer->size + sizeof(uint8_t) + sizeof(uint32_t));

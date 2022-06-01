@@ -7,7 +7,27 @@
 #include <pcb.h>
 #include <paquete.h>
 
+Pcb* obtener_pcb(int socket_serv, int cliente){
+	t_paquete* paquete = malloc(sizeof(t_paquete));
 
+	paquete->buffer = malloc(sizeof(t_buffer));
+	t_buffer* buffer = paquete->buffer;
+
+	//recibimos el codigo del tipo de mensaje que nos llega
+	recv(cliente, &(paquete->codigo_operacion), sizeof(uint8_t), 0); // TODO : ver si podemos agregar alguna funcionalidad a que se envie el codigo de la operacion o sino sacarlo
+
+	//recibo el tamaño del paquete
+	recv(cliente, &(buffer->size), sizeof(uint32_t), 0);
+
+	//recibo el buffer con las instrucciones
+	buffer->stream = malloc(buffer->size);
+	recv(cliente, buffer->stream, buffer->size, 0);
+
+	Pcb* pcb = pcb_deserializar(buffer);
+
+
+	return pcb;
+}
 
 int main(void) {
 	t_config* config = config_create("cpu.config");
@@ -30,12 +50,11 @@ int main(void) {
 
 	send(cliente1, &handshake, sizeof(uint8_t), 0);
 
-	t_paquete *pcb;
-	recv(cliente1, pcb, sizeof(uint8_t), 0);
+	t_paquete *paquete_pcb;
+	recv(cliente1, paquete_pcb, sizeof(uint8_t), 0);
 	uint8_t pcb_recibido = 1;
-	Pcb deserializado = pcb_deserializar(pcb);
-	pcb_mostrar(deserializado);
-
+	Pcb* pcb = obtener_pcb(socket_dispatch, cliente1);
+	pcb_mostrar(pcb);
 //	send(cliente1, &pcb_recibido, sizeof(uint8_t), 0);
 
 

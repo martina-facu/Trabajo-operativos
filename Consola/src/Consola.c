@@ -64,12 +64,12 @@ int main(int argc, char *argv[]) {
 	mostrar_instrucciones(instrucciones);
 
 	 // ---------------------------------------------------------------------------- SERIALIZACION ----------------------------------------------------------------------------------------//
-	//t_buffer* buffer= intrucciones_armar_buffer(instrucciones);
-	//t_paquete* paquete= empaquetar_instrucciones(buffer);
+	t_buffer* buffer= intrucciones_armar_buffer(instrucciones);
+	t_paquete* paquete= empaquetar_buffer(buffer);
 
-	t_paquete* paquete= empaquetar_instrucciones(instrucciones);
+	//t_paquete* paquete= empaquetar_instrucciones(instrucciones);
 
-	void* a_enviar = serializar_instrucciones(paquete);
+	void* a_enviar = serializar_paquete(paquete);
 
 	 // ------------------------------------------------------------------------------ CONEXION ----------------------------------------------------------------------------------------//
 	t_config* config = config_create("consola.config");
