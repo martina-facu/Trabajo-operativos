@@ -12,6 +12,7 @@
 #include <commons/config.h>
 #include <conexion.h>
 #include <instrucciones.h>
+#include <paquete.h>
 
 t_list* obtener_intrucciones(FILE* input_file){
 	char *contents = NULL;
@@ -43,47 +44,13 @@ t_list* obtener_intrucciones(FILE* input_file){
 	return instrucciones;
 }
 
-t_paquete* empaquetar_instrucciones(t_list* instrucciones){
-	t_buffer* buffer = malloc(sizeof(t_buffer));
-
-	buffer->size = calcular_espacio_instrucciones(instrucciones);
-	void* stream = malloc(buffer->size);
-
-	llenar_stream(instrucciones,stream);
-	buffer->stream=stream;
-
-	t_paquete* paquete = malloc(sizeof(t_paquete));
-
-	paquete->codigo_operacion= 0;
-	paquete->buffer= buffer;
-	paquete->size = buffer->size+sizeof(uint8_t)+sizeof(uint32_t);
-
-	return paquete;
-}
-
-void* serializar_instrucciones(t_paquete* paquete){
-	t_buffer* buffer = paquete->buffer;
-
-	void* a_enviar = malloc(buffer->size + sizeof(uint8_t) + sizeof(uint32_t));
-	int offset = 0;
-
-	memcpy(a_enviar + offset, &(paquete->codigo_operacion), sizeof(uint8_t));
-	offset += sizeof(uint8_t);
-	memcpy(a_enviar + offset, &(buffer->size), sizeof(uint32_t));
-	offset += sizeof(uint32_t);
-	memcpy(a_enviar + offset, buffer->stream, buffer->size);
-
-	return a_enviar;
-}
 
 int main(int argc, char *argv[]) {
 
-	/*Conecta como cliente al Kernel
-	 int sockfd = conectar_kernel();
-	 saludo_inicial_kernel(sockfd);*/
-
 //	char* filename = argv[1];
 //	char* tamanio_proceso = argv[2];
+
+	uint8_t* tamanio_proceso = 10;
 
 	FILE* input_file = fopen("instrucciones.txt", "r"); // TODO: leer los parametros de la consola
 
@@ -97,9 +64,12 @@ int main(int argc, char *argv[]) {
 	mostrar_instrucciones(instrucciones);
 
 	 // ---------------------------------------------------------------------------- SERIALIZACION ----------------------------------------------------------------------------------------//
-	t_paquete* paquete= empaquetar_instrucciones(instrucciones);
+	t_buffer* buffer= intrucciones_armar_buffer(instrucciones);
+	t_paquete* paquete= empaquetar_buffer(buffer);
 
-	void* a_enviar = serializar_instrucciones(paquete);
+	//t_paquete* paquete= empaquetar_instrucciones(instrucciones);
+
+	void* a_enviar = serializar_paquete(paquete);
 
 	 // ------------------------------------------------------------------------------ CONEXION ----------------------------------------------------------------------------------------//
 	t_config* config = config_create("consola.config");

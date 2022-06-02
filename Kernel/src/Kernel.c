@@ -9,9 +9,13 @@
 #include <commons/string.h>
 #include <commons/config.h>
 #include <conexion.h>
-#include <instrucciones.h>
 #include <protocolo.h>
+#include <pcb.h>
+#include <instrucciones.h>
+#include "./planificadores/estados.h"
 
+
+uint32_t id_proceso = 0;
 
 t_list* obtener_instrucciones_deserializadas(int socket_serv, int cliente){
 	t_paquete* paquete = malloc(sizeof(t_paquete));
@@ -35,10 +39,28 @@ t_list* obtener_instrucciones_deserializadas(int socket_serv, int cliente){
 	return instrucciones;
 }
 
+
+
 void avisar_proceso_finalizado(int cliente){
 	uint8_t recibido = 1;
 	send(cliente,&recibido,sizeof(uint8_t),0);
 }
+
+
+Pcb* crear_pcb(t_list* instrucciones, double estimacion_inicial){
+	//TODO: get_tabla_paginas
+	Tabla_paginas *tabla_paginas = malloc(sizeof(Tabla_paginas));
+	Pcb* pcb = pcb_create(
+		id_proceso,
+		5, //tamano
+		tabla_paginas,
+		estimacion_inicial,
+		instrucciones
+	);
+	return pcb;
+}
+
+
 
 int main(){
 	t_config* config = config_create("kernel.config");
@@ -78,6 +100,8 @@ int main(){
 	recv(cpu_dispatch,&respuesta, sizeof(uint8_t), 0);
 	printf("\nMensaje recibido dispatch: %d", respuesta);
 
+
+
 //	Interrupt
 	char* puerto_interrupt= config_get_string_value(config,"PUERTO_CPU_INTERRUPT");
 	int cpu_interrupt= crear_conexion(ip_cpu,puerto_interrupt);
@@ -90,14 +114,21 @@ int main(){
 
 //	Servidor para la consola
 	char* puerto_escucha = config_get_string_value(config,"PUERTO_ESCUCHA");
-
 	int socket_serv = iniciar_servidor("127.0.0.1",puerto_escucha);
 	int cliente = esperar_cliente(socket_serv);
-
 	t_list* instrucciones = obtener_instrucciones_deserializadas(socket_serv,cliente);
-	mostrar_instrucciones(instrucciones);
-
 	avisar_proceso_finalizado(cliente);
+
+// crear PCB, serializar y enviar a CPU
+	Pcb* pcb = crear_pcb(instrucciones, config_get_double_value(config, "ESTIMACION_INICIAL"));
+
+	void* stream;
+	pcb_serializar(pcb,stream);
+	t_buffer* buffer = crear_buffer(stream,pcb_calcular_espacio(pcb));
+	t_paquete* paquete = pcb_empaquetar(buffer);
+	void* a_enviar = serializar_paquete(paquete);
+	send(cpu_dispatch,a_enviar,sizeof(t_paquete),0);
+
 
 	close(cpu_dispatch);
 	close(cpu_interrupt);

@@ -10,22 +10,13 @@
 #include <unistd.h>
 #include <netdb.h>
 #include <commons/collections/list.h>
+#include "paquete.h"
 
 typedef struct {
 	t_list* parametros;
 	uint8_t id;
 } Instruccion;
 
-typedef struct {
-	uint32_t size;
-	void* stream;
-} t_buffer;
-
-typedef struct {
-	uint8_t codigo_operacion;
-	t_buffer* buffer;
-	uint32_t size;
-} t_paquete;
 
 void mostrar_parametros(t_list* list);
 
@@ -36,5 +27,7 @@ int calcular_espacio_instrucciones(t_list* instrucciones);
 uint8_t definirCodigo(char* id);
 
 int getCantidadParametros(uint8_t id);
+
+t_buffer *intrucciones_armar_buffer (t_list* instrucciones);
 
 #endif
