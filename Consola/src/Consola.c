@@ -40,7 +40,6 @@ t_list* obtener_intrucciones(FILE* input_file){
 	fclose(input_file);
 	free(contents);
 
-	//hay que ver si hay que liberar las variables adentro de los while y de los if o que pasa con esas variables
 	return instrucciones;
 }
 
@@ -52,8 +51,7 @@ int main(int argc, char *argv[]) {
 	uint32_t* tamano_proceso = malloc(sizeof(uint32_t));
 	*tamano_proceso = atoi(argv[2]);
 
-//	FILE* input_file = fopen("instrucciones.txt", "r");
-	FILE* input_file = fopen(filename, "r");
+	FILE* input_file = fopen(filename, "r"); //"instrucciones.txt"
 
 	if(input_file==NULL){
 		perror("error al leer el archivo");

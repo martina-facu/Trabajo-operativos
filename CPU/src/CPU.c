@@ -50,14 +50,6 @@ int main(void) {
 
 	send(cliente1, &handshake, sizeof(uint8_t), 0);
 
-	t_paquete *paquete_pcb;
-	recv(cliente1, paquete_pcb, sizeof(uint8_t), 0);
-	uint8_t pcb_recibido = 1;
-	Pcb* pcb = obtener_pcb(socket_dispatch, cliente1);
-	pcb_mostrar(pcb);
-//	send(cliente1, &pcb_recibido, sizeof(uint8_t), 0);
-
-
 
 //	Interrupt
 	char* puerto_interrupt = config_get_string_value(config,"PUERTO_ESCUCHA_INTERRUPT");
@@ -74,6 +66,12 @@ int main(void) {
 
 	//Recibir pcb de kernel
 
+	t_paquete *paquete_pcb;
+	recv(cliente1, paquete_pcb, sizeof(uint8_t), 0);
+	uint8_t pcb_recibido = 1;
+	Pcb* pcb = obtener_pcb(socket_dispatch, cliente1);
+	pcb_mostrar(pcb);
+//	send(cliente1, &pcb_recibido, sizeof(uint8_t), 0);
 
 
 	close(socket_dispatch);
