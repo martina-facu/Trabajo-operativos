@@ -48,7 +48,9 @@ t_list* obtener_intrucciones(FILE* input_file){
 int main(int argc, char *argv[]) {
 
 	char* filename = argv[1];
-	uint32_t tamano_proceso = atoi(argv[2]);
+
+	uint32_t* tamano_proceso = malloc(sizeof(uint32_t));
+	*tamano_proceso = atoi(argv[2]);
 
 //	FILE* input_file = fopen("instrucciones.txt", "r");
 	FILE* input_file = fopen(filename, "r");
@@ -67,11 +69,11 @@ int main(int argc, char *argv[]) {
 	t_buffer* buffer= intrucciones_armar_buffer(instrucciones);
 	t_paquete* paquete= empaquetar_buffer(buffer);
 
+	int offset = 0;
 	void* a_enviar = serializar_paquete(paquete);
+	offset += paquete->size;
 
-//	int desplazamiento = buffer->size + sizeof(uint8_t) + sizeof(uint32_t);
-//
-//	memcpy(a_enviar + desplazamiento,&tamano_proceso,sizeof(uint32_t));
+	memcpy(a_enviar + offset,tamano_proceso,sizeof(uint32_t));
 
 
 	 // ------------------------------------------------------------------------------ CONEXION ----------------------------------------------------------------------------------------//

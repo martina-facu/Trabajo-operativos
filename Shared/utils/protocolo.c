@@ -28,7 +28,7 @@ t_paquete *empaquetar_buffer(t_buffer* buffer){
 
 	paquete->codigo_operacion= 0;
 	paquete->buffer= buffer;
-	paquete->size = buffer->size+sizeof(uint8_t);
+	paquete->size = buffer->size+sizeof(uint8_t)+sizeof(uint32_t);
 
 	return paquete;
 }
@@ -36,18 +36,18 @@ t_paquete *empaquetar_buffer(t_buffer* buffer){
 void* serializar_paquete(t_paquete* paquete){
 	t_buffer* buffer = paquete->buffer;
 
-	void* a_enviar = malloc(buffer->size + sizeof(uint8_t) + 2 * sizeof(uint32_t));
+	void* a_enviar = malloc(buffer->size + sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint32_t));
 	int offset = 0;
-	uint32_t x = 5;
+//	uint32_t* x = malloc(sizeof(uint32_t));
+//	*x = 5;
 
 	memcpy(a_enviar + offset, &(paquete->codigo_operacion), sizeof(uint8_t));
 	offset += sizeof(uint8_t);
 	memcpy(a_enviar + offset, &(buffer->size), sizeof(uint32_t));
 	offset += sizeof(uint32_t);
 	memcpy(a_enviar + offset, buffer->stream, buffer->size);
-	offset += buffer->size;
-	memcpy(a_enviar + offset, &x, sizeof(uint32_t));
-
+//	offset += buffer->size;
+//	memcpy(a_enviar + offset, x, sizeof(uint32_t));
 
 	return a_enviar;
 }
