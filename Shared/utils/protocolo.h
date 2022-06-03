@@ -17,10 +17,10 @@
 
 void llenar_stream_instruccion(t_list* instrucciones,void* stream);
 
-void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones);
-
 t_paquete* empaquetar_instrucciones(t_list* instrucciones);
 
 void* serializar_paquete(t_paquete* paquete);
+
+t_paquete *empaquetar_buffer(t_buffer* buffer);
 
 #endif

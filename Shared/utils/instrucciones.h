@@ -28,6 +28,8 @@ uint8_t definirCodigo(char* id);
 
 int getCantidadParametros(uint8_t id);
 
-t_buffer *intrucciones_armar_buffer (t_list* instrucciones);
+t_buffer* intrucciones_armar_buffer (t_list* instrucciones);
+
+void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones);
 
 #endif

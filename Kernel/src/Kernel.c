@@ -17,7 +17,7 @@
 
 uint32_t id_proceso = 0;
 
-t_list* obtener_instrucciones_deserializadas(int socket_serv, int cliente){
+t_list* deserializar_mensaje(int socket_serv, int cliente, uint32_t* tamano_proceso){
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 
 	paquete->buffer = malloc(sizeof(t_buffer));
@@ -35,6 +35,8 @@ t_list* obtener_instrucciones_deserializadas(int socket_serv, int cliente){
 
 	t_list* instrucciones = list_create();
 	deserializar_instrucciones(buffer,instrucciones);
+
+	recv(cliente, tamano_proceso, sizeof(uint32_t), 0);
 
 	return instrucciones;
 }
@@ -116,7 +118,11 @@ int main(){
 	char* puerto_escucha = config_get_string_value(config,"PUERTO_ESCUCHA");
 	int socket_serv = iniciar_servidor("127.0.0.1",puerto_escucha);
 	int cliente = esperar_cliente(socket_serv);
-	t_list* instrucciones = obtener_instrucciones_deserializadas(socket_serv,cliente);
+
+	uint32_t tamano_proceso = malloc(sizeof(uint32_t));
+	t_list* instrucciones = deserializar_mensaje(socket_serv,cliente,&tamano_proceso);
+	mostrar_instrucciones(instrucciones);
+	printf("\nEL TAMAÑO DEL PROCESO ES: %d", tamano_proceso);
 	avisar_proceso_finalizado(cliente);
 
 // crear PCB, serializar y enviar a CPU

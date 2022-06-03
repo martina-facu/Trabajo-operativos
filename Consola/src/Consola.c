@@ -47,12 +47,11 @@ t_list* obtener_intrucciones(FILE* input_file){
 
 int main(int argc, char *argv[]) {
 
-//	char* filename = argv[1];
-//	char* tamanio_proceso = argv[2];
+	char* filename = argv[1];
+	uint32_t tamano_proceso = atoi(argv[2]);
 
-	uint8_t* tamanio_proceso = 10;
-
-	FILE* input_file = fopen("instrucciones.txt", "r"); // TODO: leer los parametros de la consola
+//	FILE* input_file = fopen("instrucciones.txt", "r");
+	FILE* input_file = fopen(filename, "r");
 
 	if(input_file==NULL){
 		perror("error al leer el archivo");
@@ -63,13 +62,17 @@ int main(int argc, char *argv[]) {
 
 	mostrar_instrucciones(instrucciones);
 
+
 	 // ---------------------------------------------------------------------------- SERIALIZACION ----------------------------------------------------------------------------------------//
 	t_buffer* buffer= intrucciones_armar_buffer(instrucciones);
 	t_paquete* paquete= empaquetar_buffer(buffer);
 
-	//t_paquete* paquete= empaquetar_instrucciones(instrucciones);
-
 	void* a_enviar = serializar_paquete(paquete);
+
+//	int desplazamiento = buffer->size + sizeof(uint8_t) + sizeof(uint32_t);
+//
+//	memcpy(a_enviar + desplazamiento,&tamano_proceso,sizeof(uint32_t));
+
 
 	 // ------------------------------------------------------------------------------ CONEXION ----------------------------------------------------------------------------------------//
 	t_config* config = config_create("consola.config");
@@ -77,7 +80,7 @@ int main(int argc, char *argv[]) {
 	char* puerto= config_get_string_value(config,"PUERTO_KERNEL");
 
 	int conexion= crear_conexion(ip,puerto);
-	send(conexion,a_enviar,paquete->size,0);
+	send(conexion,a_enviar,paquete->size + sizeof(uint32_t),0);
 
 	uint8_t respuesta = 0;
 	recv(conexion,&respuesta, sizeof(uint8_t), 0);

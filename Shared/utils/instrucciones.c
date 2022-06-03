@@ -89,3 +89,31 @@ t_buffer* intrucciones_armar_buffer (t_list* instrucciones){
 
 	return buffer;
 }
+
+void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones){
+	void* stream = buffer->stream;
+	uint32_t* parametro;
+	uint32_t cant_instrucciones;
+	int cant_parametros = 0;
+	uint8_t id;
+	memcpy(&cant_instrucciones,stream,sizeof(uint32_t));
+	stream+=sizeof(uint32_t);
+	for(int i=0;i<cant_instrucciones;i++){
+		Instruccion* instruccion = malloc(sizeof(Instruccion));
+		instruccion->parametros= list_create();
+		memcpy(&id,stream,sizeof(uint8_t));
+		stream+=sizeof(uint8_t);
+		instruccion->id = id;
+		cant_parametros= getCantidadParametros(instruccion->id);
+		for(int i=0;i<cant_parametros;i++){
+			parametro= malloc(sizeof(uint32_t));
+			memcpy(parametro,stream,sizeof(uint32_t));
+			stream+=sizeof(uint32_t);
+			list_add(instruccion->parametros,parametro);
+		}
+		list_add(instrucciones,instruccion);
+	}
+
+//	free(&cant_instrucciones);
+//	free(&cant_parametros);
+}
