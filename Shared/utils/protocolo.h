@@ -19,7 +19,7 @@ void llenar_stream_instruccion(t_list* instrucciones,void* stream);
 
 t_paquete* empaquetar_instrucciones(t_list* instrucciones);
 
-void* serializar_paquete(t_paquete* paquete);
+void* serializar_paquete(t_paquete* paquete, void* a_enviar);
 
 t_paquete *empaquetar_buffer(t_buffer* buffer);
 

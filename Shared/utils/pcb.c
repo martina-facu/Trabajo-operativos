@@ -17,11 +17,11 @@ Pcb *pcb_create(
    };
 
 int pcb_calcular_espacio(Pcb* pcb){
-    int tamano_instrucciones = calcular_espacio_instrucciones(pcb->instrucciones);
-    int tamano_tabla_paginas = sizeof(Tabla_paginas);
+	uint32_t tamano_instrucciones = calcular_espacio_instrucciones(pcb->instrucciones);
+	uint32_t tamano_tabla_paginas = sizeof(Tabla_paginas);
     return tamano_tabla_paginas+
             tamano_instrucciones +
-            sizeof(uint32_t) * 3; // PDI, TAMANO, ESTIMACION
+            sizeof(uint32_t) * 2 + sizeof(double); // PDI, TAMANO, ESTIMACION
 };
 
 //void *memcpy(void *dest, const void *src, size_t n);
@@ -89,9 +89,11 @@ Pcb* pcb_deserializar(t_buffer* buffer){
 };
 
 void pcb_mostrar(Pcb* pcb){
+	printf("\n\nINFORMACION PCB:\n");
     printf("PID: %d\n", pcb->pid);
     printf("TAMANO: %d\n", pcb->tamano);
     printf("PC: %d\n", pcb->program_counter);
     printf("ESTIMADO_RAFAGA: %f\n", pcb->estimado_rafaga);
+    tabla_paginas_mostrar(pcb->tabla_paginas);
     mostrar_instrucciones(pcb->instrucciones);
 };

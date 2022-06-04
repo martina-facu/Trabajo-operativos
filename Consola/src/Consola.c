@@ -68,7 +68,8 @@ int main(int argc, char *argv[]) {
 	t_paquete* paquete= empaquetar_buffer(buffer);
 
 	int offset = 0;
-	void* a_enviar = serializar_paquete(paquete);
+	void* a_enviar = malloc(buffer->size + sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint32_t));
+	a_enviar = serializar_paquete(paquete, a_enviar);
 	offset += paquete->size;
 
 	memcpy(a_enviar + offset,tamano_proceso,sizeof(uint32_t));

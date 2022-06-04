@@ -33,17 +33,16 @@ t_paquete *empaquetar_buffer(t_buffer* buffer){
 	return paquete;
 }
 
-void* serializar_paquete(t_paquete* paquete){
+void* serializar_paquete(t_paquete* paquete, void* a_enviar){
 	t_buffer* buffer = paquete->buffer;
 
-	void* a_enviar = malloc(buffer->size + sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint32_t));
 	int offset = 0;
 
 	memcpy(a_enviar + offset, &(paquete->codigo_operacion), sizeof(uint8_t));
 	offset += sizeof(uint8_t);
 	memcpy(a_enviar + offset, &(buffer->size), sizeof(uint32_t));
 	offset += sizeof(uint32_t);
-	memcpy(a_enviar + offset, buffer->stream, buffer->size);
+	memcpy(a_enviar + offset, buffer->stream, buffer->size); // TODO : Arreglar bug, el proceso rompe cuando ser trata de serializar el paquete el PCB
 
 	return a_enviar;
 }

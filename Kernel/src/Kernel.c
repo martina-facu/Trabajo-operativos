@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
-#include <netdb.h>
+//#include <netdb.h>
 #include <commons/collections/list.h>
 #include <commons/string.h>
 #include <commons/config.h>
@@ -13,116 +13,16 @@
 #include <pcb.h>
 #include <instrucciones.h>
 #include "./planificadores/estados.h"
+#include "utils.h"
 
-uint32_t id_proceso = 0;
-
-t_list* deserializar_mensaje(int socket_serv, int cliente, uint32_t* tamano_proceso) {
-
-	t_paquete* paquete = malloc(sizeof(t_paquete));
-
-	paquete->buffer = malloc(sizeof(t_buffer));
-	t_buffer* buffer = paquete->buffer;
-
-	//recibimos el codigo del tipo de mensaje que nos llega
-	recv(cliente, &(paquete->codigo_operacion), sizeof(uint8_t), 0); // TODO : ver si podemos agregar alguna funcionalidad a que se envie el codigo de la operacion o sino sacarlo
-
-	//recibo el tamaño del paquete
-	recv(cliente, &(buffer->size), sizeof(uint32_t), 0);
-
-	//recibo el buffer con las instrucciones
-	buffer->stream = malloc(buffer->size);
-	recv(cliente, buffer->stream, buffer->size, 0);
-
-	t_list* instrucciones = list_create();
-	deserializar_instrucciones(buffer, instrucciones);
-
-	recv(cliente, tamano_proceso, sizeof(uint32_t), 0);
-
-//	printf("\nEL TAMAÑO DEL PROCESO ES: %d", *tamano_proceso);
-
-	return instrucciones;
-}
-
-void avisar_proceso_finalizado(int cliente) {
-	uint8_t recibido = 1;
-	send(cliente, &recibido, sizeof(uint8_t), 0);
-}
-
-Pcb* crear_pcb(t_list* instrucciones, double estimacion_inicial) {
-	//TODO: get_tabla_paginas
-	Tabla_paginas *tabla_paginas = malloc(sizeof(Tabla_paginas));
-	Pcb* pcb = pcb_create(id_proceso, 5, //tamano
-			tabla_paginas, estimacion_inicial, instrucciones);
-	return pcb;
-}
-
-int levantar_conexion_memoria(t_config* config){
-	char * ip_memoria = malloc(sizeof(char) * 30);
-		strcpy(ip_memoria, config_get_string_value(config, "IP_MEMORIA"));
-		printf("\nIp de la memoria: %s", ip_memoria);
-
-		char* puerto_memoria = config_get_string_value(config, "PUERTO_MEMORIA");
-		int conexion_memoria = crear_conexion(ip_memoria, puerto_memoria);
-
-		uint8_t handshake_memoria = 3;
-		send(conexion_memoria, &handshake_memoria, sizeof(uint8_t), 0);
-
-		uint8_t respuesta_memoria = 0;
-		recv(conexion_memoria, &respuesta_memoria, sizeof(uint8_t), 0);
-		printf("\nMensaje recibido de la memoria: %d", respuesta_memoria);
-
-		return conexion_memoria;
-}
-
-int levantar_conexion_dispacher(t_config* config){
-	char * ip_cpu = malloc(sizeof(char) * 30);
-	strcpy(ip_cpu, config_get_string_value(config, "IP_CPU"));
-	printf("\nIp cpu: %s", ip_cpu);
-
-//	Dispatch
-	char* puerto_dispatch = config_get_string_value(config,"PUERTO_CPU_DISPATCH");
-	printf("\nPuerto dispatch: %s", puerto_dispatch);
-
-	int cpu_dispatch = crear_conexion(ip_cpu, puerto_dispatch);
-	printf("\nConexion dispatch: %d", cpu_dispatch);
-
-	uint8_t handshake = 2;
-
-	send(cpu_dispatch, &handshake, sizeof(uint8_t), 0);
-
-	uint8_t respuesta = 0;
-	recv(cpu_dispatch, &respuesta, sizeof(uint8_t), 0);
-	printf("\nMensaje recibido dispatch: %d", respuesta);
-
-	return cpu_dispatch;
-}
-
-int levantar_conexion_interrupt(t_config* config){
-	char * ip_cpu = malloc(sizeof(char) * 30);
-	strcpy(ip_cpu, config_get_string_value(config, "IP_CPU"));
-	printf("\nIp cpu: %s", ip_cpu);
-
-//	Interrupt
-	char* puerto_interrupt = config_get_string_value(config,
-			"PUERTO_CPU_INTERRUPT");
-	int cpu_interrupt = crear_conexion(ip_cpu, puerto_interrupt);
-	uint8_t handshake1 = 3;
-	send(cpu_interrupt, &handshake1, sizeof(uint8_t), 0);
-
-	uint8_t respuesta1 = 0;
-	recv(cpu_interrupt, &respuesta1, sizeof(uint8_t), 0);
-	printf("\nMensaje recibido interrupt: %d", respuesta1);
-
-	return cpu_interrupt;
-}
 
 int main() {
 	t_config* config = config_create("kernel.config");
 
 //	Conexiones como cliente
-	int conexion_memoria = levantar_conexion_memoria(config);
-	int cpu_dispatch = levantar_conexion_dispacher(config);
-	int cpu_interrupt = levantar_conexion_interrupt (config);
+//	int conexion_memoria = levantar_conexion_memoria(config);
+//	int cpu_dispatch = levantar_conexion_dispacher(config);
+//	int cpu_interrupt = levantar_conexion_interrupt (config);
 
 //	Servidor para la consola
 	char* puerto_escucha = config_get_string_value(config, "PUERTO_ESCUCHA");
@@ -131,26 +31,25 @@ int main() {
 
 	uint32_t* tamano_proceso = malloc(sizeof(uint32_t));
 	t_list* instrucciones = deserializar_mensaje(socket_serv, cliente,tamano_proceso);
-	mostrar_instrucciones(instrucciones);
-	printf("\nEL TAMAÑO DEL PROCESO ES: %d", *tamano_proceso);
-
-	avisar_proceso_finalizado(cliente);
+	printf("\n\nEL TAMAÑO DEL PROCESO ES: %d", *tamano_proceso);
+	printf("\n");
 
 // crear PCB, serializar y enviar a CPU
-	Pcb* pcb = crear_pcb(instrucciones,
-			config_get_double_value(config, "ESTIMACION_INICIAL"));
+	Pcb* pcb = crear_pcb(instrucciones,*tamano_proceso,config,socket_serv);
+	pcb_mostrar(pcb);
 
-	void* stream;
+	void* stream = malloc(pcb_calcular_espacio(pcb));
 	pcb_serializar(pcb, stream);
 	t_buffer* buffer = crear_buffer(stream, pcb_calcular_espacio(pcb));
 	t_paquete* paquete = pcb_empaquetar(buffer);
-	void* a_enviar = serializar_paquete(paquete);
-	send(cpu_dispatch, a_enviar, sizeof(t_paquete), 0);
+	void* a_enviar = serializar_paquete(paquete,stream); //aca falla
+	send(5, a_enviar, sizeof(t_paquete), 0);
 
-	close(cpu_dispatch);
-	close(cpu_interrupt);
+	avisar_proceso_finalizado(cliente);
 	close(socket_serv);
-	close(conexion_memoria);
+//	close(cpu_dispatch);
+//	close(cpu_interrupt);
+//	close(conexion_memoria);
 
 	return 0;
 }
