@@ -27,9 +27,11 @@ int pcb_calcular_espacio(Pcb* pcb){
 //void *memcpy(void *dest, const void *src, size_t n);
 
 void *pcb_serializar(Pcb *pcb, void* stream){
-    int aux = pcb_calcular_espacio(pcb);
-    stream = malloc(aux);
+    int tamano_pcb = pcb_calcular_espacio(pcb);
+    stream = malloc(tamano_pcb);
+
     int desplazamiento=0;
+
     memcpy(stream,&pcb->pid,sizeof(uint32_t));
     desplazamiento+=sizeof(uint32_t);
     memcpy(stream,&pcb->tamano,sizeof(uint32_t));
@@ -44,13 +46,17 @@ void *pcb_serializar(Pcb *pcb, void* stream){
     desplazamiento+=sizeof(uint32_t);
     memcpy(stream,&pcb->estimado_rafaga,sizeof(double));
     desplazamiento+=sizeof(uint32_t);
-    llenar_stream_instruccion(pcb->instrucciones,stream);
+//    llenar_stream_instruccion(pcb->instrucciones,stream);
     return NULL;
 };
 
-t_buffer* crear_buffer(void* stream, int tamano){
+t_buffer* pcb_armar_buffer(void* stream, int tamano){
     t_buffer* buffer= malloc(sizeof(t_buffer));
-    buffer->size= tamano;
+
+    buffer->size= tamano;//aca se calcula el tamaño de lo que se va a hacer el buffer
+
+//    void* stream = malloc(buffer->size);
+
     buffer->stream= stream;
     return buffer;
 }

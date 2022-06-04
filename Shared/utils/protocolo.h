@@ -15,9 +15,8 @@
 #include <commons/config.h>
 #include "instrucciones.h"
 
-void llenar_stream_instruccion(t_list* instrucciones,void* stream);
 
-t_paquete* empaquetar_instrucciones(t_list* instrucciones);
+t_buffer* armar_buffer (uint32_t tamano_estructura,void* stream);
 
 void* serializar_paquete(t_paquete* paquete, void* a_enviar);
 

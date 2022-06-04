@@ -34,4 +34,5 @@ t_buffer* crear_buffer(void* stream, int tamano);
 t_paquete* pcb_empaquetar(t_buffer* buffer);
 
 int pcb_calcular_espacio(Pcb* pcb);
+
 #endif

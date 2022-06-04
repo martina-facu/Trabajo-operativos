@@ -38,11 +38,17 @@ int main() {
 	Pcb* pcb = crear_pcb(instrucciones,*tamano_proceso,config,socket_serv);
 	pcb_mostrar(pcb);
 
-	void* stream = malloc(pcb_calcular_espacio(pcb));
-	pcb_serializar(pcb, stream);
-	t_buffer* buffer = crear_buffer(stream, pcb_calcular_espacio(pcb));
-	t_paquete* paquete = pcb_empaquetar(buffer);
-	void* a_enviar = serializar_paquete(paquete,stream); //aca falla
+	void* a= malloc(sizeof(uint32_t));
+	t_buffer* buffer = armar_buffer(calcular_espacio_instrucciones(instrucciones),a);
+	t_paquete* paquete = empaquetar_buffer(buffer);
+	void* a_enviar = malloc(buffer->size + sizeof(uint8_t) + sizeof(uint32_t)+ sizeof(uint32_t));
+	a_enviar = serializar_paquete(paquete, a_enviar);
+
+//	void* stream = malloc(pcb_calcular_espacio(pcb));
+//	pcb_serializar(pcb, stream);
+//	t_buffer* buffer = crear_buffer(stream, pcb_calcular_espacio(pcb));
+//	t_paquete* paquete = pcb_empaquetar(buffer);
+//	void* a_enviar = serializar_paquete(paquete,stream); //aca falla
 	send(5, a_enviar, sizeof(t_paquete), 0);
 
 	avisar_proceso_finalizado(cliente);
