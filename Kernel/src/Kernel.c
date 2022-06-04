@@ -21,8 +21,8 @@ int main() {
 
 //	Conexiones como cliente
 //	int conexion_memoria = levantar_conexion_memoria(config);
-//	int cpu_dispatch = levantar_conexion_dispacher(config);
-//	int cpu_interrupt = levantar_conexion_interrupt (config);
+	int cpu_dispatch = levantar_conexion_dispacher(config);
+	int cpu_interrupt = levantar_conexion_interrupt (config);
 
 //	Servidor para la consola
 	char* puerto_escucha = config_get_string_value(config, "PUERTO_ESCUCHA");
@@ -34,22 +34,23 @@ int main() {
 	printf("\n\nEL TAMAÑO DEL PROCESO ES: %d", *tamano_proceso);
 	printf("\n");
 
-// crear PCB, serializar y enviar a CPU
+// crear PCB
 	Pcb* pcb = crear_pcb(instrucciones,*tamano_proceso,config,socket_serv);
 	pcb_mostrar(pcb);
 
-	void* a= malloc(sizeof(uint32_t));
-	t_buffer* buffer = armar_buffer(calcular_espacio_instrucciones(instrucciones),a);
-	t_paquete* paquete = empaquetar_buffer(buffer);
-	void* a_enviar = malloc(buffer->size + sizeof(uint8_t) + sizeof(uint32_t)+ sizeof(uint32_t));
-	a_enviar = serializar_paquete(paquete, a_enviar);
+//	serializar PCB
+	void* stream_pcb = pcb_armar_stream(pcb);
+	uint32_t tamano_pcb = pcb_calcular_espacio(pcb);
 
-//	void* stream = malloc(pcb_calcular_espacio(pcb));
-//	pcb_serializar(pcb, stream);
-//	t_buffer* buffer = crear_buffer(stream, pcb_calcular_espacio(pcb));
-//	t_paquete* paquete = pcb_empaquetar(buffer);
-//	void* a_enviar = serializar_paquete(paquete,stream); //aca falla
-	send(5, a_enviar, sizeof(t_paquete), 0);
+	t_buffer* buffer = armar_buffer(tamano_pcb, stream_pcb);
+	t_paquete* paquete = empaquetar_buffer(buffer);
+
+	void* a_enviar = malloc(paquete->size);
+
+	uint32_t tamano_mensaje = paquete->size;
+
+//	Enviar PCB
+	send(cpu_dispatch, a_enviar, sizeof(tamano_mensaje), 0);
 
 	avisar_proceso_finalizado(cliente);
 	close(socket_serv);

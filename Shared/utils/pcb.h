@@ -23,15 +23,15 @@ Pcb *pcb_create(
    double estimado_rafaga,
    t_list* instrucciones);
 
-void *pcb_serializar(Pcb *pcb, void* stream);
+void *pcb_armar_stream(Pcb *pcb);
 
 Pcb *pcb_deserializar(t_buffer* buffer);
 
 void pcb_mostrar(Pcb* pcb);
 
-t_buffer* crear_buffer(void* stream, int tamano);
-
-t_paquete* pcb_empaquetar(t_buffer* buffer);
+//t_buffer* crear_buffer(void* stream, int tamano);
+//
+//t_paquete* pcb_empaquetar(t_buffer* buffer);
 
 int pcb_calcular_espacio(Pcb* pcb);
 

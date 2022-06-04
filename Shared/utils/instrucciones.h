@@ -32,6 +32,6 @@ int getCantidadParametros(uint8_t id);
 
 void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones);
 
-void* llenar_stream_instruccion(t_list* instrucciones);
+void* armar_stream_instruccion(t_list* instrucciones);
 
 #endif

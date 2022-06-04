@@ -26,48 +26,37 @@ int pcb_calcular_espacio(Pcb* pcb){
 
 //void *memcpy(void *dest, const void *src, size_t n);
 
-void *pcb_serializar(Pcb *pcb, void* stream){
+void *pcb_armar_stream(Pcb *pcb){
     int tamano_pcb = pcb_calcular_espacio(pcb);
-    stream = malloc(tamano_pcb);
+    void* stream = malloc(tamano_pcb);
 
     int desplazamiento=0;
 
     memcpy(stream,&pcb->pid,sizeof(uint32_t));
     desplazamiento+=sizeof(uint32_t);
+
     memcpy(stream,&pcb->tamano,sizeof(uint32_t));
     desplazamiento+=sizeof(uint32_t);
+
     memcpy(stream,&pcb->tabla_paginas->numero_pagina,sizeof(uint32_t));
     desplazamiento+=sizeof(uint32_t);
+
     memcpy(stream,&pcb->tabla_paginas->entrada_tabla_primer_nivel,sizeof(uint32_t));
     desplazamiento+=sizeof(uint32_t);
+
     memcpy(stream,&pcb->tabla_paginas->entrada_tabla_segundo_nivel,sizeof(uint32_t));
     desplazamiento+=sizeof(uint32_t);
+
     memcpy(stream,&pcb->tabla_paginas->desplazamiento,sizeof(uint32_t));
     desplazamiento+=sizeof(uint32_t);
+
     memcpy(stream,&pcb->estimado_rafaga,sizeof(double));
-    desplazamiento+=sizeof(uint32_t);
-//    llenar_stream_instruccion(pcb->instrucciones,stream);
-    return NULL;
+    desplazamiento+=sizeof(double);
+
+    memcpy(stream,armar_stream_instruccion(pcb->instrucciones),sizeof(pcb->instrucciones));
+
+    return stream;
 };
-
-t_buffer* pcb_armar_buffer(void* stream, int tamano){
-    t_buffer* buffer= malloc(sizeof(t_buffer));
-
-    buffer->size= tamano;//aca se calcula el tamaño de lo que se va a hacer el buffer
-
-//    void* stream = malloc(buffer->size);
-
-    buffer->stream= stream;
-    return buffer;
-}
-
-t_paquete* pcb_empaquetar(t_buffer* buffer){
-    t_paquete* paquete = malloc(sizeof(t_paquete));
-    paquete->codigo_operacion=0;
-    paquete->size= buffer->size;
-	paquete->size = buffer->size+sizeof(uint8_t)+sizeof(uint32_t);
-    return paquete;
-}
 
 Pcb* pcb_deserializar(t_buffer* buffer){
     Pcb* pcb = malloc(sizeof(Pcb));

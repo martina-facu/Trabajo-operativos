@@ -44,7 +44,7 @@ t_list* obtener_intrucciones(FILE* input_file) {
 }
 
 void* serializar_mensaje(t_list* instrucciones, uint32_t* tamano_proceso,uint32_t* tamano_mensaje) {
-	void* stream_instrucciones = llenar_stream_instruccion(instrucciones);
+	void* stream_instrucciones = armar_stream_instruccion(instrucciones);
 	uint32_t tamano_instrucciones = calcular_espacio_instrucciones(instrucciones);
 
 	t_buffer* buffer = armar_buffer(tamano_instrucciones, stream_instrucciones);

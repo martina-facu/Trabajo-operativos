@@ -77,7 +77,7 @@ int calcular_espacio_instrucciones(t_list* instrucciones){
 	return size;
 }
 
-void* llenar_stream_instruccion(t_list* instrucciones){
+void* armar_stream_instruccion(t_list* instrucciones){
 	void* stream = malloc(calcular_espacio_instrucciones(instrucciones));
 	int desplazamiento=0;
 	Instruccion* instruccion = malloc(sizeof(instruccion));
