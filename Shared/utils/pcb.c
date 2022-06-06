@@ -102,7 +102,7 @@ void pcb_mostrar(Pcb* pcb) {
 	printf("PID: %d\n", pcb->pid);
 	printf("TAMANO: %d\n", pcb->tamano);
 	printf("PC: %d\n", pcb->program_counter);
-	printf("ESTIMADO_RAFAGA: %f\n", pcb->estimado_rafaga);
+	printf("ESTIMADO_RAFAGA: %d\n", pcb->estimado_rafaga);
 	tabla_paginas_mostrar(pcb->tabla_paginas);
 	mostrar_instrucciones(pcb->instrucciones);
 }
