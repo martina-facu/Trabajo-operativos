@@ -83,6 +83,7 @@ int levantar_conexion_dispacher(t_config* config){
 	uint8_t respuesta = 0;
 	recv(cpu_dispatch, &respuesta, sizeof(uint8_t), 0);
 	printf("\nMensaje recibido dispatch: %d", respuesta);
+//	send(cpu_dispatch, &respuesta, sizeof(uint8_t), 0);
 
 	return cpu_dispatch;
 }

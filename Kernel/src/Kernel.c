@@ -46,11 +46,15 @@ int main() {
 	t_paquete* paquete = empaquetar_buffer(buffer);
 
 	void* a_enviar = malloc(paquete->size);
+	a_enviar = serializar_paquete(paquete, a_enviar);
 
-	uint32_t tamano_mensaje = paquete->size;
+//	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
+//	*tamano_mensaje = paquete->size;
+
+//	send(cpu_dispatch, &paquete->codigo_operacion, sizeof(uint8_t), 0);
 
 //	Enviar PCB
-	send(cpu_dispatch, a_enviar, sizeof(tamano_mensaje), 0);
+	send(cpu_dispatch, a_enviar, paquete->size, 0);
 
 	avisar_proceso_finalizado(cliente);
 	close(socket_serv);

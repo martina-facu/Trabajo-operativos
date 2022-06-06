@@ -53,8 +53,8 @@ void* serializar_mensaje(t_list* instrucciones, uint32_t* tamano_proceso,uint32_
 	int offset = 0;
 	void* a_enviar = malloc(paquete->size);
 	a_enviar = serializar_paquete(paquete, a_enviar);
-	offset += paquete->size;
 
+	offset += paquete->size;
 	memcpy(a_enviar + offset, tamano_proceso, sizeof(uint32_t));
 
 	*tamano_mensaje = paquete->size + sizeof(uint32_t);

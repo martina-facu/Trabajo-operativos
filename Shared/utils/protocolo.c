@@ -14,7 +14,7 @@ t_paquete *empaquetar_buffer(t_buffer* buffer){
 	
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 
-	paquete->codigo_operacion= 0;
+	paquete->codigo_operacion= 1;
 	paquete->buffer= buffer;
 	paquete->size = buffer->size+sizeof(uint8_t)+sizeof(uint32_t);
 
