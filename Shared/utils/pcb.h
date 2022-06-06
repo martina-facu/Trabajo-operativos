@@ -11,8 +11,8 @@ typedef struct {
    uint32_t pid;
    uint32_t tamano;
    uint32_t program_counter;
+   uint32_t estimado_rafaga;
    Tabla_paginas *tabla_paginas;
-   double estimado_rafaga;
    t_list* instrucciones;
 } Pcb;
 
@@ -20,18 +20,15 @@ Pcb *pcb_create(
    uint32_t pid,
    uint32_t tamano,
    Tabla_paginas *tabla_paginas,
-   double estimado_rafaga,
+   uint32_t estimado_rafaga,
    t_list* instrucciones);
 
-void *pcb_serializar(Pcb *pcb, void* stream);
+void *pcb_armar_stream(Pcb *pcb);
 
 Pcb *pcb_deserializar(t_buffer* buffer);
 
 void pcb_mostrar(Pcb* pcb);
 
-t_buffer* crear_buffer(void* stream, int tamano);
+uint32_t pcb_calcular_espacio(Pcb* pcb);
 
-t_paquete* pcb_empaquetar(t_buffer* buffer);
-
-int pcb_calcular_espacio(Pcb* pcb);
 #endif

@@ -14,7 +14,7 @@
 #include <instrucciones.h>
 #include <paquete.h>
 
-t_list* obtener_intrucciones(FILE* input_file){
+t_list* obtener_intrucciones(FILE* input_file) {
 	char *contents = NULL;
 	size_t len = 0;
 
@@ -29,7 +29,7 @@ t_list* obtener_intrucciones(FILE* input_file){
 		instruccion->id = id;
 		instruccion->parametros = list_create();
 
-		for (int i = 1;linea[i]!=NULL; i++) {
+		for (int i = 1; linea[i] != NULL; i++) {
 			parametro = malloc(sizeof(uint32_t));
 			*parametro = atoi(linea[i]);
 			list_add(instruccion->parametros, parametro);
@@ -40,21 +40,38 @@ t_list* obtener_intrucciones(FILE* input_file){
 	fclose(input_file);
 	free(contents);
 
-	//hay que ver si hay que liberar las variables adentro de los while y de los if o que pasa con esas variables
 	return instrucciones;
 }
 
+void* serializar_mensaje(t_list* instrucciones, uint32_t* tamano_proceso,uint32_t* tamano_mensaje) {
+	void* stream_instrucciones = armar_stream_instruccion(instrucciones);
+	uint32_t tamano_instrucciones = calcular_espacio_instrucciones(instrucciones);
+
+	t_buffer* buffer = armar_buffer(tamano_instrucciones, stream_instrucciones);
+	t_paquete* paquete = empaquetar_buffer(buffer);
+
+	int offset = 0;
+	void* a_enviar = malloc(paquete->size);
+	a_enviar = serializar_paquete(paquete, a_enviar);
+
+	offset += paquete->size;
+	memcpy(a_enviar + offset, tamano_proceso, sizeof(uint32_t));
+
+	*tamano_mensaje = paquete->size + sizeof(uint32_t);
+
+	return a_enviar;
+}
 
 int main(int argc, char *argv[]) {
 
-//	char* filename = argv[1];
-//	char* tamanio_proceso = argv[2];
+	char* filename = argv[1];
 
-	uint8_t* tamanio_proceso = 10;
+	uint32_t* tamano_proceso = malloc(sizeof(uint32_t));
+	*tamano_proceso = atoi(argv[2]);
 
-	FILE* input_file = fopen("instrucciones.txt", "r"); // TODO: leer los parametros de la consola
+	FILE* input_file = fopen(filename, "r"); //"instrucciones.txt"
 
-	if(input_file==NULL){
+	if (input_file == NULL) {
 		perror("error al leer el archivo");
 		return -1;
 	}
@@ -63,28 +80,25 @@ int main(int argc, char *argv[]) {
 
 	mostrar_instrucciones(instrucciones);
 
-	 // ---------------------------------------------------------------------------- SERIALIZACION ----------------------------------------------------------------------------------------//
-	t_buffer* buffer= intrucciones_armar_buffer(instrucciones);
-	t_paquete* paquete= empaquetar_buffer(buffer);
+	// ---------------------------------------------------------------------------- SERIALIZACION ----------------------------------------------------------------------------------------//
 
-	//t_paquete* paquete= empaquetar_instrucciones(instrucciones);
+	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
+	void* a_enviar = serializar_mensaje(instrucciones,tamano_proceso,tamano_mensaje);
 
-	void* a_enviar = serializar_paquete(paquete);
-
-	 // ------------------------------------------------------------------------------ CONEXION ----------------------------------------------------------------------------------------//
+	// ------------------------------------------------------------------------------ CONEXION ----------------------------------------------------------------------------------------//
 	t_config* config = config_create("consola.config");
-	char* ip= config_get_string_value(config,"IP_KERNEL");
-	char* puerto= config_get_string_value(config,"PUERTO_KERNEL");
+	char* ip = config_get_string_value(config, "IP_KERNEL");
+	char* puerto = config_get_string_value(config, "PUERTO_KERNEL");
 
-	int conexion= crear_conexion(ip,puerto);
-	send(conexion,a_enviar,paquete->size,0);
+	int conexion = crear_conexion(ip, puerto);
+	send(conexion, a_enviar,*tamano_mensaje, 0);
 
 	uint8_t respuesta = 0;
-	recv(conexion,&respuesta, sizeof(uint8_t), 0);
+	recv(conexion, &respuesta, sizeof(uint8_t), 0);
 
-	if(respuesta == 1){
+	if (respuesta == 1) {
 		printf("\n termine con exito");
-	}else{
+	} else {
 		printf("\n No termine con exito");
 	}
 
