@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
-//#include <netdb.h>
 #include <commons/collections/list.h>
 #include <commons/string.h>
 #include <commons/config.h>
@@ -20,7 +19,7 @@ int main() {
 	t_config* config = config_create("kernel.config");
 
 //	Conexiones como cliente
-//	int conexion_memoria = levantar_conexion_memoria(config);
+	int conexion_memoria = levantar_conexion_memoria(config);
 	int cpu_dispatch = levantar_conexion_dispacher(config);
 	int cpu_interrupt = levantar_conexion_interrupt (config);
 
@@ -48,19 +47,14 @@ int main() {
 	void* a_enviar = malloc(paquete->size);
 	a_enviar = serializar_paquete(paquete, a_enviar);
 
-//	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
-//	*tamano_mensaje = paquete->size;
-
-//	send(cpu_dispatch, &paquete->codigo_operacion, sizeof(uint8_t), 0);
-
 //	Enviar PCB
 	send(cpu_dispatch, a_enviar, paquete->size, 0);
 
 	avisar_proceso_finalizado(cliente);
 	close(socket_serv);
-//	close(cpu_dispatch);
-//	close(cpu_interrupt);
-//	close(conexion_memoria);
+	close(cpu_dispatch);
+	close(cpu_interrupt);
+	close(conexion_memoria);
 
 	return 0;
 }
