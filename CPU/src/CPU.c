@@ -14,7 +14,7 @@ Pcb* obtener_pcb(int socket_serv, int cliente) {
 	t_buffer* buffer = paquete->buffer;
 
 	//recibimos el codigo del tipo de mensaje que nos llega
-	recv(cliente, &(paquete->codigo_operacion), sizeof(uint8_t), 0); // TODO : ver si podemos agregar alguna funcionalidad a que se envie el codigo de la operacion o sino sacarlo
+	recv(cliente, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
 
 	//recibo el tamaño del paquete
 	recv(cliente, &(buffer->size), sizeof(uint32_t), 0);

@@ -16,15 +16,14 @@ Pcb *pcb_create(
        return pcb;
    };
 
-int pcb_calcular_espacio(Pcb* pcb){
+uint32_t pcb_calcular_espacio(Pcb* pcb){
 	uint32_t tamano_instrucciones = calcular_espacio_instrucciones(pcb->instrucciones);
 	uint32_t tamano_tabla_paginas = sizeof(Tabla_paginas);
     return tamano_tabla_paginas+
             tamano_instrucciones +
-            sizeof(uint32_t) * 2 + sizeof(double); // PDI, TAMANO, ESTIMACION
+            sizeof(uint32_t) * 3; // PDI, TAMANO, ESTIMACION
 };
 
-//void *memcpy(void *dest, const void *src, size_t n);
 
 void *pcb_armar_stream(Pcb *pcb){
     int tamano_pcb = pcb_calcular_espacio(pcb);
@@ -35,25 +34,25 @@ void *pcb_armar_stream(Pcb *pcb){
     memcpy(stream,&pcb->pid,sizeof(uint32_t));
     desplazamiento+=sizeof(uint32_t);
 
-    memcpy(stream,&pcb->tamano,sizeof(uint32_t));
+    memcpy(stream+desplazamiento,&pcb->tamano,sizeof(uint32_t));
     desplazamiento+=sizeof(uint32_t);
 
-    memcpy(stream,&pcb->tabla_paginas->numero_pagina,sizeof(uint32_t));
+    memcpy(stream+desplazamiento,&pcb->tabla_paginas->numero_pagina,sizeof(uint32_t));
     desplazamiento+=sizeof(uint32_t);
 
-    memcpy(stream,&pcb->tabla_paginas->entrada_tabla_primer_nivel,sizeof(uint32_t));
+    memcpy(stream+desplazamiento,&pcb->tabla_paginas->entrada_tabla_primer_nivel,sizeof(uint32_t));
     desplazamiento+=sizeof(uint32_t);
 
-    memcpy(stream,&pcb->tabla_paginas->entrada_tabla_segundo_nivel,sizeof(uint32_t));
+    memcpy(stream+desplazamiento,&pcb->tabla_paginas->entrada_tabla_segundo_nivel,sizeof(uint32_t));
     desplazamiento+=sizeof(uint32_t);
 
-    memcpy(stream,&pcb->tabla_paginas->desplazamiento,sizeof(uint32_t));
+    memcpy(stream+desplazamiento,&pcb->tabla_paginas->desplazamiento,sizeof(uint32_t));
     desplazamiento+=sizeof(uint32_t);
 
-    memcpy(stream,&pcb->estimado_rafaga,sizeof(double));
+    memcpy(stream+desplazamiento,&pcb->estimado_rafaga,sizeof(double));
     desplazamiento+=sizeof(double);
 
-    memcpy(stream,armar_stream_instruccion(pcb->instrucciones),sizeof(pcb->instrucciones));
+    memcpy(stream+desplazamiento,armar_stream_instruccion(pcb->instrucciones),calcular_espacio_instrucciones(pcb->instrucciones));
 
     return stream;
 };
@@ -76,6 +75,7 @@ Pcb* pcb_deserializar(t_buffer* buffer){
     stream+=sizeof(uint32_t);
     memcpy(&(pcb->estimado_rafaga),stream,sizeof(double));
     stream+=sizeof(uint32_t);
+    buffer->stream = stream;
     pcb->tabla_paginas= pagina;
     t_list* instrucciones= list_create();
     deserializar_instrucciones(buffer,instrucciones);

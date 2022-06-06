@@ -33,7 +33,7 @@ void avisar_proceso_finalizado(int cliente) {
 Pcb* crear_pcb(t_list* instrucciones, uint32_t tamano_proceso, t_config* config, uint32_t id_proceso) {
 	//TODO: get_tabla_paginas
 
-	double estimacion_inicial = config_get_double_value(config, "ESTIMACION_INICIAL");
+	uint32_t estimacion_inicial = config_get_int_value(config, "ESTIMACION_INICIAL");
 
 	Tabla_paginas *tabla_paginas = malloc(sizeof(Tabla_paginas));
 	tabla_paginas->desplazamiento = 0;
