@@ -139,7 +139,7 @@ uint8_t ejecutar_ciclo_instrucciones(Pcb* pcb) {
 	//fetch
 	Instruccion* instruccion = list_get(instrucciones,program_counter);
 	program_counter++;
-	pcb->program_counter = program_counter; //no se si es necesaria esta, revisar
+	pcb->program_counter = program_counter;
 
 	//decode
 	bool requiere_fetch_operands = false;
@@ -179,18 +179,18 @@ int main(void) {
 	int socket_dispatch = iniciar_servidor("127.0.0.1", puerto_dispatch);
 	printf("\nSocket %d", socket_dispatch);
 
-	int cliente1 = esperar_cliente(socket_dispatch);
-	printf("\nCliente: %d", cliente1);
+	int kernel_dispatch = esperar_cliente(socket_dispatch);
+	printf("\nCliente: %d", kernel_dispatch);
 	printf("\n");
 
 	uint8_t mensaje = 0;
-	recv(cliente1, &mensaje, sizeof(uint8_t), 0);
+	recv(kernel_dispatch, &mensaje, sizeof(uint8_t), 0);
 	printf("Mensaje recibido dispatch: %d", mensaje);
 	printf("\n");
 
 	uint8_t handshake = 4;
 
-	send(cliente1, &handshake, sizeof(uint8_t), 0);
+	send(kernel_dispatch, &handshake, sizeof(uint8_t), 0);
 
 //	Interrupt
 //	char* puerto_interrupt = config_get_string_value(config,
@@ -215,7 +215,7 @@ int main(void) {
 //Recibir pcb de kernel
 
 //	Pcb* pcb = obtener_pcb(socket_dispatch, kernel_dispatch);
-	Pcb* pcb = obtener_pcb(socket_dispatch, cliente1);
+	Pcb* pcb = obtener_pcb(socket_dispatch, kernel_dispatch);
 	pcb_mostrar(pcb);
 
 	uint8_t flag = 0;
@@ -223,9 +223,22 @@ int main(void) {
 		flag = ejecutar_ciclo_instrucciones(pcb);
 	}
 
-	//devolver_pcb_kernel();
+	//devolver_pcb_kernel
 	printf("HAY QUE DEVOLVER EL PCB AL KERNEL");
 	printf("\n");
+
+//	void* stream_pcb = pcb_armar_stream(pcb);
+//	uint32_t tamano_pcb = pcb_calcular_espacio(pcb);
+//
+//	t_buffer* buffer = armar_buffer(tamano_pcb, stream_pcb);
+//	t_paquete* paquete = empaquetar_buffer(buffer,0);
+//
+//	void* a_enviar = malloc(paquete->size);
+//	a_enviar = serializar_paquete(paquete, a_enviar);
+//
+////	Enviar PCB
+//	send(kernel_dispatch, a_enviar, paquete->size, 0);
+
 
 	close(socket_dispatch);
 //	close(socket_interrupt);
