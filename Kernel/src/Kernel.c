@@ -42,7 +42,7 @@ int main() {
 	uint32_t tamano_pcb = pcb_calcular_espacio(pcb);
 
 	t_buffer* buffer = armar_buffer(tamano_pcb, stream_pcb);
-	t_paquete* paquete = empaquetar_buffer(buffer);
+	t_paquete* paquete = empaquetar_buffer(buffer,0);
 
 	void* a_enviar = malloc(paquete->size);
 	a_enviar = serializar_paquete(paquete, a_enviar);

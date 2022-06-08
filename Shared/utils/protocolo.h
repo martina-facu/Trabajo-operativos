@@ -20,6 +20,6 @@ t_buffer* armar_buffer (uint32_t tamano_estructura,void* stream);
 
 void* serializar_paquete(t_paquete* paquete, void* a_enviar);
 
-t_paquete *empaquetar_buffer(t_buffer* buffer);
+t_paquete *empaquetar_buffer(t_buffer* buffer, uint32_t codigo_operacion);
 
 #endif

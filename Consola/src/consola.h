@@ -11,9 +11,6 @@
 #include <commons/string.h>
 #include <commons/config.h>
 #include "../../Shared/utils/instrucciones.h"
-//#include "../../Shared/utils/instrucciones.c"
-//#include "../../Shared/conexion.c"
-//#include "../../Shared/utils/protocolo.c"
 
 
 // leerInstrucciones(argv[0]);

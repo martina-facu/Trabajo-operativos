@@ -29,12 +29,21 @@ t_list* obtener_intrucciones(FILE* input_file) {
 		instruccion->id = id;
 		instruccion->parametros = list_create();
 
-		for (int i = 1; linea[i] != NULL; i++) {
-			parametro = malloc(sizeof(uint32_t));
-			*parametro = atoi(linea[i]);
-			list_add(instruccion->parametros, parametro);
+		if(id == 1){
+			uint32_t* cant = malloc(sizeof(uint32_t));
+			*cant = atoi(linea[1]);
+
+			for (int i = 1; i<=*cant; i++) {
+				list_add(instrucciones, instruccion);
+			}
+		}else{
+			for (int i = 1; linea[i] != NULL; i++) {
+				parametro = malloc(sizeof(uint32_t));
+				*parametro = atoi(linea[i]);
+				list_add(instruccion->parametros, parametro);
+			}
+			list_add(instrucciones, instruccion);
 		}
-		list_add(instrucciones, instruccion);
 	}
 
 	fclose(input_file);
@@ -48,7 +57,7 @@ void* serializar_mensaje(t_list* instrucciones, uint32_t* tamano_proceso,uint32_
 	uint32_t tamano_instrucciones = calcular_espacio_instrucciones(instrucciones);
 
 	t_buffer* buffer = armar_buffer(tamano_instrucciones, stream_instrucciones);
-	t_paquete* paquete = empaquetar_buffer(buffer);
+	t_paquete* paquete = empaquetar_buffer(buffer,0);
 
 	int offset = 0;
 	void* a_enviar = malloc(paquete->size);

@@ -10,16 +10,17 @@ t_buffer* armar_buffer (uint32_t tamano_estructura,void* stream){
 	return buffer;
 }
 
-t_paquete *empaquetar_buffer(t_buffer* buffer){
-	
+t_paquete *empaquetar_buffer(t_buffer* buffer, uint32_t codigo_operacion){
+
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 
-	paquete->codigo_operacion= 1;
+	paquete->codigo_operacion= codigo_operacion;
 	paquete->buffer= buffer;
 	paquete->size = buffer->size+sizeof(uint8_t)+sizeof(uint32_t);
 
 	return paquete;
 }
+
 
 void* serializar_paquete(t_paquete* paquete, void* a_enviar){
 	t_buffer* buffer = paquete->buffer;

@@ -26,13 +26,13 @@ uint8_t definirCodigo(char* id) {
 
 int getCantidadParametros(uint8_t id) {
 	switch (id) {
-	case 1: case 2: case 5:
+	case 2: case 5:
 		return 1;
 		break;
 	case 3: case 4:
 		return 2;
 		break;
-	case 6:
+	case 1: case 6:
 		return 0;
 		break;
 	default:
