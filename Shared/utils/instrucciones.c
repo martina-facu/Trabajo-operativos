@@ -101,19 +101,6 @@ void* armar_stream_instruccion(t_list* instrucciones){
 	return stream;
 }
 
-//t_buffer* intrucciones_armar_buffer (uint32_t tamano_estructura,void* stream){
-//	t_buffer* buffer = malloc(sizeof(t_buffer));
-//
-//	buffer->size = tamano_estructura;
-//
-////	 = malloc(buffer->size);
-////
-////	llenar_stream_instruccion(instrucciones,stream);
-//	buffer->stream=stream;
-//
-//	return buffer;
-//}
-
 void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones){
 	void* stream = buffer->stream;
 	uint32_t* parametro;
@@ -137,8 +124,5 @@ void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones){
 		}
 		list_add(instrucciones,instruccion);
 	}
-
-//	free(&cant_instrucciones);
-//	free(&cant_parametros);
 }
 

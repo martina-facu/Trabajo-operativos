@@ -7,6 +7,8 @@
 #include <pcb.h>
 #include <paquete.h>
 
+bool interrupcion = false;
+
 Pcb* obtener_pcb(int socket_serv, int cliente) {
 
 	t_paquete* paquete = malloc(sizeof(t_paquete));
@@ -94,45 +96,55 @@ int levantar_puerto_interrupt(t_config* config, int* socket_interrupt) {
 	return cliente2;
 }
 
-//Intruccion fetch(){
-//
-//}
-
-int execute(Instruccion* instruccion) {
+int execute(Instruccion* instruccion,t_config* config) { // TODO : encapsular la logica de las instrucciones mas complicadas
 	uint8_t id = instruccion->id;
 	t_list* parametros = instruccion->parametros;
 
+	int catidad_parametros = getCantidadParametros(id);
+	int* parametro1,parametro2 = 0;
+
+	if(catidad_parametros == 1){
+		parametro1 = list_get(parametros,0);
+	}else if(catidad_parametros >= 1){
+		parametro1 = list_get(parametros,0);
+		parametro2 = list_get(parametros,1);
+	}
+
+	int dormir = config_get_int_value(config,"RETARDO_NOOP");
+
 	switch (id) {
 	case 1:
+		dormir = dormir/1000;
+		sleep(dormir);
 		return 0;
 		break;
 	case 2:
-		return 1;
+		return *parametro1;
 		break;
-	case 3:
+	case 3: // TODO : Implementar la instruccion WRITE
 		return 0;
 		break;
-	case 4:
+	case 4: // TODO : Implementar la instruccion COPY
 		return 0;
 		break;
-	case 5:
+	case 5: // TODO : Implementar la instruccion READ
 		return 0;
 		break;
 	case 6:
 		return 1;
 		break;
 	default:
-		printf("\n Se ingreso una operacion incorrecta");
+		printf("\nHUBO UN FALLO EN LA EJECUCION DE LAS INSTRUCCIONES");
 		return -1;
 		break;
 	}
 }
 
 int check_interrupt(){
-	return 0;
+	return interrupcion;
 }
 
-uint8_t ejecutar_ciclo_instrucciones(Pcb* pcb) {
+uint8_t ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config) {
 	t_list* instrucciones = pcb->instrucciones;
 	uint32_t program_counter = pcb->program_counter;
 
@@ -143,20 +155,21 @@ uint8_t ejecutar_ciclo_instrucciones(Pcb* pcb) {
 
 	//decode
 	bool requiere_fetch_operands = false;
-	if (instruccion->id == 3) {
+	if (instruccion->id == 4) {
 		requiere_fetch_operands = true;
 	}
 
+	//fetch_operands
 	if (requiere_fetch_operands) {
 		// TODO: Ir a buscar los fetch operands, seria solo en la instruccion copy, va a ser una llamada a memoria
 		printf("\nES UNA INSTRUCCION COPY");
 		printf("\n");
 	}
 
-	int flag = execute(instruccion);
+	int flag = execute(instruccion,config);
 
 	if (flag != 0) {
-		return 1;
+		return flag;
 	} else {
 		return check_interrupt();
 	}
@@ -214,29 +227,25 @@ int main(void) {
 
 //Recibir pcb de kernel
 
-//	Pcb* pcb = obtener_pcb(socket_dispatch, kernel_dispatch);
 	Pcb* pcb = obtener_pcb(socket_dispatch, kernel_dispatch);
 	pcb_mostrar(pcb);
 
-	uint8_t flag = 0;
+//	Ejecutar ciclo de instrucciones
+	uint32_t flag = 0;
 	while (flag == 0) {
-		flag = ejecutar_ciclo_instrucciones(pcb);
+		flag = ejecutar_ciclo_instrucciones(pcb,config);
 	}
 
-	//devolver_pcb_kernel
-	printf("HAY QUE DEVOLVER EL PCB AL KERNEL");
-	printf("\n");
+//	DEVOLVER PCB AL KERNEL
+//	uint32_t* tamanio_mensaje = malloc(sizeof(uint32_t));
+//
+//	if(flag == 1){
+//		void* a_enviar = pcb_serializar(pcb,tamanio_mensaje);
+//	}else{
+//		void* a_enviar = pcb_serializar(pcb,tamanio_mensaje);
+//	}
 
-//	void* stream_pcb = pcb_armar_stream(pcb);
-//	uint32_t tamano_pcb = pcb_calcular_espacio(pcb);
-//
-//	t_buffer* buffer = armar_buffer(tamano_pcb, stream_pcb);
-//	t_paquete* paquete = empaquetar_buffer(buffer,0);
-//
-//	void* a_enviar = malloc(paquete->size);
-//	a_enviar = serializar_paquete(paquete, a_enviar);
-//
-////	Enviar PCB
+
 //	send(kernel_dispatch, a_enviar, paquete->size, 0);
 
 
