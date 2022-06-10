@@ -40,7 +40,7 @@ int main() {
 //	serializar PCB
 
 	uint32_t* tamanio_mensaje = malloc(sizeof(uint32_t));
-	void* a_enviar = pcb_serializar(pcb,tamanio_mensaje);
+	void* a_enviar = pcb_serializar(pcb,tamanio_mensaje,0);
 
 //	Enviar PCB
 	send(cpu_dispatch, a_enviar, *tamanio_mensaje, 0);

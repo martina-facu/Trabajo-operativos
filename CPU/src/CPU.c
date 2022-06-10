@@ -144,7 +144,7 @@ int check_interrupt(){
 	return interrupcion;
 }
 
-uint8_t ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config) {
+void ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config, uint32_t* flag) {
 	t_list* instrucciones = pcb->instrucciones;
 	uint32_t program_counter = pcb->program_counter;
 
@@ -166,12 +166,10 @@ uint8_t ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config) {
 		printf("\n");
 	}
 
-	int flag = execute(instruccion,config);
+	*flag = execute(instruccion,config);
 
-	if (flag != 0) {
-		return flag;
-	} else {
-		return check_interrupt();
+	if (*flag == 0) {
+		*flag = check_interrupt();
 	}
 }
 
@@ -233,20 +231,27 @@ int main(void) {
 //	Ejecutar ciclo de instrucciones
 	uint32_t flag = 0;
 	while (flag == 0) {
-		flag = ejecutar_ciclo_instrucciones(pcb,config);
+		ejecutar_ciclo_instrucciones(pcb,config,&flag);
 	}
 
 //	DEVOLVER PCB AL KERNEL
-//	uint32_t* tamanio_mensaje = malloc(sizeof(uint32_t));
-//
-//	if(flag == 1){
-//		void* a_enviar = pcb_serializar(pcb,tamanio_mensaje);
-//	}else{
-//		void* a_enviar = pcb_serializar(pcb,tamanio_mensaje);
-//	}
+	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
 
+	if(flag == 1){
+		void* a_enviar = pcb_serializar(pcb,tamano_mensaje,1);
+		send(kernel_dispatch, a_enviar, *tamano_mensaje, 0);
 
-//	send(kernel_dispatch, a_enviar, paquete->size, 0);
+	}else{
+		uint32_t* tiempo_bloqueo = malloc(sizeof(uint32_t));
+		*tiempo_bloqueo = flag;
+
+		void* a_enviar = pcb_serializar(pcb,tamano_mensaje,2);
+		memcpy(a_enviar + *tamano_mensaje, tiempo_bloqueo, sizeof(uint32_t));
+
+		*tamano_mensaje = *tamano_mensaje + sizeof(uint32_t);
+
+		send(kernel_dispatch, a_enviar, *tamano_mensaje, 0);
+	}
 
 
 	close(socket_dispatch);

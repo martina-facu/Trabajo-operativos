@@ -31,6 +31,6 @@ void pcb_mostrar(Pcb* pcb);
 
 uint32_t pcb_calcular_espacio(Pcb* pcb);
 
-void* pcb_serializar(Pcb* pcb, uint32_t* tamano_mensaje);
+void* pcb_serializar(Pcb* pcb, uint32_t* tamano_mensaje, uint32_t codigo_operacion);
 
 #endif

@@ -59,12 +59,12 @@ void *pcb_armar_stream(Pcb *pcb) {
 }
 ;
 
-void* pcb_serializar(Pcb* pcb, uint32_t* tamano_mensaje){
+void* pcb_serializar(Pcb* pcb, uint32_t* tamano_mensaje, uint32_t codigo_operacion){
 	void* stream_pcb = pcb_armar_stream(pcb);
 	uint32_t tamano_pcb = pcb_calcular_espacio(pcb);
 
 	t_buffer* buffer = armar_buffer(tamano_pcb, stream_pcb);
-	t_paquete* paquete = empaquetar_buffer(buffer, 0);
+	t_paquete* paquete = empaquetar_buffer(buffer, codigo_operacion);
 
 	void* a_enviar = malloc(paquete->size);
 	a_enviar = serializar_paquete(paquete, a_enviar);
