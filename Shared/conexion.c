@@ -31,8 +31,6 @@ int crear_conexion(char *ip, char* puerto)
 
 int iniciar_servidor(char *ip, char* puerto_escucha)
 {
-	// Quitar esta línea cuando hayamos terminado de implementar la funcion
-
 	struct addrinfo hints, *servinfo;
 
 	memset(&hints, 0, sizeof(hints));
@@ -40,7 +38,7 @@ int iniciar_servidor(char *ip, char* puerto_escucha)
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 
-	getaddrinfo(ip, puerto_escucha, &hints, &servinfo); // TODO : hacer que lea del archivo bien el puerto
+	getaddrinfo(ip, puerto_escucha, &hints, &servinfo);
 
 	// Creamos el socket de escucha del servidor
 	int socketserv=socket(servinfo->ai_family,servinfo->ai_socktype,servinfo->ai_protocol);

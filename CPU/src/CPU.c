@@ -24,8 +24,10 @@ void ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config, uint32_t* flag) {
 		printf("\n");
 	}
 
+	//execute
 	*flag = execute(instruccion,config);
 
+	//check interrupt
 	if (*flag == 0) {
 		*flag = interrupcion;
 	}
@@ -62,27 +64,26 @@ int main(void) {
 	send(kernel_dispatch, &handshake, sizeof(uint8_t), 0);
 
 //	Interrupt
-//	char* puerto_interrupt = config_get_string_value(config,
-//			"PUERTO_ESCUCHA_INTERRUPT");
-//	printf("\nPuerto interrupt %s", puerto_interrupt);
-//
-//	int socket_interrupt = iniciar_servidor("127.0.0.1", puerto_interrupt);
-//	printf("\nSocket %d", socket_interrupt);
-//
-//	int cliente2 = esperar_cliente(socket_interrupt);
-//	printf("\nCliente: %d", cliente2);
-//
-//	uint8_t mensaje1 = 0;
-//
-//	recv(cliente2, &mensaje1, sizeof(uint8_t), 0);
-//	printf("\nMensaje recibido interrupt: %d", mensaje1);
-//	printf("\n");
-//
-//	uint8_t handshake1 = 5;
-//	send(cliente2, &handshake1, sizeof(uint8_t), 0);
+	char* puerto_interrupt = config_get_string_value(config,
+			"PUERTO_ESCUCHA_INTERRUPT");
+	printf("\nPuerto interrupt %s", puerto_interrupt);
 
-//Recibir pcb de kernel
+	int socket_interrupt = iniciar_servidor("127.0.0.1", puerto_interrupt);
+	printf("\nSocket %d", socket_interrupt);
 
+	int kernel_interrupt = esperar_cliente(socket_interrupt);
+	printf("\nCliente: %d", kernel_interrupt);
+
+	uint8_t mensaje1 = 0;
+
+	recv(kernel_interrupt, &mensaje1, sizeof(uint8_t), 0);
+	printf("\nMensaje recibido interrupt: %d", kernel_interrupt);
+	printf("\n");
+
+	uint8_t handshake1 = 5;
+	send(kernel_interrupt, &handshake1, sizeof(uint8_t), 0);
+
+//	Recibir pcb del kernel
 	Pcb* pcb = obtener_pcb(socket_dispatch, kernel_dispatch);
 	pcb_mostrar(pcb);
 
@@ -111,9 +112,9 @@ int main(void) {
 		send(kernel_dispatch, a_enviar, *tamano_mensaje, 0);
 	}
 
-
-	close(socket_dispatch);
-//	close(socket_interrupt);
+//	Cierro conexiones
 	close(conexion_memoria);
+	close(socket_dispatch);
+	close(socket_interrupt);
 	return EXIT_SUCCESS;
 }
