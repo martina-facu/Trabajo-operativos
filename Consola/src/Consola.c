@@ -20,7 +20,9 @@ t_list* obtener_intrucciones(FILE* input_file) {
 
 	t_list* instrucciones = list_create();
 	uint32_t* parametro;
-	while (getline(&contents, &len, input_file) != -1) { //contents = contenido de la linea
+	uint32_t* cant = malloc(sizeof(uint32_t));
+
+	while (getline(&contents, &len, input_file) != -1) {
 		char** linea = string_split(contents, " ");
 		char* nombre = linea[0];
 		uint8_t id = definirCodigo(nombre);
@@ -29,33 +31,40 @@ t_list* obtener_intrucciones(FILE* input_file) {
 		instruccion->id = id;
 		instruccion->parametros = list_create();
 
-		for (int i = 1; linea[i] != NULL; i++) {
-			parametro = malloc(sizeof(uint32_t));
-			*parametro = atoi(linea[i]);
-			list_add(instruccion->parametros, parametro);
+		if(id == 1){
+			*cant = atoi(linea[1]);
+
+			for (int i = 1; i<=*cant; i++) {
+				list_add(instrucciones, instruccion);
+			}
+		}else{
+			for (int i = 1; linea[i] != NULL; i++) {
+				parametro = malloc(sizeof(uint32_t));
+				*parametro = atoi(linea[i]);
+				list_add(instruccion->parametros, parametro);
+			}
+			list_add(instrucciones, instruccion);
 		}
-		list_add(instrucciones, instruccion);
 	}
 
 	fclose(input_file);
 	free(contents);
+	free(cant);
 
 	return instrucciones;
 }
 
 void* serializar_mensaje(t_list* instrucciones, uint32_t* tamano_proceso,uint32_t* tamano_mensaje) {
 	void* stream_instrucciones = armar_stream_instruccion(instrucciones);
-	uint32_t tamano_instrucciones = calcular_espacio_instrucciones(instrucciones);
+	int tamano_instrucciones = calcular_espacio_instrucciones(instrucciones);
 
 	t_buffer* buffer = armar_buffer(tamano_instrucciones, stream_instrucciones);
-	t_paquete* paquete = empaquetar_buffer(buffer);
+	t_paquete* paquete = empaquetar_buffer(buffer,0);
 
-	int offset = 0;
-	void* a_enviar = malloc(paquete->size);
+	void* a_enviar = malloc(paquete->size + sizeof(uint32_t));
 	a_enviar = serializar_paquete(paquete, a_enviar);
 
-	offset += paquete->size;
-	memcpy(a_enviar + offset, tamano_proceso, sizeof(uint32_t));
+	memcpy(a_enviar + paquete->size, tamano_proceso, sizeof(uint32_t));
 
 	*tamano_mensaje = paquete->size + sizeof(uint32_t);
 
@@ -69,7 +78,7 @@ int main(int argc, char *argv[]) {
 	uint32_t* tamano_proceso = malloc(sizeof(uint32_t));
 	*tamano_proceso = atoi(argv[2]);
 
-	FILE* input_file = fopen(filename, "r"); //"instrucciones.txt"
+	FILE* input_file = fopen(filename, "r");
 
 	if (input_file == NULL) {
 		perror("error al leer el archivo");
@@ -85,7 +94,7 @@ int main(int argc, char *argv[]) {
 	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
 	void* a_enviar = serializar_mensaje(instrucciones,tamano_proceso,tamano_mensaje);
 
-	// ------------------------------------------------------------------------------ CONEXION ----------------------------------------------------------------------------------------//
+	// ---------------------------------------------------------------------------- CONEXION ----------------------------------------------------------------------------------------//
 	t_config* config = config_create("consola.config");
 	char* ip = config_get_string_value(config, "IP_KERNEL");
 	char* puerto = config_get_string_value(config, "PUERTO_KERNEL");

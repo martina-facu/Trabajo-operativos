@@ -10,16 +10,17 @@ t_buffer* armar_buffer (uint32_t tamano_estructura,void* stream){
 	return buffer;
 }
 
-t_paquete *empaquetar_buffer(t_buffer* buffer){
-	
+t_paquete* empaquetar_buffer(t_buffer* buffer, uint8_t codigo_operacion){
+
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 
-	paquete->codigo_operacion= 1;
+	paquete->codigo_operacion= codigo_operacion;
 	paquete->buffer= buffer;
 	paquete->size = buffer->size+sizeof(uint8_t)+sizeof(uint32_t);
 
 	return paquete;
 }
+
 
 void* serializar_paquete(t_paquete* paquete, void* a_enviar){
 	t_buffer* buffer = paquete->buffer;
@@ -30,7 +31,7 @@ void* serializar_paquete(t_paquete* paquete, void* a_enviar){
 	offset += sizeof(uint8_t);
 	memcpy(a_enviar + offset, &(buffer->size), sizeof(uint32_t));
 	offset += sizeof(uint32_t);
-	memcpy(a_enviar + offset, buffer->stream, buffer->size); // TODO : Arreglar bug, el proceso rompe cuando ser trata de serializar el paquete el PCB
+	memcpy(a_enviar + offset, buffer->stream, buffer->size);
 
 	return a_enviar;
 }

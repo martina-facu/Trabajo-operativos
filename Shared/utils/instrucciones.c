@@ -26,13 +26,13 @@ uint8_t definirCodigo(char* id) {
 
 int getCantidadParametros(uint8_t id) {
 	switch (id) {
-	case 1: case 2: case 5:
+	case 2: case 5:
 		return 1;
 		break;
 	case 3: case 4:
 		return 2;
 		break;
-	case 6:
+	case 1: case 6:
 		return 0;
 		break;
 	default:
@@ -53,8 +53,8 @@ void mostrar_parametros(t_list* list){
 }
 void mostrar_instrucciones(t_list* list){
 	int aux = list_size(list);
-	Instruccion* instruccion = malloc(sizeof(instruccion));
-	char* nombre[6]={"NO_OP", "I/O", "WRITE", "COPY", "READ", "EXIT"};
+	Instruccion* instruccion = malloc(sizeof(Instruccion));
+	char* nombre[6]={"NO_OP", "I/O", "WRITE", "COPY", "READ", "EXIT"}; // TODO: Liberar la memoria de este array
 
 
 	for(int i=0;i<aux;i++){
@@ -62,6 +62,7 @@ void mostrar_instrucciones(t_list* list){
 		printf("\nEl codigo de la instruccion es: %d , nombre: %s \n cantidad de parametros: %d parametros: ", instruccion->id, nombre[(instruccion->id)-1], getCantidadParametros(instruccion->id));
 		mostrar_parametros(instruccion->parametros);
 	}
+
 }
 
 int calcular_espacio_instrucciones(t_list* instrucciones){
@@ -101,19 +102,6 @@ void* armar_stream_instruccion(t_list* instrucciones){
 	return stream;
 }
 
-//t_buffer* intrucciones_armar_buffer (uint32_t tamano_estructura,void* stream){
-//	t_buffer* buffer = malloc(sizeof(t_buffer));
-//
-//	buffer->size = tamano_estructura;
-//
-////	 = malloc(buffer->size);
-////
-////	llenar_stream_instruccion(instrucciones,stream);
-//	buffer->stream=stream;
-//
-//	return buffer;
-//}
-
 void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones){
 	void* stream = buffer->stream;
 	uint32_t* parametro;
@@ -137,8 +125,5 @@ void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones){
 		}
 		list_add(instrucciones,instruccion);
 	}
-
-//	free(&cant_instrucciones);
-//	free(&cant_parametros);
 }
 

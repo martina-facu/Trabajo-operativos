@@ -29,6 +29,4 @@ int levantar_conexion_dispacher(t_config* config);
 
 int levantar_conexion_interrupt(t_config* config);
 
-
-
 #endif

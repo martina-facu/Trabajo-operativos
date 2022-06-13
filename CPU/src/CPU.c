@@ -1,82 +1,73 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <commons/collections/list.h>
-#include <commons/string.h>
-#include <commons/config.h>
-#include <conexion.h>
-#include <pcb.h>
-#include <paquete.h>
+#include "utils.h"
 
-Pcb* obtener_pcb(int socket_serv, int cliente) {
+uint32_t interrupcion = 0;
 
-	t_paquete* paquete = malloc(sizeof(t_paquete));
+void ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config, bool* devolver_pcb) {
+	t_list* instrucciones = pcb->instrucciones;
+	uint32_t program_counter = pcb->program_counter;
 
-	paquete->buffer = malloc(sizeof(t_buffer));
-	t_buffer* buffer = paquete->buffer;
+	//fetch
+	Instruccion* instruccion = list_get(instrucciones,program_counter);
+	program_counter++;
+	pcb->program_counter = program_counter;
 
-	//recibimos el codigo del tipo de mensaje que nos llega
-	recv(cliente, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
+	//decode
+	bool requiere_fetch_operands = false;
+	if (instruccion->id == 4) {
+		requiere_fetch_operands = true;
+	}
 
-	//recibo el tamaño del paquete
-	recv(cliente, &(buffer->size), sizeof(uint32_t), 0);
+	//fetch_operands
+	if (requiere_fetch_operands) {
+		// TODO: Ir a buscar los fetch operands, seria solo en la instruccion copy, va a ser una llamada a memoria
+		printf("\nES UNA INSTRUCCION COPY");
+		printf("\n");
+	}
 
-	//recibo el buffer con el pcb
-	buffer->stream = malloc(buffer->size);
-	recv(cliente, buffer->stream, buffer->size, 0);
+	//execute
+	*devolver_pcb = execute(instruccion,config,pcb);
 
-	Pcb* pcb = pcb_deserializar(buffer);
-
-	return pcb;
+	//check interrupt
+	if (*devolver_pcb == false) {
+		*devolver_pcb = interrupcion;
+	}
 }
 
 int main(void) {
 	t_config* config = config_create("cpu.config");
+	int socket_dispatch = 0;
+	int socket_interrupt = 0;
+	uint32_t cantidad_entradas, tamano_pagina = 0;
 
-//	Dispatch
-	char* puerto_dispatch = config_get_string_value(config,"PUERTO_ESCUCHA_DISPATCH");
-	printf("\nPuerto escucha %s", puerto_dispatch);
+//	Iniciar conexiones
+	int conexion_memoria = levantar_conexion_memoria(config,&cantidad_entradas,&tamano_pagina);
+	int kernel_dispatch = levantar_canal_dispatch(config, &socket_dispatch);
+	int kernel_interrupt = levantar_puerto_interrupt(config, &socket_interrupt);
 
-	int socket_dispatch = iniciar_servidor("127.0.0.1", puerto_dispatch);
-	printf("\nSocket %d", socket_dispatch);
+//	Obtener informacion de memoria
+	// cantidad de entradas por tabla de páginas y tamaño de página.
 
-	int cliente1 = esperar_cliente(socket_dispatch);
-	printf("\nCliente: %d", cliente1);
-	printf("\n");
 
-	uint8_t mensaje = 0;
-	recv(cliente1, &mensaje, sizeof(uint8_t), 0);
-	printf("Mensaje recibido dispatch: %d", mensaje);
-	printf("\n");
-
-	uint8_t handshake = 4;
-
-	send(cliente1, &handshake, sizeof(uint8_t), 0);
-
-//	Interrupt
-	char* puerto_interrupt = config_get_string_value(config,"PUERTO_ESCUCHA_INTERRUPT");
-	printf("\nPuerto interrupt %s", puerto_interrupt);
-
-	int socket_interrupt = iniciar_servidor("127.0.0.1", puerto_interrupt);
-	printf("\nSocket %d", socket_interrupt);
-
-	int cliente2 = esperar_cliente(socket_interrupt);
-	printf("\nCliente: %d", cliente2);
-
-	uint8_t mensaje1 = 0;
-
-	recv(cliente2, &mensaje1, sizeof(uint8_t), 0);
-	printf("\nMensaje recibido interrupt: %d", mensaje1);
-	printf("\n");
-
-	uint8_t handshake1 = 5;
-	send(cliente2, &handshake1, sizeof(uint8_t), 0);
-
-//Recibir pcb de kernel
-
-	Pcb* pcb = obtener_pcb(socket_dispatch, cliente1);
+//	Recibir pcb del kernel
+	Pcb* pcb = obtener_pcb(socket_dispatch, kernel_dispatch);
 	pcb_mostrar(pcb);
 
+//	Ejecutar ciclo de instrucciones
+	bool devolver_pcb = false;
+	while (devolver_pcb == false) {
+		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
+	}
+
+	pcb_mostrar(pcb);
+
+//	DEVOLVER PCB AL KERNEL
+	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
+	void* a_enviar = pcb_serializar(pcb,tamano_mensaje,1);
+	send(kernel_dispatch, a_enviar, *tamano_mensaje, 0);
+
+//	Cierro conexiones
+	close(conexion_memoria);
 	close(socket_dispatch);
-//	close(socket_interrupt);
+	close(socket_interrupt);
 	return EXIT_SUCCESS;
 }
