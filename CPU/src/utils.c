@@ -22,7 +22,7 @@ Pcb* obtener_pcb(int socket_serv, int cliente) {
 	return pcb;
 }
 
-int levantar_conexion_memoria(t_config* config) {
+int levantar_conexion_memoria(t_config* config, uint32_t* cantidad_entradas,uint32_t* tamano_pagina) {
 	char * ip_memoria = malloc(sizeof(char) * 30);
 	strcpy(ip_memoria, config_get_string_value(config, "IP_MEMORIA"));
 	printf("\nIp de la memoria: %s", ip_memoria);
@@ -36,6 +36,10 @@ int levantar_conexion_memoria(t_config* config) {
 	uint8_t respuesta_memoria = 0;
 	recv(conexion_memoria, &respuesta_memoria, sizeof(uint8_t), 0);
 	printf("\nMensaje recibido de la memoria: %d", respuesta_memoria);
+
+//	TODO: descomentar estas lineas cuando se implemente la parte de la memoria
+//	recv(conexion_memoria, cantidad_entradas, sizeof(uint32_t), 0);
+//	recv(conexion_memoria, tamano_pagina, sizeof(uint32_t), 0);
 
 	return conexion_memoria;
 }
@@ -87,7 +91,7 @@ int levantar_puerto_interrupt(t_config* config, int* socket_interrupt) {
 	return cliente2;
 }
 
-int execute(Instruccion* instruccion,t_config* config, Pcb* pcb) { // TODO : encapsular la logica de las instrucciones mas complicadas
+bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb) { // TODO : encapsular la logica de las instrucciones mas complicadas
 	uint8_t id = instruccion->id;
 	t_list* parametros = instruccion->parametros;
 
@@ -105,30 +109,30 @@ int execute(Instruccion* instruccion,t_config* config, Pcb* pcb) { // TODO : enc
 
 	switch (id) {
 	case 1:
-		//dormir = dormir/1000;
-		usleep(dormir);
-		return 0;
+		dormir = dormir/1000;
+		sleep(dormir);
+		return false;
 		break;
 	case 2:
 		pcb->estado = BLOQUEADO;
 		pcb->tiempo_bloqueo = *parametro1;
-		return 1;
+		return true;
 		break;
 	case 3: // TODO : Implementar la instruccion WRITE
-		return 0;
+		return false;
 		break;
 	case 4: // TODO : Implementar la instruccion COPY
-		return 0;
+		return false;
 		break;
 	case 5: // TODO : Implementar la instruccion READ
-		return 0;
+		return false;
 		break;
 	case 6:
-		return 1;
+		return true;
 		break;
 	default:
 		printf("\nHUBO UN FALLO EN LA EJECUCION DE LAS INSTRUCCIONES");
-		return -1;
+		return true;
 		break;
 	}
 }

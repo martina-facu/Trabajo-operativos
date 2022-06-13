@@ -12,12 +12,12 @@
 
 Pcb* obtener_pcb(int socket_serv, int cliente);
 
-int levantar_conexion_memoria(t_config* config);
+int levantar_conexion_memoria(t_config* config, uint32_t* cantidad_entradas,uint32_t* tamano_pagina);
 
 int levantar_canal_dispatch(t_config* config, int* socket_dispatch);
 
 int levantar_puerto_interrupt(t_config* config, int* socket_interrupt);
 
-int execute(Instruccion* instruccion,t_config* config, Pcb* pcb);
+bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb);
 
 #endif

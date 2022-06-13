@@ -2,7 +2,7 @@
 
 uint32_t interrupcion = 0;
 
-void ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config, uint32_t* flag) {
+void ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config, bool* devolver_pcb) {
 	t_list* instrucciones = pcb->instrucciones;
 	uint32_t program_counter = pcb->program_counter;
 
@@ -25,11 +25,11 @@ void ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config, uint32_t* flag) {
 	}
 
 	//execute
-	*flag = execute(instruccion,config,pcb);
+	*devolver_pcb = execute(instruccion,config,pcb);
 
 	//check interrupt
-	if (*flag == 0) {
-		*flag = interrupcion;
+	if (*devolver_pcb == false) {
+		*devolver_pcb = interrupcion;
 	}
 }
 
@@ -37,22 +37,29 @@ int main(void) {
 	t_config* config = config_create("cpu.config");
 	int socket_dispatch = 0;
 	int socket_interrupt = 0;
+	uint32_t cantidad_entradas, tamano_pagina = 0;
 
-	int conexion_memoria = levantar_conexion_memoria(config);
+//	Iniciar conexiones
+	int conexion_memoria = levantar_conexion_memoria(config,&cantidad_entradas,&tamano_pagina);
 	int kernel_dispatch = levantar_canal_dispatch(config, &socket_dispatch);
 	int kernel_interrupt = levantar_puerto_interrupt(config, &socket_interrupt);
+
+//	Obtener informacion de memoria
+	// cantidad de entradas por tabla de páginas y tamaño de página.
+
 
 //	Recibir pcb del kernel
 	Pcb* pcb = obtener_pcb(socket_dispatch, kernel_dispatch);
 	pcb_mostrar(pcb);
 
 //	Ejecutar ciclo de instrucciones
-	uint32_t devolver_pcb = 0;
-	while (devolver_pcb == 0) {
+	bool devolver_pcb = false;
+	while (devolver_pcb == false) {
 		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
 	}
 
 	pcb_mostrar(pcb);
+
 //	DEVOLVER PCB AL KERNEL
 	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
 	void* a_enviar = pcb_serializar(pcb,tamano_mensaje,1);
