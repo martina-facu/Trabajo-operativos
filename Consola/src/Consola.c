@@ -20,6 +20,7 @@ t_list* obtener_intrucciones(FILE* input_file) {
 
 	t_list* instrucciones = list_create();
 	uint32_t* parametro;
+	uint32_t* cant = malloc(sizeof(uint32_t));
 
 	while (getline(&contents, &len, input_file) != -1) {
 		char** linea = string_split(contents, " ");
@@ -31,7 +32,6 @@ t_list* obtener_intrucciones(FILE* input_file) {
 		instruccion->parametros = list_create();
 
 		if(id == 1){
-			uint32_t* cant = malloc(sizeof(uint32_t));
 			*cant = atoi(linea[1]);
 
 			for (int i = 1; i<=*cant; i++) {
@@ -49,6 +49,7 @@ t_list* obtener_intrucciones(FILE* input_file) {
 
 	fclose(input_file);
 	free(contents);
+	free(cant);
 
 	return instrucciones;
 }

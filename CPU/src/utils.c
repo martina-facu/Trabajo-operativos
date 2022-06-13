@@ -87,7 +87,7 @@ int levantar_puerto_interrupt(t_config* config, int* socket_interrupt) {
 	return cliente2;
 }
 
-int execute(Instruccion* instruccion,t_config* config) { // TODO : encapsular la logica de las instrucciones mas complicadas
+int execute(Instruccion* instruccion,t_config* config, Pcb* pcb) { // TODO : encapsular la logica de las instrucciones mas complicadas
 	uint8_t id = instruccion->id;
 	t_list* parametros = instruccion->parametros;
 
@@ -105,12 +105,14 @@ int execute(Instruccion* instruccion,t_config* config) { // TODO : encapsular la
 
 	switch (id) {
 	case 1:
-		dormir = dormir/1000;
-		sleep(dormir);
+		//dormir = dormir/1000;
+		usleep(dormir);
 		return 0;
 		break;
 	case 2:
-		return *parametro1;
+		pcb->estado = BLOQUEADO;
+		pcb->tiempo_bloqueo = *parametro1;
+		return 1;
 		break;
 	case 3: // TODO : Implementar la instruccion WRITE
 		return 0;

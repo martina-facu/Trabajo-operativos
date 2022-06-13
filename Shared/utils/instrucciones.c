@@ -53,8 +53,8 @@ void mostrar_parametros(t_list* list){
 }
 void mostrar_instrucciones(t_list* list){
 	int aux = list_size(list);
-	Instruccion* instruccion = malloc(sizeof(instruccion));
-	char* nombre[6]={"NO_OP", "I/O", "WRITE", "COPY", "READ", "EXIT"};
+	Instruccion* instruccion = malloc(sizeof(Instruccion));
+	char* nombre[6]={"NO_OP", "I/O", "WRITE", "COPY", "READ", "EXIT"}; // TODO: Liberar la memoria de este array
 
 
 	for(int i=0;i<aux;i++){
@@ -62,6 +62,7 @@ void mostrar_instrucciones(t_list* list){
 		printf("\nEl codigo de la instruccion es: %d , nombre: %s \n cantidad de parametros: %d parametros: ", instruccion->id, nombre[(instruccion->id)-1], getCantidadParametros(instruccion->id));
 		mostrar_parametros(instruccion->parametros);
 	}
+
 }
 
 int calcular_espacio_instrucciones(t_list* instrucciones){

@@ -59,7 +59,6 @@ int main() {
 //	pcb = pcb_deserializar(buffer);
 //	pcb_mostrar(pcb);
 
-
 	avisar_proceso_finalizado(cliente);
 
 //	Cerrar conexiones

@@ -42,7 +42,7 @@ Pcb* crear_pcb(t_list* instrucciones, uint32_t tamano_proceso, t_config* config,
 	tabla_paginas->numero_pagina = 0;
 
 	Pcb* pcb = pcb_create(id_proceso, tamano_proceso,
-			tabla_paginas, estimacion_inicial, instrucciones);
+			tabla_paginas, estimacion_inicial, instrucciones,INICIADO,0);
 	return pcb;
 }
 

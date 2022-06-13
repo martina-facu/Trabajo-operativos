@@ -18,6 +18,6 @@ int levantar_canal_dispatch(t_config* config, int* socket_dispatch);
 
 int levantar_puerto_interrupt(t_config* config, int* socket_interrupt);
 
-int execute(Instruccion* instruccion,t_config* config);
+int execute(Instruccion* instruccion,t_config* config, Pcb* pcb);
 
 #endif
