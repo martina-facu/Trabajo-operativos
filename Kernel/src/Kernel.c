@@ -46,18 +46,22 @@ int main() {
 	send(cpu_dispatch, a_enviar, *tamanio_mensaje, 0);
 
 //	RECIBO PCB CPU
-//	//recibimos el codigo del tipo de mensaje que nos llega
-//	recv(cpu_dispatch, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
-//
-//	//recibo el tamaño del paquete
-//	recv(cpu_dispatch, &(buffer->size), sizeof(uint32_t), 0);
-//
-//	//recibo el buffer con el pcb
-//	buffer->stream = malloc(buffer->size);
-//	recv(cpu_dispatch, buffer->stream, buffer->size, 0);
-//
-//	pcb = pcb_deserializar(buffer);
-//	pcb_mostrar(pcb);
+	t_paquete* paquete = malloc(sizeof(t_paquete));
+
+	paquete->buffer = malloc(sizeof(t_buffer));
+	t_buffer* buffer = paquete->buffer;
+	//recibimos el codigo del tipo de mensaje que nos llega
+	recv(cpu_dispatch, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
+
+	//recibo el tamaño del paquete
+	recv(cpu_dispatch, &(buffer->size), sizeof(uint32_t), 0);
+
+	//recibo el buffer con el pcb
+	buffer->stream = malloc(buffer->size);
+	recv(cpu_dispatch, buffer->stream, buffer->size, 0);
+
+	pcb = pcb_deserializar(buffer);
+	pcb_mostrar(pcb);
 
 	avisar_proceso_finalizado(cliente);
 
