@@ -17,6 +17,8 @@ typedef struct {
 	uint8_t id;
 } Instruccion;
 
+typedef enum {NO_VALIDO, NO_OP, I_O,WRITE, COPY, READ, EXIT} INSTRUCCION;
+
 
 void mostrar_parametros(t_list* list);
 

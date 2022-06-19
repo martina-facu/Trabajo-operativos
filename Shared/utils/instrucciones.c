@@ -3,22 +3,22 @@
 
 uint8_t definirCodigo(char* id) {
 	if (string_contains(id, "NO_OP")) {
-		return 1;
+		return NO_OP;
 	}
 	if (string_contains(id, "I/O")) {
-		return 2;
+		return I_O;
 	}
 	if (string_contains(id, "WRITE")) {
-		return 3;
+		return WRITE;
 	}
 	if (string_contains(id, "COPY")) {
-		return 4;
+		return COPY;
 	}
 	if (string_contains(id, "READ")) {
-		return 5;
+		return READ;
 	}
 	if (string_contains(id, "EXIT")) {
-		return 6;
+		return EXIT;
 	}else{
 		return -1;
 	}
@@ -26,13 +26,13 @@ uint8_t definirCodigo(char* id) {
 
 int getCantidadParametros(uint8_t id) {
 	switch (id) {
-	case 2: case 5:
+	case I_O: case READ:
 		return 1;
 		break;
-	case 3: case 4:
+	case WRITE: case COPY:
 		return 2;
 		break;
-	case 1: case 6:
+	case NO_OP: case EXIT:
 		return 0;
 		break;
 	default:
