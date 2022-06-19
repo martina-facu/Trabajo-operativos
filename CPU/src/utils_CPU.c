@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "utils_CPU.h"
 
 Pcb* obtener_pcb(int socket_serv, int cliente) {
 

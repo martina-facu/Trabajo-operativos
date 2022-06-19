@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "utils_CPU.h"
 
 uint32_t interrupcion = 0;
 
@@ -34,40 +34,47 @@ void ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config, bool* devolver_pcb)
 }
 
 int main(void) {
-	t_config* config = config_create("cpu.config");
-	int socket_dispatch = 0;
-	int socket_interrupt = 0;
-	uint32_t cantidad_entradas, tamano_pagina = 0;
-
+//	t_config* config = config_create("cpu.config");
+//	int socket_dispatch = 0;
+//	int socket_interrupt = 0;
+//	uint32_t cantidad_entradas, tamano_pagina = 0;
+//
 //	Iniciar conexiones
-	int conexion_memoria = levantar_conexion_memoria(config,&cantidad_entradas,&tamano_pagina);
-	int kernel_dispatch = levantar_canal_dispatch(config, &socket_dispatch);
-	int kernel_interrupt = levantar_puerto_interrupt(config, &socket_interrupt);
+//	int conexion_memoria = levantar_conexion_memoria(config,&cantidad_entradas,&tamano_pagina);
+//	int kernel_dispatch = levantar_canal_dispatch(config, &socket_dispatch);
+//	int kernel_interrupt = levantar_puerto_interrupt(config, &socket_interrupt);
 
-//	Obtener informacion de memoria
-	// cantidad de entradas por tabla de páginas y tamaño de página.
+//	Manejo de TLB
+	t_list* tlb = crear_tabla_prueba();
+	float* pagina = malloc(sizeof(float));
+	*pagina = 1;
+	uint32_t marco =  buscar_marco(pagina,tlb);
+
+	printf("El marco es %d", marco);
 
 
-//	Recibir pcb del kernel
-	Pcb* pcb = obtener_pcb(socket_dispatch, kernel_dispatch);
-	pcb_mostrar(pcb);
 
-//	Ejecutar ciclo de instrucciones
-	bool devolver_pcb = false;
-	while (devolver_pcb == false) {
-		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
-	}
 
-	pcb_mostrar(pcb);
-
-//	DEVOLVER PCB AL KERNEL
-	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
-	void* a_enviar = pcb_serializar(pcb,tamano_mensaje,1);
-	send(kernel_dispatch, a_enviar, *tamano_mensaje, 0);
-
-//	Cierro conexiones
-	close(conexion_memoria);
-	close(socket_dispatch);
-	close(socket_interrupt);
+////	Recibir pcb del kernel
+//	Pcb* pcb = obtener_pcb(socket_dispatch, kernel_dispatch);
+//	pcb_mostrar(pcb);
+//
+////	Ejecutar ciclo de instrucciones
+//	bool devolver_pcb = false;
+//	while (devolver_pcb == false) {
+//		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
+//	}
+//
+//	pcb_mostrar(pcb);
+//
+////	DEVOLVER PCB AL KERNEL
+//	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
+//	void* a_enviar = pcb_serializar(pcb,tamano_mensaje,1);
+//	send(kernel_dispatch, a_enviar, *tamano_mensaje, 0);
+//
+////	Cierro conexiones
+//	close(conexion_memoria);
+//	close(socket_dispatch);
+//	close(socket_interrupt);
 	return EXIT_SUCCESS;
 }
