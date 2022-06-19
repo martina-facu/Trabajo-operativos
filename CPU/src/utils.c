@@ -1,6 +1,7 @@
 #include "utils.h"
 
-Pcb* obtener_pcb(int socket_serv, int cliente) {
+Pcb* obtener_pcb(int cliente)
+{
 
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 
@@ -22,7 +23,9 @@ Pcb* obtener_pcb(int socket_serv, int cliente) {
 	return pcb;
 }
 
-int levantar_conexion_memoria(t_config* config, uint32_t* cantidad_entradas,uint32_t* tamano_pagina) {
+
+int levantar_conexion_memoria(t_config* config, uint32_t* cantidad_entradas,uint32_t* tamano_pagina)
+{
 	char * ip_memoria = malloc(sizeof(char) * 30);
 	strcpy(ip_memoria, config_get_string_value(config, "IP_MEMORIA"));
 	printf("\nIp de la memoria: %s", ip_memoria);
@@ -43,6 +46,262 @@ int levantar_conexion_memoria(t_config* config, uint32_t* cantidad_entradas,uint
 
 	return conexion_memoria;
 }
+
+/*
+ *  Funcion: thread_dispatch
+ *  Entradas: void *fdConsola
+ *  Salidas: void
+ *  Razon: 	Funcion para la recepcion de la informacion de la consola que se conecto
+ *  		y luego informarle a la misma cuando finalizo su proceso.
+ *  		¡¡¡¡¡ Hay que tener cuidado cuando se toque la lista de PCB existentes !!!!!
+ *  Author: Grupo 99
+ */
+
+/* Process to receive client message function */
+//void *thread_dispatch(void *parameter)
+//{
+////	int nbytes;
+//	int *fdServerDispatch;
+////	char *msg;
+//	//	Inicializo en cero el contador de conexiones concurrentes
+//	int connection = 0;
+//
+//	//	Leo los parametros recibidos al momento de creacion del Thread
+//	fdServerDispatch = (int *) parameter;
+//
+//	//	Acepto la conexion del cliente que se conecta
+//	//	ESTO TIENE QUE IR DESPUES EN EL THREAD!!!!!!!!!!!!!!!!!!
+//	fdDispatch = esperar_cliente(*fdServerDispatch);
+//	log_info(logger, "Acepto un Dispatch Kernel en: %d", fdDispatch);
+//
+//	while (true)
+//	{
+//		 // Valido si llegue al limite de concurrencia en el Dispatch
+//		 if (connection < CONCURRENT_CONNECTION)
+//		 {
+//			//	Acepto la conexion del cliente que se conecta
+//			//	ESTO TIENE QUE IR DESPUES EN EL THREAD!!!!!!!!!!!!!!!!!!
+//			fdDispatch = esperar_cliente(*socket);
+//			log_info(logger, "Acepto un nuevo Dispatch Kernel en: %d", fdDispatch);
+//		 }
+//		 else
+//		 {
+//				//	Defino el mensaje a recibir (y lo recibo) del cliente cuando se conecta
+//				uint8_t mensaje = 0;
+//				recv(fdDispatch, &mensaje, sizeof(uint8_t), 0);
+//				log_info("Mensaje recibido dispatch: %d", mensaje);
+//
+//				//	Defino y envio Handshake
+//				uint8_t handshake = 4;
+//				send(fdDispatch, &handshake, sizeof(uint8_t), 0);
+//		 }
+//
+//
+//
+//
+//	}
+//
+//
+//
+//
+//
+//
+//	printf("\nSe muere el thread\n");
+//}
+//
+
+
+
+/*
+ *  Funcion: aceptoServerDispatch
+ *  Entradas: 	int socketAnalizar		socket que se esta analizando en el select
+ *  Salidas: void
+ *  Razon: 	De corresponder acepto la conexion al Dispatch
+ *  Autor:
+ */
+void aceptoServerDispatch(int socketAnalizar)
+{
+	//	Verifico si se recibio informacion en este descriptor
+	if (FD_ISSET(socketAnalizar, &read_fd_set))
+	{
+		//	Si el grado de concurrencia admite que se sigan aceptando
+		//	conexiones, la acepto. Sino omito lo recibido.
+		if(connectionsDispatch < CONCURRENT_CONNECTION)
+		{
+			//	Acepto la conexion del cliente que se conecta
+			//	ESTO TIENE QUE IR DESPUES EN EL THREAD!!!!!!!!!!!!!!!!!!
+			acceptedConecctionDispatch = esperar_cliente(socketAnalizar);
+			log_info(logger, "Se acepto la conexion del Dispatch en el socket: %d", acceptedConecctionDispatch);
+
+			//	Agrego el descrilptor al maestro
+			FD_SET(acceptedConecctionDispatch, &master_fd_set);
+			//	Valido si tengo que cambiar el maximo o el minimo
+			//	Maximo
+			if (acceptedConecctionDispatch > fdmax)
+			{
+				fdmax = acceptedConecctionDispatch;
+			}
+			//	Minimo
+			if (acceptedConecctionDispatch < fdmin)
+			{
+				fdmin = acceptedConecctionDispatch;
+			}
+			log_info(logger, "Se agrego al set de descriptores el descriptor: %d", acceptedConecctionDispatch);
+
+
+			//	Defino el mensaje a recibir (y lo recibo) del cliente cuando se conecta
+			uint8_t mensaje = 0;
+			recv(acceptedConecctionDispatch, &mensaje, sizeof(uint8_t), 0);
+			log_info("Mensaje recibido dispatch: %d", mensaje);
+
+			//	Defino y envio Handshake
+			uint8_t handshake = 4;
+			send(acceptedConecctionDispatch, &handshake, sizeof(uint8_t), 0);
+			connectionsDispatch++;
+		}
+	}
+}
+/*
+ *  Funcion: aceptoServerInterrupt
+ *  Entradas: 	int socketAnalizar		socket que se esta analizando en el select
+ *  Salidas: void
+ *  Razon: 	De corresponder acepto la conexion al Dispatch y genero Thread de atencion al mismo
+ *  Autor:
+ */
+void aceptoServerInterrupt(int socketAnalizar)
+{
+	//	Verifico si se recibio informacion en este descriptor
+	if (FD_ISSET(socketAnalizar, &read_fd_set))
+	{
+		//	Si el grado de concurrencia admite que se sigan aceptando
+		//	conexiones, la acepto. Sino omito lo recibido.
+		if(connectionsDispatch < CONCURRENT_CONNECTION)
+		{
+			//	Acepto la conexion del cliente que se conecta
+			acceptedConecctionInterrupt = esperar_cliente(socketAnalizar);
+			log_info(logger, "Se acepto la conexion del Interrupt en el socket: %d", acceptedConecctionDispatch);
+
+			//	Agrego el descrilptor al maestro
+			FD_SET(acceptedConecctionInterrupt, &master_fd_set);
+			//	Valido si tengo que cambiar el maximo o el minimo
+			//	Maximo
+			if (acceptedConecctionInterrupt > fdmax)
+			{
+				fdmax = acceptedConecctionInterrupt;
+			}
+			//	Minimo
+			if (acceptedConecctionInterrupt < fdmin)
+			{
+				fdmin = acceptedConecctionInterrupt;
+			}
+			log_info(logger, "Se agrego al set de descriptores el descriptor: %d", acceptedConecctionInterrupt);
+
+
+			//	Defino el mensaje a recibir (y lo recibo) del cliente cuando se conecta
+			uint8_t mensaje = 0;
+			recv(acceptedConecctionInterrupt, &mensaje, sizeof(uint8_t), 0);
+			log_info("Mensaje recibido interrupt: %d", mensaje);
+
+			//	Defino y envio Handshake
+			uint8_t handshake = 5;
+			send(acceptedConecctionInterrupt, &handshake, sizeof(uint8_t), 0);
+			connectionsInterrupt++;
+
+			/*
+			 * TENGO QUE CREAR EL THREAD DE ATENCION AL INTERRUPT
+			 */
+
+
+
+
+
+		}
+	}
+}
+/*
+ *  Funcion: levantar_server
+ *  Entradas: 	t_config* config		Archivo de configuracion
+ *  			int* socket				Socket
+ *  			char* sTipo				Tipo de server a levantar
+ *  Salidas: int	socket donde se levanto el server
+ *  Razon: 	generar un socket server
+ *  Autor:
+ */
+
+//int levantar_server(t_config* config, int* socket, char* sTipo)
+//{
+//	//	Leo el puerto en el que voy a levantar el server de acuerdo al TIPO
+//	//	de server que indique en la funcion
+//	char* puerto = config_get_string_value(config, sTipo);
+//	log_info(logger, "Puerto escucha %s", puerto);
+//
+//	//	Leo la IP sobre la cual me voy a levantar como server
+//	char* ipCpu = config_get_string_value(config, CPU_IP);
+//	log_info(logger, "La direccion IP del CPU es %s", ipCpu);
+//
+//	//	Inicio el servidor en la IP y puertos leidos desde el archivo de configuracion
+//	*socket = iniciar_servidor(ipCpu, puerto);
+//	log_info(logger, "Socket %d", *socket);
+//
+//
+//
+//	//	Retorno el socket del cliente creado
+//	//	ESTO CAMBIA POR EL SOCKET DEL SERVER CUANDO ENTREN LOS THREADS
+//	return cliente1;
+//}
+
+int levantar_server(t_config* config, char* sTipo)
+{
+	int socket;
+
+	//	Leo el puerto en el que voy a levantar el server de acuerdo al TIPO
+	//	de server que indique en la funcion
+	char* puerto = config_get_string_value(config, sTipo);
+	log_info(logger, "Puerto escucha %s", puerto);
+
+	//	Leo la IP sobre la cual me voy a levantar como server
+	char* ipCpu = config_get_string_value(config, CPU_IP);
+	log_info(logger, "La direccion IP del CPU es %s", ipCpu);
+
+	//	Inicio el servidor en la IP y puertos leidos desde el archivo de configuracion
+	socket = iniciar_servidor(ipCpu, puerto);
+	log_info(logger, "Socket %d", socket);
+
+	return socket;
+}
+//int levantar_server(t_config* config, int* socket, char* sTipo)
+//{
+//	//	Leo el puerto en el que voy a levantar el server de acuerdo al TIPO
+//	//	de server que indique en la funcion
+//	char* puerto = config_get_string_value(config, sTipo);
+//	log_info(logger, "Puerto escucha %s", puerto);
+//
+//	//	Leo la IP sobre la cual me voy a levantar como server
+//	char* ipCpu = config_get_string_value(config, CPU_IP);
+//	log_info(logger, "La direccion IP del CPU es %s", ipCpu);
+//
+//	//	Inicio el servidor en la IP y puertos leidos desde el archivo de configuracion
+//	*socket = iniciar_servidor(ipCpu, puerto);
+//	log_info(logger, "Socket %d", *socket);
+//
+//	//	Acepto la conexion del cliente que se conecta
+//	//	ESTO TIENE QUE IR DESPUES EN EL THREAD!!!!!!!!!!!!!!!!!!
+//	int cliente1 = esperar_cliente(*socket);
+//	log_info(logger, "Cliente: %d", cliente1);
+//
+//	//	Defino el mensaje a recibir (y lo recibo) del cliente cuando se conecta
+//	uint8_t mensaje = 0;
+//	recv(cliente1, &mensaje, sizeof(uint8_t), 0);
+//	log_info("Mensaje recibido dispatch: %d", mensaje);
+//
+//	//	Defino y envio Handshake
+//	uint8_t handshake = 4;
+//	send(cliente1, &handshake, sizeof(uint8_t), 0);
+//
+//	//	Retorno el socket del cliente creado
+//	//	ESTO CAMBIA POR EL SOCKET DEL SERVER CUANDO ENTREN LOS THREADS
+//	return cliente1;
+//}
 
 int levantar_canal_dispatch(t_config* config, int* socket_dispatch) {
 	char* puerto_dispatch = config_get_string_value(config,

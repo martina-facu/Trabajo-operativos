@@ -1,0 +1,55 @@
+[INFO] 10:47:32:213 CPU/(5359:5359): -------------------------
+[INFO] 10:47:32:213 CPU/(5359:5359): Iniciando log Proceso CPU
+[INFO] 10:47:32:213 CPU/(5359:5359): -------------------------
+[INFO] 10:47:32:214 CPU/(5359:5359): Puerto escucha 9797
+[INFO] 10:47:32:214 CPU/(5359:5359): La direccion IP del CPU es 127.0.0.1
+[INFO] 10:47:32:214 CPU/(5359:5359): Socket 6
+[INFO] 10:47:44:177 CPU/(5359:5359): Cliente: 7
+[INFO] 10:49:49:485 CPU/(5516:5516): -------------------------
+[INFO] 10:49:49:485 CPU/(5516:5516): Iniciando log Proceso CPU
+[INFO] 10:49:49:485 CPU/(5516:5516): -------------------------
+[INFO] 10:49:49:485 CPU/(5516:5516): Puerto escucha 9797
+[INFO] 10:49:49:485 CPU/(5516:5516): La direccion IP del CPU es 127.0.0.1
+[INFO] 10:49:49:485 CPU/(5516:5516): Socket 6
+[INFO] 10:50:25:311 CPU/(5551:5551): -------------------------
+[INFO] 10:50:25:311 CPU/(5551:5551): Iniciando log Proceso CPU
+[INFO] 10:50:25:311 CPU/(5551:5551): -------------------------
+[INFO] 10:50:25:311 CPU/(5551:5551): Puerto escucha 9797
+[INFO] 10:50:25:311 CPU/(5551:5551): La direccion IP del CPU es 127.0.0.1192.168.0.104
+[INFO] 10:50:25:373 CPU/(5551:5551): Socket 1
+[INFO] 10:50:25:373 CPU/(5551:5551): Cliente: -1
+[INFO] 10:50:43:995 CPU/(5568:5568): -------------------------
+[INFO] 10:50:43:995 CPU/(5568:5568): Iniciando log Proceso CPU
+[INFO] 10:50:43:995 CPU/(5568:5568): -------------------------
+[INFO] 10:50:43:995 CPU/(5568:5568): Puerto escucha 9797
+[INFO] 10:50:43:996 CPU/(5568:5568): La direccion IP del CPU es 127.0.0.1192.168.0.104
+[INFO] 10:50:44:019 CPU/(5568:5568): Socket 1
+[INFO] 10:50:44:019 CPU/(5568:5568): Cliente: -1
+[INFO] 10:54:49:244 CPU/(5940:5940): -------------------------
+[INFO] 10:54:49:244 CPU/(5940:5940): Iniciando log Proceso CPU
+[INFO] 10:54:49:245 CPU/(5940:5940): -------------------------
+[INFO] 10:54:49:245 CPU/(5940:5940): Puerto escucha 9797
+[INFO] 10:54:49:245 CPU/(5940:5940): La direccion IP del CPU es 192.168.0.104
+[INFO] 10:54:49:245 CPU/(5940:5940): Socket 6
+[INFO] 11:02:20:976 CPU/(6272:6272): -------------------------
+[INFO] 11:02:20:976 CPU/(6272:6272): Iniciando log Proceso CPU
+[INFO] 11:02:20:976 CPU/(6272:6272): -------------------------
+[INFO] 11:02:20:976 CPU/(6272:6272): Puerto escucha 9797
+[INFO] 11:02:20:977 CPU/(6272:6272): La direccion IP del CPU es 192.168.0.104
+[INFO] 11:02:20:977 CPU/(6272:6272): Socket 1
+[INFO] 11:02:20:977 CPU/(6272:6272): Cliente: -1
+[INFO] 11:02:20:977 CPU/(6272:6272): Puerto escucha 8005
+[INFO] 11:02:20:977 CPU/(6272:6272): La direccion IP del CPU es 192.168.0.104
+[INFO] 11:02:20:977 CPU/(6272:6272): Socket 7
+[INFO] 11:04:53:019 CPU/(6350:6350): -------------------------
+[INFO] 11:04:53:019 CPU/(6350:6350): Iniciando log Proceso CPU
+[INFO] 11:04:53:019 CPU/(6350:6350): -------------------------
+[INFO] 11:04:53:019 CPU/(6350:6350): Puerto escucha 9797
+[INFO] 11:04:53:019 CPU/(6350:6350): La direccion IP del CPU es 192.168.0.104
+[INFO] 11:04:53:019 CPU/(6350:6350): Socket 6
+[INFO] 11:05:12:776 CPU/(6382:6382): -------------------------
+[INFO] 11:05:12:777 CPU/(6382:6382): Iniciando log Proceso CPU
+[INFO] 11:05:12:777 CPU/(6382:6382): -------------------------
+[INFO] 11:05:12:777 CPU/(6382:6382): Puerto escucha 9797
+[INFO] 11:05:12:777 CPU/(6382:6382): La direccion IP del CPU es 192.168.0.104
+[INFO] 11:05:12:778 CPU/(6382:6382): Socket 6
