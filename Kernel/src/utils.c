@@ -31,18 +31,12 @@ void avisar_proceso_finalizado(int cliente) {
 }
 
 Pcb* crear_pcb(t_list* instrucciones, uint32_t tamano_proceso, t_config* config, uint32_t id_proceso) {
-	//TODO: get_tabla_paginas
+	uint32_t* tabla_paginas = malloc(sizeof(uint32_t));
+	*tabla_paginas = 0; //TODO: Pedirle a memoria la tabla de paginas
 
 	uint32_t estimacion_inicial = config_get_int_value(config, "ESTIMACION_INICIAL");
 
-	Tabla_paginas *tabla_paginas = malloc(sizeof(Tabla_paginas));
-	tabla_paginas->desplazamiento = 0;
-	tabla_paginas->entrada_tabla_primer_nivel = 0;
-	tabla_paginas->entrada_tabla_segundo_nivel = 0;
-	tabla_paginas->numero_pagina = 0;
-
-	Pcb* pcb = pcb_create(id_proceso, tamano_proceso,
-			tabla_paginas, estimacion_inicial, instrucciones,INICIADO,0);
+	Pcb* pcb = pcb_create(id_proceso, tamano_proceso,*tabla_paginas, estimacion_inicial, instrucciones);
 	return pcb;
 }
 

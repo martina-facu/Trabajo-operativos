@@ -13,7 +13,7 @@ void ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config, bool* devolver_pcb)
 
 	//decode
 	bool requiere_fetch_operands = false;
-	if (instruccion->id == 4) {
+	if (instruccion->id == COPY) {
 		requiere_fetch_operands = true;
 	}
 

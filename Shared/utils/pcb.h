@@ -16,18 +16,16 @@ typedef struct {
    uint32_t estimado_rafaga;
    ESTADO estado;
    uint32_t tiempo_bloqueo;
-   Tabla_paginas *tabla_paginas;
+   uint32_t tabla_paginas;
    t_list* instrucciones;
 } Pcb;
 
 Pcb *pcb_create(
    uint32_t pid,
    uint32_t tamano,
-   Tabla_paginas *tabla_paginas,
+   uint32_t tabla_paginas,
    uint32_t estimado_rafaga,
-   t_list* instrucciones,
-   ESTADO estado,
-   uint32_t tiempo_bloqueo);
+   t_list* instrucciones);
 
 void *pcb_armar_stream(Pcb *pcb);
 

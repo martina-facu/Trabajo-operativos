@@ -108,26 +108,26 @@ bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb) { // TODO : en
 	int dormir = config_get_int_value(config,"RETARDO_NOOP");
 
 	switch (id) {
-	case 1:
+	case NO_OP:
 		dormir = dormir/1000;
 		sleep(dormir);
 		return false;
 		break;
-	case 2:
+	case I_O:
 		pcb->estado = BLOQUEADO;
 		pcb->tiempo_bloqueo = *parametro1;
 		return true;
 		break;
-	case 3: // TODO : Implementar la instruccion WRITE
+	case WRITE: // TODO : Implementar la instruccion WRITE
 		return false;
 		break;
-	case 4: // TODO : Implementar la instruccion COPY
+	case COPY: // TODO : Implementar la instruccion COPY
 		return false;
 		break;
-	case 5: // TODO : Implementar la instruccion READ
+	case READ: // TODO : Implementar la instruccion READ
 		return false;
 		break;
-	case 6:
+	case EXIT:
 		return true;
 		break;
 	default:
