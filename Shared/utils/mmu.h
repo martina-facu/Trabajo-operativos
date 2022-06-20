@@ -12,6 +12,7 @@
 #include <commons/collections/list.h>
 #include <commons/config.h>
 #include <time.h>
+#include "protocolo.h"
 
 typedef struct {
 	uint32_t numero_pagina;
@@ -21,6 +22,7 @@ typedef struct {
 } Entrada_TLB;
 
 typedef struct {
+	uint32_t id_tabla_paginas1;
 	uint32_t tamano_pagina;
 	uint32_t entradas_por_tabla;
 	uint32_t numero_pagina;
@@ -28,6 +30,11 @@ typedef struct {
 	uint32_t entrada_tabla_segundo_nivel;
 	uint32_t desplazamiento;
 } Datos_calculo_direccion;
+
+typedef struct {
+	uint32_t id_tabla;
+	uint32_t numero_entrada;
+} Coordenada_tabla;
 
 void mostrar_datos(Datos_calculo_direccion* datos);
 
@@ -46,9 +53,13 @@ void set_desplazamiento(Datos_calculo_direccion* datos, double direccion_logica)
 void calcular_datos_direccion(Datos_calculo_direccion* datos,
 		double direccion_logica);
 
+void reemplazar_entrada(t_config* config, t_list* tlb, Entrada_TLB* entrada);
+
 void reemplazar_entrada_FIFO(t_list* tlb, Entrada_TLB* entrada);
 
 void reemplazar_entrada_LRU(t_list* tlb, Entrada_TLB* entrada);
+
+uint32_t get_marco(Datos_calculo_direccion* datos, int conexion_memoria);
 
 void mostrar_datos(Datos_calculo_direccion* datos);
 
