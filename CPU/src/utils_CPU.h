@@ -9,6 +9,7 @@
 #include <conexion.h>
 #include <pcb.h>
 #include <paquete.h>
+#include <mmu.h>
 
 Pcb* obtener_pcb(int socket_serv, int cliente);
 

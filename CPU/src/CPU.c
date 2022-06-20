@@ -34,7 +34,7 @@ void ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config, bool* devolver_pcb)
 }
 
 int main(void) {
-//	t_config* config = config_create("cpu.config");
+	t_config* config = config_create("cpu.config");
 //	int socket_dispatch = 0;
 //	int socket_interrupt = 0;
 //	uint32_t cantidad_entradas, tamano_pagina = 0;
@@ -46,14 +46,24 @@ int main(void) {
 
 //	Manejo de TLB
 	t_list* tlb = crear_tabla_prueba();
-	float* pagina = malloc(sizeof(float));
+	uint32_t* pagina = malloc(sizeof(uint32_t));
+
 	*pagina = 1;
 	uint32_t marco =  buscar_marco(pagina,tlb);
+	printf("El marco de la pagina %d es: %d",*pagina, marco);
 
-	printf("El marco es %d", marco);
+//	sleep(1);//espero para que tengan tiempo de referencia diferente
 
+	*pagina = 0;
+	marco =  buscar_marco(pagina,tlb);
+	printf("\nEl marco de la pagina %d es: %d\n",*pagina, marco);
 
+	Entrada_TLB* entrada = malloc(sizeof(Entrada_TLB));
+	entrada->numero_pagina = 2;
+	entrada->marco = 0;
 
+	reemplazar_entrada(config, tlb, entrada);
+	mostrar_entradas(tlb);
 
 ////	Recibir pcb del kernel
 //	Pcb* pcb = obtener_pcb(socket_dispatch, kernel_dispatch);
