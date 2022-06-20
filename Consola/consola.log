@@ -1,0 +1,140 @@
+[INFO] 15:02:59:719 CONSOLA/(11654:11654): -------------------------
+[INFO] 15:02:59:719 CONSOLA/(11654:11654): Iniciando log Proceso CONSOLA
+[INFO] 15:02:59:719 CONSOLA/(11654:11654): -------------------------
+[INFO] 15:02:59:719 CONSOLA/(11654:11654): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:02:59:719 CONSOLA/(11654:11654): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:02:59:719 CONSOLA/(11654:11654): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:02:59:719 CONSOLA/(11654:11654): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 15:02:59:720 CONSOLA/(11654:11654):  4000 
+[INFO] 15:02:59:720 CONSOLA/(11654:11654): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 15:02:59:720 CONSOLA/(11654:11654):  4 
+[INFO] 15:02:59:720 CONSOLA/(11654:11654):  42 
+[INFO] 15:02:59:720 CONSOLA/(11654:11654): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 15:02:59:720 CONSOLA/(11654:11654):  0 
+[INFO] 15:02:59:720 CONSOLA/(11654:11654):  4 
+[INFO] 15:02:59:720 CONSOLA/(11654:11654): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 15:02:59:720 CONSOLA/(11654:11654):  0 
+[INFO] 15:02:59:720 CONSOLA/(11654:11654): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:35:33:576 CONSOLA/(3862:3862): -------------------------
+[INFO] 15:35:33:576 CONSOLA/(3862:3862): Iniciando log Proceso CONSOLA
+[INFO] 15:35:33:576 CONSOLA/(3862:3862): -------------------------
+[INFO] 15:35:33:583 CONSOLA/(3862:3862): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:35:33:584 CONSOLA/(3862:3862): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:35:33:584 CONSOLA/(3862:3862): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:35:33:585 CONSOLA/(3862:3862): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 15:35:33:585 CONSOLA/(3862:3862):  4000 
+[INFO] 15:35:33:585 CONSOLA/(3862:3862): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 15:35:33:585 CONSOLA/(3862:3862):  4 
+[INFO] 15:35:33:585 CONSOLA/(3862:3862):  42 
+[INFO] 15:35:33:594 CONSOLA/(3862:3862): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 15:35:33:594 CONSOLA/(3862:3862):  0 
+[INFO] 15:35:33:594 CONSOLA/(3862:3862):  4 
+[INFO] 15:35:33:594 CONSOLA/(3862:3862): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 15:35:33:594 CONSOLA/(3862:3862):  0 
+[INFO] 15:35:33:594 CONSOLA/(3862:3862): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:43:25:035 CONSOLA/(4237:4237): -------------------------
+[INFO] 15:43:25:035 CONSOLA/(4237:4237): Iniciando log Proceso CONSOLA
+[INFO] 15:43:25:035 CONSOLA/(4237:4237): -------------------------
+[INFO] 15:43:25:035 CONSOLA/(4237:4237): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:43:25:035 CONSOLA/(4237:4237): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:43:25:035 CONSOLA/(4237:4237): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:43:25:035 CONSOLA/(4237:4237): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 15:43:25:036 CONSOLA/(4237:4237):  4000 
+[INFO] 15:43:25:036 CONSOLA/(4237:4237): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 15:43:25:036 CONSOLA/(4237:4237):  4 
+[INFO] 15:43:25:036 CONSOLA/(4237:4237):  42 
+[INFO] 15:43:25:036 CONSOLA/(4237:4237): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 15:43:25:036 CONSOLA/(4237:4237):  0 
+[INFO] 15:43:25:036 CONSOLA/(4237:4237):  4 
+[INFO] 15:43:25:036 CONSOLA/(4237:4237): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 15:43:25:036 CONSOLA/(4237:4237):  0 
+[INFO] 15:43:25:036 CONSOLA/(4237:4237): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:43:25:036 CONSOLA/(4237:4237): La IP de conexion al Kernel es: 127.0.0.1
+[INFO] 15:43:25:036 CONSOLA/(4237:4237): El puerto de conexion al Kernel es: 8000
+[INFO] 15:43:25:037 CONSOLA/(4237:4237): Me conecte al KERNEL en el descriptor: -1
+[INFO] 15:43:25:037 CONSOLA/(4237:4237): Se envio el mensaje  al KERNEL
+[INFO] 15:43:25:037 CONSOLA/(4237:4237): Se recibio la respuesta 0 del KERNEL
+[INFO] 15:44:37:011 CONSOLA/(4267:4267): -------------------------
+[INFO] 15:44:37:012 CONSOLA/(4267:4267): Iniciando log Proceso CONSOLA
+[INFO] 15:44:37:012 CONSOLA/(4267:4267): -------------------------
+[INFO] 15:44:37:012 CONSOLA/(4267:4267): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:44:37:012 CONSOLA/(4267:4267): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:44:37:013 CONSOLA/(4267:4267): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:44:37:013 CONSOLA/(4267:4267): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 15:44:37:013 CONSOLA/(4267:4267):  4000 
+[INFO] 15:44:37:013 CONSOLA/(4267:4267): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 15:44:37:014 CONSOLA/(4267:4267):  4 
+[INFO] 15:44:37:014 CONSOLA/(4267:4267):  42 
+[INFO] 15:44:37:014 CONSOLA/(4267:4267): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 15:44:37:014 CONSOLA/(4267:4267):  0 
+[INFO] 15:44:37:014 CONSOLA/(4267:4267):  4 
+[INFO] 15:44:37:015 CONSOLA/(4267:4267): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 15:44:37:015 CONSOLA/(4267:4267):  0 
+[INFO] 15:44:37:015 CONSOLA/(4267:4267): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:44:37:015 CONSOLA/(4267:4267): La IP de conexion al Kernel es: 192.168.0.104
+[INFO] 15:44:37:015 CONSOLA/(4267:4267): El puerto de conexion al Kernel es: 8000
+[INFO] 15:44:37:016 CONSOLA/(4267:4267): Me conecte al KERNEL en el descriptor: -1
+[INFO] 15:44:37:016 CONSOLA/(4267:4267): Se envio el mensaje  al KERNEL
+[INFO] 15:44:37:016 CONSOLA/(4267:4267): Se recibio la respuesta 0 del KERNEL
+[INFO] 15:46:54:255 CONSOLA/(4393:4393): -------------------------
+[INFO] 15:46:54:255 CONSOLA/(4393:4393): Iniciando log Proceso CONSOLA
+[INFO] 15:46:54:255 CONSOLA/(4393:4393): -------------------------
+[INFO] 15:46:54:255 CONSOLA/(4393:4393): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:46:54:255 CONSOLA/(4393:4393): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:46:54:255 CONSOLA/(4393:4393): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:46:54:255 CONSOLA/(4393:4393): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 15:46:54:256 CONSOLA/(4393:4393):  4000 
+[INFO] 15:46:54:256 CONSOLA/(4393:4393): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 15:46:54:256 CONSOLA/(4393:4393):  4 
+[INFO] 15:46:54:256 CONSOLA/(4393:4393):  42 
+[INFO] 15:46:54:256 CONSOLA/(4393:4393): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 15:46:54:256 CONSOLA/(4393:4393):  0 
+[INFO] 15:46:54:256 CONSOLA/(4393:4393):  4 
+[INFO] 15:46:54:256 CONSOLA/(4393:4393): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 15:46:54:256 CONSOLA/(4393:4393):  0 
+[INFO] 15:46:54:256 CONSOLA/(4393:4393): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 15:46:54:256 CONSOLA/(4393:4393): La IP de conexion al Kernel es: 127.0.0.1
+[INFO] 15:46:54:256 CONSOLA/(4393:4393): El puerto de conexion al Kernel es: 8000
+[INFO] 15:46:54:257 CONSOLA/(4393:4393): Me conecte al KERNEL en el descriptor: -1
+[INFO] 15:46:54:257 CONSOLA/(4393:4393): Se envio el mensaje  al KERNEL
+[INFO] 15:46:54:257 CONSOLA/(4393:4393): Se recibio la respuesta 0 del KERNEL

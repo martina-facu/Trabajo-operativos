@@ -132,15 +132,23 @@ Pcb* pcb_deserializar(t_buffer* buffer) {
 }
 ;
 
-void pcb_mostrar(Pcb* pcb) {
+void pcb_mostrar(Pcb* pcb, t_log* logger)
+{
 	printf("\n\nINFORMACION PCB:\n");
+	log_info(logger, "INFORMACION DEL PCB RECIBIDO:");
 	printf("PID: %d\n", pcb->pid);
+	log_info(logger, "PID: %d", pcb->pid);
 	printf("TAMANO: %d\n", pcb->tamano);
+	log_info(logger, "TAMANO: %d", pcb->tamano);
 	printf("PC: %d\n", pcb->program_counter);
+	log_info(logger, "PC: %d", pcb->program_counter);
 	printf("ESTIMADO_RAFAGA: %d\n", pcb->estimado_rafaga);
+	log_info(logger, "ESTIMADO_RAFAGA: %d", pcb->estimado_rafaga);
 	printf("ESTADO: %d\n", pcb->estado);
+	log_info(logger, "ESTADO: %d", pcb->estado);
 	printf("TIEMPO BLOQUEO: %d\n", pcb->tiempo_bloqueo);
-	tabla_paginas_mostrar(pcb->tabla_paginas);
-	mostrar_instrucciones(pcb->instrucciones);
+	log_info(logger, "TIEMPO BLOQUEO: %d", pcb->tiempo_bloqueo);
+	tabla_paginas_mostrar(pcb->tabla_paginas, logger);
+	mostrar_instrucciones(pcb->instrucciones, logger);
 }
 ;

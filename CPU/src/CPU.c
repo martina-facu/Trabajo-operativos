@@ -122,7 +122,6 @@ int main(void)
 		//	Si hay un error lo logueo
 		if (select(fdmax+1, &read_fd_set, NULL, NULL, &tiempoSelect) < 0)
 		{
-			log_info(logger, "ERROR SELECT");
 			strerror(errno);
 			log_error(logger, "Error ejecutar el select %d", errno);
 			//	Validar si la falla hace que tenga que matar la CPU
@@ -150,7 +149,7 @@ int main(void)
 						//	Recibir pcb del kernel
 						//	REVISAR EL PRIMER PARAMETRO PORQUE NO SE USA Y NO SERIA NECESARIO
 						pcb = obtener_pcb(acceptedConecctionDispatch);
-						pcb_mostrar(pcb);
+						pcb_mostrar(pcb, logger);
 					}
 
 				}
@@ -167,7 +166,7 @@ int main(void)
 				ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
 			}
 
-			pcb_mostrar(pcb);
+			pcb_mostrar(pcb, logger);
 
 			//	DEVOLVER PCB AL KERNEL
 			uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));

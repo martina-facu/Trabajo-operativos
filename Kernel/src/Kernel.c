@@ -17,6 +17,8 @@
 int main() {
 	t_config* config = config_create("kernel.config");
 
+	logger = initLogger("kernel.log", "KERNEL", LOG_LEVEL_INFO);
+
 //	Conexiones como cliente
 	int conexion_memoria = levantar_conexion_memoria(config);
 	int cpu_dispatch = levantar_conexion_dispacher(config);
@@ -35,7 +37,7 @@ int main() {
 
 // crear PCB
 	Pcb* pcb = crear_pcb(instrucciones, *tamano_proceso, config, socket_serv);
-	pcb_mostrar(pcb);
+	pcb_mostrar(pcb, logger);
 
 //	serializar PCB
 
@@ -61,7 +63,7 @@ int main() {
 	recv(cpu_dispatch, buffer->stream, buffer->size, 0);
 
 	pcb = pcb_deserializar(buffer);
-	pcb_mostrar(pcb);
+	pcb_mostrar(pcb, logger);
 
 	avisar_proceso_finalizado(cliente);
 

@@ -159,13 +159,17 @@ void aceptoServerDispatch(int socketAnalizar)
 			//	Defino el mensaje a recibir (y lo recibo) del cliente cuando se conecta
 			uint8_t mensaje = 0;
 			recv(acceptedConecctionDispatch, &mensaje, sizeof(uint8_t), 0);
-			log_info("Mensaje recibido dispatch: %d", mensaje);
+			log_info(logger, "Mensaje recibido dispatch: %d", mensaje);
 
 			//	Defino y envio Handshake
 			uint8_t handshake = 4;
 			send(acceptedConecctionDispatch, &handshake, sizeof(uint8_t), 0);
 			connectionsDispatch++;
 		}
+//		else
+//		{
+//			log_info(logger, "Ya llegue al limite de concurrencia del Dispatch");
+//		}
 	}
 }
 /*

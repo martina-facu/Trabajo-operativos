@@ -42,16 +42,19 @@ int getCantidadParametros(uint8_t id) {
 	}
 }
 
-void mostrar_parametros(t_list* list){
+void mostrar_parametros(t_list* list, t_log* logger)
+{
 	int aux = list_size(list);
 
 	for(int i=0;i<aux;i++){
 		int* parametro= list_get(list,i);
 		printf(" %d ", *parametro);
+		log_info(logger, " %d ", *parametro);
 	}
 	printf("\n");
 }
-void mostrar_instrucciones(t_list* list){
+void mostrar_instrucciones(t_list* list, t_log* logger)
+{
 	int aux = list_size(list);
 	Instruccion* instruccion = malloc(sizeof(Instruccion));
 	char* nombre[6]={"NO_OP", "I/O", "WRITE", "COPY", "READ", "EXIT"}; // TODO: Liberar la memoria de este array
@@ -60,7 +63,8 @@ void mostrar_instrucciones(t_list* list){
 	for(int i=0;i<aux;i++){
 		instruccion= list_get(list,i);
 		printf("\nEl codigo de la instruccion es: %d , nombre: %s \n cantidad de parametros: %d parametros: ", instruccion->id, nombre[(instruccion->id)-1], getCantidadParametros(instruccion->id));
-		mostrar_parametros(instruccion->parametros);
+		log_info(logger, "El codigo de la instruccion es: %d , nombre: %s \n cantidad de parametros: %d parametros: ", instruccion->id, nombre[(instruccion->id)-1], getCantidadParametros(instruccion->id));
+		mostrar_parametros(instruccion->parametros, logger);
 	}
 
 }

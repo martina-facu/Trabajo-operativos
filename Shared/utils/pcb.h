@@ -4,6 +4,7 @@
 #include "./paquete.h"
 #include "./tabla_paginas.h"
 #include <commons/collections/list.h>
+#include <commons/log.h>
 #include <stdlib.h>
 #include "./instrucciones.h"
 
@@ -33,7 +34,7 @@ void *pcb_armar_stream(Pcb *pcb);
 
 Pcb *pcb_deserializar(t_buffer* buffer);
 
-void pcb_mostrar(Pcb* pcb);
+void pcb_mostrar(Pcb* pcb, t_log* logger);
 
 uint32_t pcb_calcular_espacio(Pcb* pcb);
 

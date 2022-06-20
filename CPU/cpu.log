@@ -61,3 +61,134 @@
 [INFO] 13:22:32:213 CPU/(9111:9111): Puerto escucha 8005
 [INFO] 13:22:32:213 CPU/(9111:9111): La direccion IP del CPU es 192.168.0.104
 [INFO] 13:22:32:213 CPU/(9111:9111): Socket en el que se levanta el server: 7
+[INFO] 14:38:58:703 CPU/(10470:10470): -------------------------
+[INFO] 14:38:58:703 CPU/(10470:10470): Iniciando log Proceso CPU
+[INFO] 14:38:58:703 CPU/(10470:10470): -------------------------
+[INFO] 14:38:58:703 CPU/(10470:10470): Ip de la memoria:  127.0.0.1
+[INFO] 14:38:58:703 CPU/(10470:10470): Puerto de la memoria:  8002
+[INFO] 14:38:58:704 CPU/(10470:10470): Conexion establecida en la memoria con el descriptor:  5
+[INFO] 14:38:58:704 CPU/(10470:10470): Se envia Handshake a la memoria
+[INFO] 14:38:58:704 CPU/(10470:10470): Mensaje recibido de la memoria:  9
+[INFO] 14:38:58:704 CPU/(10470:10470): Conexion establecida con la memoria
+[INFO] 14:38:58:704 CPU/(10470:10470): Puerto escucha 9797
+[INFO] 14:38:58:705 CPU/(10470:10470): La direccion IP del CPU es 192.168.0.104
+[INFO] 14:38:58:705 CPU/(10470:10470): Socket en el que se levanta el server: 1
+[INFO] 14:38:58:705 CPU/(10470:10470): Puerto escucha 8005
+[INFO] 14:38:58:705 CPU/(10470:10470): La direccion IP del CPU es 192.168.0.104
+[INFO] 14:38:58:706 CPU/(10470:10470): Socket en el que se levanta el server: 1
+[INFO] 14:41:44:147 CPU/(10656:10656): -------------------------
+[INFO] 14:41:44:147 CPU/(10656:10656): Iniciando log Proceso CPU
+[INFO] 14:41:44:147 CPU/(10656:10656): -------------------------
+[INFO] 14:41:44:147 CPU/(10656:10656): Ip de la memoria:  127.0.0.1
+[INFO] 14:41:44:148 CPU/(10656:10656): Puerto de la memoria:  8002
+[INFO] 14:41:44:148 CPU/(10656:10656): Conexion establecida en la memoria con el descriptor:  5
+[INFO] 14:41:44:148 CPU/(10656:10656): Se envia Handshake a la memoria
+[INFO] 14:41:44:148 CPU/(10656:10656): Mensaje recibido de la memoria:  9
+[INFO] 14:41:44:149 CPU/(10656:10656): Conexion establecida con la memoria
+[INFO] 14:41:44:149 CPU/(10656:10656): Puerto escucha 9797
+[INFO] 14:41:44:149 CPU/(10656:10656): La direccion IP del CPU es 192.168.0.104
+[INFO] 14:41:44:149 CPU/(10656:10656): Socket en el que se levanta el server: 6
+[INFO] 14:41:44:149 CPU/(10656:10656): Puerto escucha 8005
+[INFO] 14:41:44:149 CPU/(10656:10656): La direccion IP del CPU es 192.168.0.104
+[INFO] 14:41:44:150 CPU/(10656:10656): Socket en el que se levanta el server: 7
+[INFO] 14:41:48:534 CPU/(10656:10656): Se acepto la conexion del Dispatch en el socket: 8
+[INFO] 14:41:48:534 CPU/(10656:10656): Se agrego al set de descriptores el descriptor: 8
+[INFO] 14:41:48:534 CPU/(10656:10656): Mensaje recibido dispatch: 2
+[INFO] 15:02:31:839 CPU/(11630:11630): -------------------------
+[INFO] 15:02:31:839 CPU/(11630:11630): Iniciando log Proceso CPU
+[INFO] 15:02:31:839 CPU/(11630:11630): -------------------------
+[INFO] 15:02:31:839 CPU/(11630:11630): Ip de la memoria:  127.0.0.1
+[INFO] 15:02:31:839 CPU/(11630:11630): Puerto de la memoria:  8002
+[INFO] 15:02:31:840 CPU/(11630:11630): Conexion establecida en la memoria con el descriptor:  5
+[INFO] 15:02:31:840 CPU/(11630:11630): Se envia Handshake a la memoria
+[INFO] 15:02:31:840 CPU/(11630:11630): Mensaje recibido de la memoria:  9
+[INFO] 15:02:31:840 CPU/(11630:11630): Conexion establecida con la memoria
+[INFO] 15:02:31:840 CPU/(11630:11630): Puerto escucha 9797
+[INFO] 15:02:31:840 CPU/(11630:11630): La direccion IP del CPU es 192.168.0.104
+[INFO] 15:02:31:840 CPU/(11630:11630): Socket en el que se levanta el server: 6
+[INFO] 15:02:31:840 CPU/(11630:11630): Puerto escucha 8005
+[INFO] 15:02:31:840 CPU/(11630:11630): La direccion IP del CPU es 192.168.0.104
+[INFO] 15:02:31:840 CPU/(11630:11630): Socket en el que se levanta el server: 7
+[INFO] 15:02:50:974 CPU/(11630:11630): Se acepto la conexion del Dispatch en el socket: 8
+[INFO] 15:02:50:979 CPU/(11630:11630): Se agrego al set de descriptores el descriptor: 8
+[INFO] 15:02:50:979 CPU/(11630:11630): Mensaje recibido dispatch: 2
+[INFO] 15:03:39:230 CPU/(11630:11630): INFORMACION DEL PCB RECIBIDO:
+[INFO] 15:03:39:231 CPU/(11630:11630): PID: 0
+[INFO] 15:03:39:231 CPU/(11630:11630): TAMANO: 0
+[INFO] 15:03:39:231 CPU/(11630:11630): PC: 0
+[INFO] 15:03:39:231 CPU/(11630:11630): ESTIMADO_RAFAGA: 0
+[INFO] 15:03:39:231 CPU/(11630:11630): ESTADO: 0
+[INFO] 15:03:39:231 CPU/(11630:11630): TIEMPO BLOQUEO: 0
+[INFO] 15:03:39:231 CPU/(11630:11630): -----------TABLA DE PAGINAS----------------
+[INFO] 15:03:39:231 CPU/(11630:11630): DESPLAZAMIENTO: 0
+[INFO] 15:03:39:231 CPU/(11630:11630): ENTRADA PRIMER NIVEL: 0
+[INFO] 15:03:39:231 CPU/(11630:11630): ENTRADA SEGUNDO NIVEL: 0
+[INFO] 15:03:39:231 CPU/(11630:11630): INUMERO PAGINA: 0
+[INFO] 15:03:39:231 CPU/(11630:11630): Entre a ejecutar instrucciones
+[INFO] 15:34:53:166 CPU/(3806:3806): -------------------------
+[INFO] 15:34:53:166 CPU/(3806:3806): Iniciando log Proceso CPU
+[INFO] 15:34:53:167 CPU/(3806:3806): -------------------------
+[INFO] 15:34:53:167 CPU/(3806:3806): Ip de la memoria:  127.0.0.1
+[INFO] 15:34:53:167 CPU/(3806:3806): Puerto de la memoria:  8002
+[INFO] 15:34:53:167 CPU/(3806:3806): Conexion establecida en la memoria con el descriptor:  5
+[INFO] 15:34:53:167 CPU/(3806:3806): Se envia Handshake a la memoria
+[INFO] 15:34:53:167 CPU/(3806:3806): Mensaje recibido de la memoria:  9
+[INFO] 15:34:53:167 CPU/(3806:3806): Conexion establecida con la memoria
+[INFO] 15:34:53:167 CPU/(3806:3806): Puerto escucha 9797
+[INFO] 15:34:53:167 CPU/(3806:3806): La direccion IP del CPU es 192.168.0.104
+[INFO] 15:34:53:168 CPU/(3806:3806): Socket en el que se levanta el server: 6
+[INFO] 15:34:53:173 CPU/(3806:3806): Puerto escucha 8005
+[INFO] 15:34:53:173 CPU/(3806:3806): La direccion IP del CPU es 192.168.0.104
+[INFO] 15:34:53:174 CPU/(3806:3806): Socket en el que se levanta el server: 7
+[INFO] 15:35:04:605 CPU/(3806:3806): Se acepto la conexion del Dispatch en el socket: 8
+[INFO] 15:35:04:605 CPU/(3806:3806): Se agrego al set de descriptores el descriptor: 8
+[INFO] 15:35:04:605 CPU/(3806:3806): Mensaje recibido dispatch: 2
+[INFO] 15:42:19:165 CPU/(3806:3806): INFORMACION DEL PCB RECIBIDO:
+[INFO] 15:42:19:165 CPU/(3806:3806): PID: 0
+[INFO] 15:42:19:165 CPU/(3806:3806): TAMANO: 0
+[INFO] 15:42:19:165 CPU/(3806:3806): PC: 0
+[INFO] 15:42:19:165 CPU/(3806:3806): ESTIMADO_RAFAGA: 0
+[INFO] 15:42:19:165 CPU/(3806:3806): ESTADO: 0
+[INFO] 15:42:19:165 CPU/(3806:3806): TIEMPO BLOQUEO: 0
+[INFO] 15:42:19:165 CPU/(3806:3806): -----------TABLA DE PAGINAS----------------
+[INFO] 15:42:19:165 CPU/(3806:3806): DESPLAZAMIENTO: 0
+[INFO] 15:42:19:165 CPU/(3806:3806): ENTRADA PRIMER NIVEL: 0
+[INFO] 15:42:19:165 CPU/(3806:3806): ENTRADA SEGUNDO NIVEL: 0
+[INFO] 15:42:19:165 CPU/(3806:3806): INUMERO PAGINA: 0
+[INFO] 15:42:19:165 CPU/(3806:3806): Entre a ejecutar instrucciones
+[INFO] 15:43:07:383 CPU/(4206:4206): -------------------------
+[INFO] 15:43:07:384 CPU/(4206:4206): Iniciando log Proceso CPU
+[INFO] 15:43:07:384 CPU/(4206:4206): -------------------------
+[INFO] 15:43:07:384 CPU/(4206:4206): Ip de la memoria:  127.0.0.1
+[INFO] 15:43:07:385 CPU/(4206:4206): Puerto de la memoria:  8002
+[INFO] 15:43:07:385 CPU/(4206:4206): Conexion establecida en la memoria con el descriptor:  5
+[INFO] 15:43:07:385 CPU/(4206:4206): Se envia Handshake a la memoria
+[INFO] 15:43:07:385 CPU/(4206:4206): Mensaje recibido de la memoria:  9
+[INFO] 15:43:07:385 CPU/(4206:4206): Conexion establecida con la memoria
+[INFO] 15:43:07:386 CPU/(4206:4206): Puerto escucha 9797
+[INFO] 15:43:07:386 CPU/(4206:4206): La direccion IP del CPU es 192.168.0.104
+[INFO] 15:43:07:386 CPU/(4206:4206): Socket en el que se levanta el server: 6
+[INFO] 15:43:07:386 CPU/(4206:4206): Puerto escucha 8005
+[INFO] 15:43:07:386 CPU/(4206:4206): La direccion IP del CPU es 192.168.0.104
+[INFO] 15:43:07:387 CPU/(4206:4206): Socket en el que se levanta el server: 7
+[INFO] 15:43:12:161 CPU/(4206:4206): Se acepto la conexion del Dispatch en el socket: 8
+[INFO] 15:43:12:161 CPU/(4206:4206): Se agrego al set de descriptores el descriptor: 8
+[INFO] 15:43:12:161 CPU/(4206:4206): Mensaje recibido dispatch: 2
+[INFO] 15:46:44:596 CPU/(4373:4373): -------------------------
+[INFO] 15:46:44:596 CPU/(4373:4373): Iniciando log Proceso CPU
+[INFO] 15:46:44:596 CPU/(4373:4373): -------------------------
+[INFO] 15:46:44:597 CPU/(4373:4373): Ip de la memoria:  127.0.0.1
+[INFO] 15:46:44:598 CPU/(4373:4373): Puerto de la memoria:  8002
+[INFO] 15:46:44:598 CPU/(4373:4373): Conexion establecida en la memoria con el descriptor:  5
+[INFO] 15:46:44:598 CPU/(4373:4373): Se envia Handshake a la memoria
+[INFO] 15:46:44:598 CPU/(4373:4373): Mensaje recibido de la memoria:  9
+[INFO] 15:46:44:598 CPU/(4373:4373): Conexion establecida con la memoria
+[INFO] 15:46:44:599 CPU/(4373:4373): Puerto escucha 9797
+[INFO] 15:46:44:599 CPU/(4373:4373): La direccion IP del CPU es 127.0.0.1
+[INFO] 15:46:44:599 CPU/(4373:4373): Socket en el que se levanta el server: 6
+[INFO] 15:46:44:599 CPU/(4373:4373): Puerto escucha 8005
+[INFO] 15:46:44:599 CPU/(4373:4373): La direccion IP del CPU es 127.0.0.1
+[INFO] 15:46:44:600 CPU/(4373:4373): Socket en el que se levanta el server: 7
+[INFO] 15:46:48:703 CPU/(4373:4373): Se acepto la conexion del Dispatch en el socket: 8
+[INFO] 15:46:48:703 CPU/(4373:4373): Se agrego al set de descriptores el descriptor: 8
+[INFO] 15:46:48:703 CPU/(4373:4373): Mensaje recibido dispatch: 2
