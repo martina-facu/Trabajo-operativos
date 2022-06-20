@@ -1,8 +1,8 @@
 #include "mmu.h"
 
-uint32_t buscar_marco(uint32_t* pagina, t_list* tlb){
+uint32_t buscar_marco(uint32_t pagina, t_list* tlb){
 	bool _coincide_pagina(void *entrada){
-		return ((Entrada_TLB*)entrada)->numero_pagina == *pagina;
+		return ((Entrada_TLB*)entrada)->numero_pagina == pagina;
 	}
 
 	Entrada_TLB* entrada = list_find(tlb,_coincide_pagina);
@@ -20,8 +20,7 @@ void cargar_entrada(t_config* config, t_list* tlb, Entrada_TLB* entrada){
 	entrada->tiempo_carga = time(NULL);
 	entrada->ultima_referencia = 0;
 
-//	*entradas_maximas = config_get_int_value(config, "ENTRADAS_TLB");
-	*entradas_maximas = 4;
+	*entradas_maximas = config_get_int_value(config,"ENTRADAS_TLB");
 
 	int tamano_lista = list_size(tlb);
 	if(tamano_lista < *entradas_maximas){
@@ -95,49 +94,73 @@ void set_desplazamiento (Datos_calculo_direccion* datos, double direccion_logica
 	datos->desplazamiento = direccion_logica - (datos->numero_pagina * datos->tamano_pagina);
 }
 
-void calcular_datos_direccion(Datos_calculo_direccion* datos,double direccion_logica){
+Datos_calculo_direccion* calcular_datos_direccion(double direccion_logica,uint32_t id_tabla_paginas1, int conexion_memoria){
+
+	Datos_calculo_direccion* datos = malloc(sizeof(Datos_calculo_direccion));
 	set_numero_pagina(datos,direccion_logica);
 	set_entrada_tabla_1er_nivel(datos);
 	set_entrada_tabla_2do_nivel(datos);
 	set_desplazamiento(datos,direccion_logica);
-}
-
-
-
-double traducir_direccion(double direccion_logica, uint32_t id_tabla_paginas1, int conexion_memoria,
-		Entrada_TLB* entrada_resultante){// el id de la tabla es el que viene del kernel
-
-	Datos_calculo_direccion* datos = malloc(sizeof(Datos_calculo_direccion));
-	calcular_datos_direccion(datos,direccion_logica);
 	datos->id_tabla_paginas1 = id_tabla_paginas1;
-
+	datos->conexion_memoria = conexion_memoria;
 	mostrar_datos(datos);
-	entrada_resultante->marco = get_marco(datos,conexion_memoria);
 
-	return entrada_resultante->marco + datos->desplazamiento;
+	return datos;
 }
 
-uint32_t get_marco(Datos_calculo_direccion* datos, int conexion_memoria){
+
+
+Pagina_direccion* traducir_direccion(Datos_calculo_direccion* datos, t_list* tlb, t_config* config){
+
+	Pagina_direccion* resultado = malloc(sizeof(Pagina_direccion));
+	resultado->marco = get_marco(datos,tlb,config);
+	resultado->numero_pagina = datos->numero_pagina;
+	resultado->direccion_fisica = resultado->marco + datos->desplazamiento;
+
+	return resultado;
+}
+
+uint32_t get_marco(Datos_calculo_direccion* datos,t_list* tlb, t_config* config){
+
+	uint32_t* marco = malloc(sizeof(uint32_t));
+	*marco = buscar_marco(datos->numero_pagina,tlb);
+
+	if(*marco != -1){
+		return *marco;
+	}else{
+		*marco = get_marco_memoria(datos);
+		Entrada_TLB* nueva_entrada = malloc(sizeof(Entrada_TLB));
+		nueva_entrada->numero_pagina = datos->numero_pagina;
+		nueva_entrada->marco = *marco;
+
+		cargar_entrada(config,tlb,nueva_entrada);
+
+		return *marco;
+	}
+}
+
+uint32_t get_marco_memoria(Datos_calculo_direccion* datos){
+
 	uint32_t* id_tabla_paginas2 = malloc(sizeof(uint32_t));
 
 	Coordenada_tabla* coordenada = malloc(sizeof(Coordenada_tabla));
 	coordenada->id_tabla = datos->id_tabla_paginas1;
 	coordenada->numero_entrada = datos->entrada_tabla_primer_nivel;
 
-	enviar_coordenada(coordenada, id_tabla_paginas2, conexion_memoria);
+	enviar_coordenada(coordenada, id_tabla_paginas2, datos->conexion_memoria);
 
 	coordenada->id_tabla = *id_tabla_paginas2;
 	coordenada->numero_entrada = datos->entrada_tabla_segundo_nivel;
 
 	uint32_t* marco = malloc(sizeof(uint32_t));
-	enviar_coordenada(coordenada, marco, conexion_memoria);
+	enviar_coordenada(coordenada, marco, datos->conexion_memoria);
 
 	return *marco;
 }
 
 void enviar_coordenada(Coordenada_tabla* coordenada, uint32_t* valor_buscado, int conexion){
 	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
-	void* a_enviar = pcb_serializar(coordenada,tamano_mensaje,1);
+	void* a_enviar = coordenada_serializar(coordenada,tamano_mensaje,1);
 	send(conexion, a_enviar, *tamano_mensaje, 0);
 
 	recv(conexion, valor_buscado, sizeof(uint32_t), 0);
@@ -202,6 +225,8 @@ void mostrar_entradas(t_list* list){
 
 void mostrar_datos(Datos_calculo_direccion* datos) {
 	printf("\n-----------DATOS PARA EL CALCULO DE DIRECCIONES----------------\n");
+	printf("CONEXION MEMORIA: %d\n", datos->conexion_memoria);
+	printf("ID TABLA PRIMER NIVEL: %d\n", datos->id_tabla_paginas1);
 	printf("DESPLAZAMIENTO: %d\n", datos->desplazamiento);
 	printf("ENTRADA PRIMER NIVEL: %d\n", datos->entrada_tabla_primer_nivel);
 	printf("ENTRADA SEGUNDO NIVEL: %d\n", datos->entrada_tabla_segundo_nivel);

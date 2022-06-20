@@ -23,6 +23,7 @@ typedef struct {
 
 typedef struct {
 	uint32_t id_tabla_paginas1;
+	uint32_t conexion_memoria;
 	uint32_t tamano_pagina;
 	uint32_t entradas_por_tabla;
 	uint32_t numero_pagina;
@@ -36,11 +37,17 @@ typedef struct {
 	uint32_t numero_entrada;
 } Coordenada_tabla;
 
+typedef struct {
+	uint32_t numero_pagina;
+	uint32_t marco;
+	double direccion_fisica;
+} Pagina_direccion;
+
 void mostrar_datos(Datos_calculo_direccion* datos);
 
 void cargar_entrada(t_config* config, t_list* tlb, Entrada_TLB* entrada);
 
-uint32_t buscar_marco(uint32_t* pagina, t_list* tlb);
+uint32_t buscar_marco(uint32_t pagina, t_list* tlb);
 
 void set_numero_pagina(Datos_calculo_direccion* datos, double direccion_logica);
 
@@ -50,8 +57,7 @@ void set_entrada_tabla_2do_nivel(Datos_calculo_direccion* datos);
 
 void set_desplazamiento(Datos_calculo_direccion* datos, double direccion_logica);
 
-void calcular_datos_direccion(Datos_calculo_direccion* datos,
-		double direccion_logica);
+Datos_calculo_direccion* calcular_datos_direccion(double direccion_logica,uint32_t id_tabla_paginas1, int conexion_memoria);
 
 void reemplazar_entrada(t_config* config, t_list* tlb, Entrada_TLB* entrada);
 
@@ -59,7 +65,13 @@ void reemplazar_entrada_FIFO(t_list* tlb, Entrada_TLB* entrada);
 
 void reemplazar_entrada_LRU(t_list* tlb, Entrada_TLB* entrada);
 
-uint32_t get_marco(Datos_calculo_direccion* datos, int conexion_memoria);
+uint32_t get_marco(Datos_calculo_direccion* datos,t_list* tlb, t_config* config);
+
+uint32_t get_marco_memoria(Datos_calculo_direccion* datos);
+
+void enviar_coordenada(Coordenada_tabla* coordenada, uint32_t* valor_buscado, int conexion);
+
+void* coordenada_serializar(Coordenada_tabla* coordenada, uint32_t* tamano_mensaje, uint32_t codigo_operacion);
 
 void mostrar_datos(Datos_calculo_direccion* datos);
 

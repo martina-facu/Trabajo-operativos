@@ -45,7 +45,7 @@ int main(void) {
 //	int kernel_interrupt = levantar_puerto_interrupt(config, &socket_interrupt);
 
 //	Manejo de TLB
-	t_list* tlb = crear_tabla_prueba();
+	t_list* tlb = crear_tabla_prueba(config);
 	uint32_t* pagina = malloc(sizeof(uint32_t));
 
 	*pagina = 1;
