@@ -52,7 +52,7 @@ int main(void) {
 	uint32_t marco =  buscar_marco(pagina,tlb);
 	printf("El marco de la pagina %d es: %d",*pagina, marco);
 
-//	sleep(1);//espero para que tengan tiempo de referencia diferente
+	sleep(1);//espero para que tengan tiempo de referencia diferente
 
 	*pagina = 0;
 	marco =  buscar_marco(pagina,tlb);
@@ -62,7 +62,7 @@ int main(void) {
 	entrada->numero_pagina = 2;
 	entrada->marco = 0;
 
-	reemplazar_entrada(config, tlb, entrada);
+	cargar_entrada(config, tlb, entrada);
 	mostrar_entradas(tlb);
 
 ////	Recibir pcb del kernel
