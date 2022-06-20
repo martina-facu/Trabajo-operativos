@@ -107,8 +107,7 @@ Pagina_direccion* traducir_direccion(Datos_calculo_direccion* datos, t_list* tlb
 	Pagina_direccion* resultado = malloc(sizeof(Pagina_direccion));
 	resultado->marco = get_marco(datos,tlb,config);
 	resultado->numero_pagina = datos->numero_pagina;
-	resultado->direccion_fisica = resultado->marco + datos->desplazamiento;
-
+	resultado->direccion_fisica = (resultado->marco * datos->tamano_pagina) + datos->desplazamiento;
 	return resultado;
 }
 
