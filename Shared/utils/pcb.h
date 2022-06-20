@@ -2,7 +2,6 @@
 #define PCB
 
 #include "./paquete.h"
-#include "./tabla_paginas.h"
 #include <commons/collections/list.h>
 #include <stdlib.h>
 #include "./instrucciones.h"

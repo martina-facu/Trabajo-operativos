@@ -12,7 +12,8 @@
 #include <commons/collections/list.h>
 #include <commons/config.h>
 #include <time.h>
-#include "protocolo.h"
+#include "coordenada.h"
+
 
 typedef struct {
 	uint32_t numero_pagina;
@@ -31,11 +32,6 @@ typedef struct {
 	uint32_t entrada_tabla_segundo_nivel;
 	uint32_t desplazamiento;
 } Datos_calculo_direccion;
-
-typedef struct {
-	uint32_t id_tabla;
-	uint32_t numero_entrada;
-} Coordenada_tabla;
 
 typedef struct {
 	uint32_t numero_pagina;
@@ -68,10 +64,6 @@ void reemplazar_entrada_LRU(t_list* tlb, Entrada_TLB* entrada);
 uint32_t get_marco(Datos_calculo_direccion* datos,t_list* tlb, t_config* config);
 
 uint32_t get_marco_memoria(Datos_calculo_direccion* datos);
-
-void enviar_coordenada(Coordenada_tabla* coordenada, uint32_t* valor_buscado, int conexion);
-
-void* coordenada_serializar(Coordenada_tabla* coordenada, uint32_t* tamano_mensaje, uint32_t codigo_operacion);
 
 void mostrar_datos(Datos_calculo_direccion* datos);
 
