@@ -26,16 +26,10 @@ Pcb* obtener_pcb(int cliente)
 }
 
 
-int levantar_conexion_memoria(t_config* config, uint32_t* cantidad_entradas,uint32_t* tamano_pagina)
+int levantar_conexion_memoria(char* ipServer, char* portServer, t_log* logger, uint32_t* cantidad_entradas,uint32_t* tamano_pagina)
 {
-	char * ip_memoria = malloc(sizeof(char) * 30);
-	strcpy(ip_memoria, config_get_string_value(config, "IP_MEMORIA"));
-	log_info(logger, "Ip de la memoria:  %s", ip_memoria);
-
-	char* puerto_memoria = config_get_string_value(config, "PUERTO_MEMORIA");
-	log_info(logger, "Puerto de la memoria:  %s", puerto_memoria);
-	int conexion_memoria = crear_conexion(ip_memoria, puerto_memoria);
-	log_info(logger, "Conexion establecida en la memoria con el descriptor:  %d", conexion_memoria);
+	int conexion_memoria = crear_conexion(ipServer, portServer);
+	log_info(logger, "Conexion establecida en la memoria en la IP %s y puerto %s con el descriptor:  %d", ipServer, portServer, conexion_memoria);
 
 
 	uint8_t handshake_memoria = 8;
@@ -53,6 +47,34 @@ int levantar_conexion_memoria(t_config* config, uint32_t* cantidad_entradas,uint
 
 	return conexion_memoria;
 }
+
+//int levantar_conexion_memoria(t_config* config, t_log* logger, uint32_t* cantidad_entradas,uint32_t* tamano_pagina)
+//{
+//	char * ip_memoria = malloc(sizeof(char) * 30);
+//	strcpy(ip_memoria, config_get_string_value(config, "IP_MEMORIA"));
+//	log_info(logger, "Ip de la memoria:  %s", ip_memoria);
+//
+//	char* puerto_memoria = config_get_string_value(config, "PUERTO_MEMORIA");
+//	log_info(logger, "Puerto de la memoria:  %s", puerto_memoria);
+//	int conexion_memoria = crear_conexion(ip_memoria, puerto_memoria);
+//	log_info(logger, "Conexion establecida en la memoria con el descriptor:  %d", conexion_memoria);
+//
+//
+//	uint8_t handshake_memoria = 8;
+//	send(conexion_memoria, &handshake_memoria, sizeof(uint8_t), 0);
+//	log_info(logger, "Se envia Handshake a la memoria");
+//
+//	uint8_t respuesta_memoria = 0;
+//	recv(conexion_memoria, &respuesta_memoria, sizeof(uint8_t), 0);
+//	log_info(logger, "Mensaje recibido de la memoria:  %d", respuesta_memoria);
+//
+//	log_info(logger, "Conexion establecida con la memoria");
+////	TODO: descomentar estas lineas cuando se implemente la parte de la memoria
+////	recv(conexion_memoria, cantidad_entradas, sizeof(uint32_t), 0);
+////	recv(conexion_memoria, tamano_pagina, sizeof(uint32_t), 0);
+//
+//	return conexion_memoria;
+//}
 
 /*
  *  Funcion: thread_dispatch
@@ -119,116 +141,7 @@ int levantar_conexion_memoria(t_config* config, uint32_t* cantidad_entradas,uint
 
 
 
-/*
- *  Funcion: aceptoServerDispatch
- *  Entradas: 	int socketAnalizar		socket que se esta analizando en el select
- *  Salidas: void
- *  Razon: 	De corresponder acepto la conexion al Dispatch
- *  Autor:
- */
-void aceptoServerDispatch(int socketAnalizar)
-{
-	//	Verifico si se recibio informacion en este descriptor
-	if (FD_ISSET(socketAnalizar, &read_fd_set))
-	{
-		//	Si el grado de concurrencia admite que se sigan aceptando
-		//	conexiones, la acepto. Sino omito lo recibido.
-		if(connectionsDispatch < CONCURRENT_CONNECTION)
-		{
-			//	Acepto la conexion del cliente que se conecta
-			//	ESTO TIENE QUE IR DESPUES EN EL THREAD!!!!!!!!!!!!!!!!!!
-			acceptedConecctionDispatch = esperar_cliente(socketAnalizar);
-			log_info(logger, "Se acepto la conexion del Dispatch en el socket: %d", acceptedConecctionDispatch);
 
-			//	Agrego el descrilptor al maestro
-			FD_SET(acceptedConecctionDispatch, &master_fd_set);
-			//	Valido si tengo que cambiar el maximo o el minimo
-			//	Maximo
-			if (acceptedConecctionDispatch > fdmax)
-			{
-				fdmax = acceptedConecctionDispatch;
-			}
-			//	Minimo
-			if (acceptedConecctionDispatch < fdmin)
-			{
-				fdmin = acceptedConecctionDispatch;
-			}
-			log_info(logger, "Se agrego al set de descriptores el descriptor: %d", acceptedConecctionDispatch);
-
-
-			//	Defino el mensaje a recibir (y lo recibo) del cliente cuando se conecta
-			uint8_t mensaje = 0;
-			recv(acceptedConecctionDispatch, &mensaje, sizeof(uint8_t), 0);
-			log_info(logger, "Mensaje recibido dispatch: %d", mensaje);
-
-			//	Defino y envio Handshake
-			uint8_t handshake = 4;
-			send(acceptedConecctionDispatch, &handshake, sizeof(uint8_t), 0);
-			connectionsDispatch++;
-		}
-//		else
-//		{
-//			log_info(logger, "Ya llegue al limite de concurrencia del Dispatch");
-//		}
-	}
-}
-/*
- *  Funcion: aceptoServerInterrupt
- *  Entradas: 	int socketAnalizar		socket que se esta analizando en el select
- *  Salidas: void
- *  Razon: 	De corresponder acepto la conexion al Dispatch y genero Thread de atencion al mismo
- *  Autor:
- */
-void aceptoServerInterrupt(int socketAnalizar)
-{
-	//	Verifico si se recibio informacion en este descriptor
-	if (FD_ISSET(socketAnalizar, &read_fd_set))
-	{
-		//	Si el grado de concurrencia admite que se sigan aceptando
-		//	conexiones, la acepto. Sino omito lo recibido.
-		if(connectionsInterrupt < CONCURRENT_CONNECTION)
-		{
-			//	Acepto la conexion del cliente que se conecta
-			acceptedConecctionInterrupt = esperar_cliente(socketAnalizar);
-			log_info(logger, "Se acepto la conexion del Interrupt en el socket: %d", acceptedConecctionDispatch);
-
-			//	Agrego el descrilptor al maestro
-			FD_SET(acceptedConecctionInterrupt, &master_fd_set);
-			//	Valido si tengo que cambiar el maximo o el minimo
-			//	Maximo
-			if (acceptedConecctionInterrupt > fdmax)
-			{
-				fdmax = acceptedConecctionInterrupt;
-			}
-			//	Minimo
-			if (acceptedConecctionInterrupt < fdmin)
-			{
-				fdmin = acceptedConecctionInterrupt;
-			}
-			log_info(logger, "Se agrego al set de descriptores el descriptor: %d", acceptedConecctionInterrupt);
-
-
-			//	Defino el mensaje a recibir (y lo recibo) del cliente cuando se conecta
-			uint8_t mensaje = 0;
-			recv(acceptedConecctionInterrupt, &mensaje, sizeof(uint8_t), 0);
-			log_info("Mensaje recibido interrupt: %d", mensaje);
-
-			//	Defino y envio Handshake
-			uint8_t handshake = 5;
-			send(acceptedConecctionInterrupt, &handshake, sizeof(uint8_t), 0);
-			connectionsInterrupt++;
-
-			/*
-			 * TENGO QUE CREAR EL THREAD DE ATENCION AL INTERRUPT
-			 */
-
-
-
-
-
-		}
-	}
-}
 /*
  *  Funcion: levantar_server
  *  Entradas: 	t_config* config		Archivo de configuracion
@@ -261,26 +174,35 @@ void aceptoServerInterrupt(int socketAnalizar)
 //	return cliente1;
 //}
 
-int levantar_server(t_config* config, char* sTipo)
+int levantar_server(char* ipServer, char* portServer, t_log* logger, char* sTipo)
 {
 	int socket;
 
-	//	Leo el puerto en el que voy a levantar el server de acuerdo al TIPO
-	//	de server que indique en la funcion
-	char* puerto = config_get_string_value(config, sTipo);
-	log_info(logger, "Puerto escucha %s", puerto);
-
-	//	Leo la IP sobre la cual me voy a levantar como server
-	char* ipCpu = config_get_string_value(config, CPU_IP);
-	log_info(logger, "La direccion IP del CPU es %s", ipCpu);
-
 	//	Inicio el servidor en la IP y puertos leidos desde el archivo de configuracion
-	socket = iniciar_servidor(ipCpu, puerto);
-	log_info(logger, "Socket en el que se levanta el server: %d", socket);
+	socket = iniciar_servidor(ipServer, portServer);
+	log_info(logger, "Socket en el que se levanta el server %s: %d",sTipo, socket);
 
 	return socket;
 }
 //int levantar_server(t_config* config, int* socket, char* sTipo)
+//{
+//	int socket;
+//
+//	//	Leo el puerto en el que voy a levantar el server de acuerdo al TIPO
+//	//	de server que indique en la funcion
+//	char* puerto = config_get_string_value(config, sTipo);
+//	log_info(logger, "Puerto escucha %s", puerto);
+//
+//	//	Leo la IP sobre la cual me voy a levantar como server
+//	char* ipCpu = config_get_string_value(config, CPU_IP);
+//	log_info(logger, "La direccion IP del CPU es %s", ipCpu);
+//
+//	//	Inicio el servidor en la IP y puertos leidos desde el archivo de configuracion
+//	socket = iniciar_servidor(ipCpu, puerto);
+//	log_info(logger, "Socket en el que se levanta el server: %d", socket);
+//
+//	return socket;
+//}
 //{
 //	//	Leo el puerto en el que voy a levantar el server de acuerdo al TIPO
 //	//	de server que indique en la funcion
@@ -314,54 +236,9 @@ int levantar_server(t_config* config, char* sTipo)
 //	return cliente1;
 //}
 
-int levantar_canal_dispatch(t_config* config, int* socket_dispatch) {
-	char* puerto_dispatch = config_get_string_value(config,
-			"PUERTO_ESCUCHA_DISPATCH");
-	printf("\nPuerto escucha %s", puerto_dispatch);
-
-	*socket_dispatch = iniciar_servidor("127.0.0.1", puerto_dispatch);
-	printf("\nSocket %d", *socket_dispatch);
-
-	int cliente1 = esperar_cliente(*socket_dispatch);
-	printf("\nCliente: %d", cliente1);
-	printf("\n");
-
-	uint8_t mensaje = 0;
-	recv(cliente1, &mensaje, sizeof(uint8_t), 0);
-	printf("Mensaje recibido dispatch: %d", mensaje);
-	printf("\n");
-
-	uint8_t handshake = 4;
-
-	send(cliente1, &handshake, sizeof(uint8_t), 0);
-
-	return cliente1;
-}
-
-int levantar_puerto_interrupt(t_config* config, int* socket_interrupt) {
-	char* puerto_interrupt = config_get_string_value(config,
-			"PUERTO_ESCUCHA_INTERRUPT");
-	printf("\nPuerto interrupt %s", puerto_interrupt);
-
-	*socket_interrupt = iniciar_servidor("127.0.0.1", puerto_interrupt);
-	printf("\nSocket %d", *socket_interrupt);
-
-	int cliente2 = esperar_cliente(*socket_interrupt);
-	printf("\nCliente: %d", cliente2);
-
-	uint8_t mensaje1 = 0;
-
-	recv(cliente2, &mensaje1, sizeof(uint8_t), 0);
-	printf("\nMensaje recibido interrupt: %d", mensaje1);
-	printf("\n");
-
-	uint8_t handshake1 = 5;
-	send(cliente2, &handshake1, sizeof(uint8_t), 0);
-
-	return cliente2;
-}
-
-bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb) { // TODO : encapsular la logica de las instrucciones mas complicadas
+//bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb) { // TODO : encapsular la logica de las instrucciones mas complicadas
+bool execute(Instruccion* instruccion,int dormir, Pcb* pcb)
+{ // TODO : encapsular la logica de las instrucciones mas complicadas
 	uint8_t id = instruccion->id;
 	t_list* parametros = instruccion->parametros;
 
@@ -375,7 +252,7 @@ bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb) { // TODO : en
 		parametro2 = list_get(parametros,1);
 	}
 
-	int dormir = config_get_int_value(config,"RETARDO_NOOP");
+//	int dormir = config_get_int_value(config,"RETARDO_NOOP");
 
 	switch (id) {
 	case 1:

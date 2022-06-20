@@ -10,3 +10,86 @@
 [INFO] 15:46:48:703 KERNEL/(4383:4383): -------------------------
 [INFO] 15:46:48:703 KERNEL/(4383:4383): Iniciando log Proceso KERNEL
 [INFO] 15:46:48:703 KERNEL/(4383:4383): -------------------------
+[INFO] 15:57:24:187 KERNEL/(4800:4800): -------------------------
+[INFO] 15:57:24:187 KERNEL/(4800:4800): Iniciando log Proceso KERNEL
+[INFO] 15:57:24:187 KERNEL/(4800:4800): -------------------------
+[INFO] 16:08:27:320 KERNEL/(5182:5182): -------------------------
+[INFO] 16:08:27:320 KERNEL/(5182:5182): Iniciando log Proceso KERNEL
+[INFO] 16:08:27:320 KERNEL/(5182:5182): -------------------------
+[INFO] 16:09:52:344 KERNEL/(5182:5182): INFORMACION DEL PCB RECIBIDO:
+[INFO] 16:09:52:344 KERNEL/(5182:5182): PID: 8
+[INFO] 16:09:52:344 KERNEL/(5182:5182): TAMANO: 10
+[INFO] 16:09:52:344 KERNEL/(5182:5182): PC: 0
+[INFO] 16:09:52:344 KERNEL/(5182:5182): ESTIMADO_RAFAGA: 10000
+[INFO] 16:09:52:344 KERNEL/(5182:5182): ESTADO: 0
+[INFO] 16:09:52:344 KERNEL/(5182:5182): TIEMPO BLOQUEO: 0
+[INFO] 16:09:52:344 KERNEL/(5182:5182): -----------TABLA DE PAGINAS----------------
+[INFO] 16:09:52:344 KERNEL/(5182:5182): DESPLAZAMIENTO: 0
+[INFO] 16:09:52:344 KERNEL/(5182:5182): ENTRADA PRIMER NIVEL: 0
+[INFO] 16:09:52:344 KERNEL/(5182:5182): ENTRADA SEGUNDO NIVEL: 0
+[INFO] 16:09:52:344 KERNEL/(5182:5182): INUMERO PAGINA: 0
+[INFO] 16:09:52:344 KERNEL/(5182:5182): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 16:09:52:344 KERNEL/(5182:5182): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 16:09:52:345 KERNEL/(5182:5182): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 16:09:52:345 KERNEL/(5182:5182): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 16:09:52:345 KERNEL/(5182:5182):  4000 
+[INFO] 16:09:52:345 KERNEL/(5182:5182): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 16:09:52:345 KERNEL/(5182:5182):  4 
+[INFO] 16:09:52:345 KERNEL/(5182:5182):  42 
+[INFO] 16:09:52:345 KERNEL/(5182:5182): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 16:09:52:345 KERNEL/(5182:5182):  0 
+[INFO] 16:09:52:345 KERNEL/(5182:5182):  4 
+[INFO] 16:09:52:345 KERNEL/(5182:5182): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 16:09:52:345 KERNEL/(5182:5182):  0 
+[INFO] 16:09:52:345 KERNEL/(5182:5182): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 16:37:47:313 KERNEL/(6024:6024): -------------------------
+[INFO] 16:37:47:313 KERNEL/(6024:6024): Iniciando log Proceso KERNEL
+[INFO] 16:37:47:313 KERNEL/(6024:6024): -------------------------
+[INFO] 16:41:45:780 KERNEL/(6167:6167): -------------------------
+[INFO] 16:41:45:780 KERNEL/(6167:6167): Iniciando log Proceso KERNEL
+[INFO] 16:41:45:780 KERNEL/(6167:6167): -------------------------
+[INFO] 19:09:16:714 KERNEL/(6167:6167): INFORMACION DEL PCB RECIBIDO:
+[INFO] 19:09:16:718 KERNEL/(6167:6167): PID: 5
+[INFO] 19:09:16:718 KERNEL/(6167:6167): TAMANO: 10
+[INFO] 19:09:16:718 KERNEL/(6167:6167): PC: 0
+[INFO] 19:09:16:718 KERNEL/(6167:6167): ESTIMADO_RAFAGA: 10000
+[INFO] 19:09:16:718 KERNEL/(6167:6167): ESTADO: 0
+[INFO] 19:09:16:718 KERNEL/(6167:6167): TIEMPO BLOQUEO: 0
+[INFO] 19:09:16:718 KERNEL/(6167:6167): -----------TABLA DE PAGINAS----------------
+[INFO] 19:09:16:718 KERNEL/(6167:6167): DESPLAZAMIENTO: 0
+[INFO] 19:09:16:718 KERNEL/(6167:6167): ENTRADA PRIMER NIVEL: 0
+[INFO] 19:09:16:718 KERNEL/(6167:6167): ENTRADA SEGUNDO NIVEL: 0
+[INFO] 19:09:16:718 KERNEL/(6167:6167): INUMERO PAGINA: 0
+[INFO] 19:09:16:718 KERNEL/(6167:6167): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 19:09:16:718 KERNEL/(6167:6167): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 19:09:16:718 KERNEL/(6167:6167): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 19:09:16:718 KERNEL/(6167:6167): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 19:09:16:718 KERNEL/(6167:6167):  4000 
+[INFO] 19:09:16:718 KERNEL/(6167:6167): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 19:09:16:718 KERNEL/(6167:6167):  4 
+[INFO] 19:09:16:718 KERNEL/(6167:6167):  42 
+[INFO] 19:09:16:718 KERNEL/(6167:6167): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 19:09:16:718 KERNEL/(6167:6167):  0 
+[INFO] 19:09:16:718 KERNEL/(6167:6167):  4 
+[INFO] 19:09:16:718 KERNEL/(6167:6167): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 19:09:16:718 KERNEL/(6167:6167):  0 
+[INFO] 19:09:16:718 KERNEL/(6167:6167): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 19:34:33:364 KERNEL/(11743:11743): -------------------------
+[INFO] 19:34:33:364 KERNEL/(11743:11743): Iniciando log Proceso KERNEL
+[INFO] 19:34:33:364 KERNEL/(11743:11743): -------------------------

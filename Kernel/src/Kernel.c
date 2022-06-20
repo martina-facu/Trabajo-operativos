@@ -19,15 +19,21 @@ int main() {
 
 	logger = initLogger("kernel.log", "KERNEL", LOG_LEVEL_INFO);
 
+	//	Servidor para la consola
+		char* puerto_escucha = config_get_string_value(config, "PUERTO_ESCUCHA");
+		int socket_serv = iniciar_servidor("127.0.0.1", puerto_escucha);
+		int cliente = esperar_cliente(socket_serv);
+
+
 //	Conexiones como cliente
 	int conexion_memoria = levantar_conexion_memoria(config);
 	int cpu_dispatch = levantar_conexion_dispacher(config);
 	int cpu_interrupt = levantar_conexion_interrupt(config);
 
-//	Servidor para la consola
-	char* puerto_escucha = config_get_string_value(config, "PUERTO_ESCUCHA");
-	int socket_serv = iniciar_servidor("127.0.0.1", puerto_escucha);
-	int cliente = esperar_cliente(socket_serv);
+////	Servidor para la consola
+//	char* puerto_escucha = config_get_string_value(config, "PUERTO_ESCUCHA");
+//	int socket_serv = iniciar_servidor("127.0.0.1", puerto_escucha);
+//	int cliente = esperar_cliente(socket_serv);
 
 	uint32_t* tamano_proceso = malloc(sizeof(uint32_t));
 	t_list* instrucciones = deserializar_mensaje(socket_serv, cliente,

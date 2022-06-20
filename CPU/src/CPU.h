@@ -1,0 +1,91 @@
+/*
+ * CPU.h
+ *
+ *  Created on: 20 jun. 2022
+ *      Author: utnso
+ */
+
+#ifndef CPU_H_
+#define CPU_H_
+
+
+/*
+ * Listado de librerias incluidas
+ */
+
+	#include <stdio.h>
+	#include <stdarg.h>
+	#include <string.h>
+	#include <stdlib.h>
+	#include <commons/log.h>
+	#include <commons/config.h>
+	#include <commons/collections/list.h>
+	#include <commons/string.h>
+	#include <logs.h>
+
+/*
+ * Listado de estructuras
+ */
+
+	/*
+	 * Archivo de configuracion
+	 *
+	 */
+
+
+	typedef struct
+	{
+
+		int entradasTLB;
+		char* algoritmoReemplazoTLB;
+		int retardoNoOp;
+		char* IPMemoria;
+		char* IPCPU;
+		char* puertoMemoria;
+		char* puertoDispatch;
+		char* puertoInterrupt;
+	}t_config_cpu;
+
+/*
+ * Listado de variables globales
+*/
+	#define ENTRADAS_TLB "ENTRADAS_TLB"
+	#define ALG_TLB "REEMPLAZO_TLB"
+	#define RETARDO_NOOP "RETARDO_NOOP"
+	#define IP_MEMORIA "IP_MEMORIA"
+	#define PUERTO_MEMORIA "PUERTO_MEMORIA"
+	#define PUERTO_DISPATCH "PUERTO_ESCUCHA_DISPATCH"
+	#define PUERTO_INTERRUPT "PUERTO_ESCUCHA_INTERRUPT"
+	#define IP_CPU "IP_CPU"
+
+	t_log* logger;
+	t_config* config;
+	t_config_cpu* configuracion;
+
+	int socket_dispatch = 0;
+	int socket_interrupt = 0;
+
+	int fdmax = -1;
+	int fdmin = 201669;
+	int connectionsDispatch = 0;
+	int connectionsInterrupt = 0;
+	int acceptedConecctionDispatch;
+	int acceptedConecctionInterrupt;
+
+
+//	int client_memory_socket;
+//	int client_dispatch_socket;
+//	int client_interrupt_socket;
+//	int server_dispatch_socket;
+//	int server_interrupt_socket;
+
+/*
+ * Prototipo de funciones
+*/
+	t_config_cpu* crearConfigCPU();
+	t_config_cpu* cargarConfiguracion(char* configPath);
+	void aceptoServerInterrupt(int socketAnalizar);
+	void aceptoServerDispatch(int socketAnalizar);
+
+
+#endif /* CPU_H_ */

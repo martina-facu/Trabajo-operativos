@@ -105,6 +105,8 @@ int main(int argc, char *argv[]) {
 	log_info(logger, "El puerto de conexion al Kernel es: %s", puerto);
 
 	int conexion = crear_conexion(ip, puerto);
+	if (conexion < 0)
+		exit(EXIT_FAILURE);
 	log_info(logger, "Me conecte al KERNEL en el descriptor: %d", conexion);
 	send(conexion, a_enviar,*tamano_mensaje, 0);
 	log_info(logger, "Se envio el mensaje %s al KERNEL", a_enviar);
