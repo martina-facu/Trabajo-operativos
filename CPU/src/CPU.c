@@ -49,13 +49,13 @@ int main(void) {
 	uint32_t* pagina = malloc(sizeof(uint32_t));
 
 	*pagina = 1;
-	uint32_t marco =  buscar_marco(pagina,tlb);
+	uint32_t marco =  buscar_marco(*pagina,tlb);
 	printf("El marco de la pagina %d es: %d",*pagina, marco);
 
 	sleep(1);//espero para que tengan tiempo de referencia diferente
 
 	*pagina = 0;
-	marco =  buscar_marco(pagina,tlb);
+	marco =  buscar_marco(*pagina,tlb);
 	printf("\nEl marco de la pagina %d es: %d\n",*pagina, marco);
 
 	Entrada_TLB* entrada = malloc(sizeof(Entrada_TLB));
@@ -64,6 +64,14 @@ int main(void) {
 
 	cargar_entrada(config, tlb, entrada);
 	mostrar_entradas(tlb);
+
+	Datos_calculo_direccion* datos = malloc(sizeof(Datos_calculo_direccion));
+	datos->id_tabla_paginas1 = 5;
+	datos->conexion_memoria = 3;
+	datos->entradas_por_tabla = 4;
+	datos->tamano_pagina = 100;
+
+	calcular_datos_direccion(datos, 50003);
 
 ////	Recibir pcb del kernel
 //	Pcb* pcb = obtener_pcb(socket_dispatch, kernel_dispatch);

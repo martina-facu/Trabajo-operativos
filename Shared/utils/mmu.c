@@ -8,7 +8,7 @@ uint32_t buscar_marco(uint32_t pagina, t_list* tlb){
 	Entrada_TLB* entrada = list_find(tlb,_coincide_pagina);
 
 	if(entrada != NULL){
-		entrada->ultima_referencia = time(NULL); //aca se actualiza porque se pidio uso la pagina de la tlb
+		entrada->ultima_referencia = time(NULL); //aca se actualiza porque se uso la pagina de la tlb
 		return entrada->marco;
 	}else{
 		return -1;
@@ -87,25 +87,19 @@ void set_entrada_tabla_1er_nivel (Datos_calculo_direccion* datos){
 }
 
 void set_entrada_tabla_2do_nivel (Datos_calculo_direccion* datos){
-	datos->numero_pagina = datos->numero_pagina%datos->entradas_por_tabla;
+	datos->entrada_tabla_segundo_nivel = datos->numero_pagina%datos->entradas_por_tabla;
 }
 
 void set_desplazamiento (Datos_calculo_direccion* datos, double direccion_logica){
 	datos->desplazamiento = direccion_logica - (datos->numero_pagina * datos->tamano_pagina);
 }
 
-Datos_calculo_direccion* calcular_datos_direccion(double direccion_logica,uint32_t id_tabla_paginas1, int conexion_memoria){
-
-	Datos_calculo_direccion* datos = malloc(sizeof(Datos_calculo_direccion));
+void calcular_datos_direccion(Datos_calculo_direccion* datos, double direccion_logica){
 	set_numero_pagina(datos,direccion_logica);
 	set_entrada_tabla_1er_nivel(datos);
 	set_entrada_tabla_2do_nivel(datos);
 	set_desplazamiento(datos,direccion_logica);
-	datos->id_tabla_paginas1 = id_tabla_paginas1;
-	datos->conexion_memoria = conexion_memoria;
 	mostrar_datos(datos);
-
-	return datos;
 }
 
 Pagina_direccion* traducir_direccion(Datos_calculo_direccion* datos, t_list* tlb, t_config* config){

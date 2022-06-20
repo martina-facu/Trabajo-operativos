@@ -53,7 +53,7 @@ void set_entrada_tabla_2do_nivel(Datos_calculo_direccion* datos);
 
 void set_desplazamiento(Datos_calculo_direccion* datos, double direccion_logica);
 
-Datos_calculo_direccion* calcular_datos_direccion(double direccion_logica,uint32_t id_tabla_paginas1, int conexion_memoria);
+void calcular_datos_direccion(Datos_calculo_direccion* datos, double direccion_logica);
 
 void reemplazar_entrada(t_config* config, t_list* tlb, Entrada_TLB* entrada);
 
