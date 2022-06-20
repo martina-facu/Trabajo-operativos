@@ -34,11 +34,19 @@ void ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config, bool* devolver_pcb)
 	}
 }
 
-int main(void) {
+int main(void)
+{
 	config = config_create("cpu.config");
 	int socket_dispatch = 0;
 	int socket_interrupt = 0;
+	fdmax = -1;
+	fdmin = 201669;
+	connectionsDispatch = 0;
+	connectionsInterrupt = 0;
 	uint32_t cantidad_entradas, tamano_pagina = 0;
+	devolver_pcb = false;
+	recibiPCB = false;
+
 
 	logger = initLogger("cpu.log", "CPU", LOG_LEVEL_INFO);
 	//	Seteo en 0 a los set de descriptores a revisar por el select
@@ -47,7 +55,7 @@ int main(void) {
 
 //	Iniciar conexiones
 	int conexion_memoria = levantar_conexion_memoria(config,&cantidad_entradas,&tamano_pagina);
-	//	Marco el descriptor en donde se genero el server como limite maximo y minimo del select
+	//	Marco el descriptor en donde me conecte al server de memoria como limite maximo y minimo del select
 	fdmax = conexion_memoria;
 	fdmin = conexion_memoria;
 
@@ -58,7 +66,7 @@ int main(void) {
 	if( fdmax < kernel_dispatch)
 		fdmax = kernel_dispatch;
 	//	Minimo
-	if( fdmin < kernel_dispatch)
+	if( kernel_dispatch < fdmin)
 		fdmin = kernel_dispatch;
 	//	Agrego el descriptor del server de DISPATCH al maestro del select
 	FD_SET(kernel_dispatch, &master_fd_set);
@@ -67,12 +75,24 @@ int main(void) {
 //	int kernel_dispatch = levantar_server(config, &socket_dispatch, SERVER_DISPATCH);
 //	int kernel_dispatch = levantar_canal_dispatch(config, &socket_dispatch);
 	int kernel_interrupt = levantar_server(config, SERVER_INTERRUPT);
+	//	Verifico si el descriptor es mayor o menor al maximo o al minimo del select
+	//	Maximo
+	if( fdmax < kernel_interrupt)
+		fdmax = kernel_interrupt;
+	//	Minimo
+	if(kernel_interrupt < fdmin)
+		fdmin = kernel_interrupt;
+	//	Agrego el descriptor del server de DISPATCH al maestro del select
+	FD_SET(kernel_interrupt, &master_fd_set);
+
+
+
+
 //	int kernel_interrupt = levantar_server(config, &socket_interrupt, SERVER_INTERRUPT);
 //	int kernel_interrupt = levantar_puerto_interrupt(config, &socket_interrupt);
 
 //	Obtener informacion de memoria
 	// cantidad de entradas por tabla de páginas y tamaño de página.
-
 
 	while(1)
 	{
@@ -93,6 +113,8 @@ int main(void) {
 		tiempoSelect.tv_sec = 0;
 		tiempoSelect.tv_usec = 500;
 
+
+
 		//	Clono el set maestro en uno de read para revision del select
 		read_fd_set = master_fd_set;
 
@@ -100,6 +122,7 @@ int main(void) {
 		//	Si hay un error lo logueo
 		if (select(fdmax+1, &read_fd_set, NULL, NULL, &tiempoSelect) < 0)
 		{
+			log_info(logger, "ERROR SELECT");
 			strerror(errno);
 			log_error(logger, "Error ejecutar el select %d", errno);
 			//	Validar si la falla hace que tenga que matar la CPU
@@ -110,7 +133,6 @@ int main(void) {
 		{
 			for(int i = fdmin;  i <= fdmax; i++)
 			{
-
 				//	Valido los distintos casos y actuo de acuerdo a cada uno
 
 					//	Si el descriptor a revisar es el del server de Dispatch
@@ -136,17 +158,26 @@ int main(void) {
 		//	Termine de revisar las conexiones por lo que supongo que ya recibi un PCB
 		//	Proceso lo recibido, es decir actuo como CPU
 		//	Ejecutar ciclo de instrucciones
-		devolver_pcb = false;
-		while (devolver_pcb == false) {
-			ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
+
+		if(recibiPCB == true)
+		{
+			while (devolver_pcb == false)
+			{
+				log_info(logger, "Entre a ejecutar instrucciones");
+				ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
+			}
+
+			pcb_mostrar(pcb);
+
+			//	DEVOLVER PCB AL KERNEL
+			uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
+			void* a_enviar = pcb_serializar(pcb,tamano_mensaje,1);
+			send(acceptedConecctionDispatch, a_enviar, *tamano_mensaje, 0);
+			recibiPCB = false;
+
 		}
 
-		pcb_mostrar(pcb);
 
-		//	DEVOLVER PCB AL KERNEL
-		uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
-		void* a_enviar = pcb_serializar(pcb,tamano_mensaje,1);
-		send(acceptedConecctionDispatch, a_enviar, *tamano_mensaje, 0);
 
 		//	Vuelvo a iniciar el proceso del While
 	}
@@ -174,6 +205,7 @@ int main(void) {
 
 //	pthread_join( thread_id , NULL);
 
+	log_info(logger, "Sali del while infinito y voy a cerrar las conexiones generadas");
 
 //	Cierro conexiones
 	close(conexion_memoria);

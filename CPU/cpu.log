@@ -1,55 +1,63 @@
-[INFO] 10:47:32:213 CPU/(5359:5359): -------------------------
-[INFO] 10:47:32:213 CPU/(5359:5359): Iniciando log Proceso CPU
-[INFO] 10:47:32:213 CPU/(5359:5359): -------------------------
-[INFO] 10:47:32:214 CPU/(5359:5359): Puerto escucha 9797
-[INFO] 10:47:32:214 CPU/(5359:5359): La direccion IP del CPU es 127.0.0.1
-[INFO] 10:47:32:214 CPU/(5359:5359): Socket 6
-[INFO] 10:47:44:177 CPU/(5359:5359): Cliente: 7
-[INFO] 10:49:49:485 CPU/(5516:5516): -------------------------
-[INFO] 10:49:49:485 CPU/(5516:5516): Iniciando log Proceso CPU
-[INFO] 10:49:49:485 CPU/(5516:5516): -------------------------
-[INFO] 10:49:49:485 CPU/(5516:5516): Puerto escucha 9797
-[INFO] 10:49:49:485 CPU/(5516:5516): La direccion IP del CPU es 127.0.0.1
-[INFO] 10:49:49:485 CPU/(5516:5516): Socket 6
-[INFO] 10:50:25:311 CPU/(5551:5551): -------------------------
-[INFO] 10:50:25:311 CPU/(5551:5551): Iniciando log Proceso CPU
-[INFO] 10:50:25:311 CPU/(5551:5551): -------------------------
-[INFO] 10:50:25:311 CPU/(5551:5551): Puerto escucha 9797
-[INFO] 10:50:25:311 CPU/(5551:5551): La direccion IP del CPU es 127.0.0.1192.168.0.104
-[INFO] 10:50:25:373 CPU/(5551:5551): Socket 1
-[INFO] 10:50:25:373 CPU/(5551:5551): Cliente: -1
-[INFO] 10:50:43:995 CPU/(5568:5568): -------------------------
-[INFO] 10:50:43:995 CPU/(5568:5568): Iniciando log Proceso CPU
-[INFO] 10:50:43:995 CPU/(5568:5568): -------------------------
-[INFO] 10:50:43:995 CPU/(5568:5568): Puerto escucha 9797
-[INFO] 10:50:43:996 CPU/(5568:5568): La direccion IP del CPU es 127.0.0.1192.168.0.104
-[INFO] 10:50:44:019 CPU/(5568:5568): Socket 1
-[INFO] 10:50:44:019 CPU/(5568:5568): Cliente: -1
-[INFO] 10:54:49:244 CPU/(5940:5940): -------------------------
-[INFO] 10:54:49:244 CPU/(5940:5940): Iniciando log Proceso CPU
-[INFO] 10:54:49:245 CPU/(5940:5940): -------------------------
-[INFO] 10:54:49:245 CPU/(5940:5940): Puerto escucha 9797
-[INFO] 10:54:49:245 CPU/(5940:5940): La direccion IP del CPU es 192.168.0.104
-[INFO] 10:54:49:245 CPU/(5940:5940): Socket 6
-[INFO] 11:02:20:976 CPU/(6272:6272): -------------------------
-[INFO] 11:02:20:976 CPU/(6272:6272): Iniciando log Proceso CPU
-[INFO] 11:02:20:976 CPU/(6272:6272): -------------------------
-[INFO] 11:02:20:976 CPU/(6272:6272): Puerto escucha 9797
-[INFO] 11:02:20:977 CPU/(6272:6272): La direccion IP del CPU es 192.168.0.104
-[INFO] 11:02:20:977 CPU/(6272:6272): Socket 1
-[INFO] 11:02:20:977 CPU/(6272:6272): Cliente: -1
-[INFO] 11:02:20:977 CPU/(6272:6272): Puerto escucha 8005
-[INFO] 11:02:20:977 CPU/(6272:6272): La direccion IP del CPU es 192.168.0.104
-[INFO] 11:02:20:977 CPU/(6272:6272): Socket 7
-[INFO] 11:04:53:019 CPU/(6350:6350): -------------------------
-[INFO] 11:04:53:019 CPU/(6350:6350): Iniciando log Proceso CPU
-[INFO] 11:04:53:019 CPU/(6350:6350): -------------------------
-[INFO] 11:04:53:019 CPU/(6350:6350): Puerto escucha 9797
-[INFO] 11:04:53:019 CPU/(6350:6350): La direccion IP del CPU es 192.168.0.104
-[INFO] 11:04:53:019 CPU/(6350:6350): Socket 6
-[INFO] 11:05:12:776 CPU/(6382:6382): -------------------------
-[INFO] 11:05:12:777 CPU/(6382:6382): Iniciando log Proceso CPU
-[INFO] 11:05:12:777 CPU/(6382:6382): -------------------------
-[INFO] 11:05:12:777 CPU/(6382:6382): Puerto escucha 9797
-[INFO] 11:05:12:777 CPU/(6382:6382): La direccion IP del CPU es 192.168.0.104
-[INFO] 11:05:12:778 CPU/(6382:6382): Socket 6
+[INFO] 13:14:01:677 CPU/(8653:8653): -------------------------
+[INFO] 13:14:01:677 CPU/(8653:8653): Iniciando log Proceso CPU
+[INFO] 13:14:01:677 CPU/(8653:8653): -------------------------
+[INFO] 13:14:01:677 CPU/(8653:8653): Ip de la memoria:  127.0.0.1
+[INFO] 13:14:01:677 CPU/(8653:8653): Puerto de la memoria:  8002
+[INFO] 13:14:01:677 CPU/(8653:8653): Conexion establecida en la memoria con el descriptor:  5
+[INFO] 13:14:01:677 CPU/(8653:8653): Se envia Handshake a la memoria
+[INFO] 13:14:01:677 CPU/(8653:8653): Mensaje recibido de la memoria:  9
+[INFO] 13:14:01:678 CPU/(8653:8653): Conexion establecida con la memoria
+[INFO] 13:14:01:678 CPU/(8653:8653): Puerto escucha 9797
+[INFO] 13:14:01:678 CPU/(8653:8653): La direccion IP del CPU es 192.168.0.104
+[INFO] 13:14:01:678 CPU/(8653:8653): Socket en el que se levanta el server: 6
+[INFO] 13:14:01:678 CPU/(8653:8653): Puerto escucha 8005
+[INFO] 13:14:01:678 CPU/(8653:8653): La direccion IP del CPU es 192.168.0.104
+[INFO] 13:14:01:678 CPU/(8653:8653): Socket en el que se levanta el server: 7
+[INFO] 13:14:01:678 CPU/(8653:8653): Voy a entrar al while infinito
+[INFO] 13:16:19:040 CPU/(8761:8761): -------------------------
+[INFO] 13:16:19:040 CPU/(8761:8761): Iniciando log Proceso CPU
+[INFO] 13:16:19:040 CPU/(8761:8761): -------------------------
+[INFO] 13:16:19:040 CPU/(8761:8761): Ip de la memoria:  127.0.0.1
+[INFO] 13:16:19:040 CPU/(8761:8761): Puerto de la memoria:  8002
+[INFO] 13:16:19:040 CPU/(8761:8761): Conexion establecida en la memoria con el descriptor:  5
+[INFO] 13:16:19:041 CPU/(8761:8761): Se envia Handshake a la memoria
+[INFO] 13:16:19:041 CPU/(8761:8761): Mensaje recibido de la memoria:  9
+[INFO] 13:16:19:041 CPU/(8761:8761): Conexion establecida con la memoria
+[INFO] 13:16:19:041 CPU/(8761:8761): Puerto escucha 9797
+[INFO] 13:16:19:041 CPU/(8761:8761): La direccion IP del CPU es 192.168.0.104
+[INFO] 13:16:19:042 CPU/(8761:8761): Socket en el que se levanta el server: 1
+[INFO] 13:16:19:042 CPU/(8761:8761): Puerto escucha 8005
+[INFO] 13:16:19:042 CPU/(8761:8761): La direccion IP del CPU es 192.168.0.104
+[INFO] 13:16:19:042 CPU/(8761:8761): Socket en el que se levanta el server: 1
+[INFO] 13:16:19:042 CPU/(8761:8761): Voy a entrar al while infinito
+[INFO] 13:17:23:219 CPU/(8815:8815): -------------------------
+[INFO] 13:17:23:219 CPU/(8815:8815): Iniciando log Proceso CPU
+[INFO] 13:17:23:220 CPU/(8815:8815): -------------------------
+[INFO] 13:17:23:220 CPU/(8815:8815): Ip de la memoria:  127.0.0.1
+[INFO] 13:17:23:220 CPU/(8815:8815): Puerto de la memoria:  8002
+[INFO] 13:17:23:221 CPU/(8815:8815): Conexion establecida en la memoria con el descriptor:  5
+[INFO] 13:17:23:221 CPU/(8815:8815): Se envia Handshake a la memoria
+[INFO] 13:17:23:221 CPU/(8815:8815): Mensaje recibido de la memoria:  9
+[INFO] 13:17:23:221 CPU/(8815:8815): Conexion establecida con la memoria
+[INFO] 13:17:23:221 CPU/(8815:8815): Puerto escucha 9797
+[INFO] 13:17:23:221 CPU/(8815:8815): La direccion IP del CPU es 192.168.0.104
+[INFO] 13:17:23:221 CPU/(8815:8815): Socket en el que se levanta el server: 6
+[INFO] 13:17:23:222 CPU/(8815:8815): Puerto escucha 8005
+[INFO] 13:17:23:222 CPU/(8815:8815): La direccion IP del CPU es 192.168.0.104
+[INFO] 13:17:23:222 CPU/(8815:8815): Socket en el que se levanta el server: 7
+[INFO] 13:17:23:222 CPU/(8815:8815): Voy a entrar al while infinito
+[INFO] 13:22:32:210 CPU/(9111:9111): -------------------------
+[INFO] 13:22:32:211 CPU/(9111:9111): Iniciando log Proceso CPU
+[INFO] 13:22:32:211 CPU/(9111:9111): -------------------------
+[INFO] 13:22:32:211 CPU/(9111:9111): Ip de la memoria:  127.0.0.1
+[INFO] 13:22:32:211 CPU/(9111:9111): Puerto de la memoria:  8002
+[INFO] 13:22:32:211 CPU/(9111:9111): Conexion establecida en la memoria con el descriptor:  5
+[INFO] 13:22:32:212 CPU/(9111:9111): Se envia Handshake a la memoria
+[INFO] 13:22:32:212 CPU/(9111:9111): Mensaje recibido de la memoria:  9
+[INFO] 13:22:32:212 CPU/(9111:9111): Conexion establecida con la memoria
+[INFO] 13:22:32:212 CPU/(9111:9111): Puerto escucha 9797
+[INFO] 13:22:32:212 CPU/(9111:9111): La direccion IP del CPU es 192.168.0.104
+[INFO] 13:22:32:212 CPU/(9111:9111): Socket en el que se levanta el server: 6
+[INFO] 13:22:32:213 CPU/(9111:9111): Puerto escucha 8005
+[INFO] 13:22:32:213 CPU/(9111:9111): La direccion IP del CPU es 192.168.0.104
+[INFO] 13:22:32:213 CPU/(9111:9111): Socket en el que se levanta el server: 7

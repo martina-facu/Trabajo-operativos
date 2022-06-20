@@ -34,15 +34,16 @@
 	pthread_t thread_id;
 	struct timeval 	tiempoSelect;
 	fd_set read_fd_set;	//	conjunto temporal de fd para select
-	int fdmax = -1;
-	int fdmin = -1;
-	int connectionsDispatch = 0;
-	int connectionsInterrupt = 0;
+	int fdmax;
+	int fdmin;
+	int connectionsDispatch;
+	int connectionsInterrupt;
 	int acceptedConecctionDispatch;
 	int acceptedConecctionInterrupt;
 	Pcb* pcb;
 	fd_set master_fd_set; 		// 	conjunto maestro de descriptores de fichero
-	bool devolver_pcb;
+	bool devolver_pcb;		//	Si es True significa que recibi una interrupcion
+	bool recibiPCB;			//	Si es FALSE significa que todavia no recibi ningun PCB si es TRUE ya recibi PCB a procesar desde el Kernel
 
 /*
  * Prototipo de funciones

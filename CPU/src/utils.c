@@ -20,6 +20,8 @@ Pcb* obtener_pcb(int cliente)
 
 	Pcb* pcb = pcb_deserializar(buffer);
 
+	recibiPCB = true;
+
 	return pcb;
 }
 
@@ -28,18 +30,23 @@ int levantar_conexion_memoria(t_config* config, uint32_t* cantidad_entradas,uint
 {
 	char * ip_memoria = malloc(sizeof(char) * 30);
 	strcpy(ip_memoria, config_get_string_value(config, "IP_MEMORIA"));
-	printf("\nIp de la memoria: %s", ip_memoria);
+	log_info(logger, "Ip de la memoria:  %s", ip_memoria);
 
 	char* puerto_memoria = config_get_string_value(config, "PUERTO_MEMORIA");
+	log_info(logger, "Puerto de la memoria:  %s", puerto_memoria);
 	int conexion_memoria = crear_conexion(ip_memoria, puerto_memoria);
+	log_info(logger, "Conexion establecida en la memoria con el descriptor:  %d", conexion_memoria);
+
 
 	uint8_t handshake_memoria = 8;
 	send(conexion_memoria, &handshake_memoria, sizeof(uint8_t), 0);
+	log_info(logger, "Se envia Handshake a la memoria");
 
 	uint8_t respuesta_memoria = 0;
 	recv(conexion_memoria, &respuesta_memoria, sizeof(uint8_t), 0);
-	printf("\nMensaje recibido de la memoria: %d", respuesta_memoria);
+	log_info(logger, "Mensaje recibido de la memoria:  %d", respuesta_memoria);
 
+	log_info(logger, "Conexion establecida con la memoria");
 //	TODO: descomentar estas lineas cuando se implemente la parte de la memoria
 //	recv(conexion_memoria, cantidad_entradas, sizeof(uint32_t), 0);
 //	recv(conexion_memoria, tamano_pagina, sizeof(uint32_t), 0);
@@ -175,7 +182,7 @@ void aceptoServerInterrupt(int socketAnalizar)
 	{
 		//	Si el grado de concurrencia admite que se sigan aceptando
 		//	conexiones, la acepto. Sino omito lo recibido.
-		if(connectionsDispatch < CONCURRENT_CONNECTION)
+		if(connectionsInterrupt < CONCURRENT_CONNECTION)
 		{
 			//	Acepto la conexion del cliente que se conecta
 			acceptedConecctionInterrupt = esperar_cliente(socketAnalizar);
@@ -265,7 +272,7 @@ int levantar_server(t_config* config, char* sTipo)
 
 	//	Inicio el servidor en la IP y puertos leidos desde el archivo de configuracion
 	socket = iniciar_servidor(ipCpu, puerto);
-	log_info(logger, "Socket %d", socket);
+	log_info(logger, "Socket en el que se levanta el server: %d", socket);
 
 	return socket;
 }
