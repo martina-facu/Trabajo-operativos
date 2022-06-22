@@ -25,6 +25,7 @@
 	t_log* logger;
 
 
+
 /*
  * Prototipo de funciones
 */
