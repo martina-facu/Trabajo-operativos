@@ -114,36 +114,67 @@ void aceptoServerInterrupt(int socketAnalizar)
 			acceptedConecctionInterrupt = esperar_cliente(socketAnalizar);
 			log_info(logger, "Se acepto la conexion del Interrupt en el socket: %d", acceptedConecctionDispatch);
 
-			//	Agrego el descrilptor al maestro
-			FD_SET(acceptedConecctionInterrupt, &master_fd_set);
-			//	Valido si tengo que cambiar el maximo o el minimo
-			//	Maximo
-			if (acceptedConecctionInterrupt > fdmax)
-			{
-				fdmax = acceptedConecctionInterrupt;
-			}
-			//	Minimo
-			if (acceptedConecctionInterrupt < fdmin)
-			{
-				fdmin = acceptedConecctionInterrupt;
-			}
-			log_info(logger, "Se agrego al set de descriptores el descriptor: %d", acceptedConecctionInterrupt);
-
-
 			//	Defino el mensaje a recibir (y lo recibo) del cliente cuando se conecta
 			uint8_t mensaje = 0;
 			recv(acceptedConecctionInterrupt, &mensaje, sizeof(uint8_t), 0);
 			log_info("Mensaje recibido interrupt: %d", mensaje);
 
-			//	Defino y envio Handshake
-			uint8_t handshake = 5;
-			send(acceptedConecctionInterrupt, &handshake, sizeof(uint8_t), 0);
-			connectionsInterrupt++;
+			if(mensaje == 3)
+			{
+				//	Recibi el mensaje de conexion de un Kernel Interrupt
+				//	Defino para finalizar la aceptacion de la conexion
+				uint8_t handshake = 5;
+				//	Envio el mensaje
+				send(acceptedConecctionInterrupt, &handshake, sizeof(uint8_t), 0);
+				//	Levanto el nivel de concurrencia activa de Interrupt
+				connectionsInterrupt++;
+
+				//	Inicializo los atributos del thread a crear.
+				resThread = pthread_attr_init(&attr);
+				if (resThread != 0)
+					handle_error_en(resThread, "Error al inicializar pthread_attr_init");
+//			   struct thread_info *tinfo = calloc(num_threads_interrupt, sizeof(*tinfo));
+//			   if (tinfo == NULL)
+//				   handle_error("Error al alocar la memoria para la informacion de los thread de interrupt");
+
+				resThread = pthread_create(&threadId, &attr, NULL, &atencionInterrupt, (void *) acceptedConecctionInterrupt);
+				if (resThread != 0)
+				   handle_error_en(resThread, "Error al crear el Thread");
+
+//				//	NO VA ESTA PARTE PORQUE NO LO VOY A MANTENER CON EL SOCKET SINO CON UN THREAD
+//				//	Agrego el descrilptor al maestro
+//				FD_SET(acceptedConecctionInterrupt, &master_fd_set);
+//				//	Valido si tengo que cambiar el maximo o el minimo
+//				//	Maximo
+//				if (acceptedConecctionInterrupt > fdmax)
+//				{
+//					fdmax = acceptedConecctionInterrupt;
+//				}
+//				//	Minimo
+//				if (acceptedConecctionInterrupt < fdmin)
+//				{
+//					fdmin = acceptedConecctionInterrupt;
+//				}
+//				log_info(logger, "Se agrego al set de descriptores el descriptor: %d", acceptedConecctionInterrupt);
+
+
+
+			}
+			else
+			{
+				//	El mensaje recibido no es lo esperado
+				//	Se procede a cerrar la conexion establecida
+				close(acceptedConecctionInterrupt);
+			}
+
+//			//	Defino y envio Handshake
+//			uint8_t handshake = 5;
+//			send(acceptedConecctionInterrupt, &handshake, sizeof(uint8_t), 0);
+//			connectionsInterrupt++;
 
 			/*
 			 * TENGO QUE CREAR EL THREAD DE ATENCION AL INTERRUPT
 			 */
-
 
 
 
@@ -183,12 +214,6 @@ t_config_cpu* cargarConfiguracion(char* configPath)
 int main(void)
 {
 	config = config_create("cpu.config");
-//	int socket_dispatch = 0;
-//	int socket_interrupt = 0;
-//	fdmax = -1;
-//	fdmin = 201669;
-//	connectionsDispatch = 0;
-//	connectionsInterrupt = 0;
 	uint32_t cantidad_entradas, tamano_pagina = 0;
 	devolver_pcb = false;
 	recibiPCB = false;
@@ -364,4 +389,33 @@ int main(void)
 	close(acceptedConecctionInterrupt);
 
 	return EXIT_SUCCESS;
+}
+
+
+void * atencionInterrupt(void * socketInterrupt)
+{
+	int iSocketInterrupt = (int) socketInterrupt;
+
+	while(1)
+	{
+		//	Defino el mensaje a recibir del Kernel Interrupt
+		uint8_t mensaje = 0;
+		recv(iSocketInterrupt, &mensaje, sizeof(uint8_t), 0);
+		log_info("Mensaje recibido interrupt: %d", mensaje);
+		if(mensaje == 50)
+		{
+			//	Como el mensaje es correcto seteo la variable para que el CPU devuelva el PCB
+			devolver_pcb = true;
+		}
+		else
+		{
+			//	Como el mensaje es incorrecto desestimo el mensaje recibido.
+			log_info("Mensaje recibido del interrupt es incorrecto, se desestima el mismo");
+		}
+
+
+	}
+
+
+    return NULL;
 }

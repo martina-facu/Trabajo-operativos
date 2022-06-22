@@ -72,6 +72,11 @@
 	int acceptedConecctionDispatch;
 	int acceptedConecctionInterrupt;
 
+	pthread_attr_t attr;
+	pthread_t threadId;
+	int resThread;
+//	int num_threads_interrupt = 1;
+
 
 //	int client_memory_socket;
 //	int client_dispatch_socket;
