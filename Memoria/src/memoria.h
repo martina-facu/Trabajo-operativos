@@ -25,6 +25,22 @@
 #include <netdb.h>
 #include <fcntl.h> //para funciones del swap como open
 
+
+//MENSAJES
+typedef enum
+{
+	MENSAJE_CLIENTE1=0,
+	MENSAJE_CLIENTE2=1,
+	INICIALIZAR_PROCESO=2,
+	SUSPENDER_PROCESO=3,
+	FINALIZAR_PROCESO=4,
+	ACCEDER_TABLA_DE_PAGINAS=5,
+	ACCEDER_ESPACIO_DE_USUARIO=6,
+	OK,
+	FAIL
+}op_code;
+//MENSAJES FIN
+
 #define PUERTO_ESCUCHA "PUERTO_ESCUCHA"
 #define TAM_MEMORIA "TAM_MEMORIA"
 #define TAM_PAGINA "TAM_PAGINA"
@@ -40,6 +56,7 @@
  * Listado de estructuras
 */
 
+//CONFIG
 typedef struct
 {
 	char* listen_port;
@@ -54,7 +71,7 @@ typedef struct
 	char* memoryIP;
 }t_config_memoria;
 
-
+//POSIBLE para paginacion(segun ejemplo del tp)
 typedef struct{
 uint32_t nroFrame;
 uint32_t bPres; //bit de presencia
@@ -111,12 +128,16 @@ t_tabla* paginas_segundo_nivel; //tabla de paginas ed segundo nivel
 	int connectionsKernel = 0;
 	int connectionsCPU = 0;
 
+	//MEMORIA
 	char* memoriaPrincipal;
-	int mem;
+	int mem; //esto creo que vuela
 	char* data;
 	t_bitarray* marcosOcupadosPpal;
-	int cantidadDePaginasPorProceso;
 
+
+	//paginacion -> TP = TABLA DE PAGINA
+	t_list* tp_procesos; //creo la tabla de paginas
+	int cantidadDePaginasPorProceso;
 /*
  * Prototipos de funciones
 */
@@ -130,9 +151,23 @@ t_tabla* paginas_segundo_nivel; //tabla de paginas ed segundo nivel
 	int validoYAceptoConexionKernel(int temporalAcceptedConnection);
 	int validoYAceptoConexionCPU(int temporalAcceptedConnection);
 	void iniciar_comunicacion();
+	int manejo_mensajes_kernel(int socket_cliente);
+	int manejo_mensajes_cpu(int socket_cliente);
+
+	//MENSAJES
+	void inicializar_proceso(int socket_cliente);
+	void suspender_proceso(int socket_cliente);
+	void finalizar_proceso(int socket_cliente);
+	void acceder_tabla_de_paginas(int socket_cliente);
+	void acceder_espacio_de_usuario(int socket_cliente);
 
 	//INICIAR MEMORIA
 	int iniciar_memoria();
+	void iniciar_tablas_paginas();
+
+	//FINALIZAR MEMORIA
+	void liberar_memoria(int conexionKernel, int conexionCPU, t_log* logger, t_config* config);
+	void liberar_conexion(int socket_cliente);
 
 	//BITARRAY
 	int bitsToBytes(int bits);
@@ -140,11 +175,14 @@ t_tabla* paginas_segundo_nivel; //tabla de paginas ed segundo nivel
 	char* asignarMemoriaBytes(int bytes);
 	void imprimir_bitarray(t_bitarray* marcosOcupadosPpal);
 
-	//Swap
+	//SWAP
 	void iniciarSwap();
 	int existe_archivo(char* path);
 	void crear_archivo_swap(int pid);
 	void eliminar_archivo_swap(int pid);
 	int retardo_swap();
+
+	//PAGINACION
+
 
 #endif /* MEMORIA_H_ */
