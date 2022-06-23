@@ -1,148 +1,318 @@
 /*
- ============================================================================
- Name        : Memoria.c
- Author      : 
- Version     :
- Copyright   : Your copyright notice
- Description : Hello World in C, Ansi-style
- ============================================================================
+ * memoria.c
+ *
+ *  Created on: 22 jun. 2022
+ *      Author: utnso
  */
-
 
 #include "memoria.h"
 
-const char* CONFIG_FIELDS[] = {PUERTO_ESCUCHA, TAM_MEMORIA, TAM_PAGINA, ENTRADAS_POR_TABLA, ALGORITMO_REEMPLAZO, MARCOS_POR_PROCESO, RETARDO_MEMORIA, PATH_SWAP};
 
-t_log* iniciar_logger(void){
+int main(void)
+{
+	//	iniciar log
+	logger = initLogger("memoria.log", "MEMORIA", LOG_LEVEL_INFO);
 
-	if((logger = log_create("ARCHIVO_LOG", "Memoria", 1, LOG_LEVEL_INFO)) == NULL){
+	//	cargar archivo de config
+	config = cargarConfiguracion("memoria.config");
 
-		printf("No se pueded crear el log\n");
-		exit(1);
+	log_trace(logger, "Estoy por comenzar el inicio del server Memoria");
 
-	}
+	//PREGUNTAR A HERNAN, INCIAR_MEMORIA VA SIEMPRE PRIMERO? O CUANDO SE INCIALIZA UN PROCESO
+	iniciar_memoria();
 
-	else{
-		logger = log_create("Memoria.log", "Memoria", 1, LOG_LEVEL_INFO);
-		log_info(logger, "-------------------------");
-		log_info(logger, "Iniciando log Proceso Memoria");
-		log_info(logger, "-------------------------");
+	iniciar_comunicacion();
 
-		return logger;
 
-	}
+
+
+	return EXIT_SUCCESS;
 }
 
 
-t_config_memoria* cargar_configuracion(char* ruta_del_config){
 
-	t_config* archivo_config = config_create(ruta_del_config);
-	config = malloc(sizeof(t_config_memoria));
+//-----------------------------CONFIGURACION-----------------------------
 
-	if(config == NULL){
-		log_error(logger, "Archivo de configuracion no encontrado");
-		EXIT_FAILURE;
-	}
+t_config_memoria* cargarConfiguracion(char* configPath)
+{
 
-	config->listen_port = config_get_string_value(archivo_config, PUERTO_ESCUCHA);
-	config->memory_size = config_get_int_value(archivo_config, TAM_MEMORIA);
-	config->page_size = config_get_int_value(archivo_config, TAM_PAGINA);
-	config->table_input = config_get_int_value(archivo_config, ENTRADAS_POR_TABLA);
-	config->memory_time_delay = config_get_int_value(archivo_config, RETARDO_MEMORIA);
-	config->quantity_frames_process= config_get_int_value(archivo_config, MARCOS_POR_PROCESO);
-	config->swap_time_delay = config_get_int_value(archivo_config, RETARDO_MEMORIA);
-	config->path_swap = config_get_string_value(archivo_config, PATH_SWAP);
-	config->replacement_algorithm = config_get_string_value(archivo_config, ALGORITMO_REEMPLAZO);
+	t_config* configFile = config_create(configPath);
+	t_config_memoria* configTemp = crearConfigMemoria();
 
-	//validaciones no se si van
+	configTemp->listen_port = config_get_string_value(configFile, PUERTO_ESCUCHA);
+		log_info(logger, "PUERTO_ESCUCHA: %s", configTemp->listen_port);
+	configTemp->memory_size = config_get_int_value(configFile, TAM_MEMORIA);
+		log_info(logger, "TAM_MEMORIA: %d", configTemp->memory_size);
+	configTemp->page_size = config_get_int_value(configFile, TAM_PAGINA);
+		log_info(logger, "TAM_PAGINA: %d", configTemp->page_size);
+	configTemp->table_input = config_get_int_value(configFile, ENTRADAS_POR_TABLA);
+		log_info(logger, "ENTRADAS_POR_TABLA: %d", configTemp->table_input);
+	configTemp->memory_time_delay = config_get_int_value(configFile, RETARDO_MEMORIA);
+		log_info(logger, "RETARDO_MEMORIA: %d", configTemp->memory_time_delay);
+	configTemp->quantity_frames_process= config_get_int_value(configFile, MARCOS_POR_PROCESO);
+		log_info(logger, "MARCOS_POR_PROCESO: %d", configTemp->quantity_frames_process);
+	configTemp->swap_time_delay = config_get_int_value(configFile, RETARDO_MEMORIA);
+		log_info(logger, "RETARDO_MEMORIA: %d", configTemp->swap_time_delay);
+	configTemp->path_swap = config_get_string_value(configFile, PATH_SWAP);
+		log_info(logger, "PATH_SWAP: %s", configTemp->path_swap);
+	configTemp->replacement_algorithm = config_get_string_value(configFile, ALGORITMO_REEMPLAZO);
+		log_info(logger, "ALGORITMO_REEMPLAZO: %s", configTemp->replacement_algorithm);
+	configTemp->memoryIP = config_get_string_value(configFile, IP_MEMORIA);
+		log_info(logger, "IP_MEMORIA: %s", configTemp->memoryIP);
 
-	if ((config->memory_size % config->page_size) != 0) {
-		log_error(logger, "El tamaño de memoria %d no es multiplo del tamaño de pagina", config->memory_size);
-		EXIT_FAILURE;
-	}
+	return configTemp;
+}
 
-	if((config->page_size % 2) != 0){
-		log_error(logger, "El tamaño de pagina debe ser multiplo de 2");
-		EXIT_FAILURE;
-	}
-
+t_config_memoria* crearConfigMemoria(void)
+{
+	t_config_memoria* config = malloc(sizeof(t_config_memoria));
 	return config;
 }
 
-void liberear_memoria (int conexion, t_log* logger, t_config* config){
 
-//Por ultimo liberamos conexion, log y config
-log_info(logger, "Finalizando memoria :(");
+//-----------------------------SERVIDOR-----------------------------
 
 
-//Libero memoria paginacion
-//liberarMemoriaPaginacion();
+void iniciar_comunicacion(){
 
-//Libero la memoria reservada
-free(memoriaPrincipal);
+	//	Seteo en 0 a los set de descriptores a revisar por el select
+		FD_ZERO(&read_fd_set);
+		FD_ZERO(&master_fd_set);
 
-if (logger != NULL)
-	log_destroy(logger);
+		//	Levanto servers de atencion al Kernel y atencion al CPU
+		//	Levanto el server para el Kernel
+		memorySocketServer = levantar_server(config->memoryIP, config->listen_port, logger);
 
-if (config != NULL){
-	config_destroy(config);
+		//	Verifico si el descriptor es mayor o menor al maximo o al minimo del select
+		//	Maximo
+		if( fdmax < memorySocketServer)
+			fdmax = memorySocketServer;
+		//	Minimo
+		if( memorySocketServer < fdmin)
+			fdmin = memorySocketServer;
+		//	Agrego el descriptor del server de DISPATCH al maestro del select
+		FD_SET(memorySocketServer, &master_fd_set);
+
+		while(1)
+		{
+			/*
+			 * 	A partir de aca empieza el codigo de comunicaciones de la Memoria
+			 *
+			 *
+			 *
+			 */
+			//	Seteo tiempos de respuesta del select
+			tiempoSelect.tv_sec = 0;
+			tiempoSelect.tv_usec = 500;
+
+			//	Clono el set maestro en uno de read para revision del select
+			read_fd_set = master_fd_set;
+
+			//	Reviso las conexiones con el select
+			//	Si hay un error lo logueo
+			if (select(fdmax+1, &read_fd_set, NULL, NULL, &tiempoSelect) < 0)
+			{
+				strerror(errno);
+				log_error(logger, "Error ejecutar el select %d", errno);
+				//	Validar si la falla hace que tenga que matar la CPU
+				//	return(EXIT_FAILURE);
+			}
+			//	De no haber errores las proceso
+			else
+			{
+				for(int i = fdmin;  i <= fdmax; i++)
+				{
+					//	Valido los distintos casos y actuo de acuerdo a cada uno
+					//	Si el descriptor a revisar es el server de Memoria
+					//	acepto la comunicacion y luego valido si es el alguno de los
+					//	clientes que tengo que atender. Caso contrario cierro la conexion
+					if(i == memorySocketServer)
+					{	//	Verifico si se recibio informacion en el descriptor de server sea del Kernel o del CPU
+						if (FD_ISSET(memorySocketServer, &read_fd_set))
+						{
+							aceptoYEvaluoConexion(memorySocketServer);
+						}
+					}
+					if(i == acceptedConecctionKernel)
+					{
+						//	Verifico si se recibio informacion proveniente del Kernel
+						if (FD_ISSET(acceptedConecctionKernel, &read_fd_set))
+						{
+							/*
+							 *	Aca va la logica de mensajes con el kernel
+							 */
+
+						}
+					}
+					if(i == acceptedConecctionCPU)
+					{
+						//	Verifico si se recibio informacion proveniente del Kernel
+						if (FD_ISSET(acceptedConecctionCPU, &read_fd_set))
+						{
+							/*
+							 *	Aca va la logica de mensajes con la CPU
+							 */
+
+						}
+					}
+				}
+			}
+		}
+
 }
 
-//liberar_conexion(conexion);
+int levantar_server(char* ipServer, char* portServer, t_log* logger)
+{
+	int socket;
+
+	//	Inicio el servidor en la IP y puertos leidos desde el archivo de configuracion
+	socket = iniciar_servidor(ipServer, portServer);
+	log_info(logger, "Socket en el que se levanta el server de Memoria: %d", socket);
+
+	return socket;
 }
 
+/*
+ *  Funcion: aceptoYEvaluoConexion
+ *  Entradas: 	int socketAnalizar		socket que se esta analizando en el select
+ *  Salidas: void
+ *  Razon: 	Aceptar conexion (y de corresponder mantenerla) de acuerdo al cliente que se conecte
+ *  Autor:
+ */
+void aceptoYEvaluoConexion(int socketAnalizar)
+{
+	int temporalAcceptedConnection;
+//	uint8_t handshake;
 
-int main(void){
+	//	Acepto las conexiones para luego validar que tipo es y si corresponde mantenerla
+	temporalAcceptedConnection = esperar_cliente(socketAnalizar);
+	log_info(logger, "Se acepto temporalmente conexion en el puerto: %d para evaluar la misma", temporalAcceptedConnection);
 
-//cargar archivo de config
-config = cargar_configuracion(path_config);
+	//	Recibo el tipo de mensaja para saber si es Kernel o CPU
+	uint8_t mensaje = 0;
+	recv(temporalAcceptedConnection, &mensaje, sizeof(uint8_t), 0);
+	log_info(logger, "Mensaje recibido en el server Memoria para aceptar conexiones: %d", mensaje);
 
-//iniciar log
-logger = iniciar_logger();
+	switch(mensaje)
+	{
 
-//muestro la configuracion
-mostrar_logger();
-
-/* mem = iniciar_memoria();
-
-//
-if (!mem)
-return 0;
-
-*/
-
-log_trace(logger, "Estoy por comenzar el inicio del server Memoria");
-
-//iniciar_servidor();
-
-//TERMINAR SERVIDOR
-//close(socket_server);
-
-//terminar programa destruyendo configs y logger
-//liberear_memoria (conexion, logger, config);
-
-
-iniciar_memoria();
-
-return EXIT_SUCCESS;
-
-
+		//	Se recibio mensaje del Kernel
+		case 3:
+			//	Valido si ya hay un Kernel conectado
+			//	Si el grado de concurrencia admite que se sigan aceptando
+			//	conexiones, la acepto. Sino omito lo recibido.
+			if(connectionsKernel < CONCURRENT_CONNECTION)
+			{
+				acceptedConecctionKernel = validoYAceptoConexionKernel(temporalAcceptedConnection);
+			}
+		break;
+		//	Se recibio mensaje de la CPU
+		case 8:
+			//	Valido si ya hay una CPU conectada
+			//	Si el grado de concurrencia admite que se sigan aceptando
+			//	conexiones, la acepto. Sino omito lo recibido.
+			if(connectionsCPU < CONCURRENT_CONNECTION)
+			{
+				acceptedConecctionCPU = validoYAceptoConexionCPU(temporalAcceptedConnection);
+			}
+		break;
+		default:
+			log_info(logger,"El mensaje recibido no corresponde a ninguno de los preestablecidos: %d", mensaje);
+			log_info(logger,"Procedo a cerrar sesion temporal establecida en el descriptor: %d", temporalAcceptedConnection);
+			close(temporalAcceptedConnection);
+		break;
+		//	Cualquier otro mensaje desconozco como manejarlo por lo que lo omito.
+	}
 }
 
+/*
+ *  Funcion: validoYAceptoConexionKernel
+ *  Entradas: 	int temporalAcceptedConnection	Socket aceptado en forma temporal
+ *  Salidas: int	Socket donde quedo en forma definitiva establecida a conexion con el Kernel
+ *  Razon: 	Validar que se haya establecido una conexion real con el Kernel y finalizar el contacto
+ *  		con la misma
+ *  Autor:
+ */
+int validoYAceptoConexionKernel(int temporalAcceptedConnection)
+{
+	int acceptedConecctionKernel;
+	uint8_t handshake;
 
-void mostrar_logger(){
 
-	//LOGEAMOS EL VALOR DE LAS CONFIG
-	log_info(logger, "PUERTO_ESCUCHA: %s", config->listen_port);
-	log_info(logger, "TAM_MEMORIA: %d", config->memory_size);
-	log_info(logger, "TAM_PAG: %d", config->page_size);
-	log_info(logger, "ENTRADAS_POR_TABLA: %d", config->table_input);
-	log_info(logger, "RETARDO_MEMORIA: %d", config->memory_time_delay);
-	log_info(logger, "ALGORITMO_REEMPLAZO: %s", config->replacement_algorithm);
-	log_info(logger, "MARCOS_POR_PROCESO: %d", config->quantity_frames_process);
-	log_info(logger, "RETARDO_SWAP: %d", config->swap_time_delay);
-	log_info(logger, "PATH_SWAP: %s", config->path_swap);
+	//	Acepto la conexion del Kernel
+	acceptedConecctionKernel = temporalAcceptedConnection;
+	log_info(logger, "Se acepto la conexion del Kernel en el socket: %d", acceptedConecctionKernel);
+	//	Agrego el descrilptor al maestro
+	FD_SET(acceptedConecctionKernel, &master_fd_set);
+	//	Valido si tengo que cambiar el maximo o el minimo
+	//	Maximo
+	if (acceptedConecctionKernel > fdmax)
+	{
+		fdmax = acceptedConecctionKernel;
+	}
+	//	Minimo
+	if (acceptedConecctionKernel < fdmin)
+	{
+		fdmin = acceptedConecctionKernel;
+	}
+	log_info(logger, "Se agrego al set de descriptores el descriptor: %d", acceptedConecctionKernel);
+
+	//	Devuelvo el handshake predeterminado
+	handshake = 6;
+	send(acceptedConecctionKernel, &handshake, sizeof(uint8_t), 0);
+
+
+	//	Incremento el grado de concurrencia actual del Kernel
+	connectionsKernel++;
+
+	return acceptedConecctionKernel;
 }
+
+/*
+ *  Funcion: validoYAceptoConexionCPU
+ *  Entradas: 	int temporalAcceptedConnection	Socket aceptado en forma temporal
+ *  Salidas: int	Socket donde quedo en forma definitiva establecida a conexion con la CPU
+ *  Razon: 	Validar que se haya establecido una conexion real con la CPU y finalizar el contacto
+ *  		con la misma
+ *  Autor:
+ */
+
+int validoYAceptoConexionCPU(int temporalAcceptedConnection)
+{
+	int acceptedConecctionCPU;
+	uint8_t handshake;
+
+
+	//	Acepto la conexion del Kernel
+	acceptedConecctionCPU = temporalAcceptedConnection;
+	log_info(logger, "Se acepto la conexion del CPU en el socket: %d", acceptedConecctionCPU);
+	//	Agrego el descrilptor al maestro
+	FD_SET(acceptedConecctionCPU, &master_fd_set);
+	//	Valido si tengo que cambiar el maximo o el minimo
+	//	Maximo
+	if (acceptedConecctionCPU > fdmax)
+	{
+		fdmax = acceptedConecctionCPU;
+	}
+	//	Minimo
+	if (acceptedConecctionCPU < fdmin)
+	{
+		fdmin = acceptedConecctionCPU;
+	}
+	log_info(logger, "Se agrego al set de descriptores el descriptor: %d", acceptedConecctionCPU);
+
+	//	Devuelvo el handshake predeterminado
+	handshake = 9;
+	send(acceptedConecctionCPU, &handshake, sizeof(uint8_t), 0);
+
+
+	//	Incremento el grado de concurrencia actual del Kernel
+	connectionsCPU++;
+
+	return acceptedConecctionCPU;
+}
+
+//-----------------------------MEMORIA-----------------------------
 
 //Inicio la memoria principal y la virtual con paginacion
 
@@ -160,7 +330,7 @@ int iniciar_memoria(){
 	//Obtengo cantidad de marcos
 	int cantMarcosPpal = config->memory_size / config->page_size;
 
-	//asigno cantidad de memoria a data
+	//Asigno cantidad de memoria a data
 	data = asignarMemoriaBits(cantMarcosPpal);
 
 	if (data == NULL){
@@ -172,14 +342,15 @@ int iniciar_memoria(){
 
 	memset(data,0,cantMarcosDiv8);
 
-	//inicializo el array de memoria para pagincaion en 0
+	//Inicializo el array de memoria para pagincaion en 0
 	marcosOcupadosPpal = bitarray_create_with_mode(data, cantMarcosDiv8, MSB_FIRST);
 
 	//Indico la cantidad de paginas por proceso
 	cantidadDePaginasPorProceso = config->quantity_frames_process;
 
-	tablaDePaginas = list_create();
+	//tablaDePaginas = list_create();
 
+	//Se puede comentar despues, es para probar
 	imprimir_bitarray(marcosOcupadosPpal);
 
 	//iniciarSwap();
@@ -214,6 +385,8 @@ char* asignarMemoriaBytes(int bytes){
 	return aux;
 }
 
+//Imprimir vector de arrays de la memoria
+
 void imprimir_bitarray(t_bitarray* marcosOcupadosPpal){
 
 	int cantMarcosPpal = config->memory_size / config->page_size;
@@ -225,22 +398,112 @@ void imprimir_bitarray(t_bitarray* marcosOcupadosPpal){
 
 }
 
-//FUNCIONES DE MENSAJES
 
-char* leer_string(char* buffer, int* desplazamiento)
-{
-	//char* buf = (char*) buffer;
+//SWAP
 
-	int tamanio = leer_entero(buffer, &desplazamiento);
-	//printf("allocating / copying %d \n",tamanio);
-	/*
+void iniciarSwap(){
 
-	memcpy(&tamanio, buffer + (*desplazamiento), sizeof(int));
-	(*desplazamiento)+=sizeof(int);
-	 */
-	char* valor = malloc(tamanio);
-	memcpy(valor, buffer+(*desplazamiento), tamanio);
-	(*desplazamiento)+=tamanio;
+	//Verifico si el archivo existe, de lo contrario lo creo
 
-	return valor;
+
+}
+
+
+/*
+ *  Funcion: existe_archivo
+ *  Entradas: 	char* path	le paso un directorio
+ *  Salidas: int	ret me devuelve un entero (1) si el archivo existe
+ *  Razon: 	Verificar si el archivo existe para no tener que crearlo.
+ */
+
+int existe_archivo(char* path){
+
+	int ret = 0;
+
+	int f = open(path, O_RDONLY);
+
+	if (f != -1){ //si f no es -1, el archivo existe
+		ret = 1;
+		close(f);
+	}
+
+	return ret;
+}
+
+
+/*
+ *  Funcion: crear_archivo_swap
+ *  Entradas: 	int pid	le paso un pid (id del proceso)
+ *  Salidas: void La devolucion de esta funcion es la creacion del archivo con
+ *  el pid + .swap
+ *  Razon: 	Cuando se inicializa un proceso en memoria, hay que crear su archivo en swap
+ */
+void crear_archivo_swap(int pid){ //archivo del tamanio del proceso
+
+	//para guardar el pid
+	char buffer[5];
+	//lo paso a entero
+	sprintf(buffer, "%d",pid);
+
+	//Copio el nomrbe del proceso y el string .swap
+	char* nombreArchivo = strcpy(buffer, ".swap");
+	char* pathArchivo = strcpy(config->path_swap, strcpy("/", nombreArchivo));
+	//Verifico si el archivo no existe
+
+	if(!existe_archivo(pathArchivo)){
+
+
+		FILE* archivo = fopen(nombreArchivo, "wt");
+
+		log_info(logger, "Se creo el archivo %s", nombreArchivo);
+		log_info(logger, " del proceso %d", pid);
+
+		//completar con info de memoria
+	}
+}
+
+
+/*
+ *  Funcion: eliminar_archivo_swap
+ *  Entradas: 	int pid	le paso un pid (id del proceso)
+ *  Salidas: void La devolucion de esta funcion es la eliminacion del archivo con
+ *  el pid + .swap
+ *  Razon: 	Cuando se finaliza un proceso en memoria, hay que eliminar su archivo en swap.
+ *  Para eso valido si existe, si es así lo borro, de lo contrario no hago nada.
+ */
+
+void eliminar_archivo_swap(int pid){
+	//para guardar el pid
+	char buffer[5];
+	//lo paso a entero
+	sprintf(buffer, "%d",pid);
+
+	//hago la concatenación
+	char* nombreArchivo = strcpy(buffer, ".swap");
+	char* pathArchivo = strcpy(config->path_swap, strcpy("/", nombreArchivo));
+
+	if(existe_archivo(pathArchivo)){
+		if(remove(nombreArchivo)){
+			log_info(logger, "Se eliminó el archivo %s", nombreArchivo);
+		}
+		else
+			log_info(logger, "Ocurrio un error al eliminar el archivo %s", nombreArchivo);
+	}
+
+	else
+		log_info(logger, "No se encontro el archivo %s", nombreArchivo);
+}
+
+
+/*
+ *  Funcion: crear_archivo_swap
+ *  Entradas: 	void No recibe ningun parametro
+ *  Salidas: void La devolucion de esta funcion es un entero, que emula un delay
+ *  Razon: 	Cuando se hacen operaciones entre memoria y el swap suele haber un tiempo
+ *  de espera, con esta función lo emulamos.
+ */
+
+int retardo_swap(){
+
+	return sleep(config->swap_time_delay);
 }
