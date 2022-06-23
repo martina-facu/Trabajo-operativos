@@ -18,13 +18,14 @@ int main(void)
 
 	log_trace(logger, "Estoy por comenzar el inicio del server Memoria");
 
-	//PREGUNTAR A HERNAN, INCIAR_MEMORIA VA SIEMPRE PRIMERO? O CUANDO SE INCIALIZA UN PROCESO
+	//	se inicializan las estructuras(array de memoria vacia, tabla de paginas
 	iniciar_memoria();
 
+	//	inicializa el servidor y se espera a los clientes
 	iniciar_comunicacion();
 
-
-
+	//Finalizamos todo (revisar por si falta finalizar algo)
+	liberar_memoria(acceptedConecctionKernel, acceptedConecctionCPU, logger, config);
 
 	return EXIT_SUCCESS;
 }
@@ -134,27 +135,16 @@ void iniciar_comunicacion(){
 						}
 					}
 					if(i == acceptedConecctionKernel)
-					{
 						//	Verifico si se recibio informacion proveniente del Kernel
 						if (FD_ISSET(acceptedConecctionKernel, &read_fd_set))
-						{
-							/*
-							 *	Aca va la logica de mensajes con el kernel
-							 */
+							manejo_mensajes_kernel(acceptedConecctionKernel);
 
-						}
-					}
+
 					if(i == acceptedConecctionCPU)
-					{
 						//	Verifico si se recibio informacion proveniente del Kernel
 						if (FD_ISSET(acceptedConecctionCPU, &read_fd_set))
-						{
-							/*
-							 *	Aca va la logica de mensajes con la CPU
-							 */
+							manejo_mensajes_cpu(acceptedConecctionCPU);
 
-						}
-					}
 				}
 			}
 		}
@@ -224,7 +214,6 @@ void aceptoYEvaluoConexion(int socketAnalizar)
 		//	Cualquier otro mensaje desconozco como manejarlo por lo que lo omito.
 	}
 }
-
 /*
  *  Funcion: validoYAceptoConexionKernel
  *  Entradas: 	int temporalAcceptedConnection	Socket aceptado en forma temporal
@@ -312,12 +301,88 @@ int validoYAceptoConexionCPU(int temporalAcceptedConnection)
 	return acceptedConecctionCPU;
 }
 
+/*
+ *  Funcion: validoYAceptoConexionKernel
+ *  Entradas: 	int acceptedConnectionKernel	Socket aceptado del kernel
+ *  Salidas: int
+ *  Razon: 	Validar el tipo de mensaje que se recibe del kernel y responder
+ */
+
+int manejo_mensajes_kernel(int acceptedConecctionKernel){
+
+	uint8_t mensaje = 0;
+	recv(acceptedConecctionKernel, &mensaje, sizeof(uint8_t), 0);
+	log_info(logger, "Mensaje recibido en el server Memoria para aceptar conexiones: %d", mensaje);
+
+	switch(mensaje){
+
+				case INICIALIZAR_PROCESO:
+					inicializar_proceso(acceptedConecctionKernel);
+				break;
+
+				case SUSPENDER_PROCESO: //CPU
+					suspender_proceso(acceptedConecctionKernel);
+				break;
+
+				case FINALIZAR_PROCESO:
+					finalizar_proceso(acceptedConecctionKernel);
+				break;
+
+				case ACCEDER_TABLA_DE_PAGINAS:
+					//acceder_tabla_de_paginas(acceptedConecctionKernel);
+				break;
+
+				case ACCEDER_ESPACIO_DE_USUARIO:
+					//acceder_espacio_de_usuario(acceptedConecctionKernel);
+				break;
+
+				default:
+					log_info(logger,"El mensaje recibido no corresponde a ninguno de los preestablecidos: %d", mensaje);
+					log_info(logger,"Procedo a cerrar sesion temporal establecida en el descriptor: %d", acceptedConecctionKernel);
+					close(acceptedConecctionKernel);
+				break;
+			}
+
+	return acceptedConecctionKernel; //ESTO ESTA BIEN HERNAN?
+
+}
+
+
+/*
+ *  Funcion: validoYAceptoConexionCPU
+ *  Entradas: 	int acceptedConnectionCPU	Socket aceptado del cpu
+ *  Salidas: int
+ *  Razon: 	Validar el tipo de mensaje que se recibe del cpu y responder
+ */
+
+int manejo_mensajes_cpu(int acceptedConecctionCPU){
+	uint8_t mensaje = 0;
+	recv(acceptedConecctionKernel, &mensaje, sizeof(uint8_t), 0);
+	log_info(logger, "Mensaje recibido en el server Memoria para aceptar conexiones: %d", mensaje);
+
+	switch(mensaje){
+					default:
+						log_info(logger,"El mensaje recibido no corresponde a ninguno de los preestablecidos: %d", mensaje);
+						log_info(logger,"Procedo a cerrar sesion temporal establecida en el descriptor: %d", acceptedConecctionKernel);
+						close(acceptedConecctionKernel);
+					break;
+				}
+
+		return acceptedConecctionCPU; //ESTO ESTA BIEN HERNAN?
+}
+
+void liberar_conexion(int socket_cliente){
+
+	close(socket_cliente);
+}
+
 //-----------------------------MEMORIA-----------------------------
 
 //Inicio la memoria principal y la virtual con paginacion
 
 int iniciar_memoria(){
 
+	log_info(logger, "Reservando memoria");
 	//Reservo memoria segun el archivo de config
 	memoriaPrincipal = malloc(config->memory_size);
 
@@ -327,8 +392,11 @@ int iniciar_memoria(){
 		return 0;
 	}
 
+	log_info(logger, "Tamano memoria: %d", config->memory_size);
+
 	//Obtengo cantidad de marcos
 	int cantMarcosPpal = config->memory_size / config->page_size;
+	log_info(logger, "Cantidad de marcos: %d", cantMarcosPpal);
 
 	//Asigno cantidad de memoria a data
 	data = asignarMemoriaBits(cantMarcosPpal);
@@ -340,15 +408,22 @@ int iniciar_memoria(){
 
 	int cantMarcosDiv8 = cantMarcosPpal/8;
 
-	memset(data,0,cantMarcosDiv8);
+	memset(data,'\0',cantMarcosDiv8);
 
 	//Inicializo el array de memoria para pagincaion en 0
 	marcosOcupadosPpal = bitarray_create_with_mode(data, cantMarcosDiv8, MSB_FIRST);
 
 	//Indico la cantidad de paginas por proceso
 	cantidadDePaginasPorProceso = config->quantity_frames_process;
+	log_info(logger, "Cantidad de marcos por proceso: %d", config->quantity_frames_process);
 
-	//tablaDePaginas = list_create();
+	//Genero la lista de tabla de paginas (contiene una lista de numeros (primer nivel) y una lista de struct (segundo nivel)
+	tp_procesos = list_create();
+
+	if (tp_procesos == NULL){
+		log_error(logger, "Fallo creando tp_procesos");
+		return 0;
+	}
 
 	//Se puede comentar despues, es para probar
 	imprimir_bitarray(marcosOcupadosPpal);
@@ -398,13 +473,41 @@ void imprimir_bitarray(t_bitarray* marcosOcupadosPpal){
 
 }
 
+//FINALIZAR MEMORIA
 
-//SWAP
+void liberar_memoria(int conexionKernel, int conexionCPU, t_log* logger, t_config* config){
+
+	//Por ultimo liberamos conexion, log y config
+	log_info(logger, "Finalizando memoria :(");
+
+
+	//Libero memoria paginacion
+	//liberarMemoriaPaginacion();
+
+	//Destruyo el bitarray
+	bitarray_destroy(marcosOcupadosPpal);
+	//Libero la memoria reservada
+	free(memoriaPrincipal);
+
+	//Destruyo el logger
+	if (logger != NULL)
+		log_destroy(logger);
+
+	//Destruyo el config
+	if (config != NULL)
+		config_destroy(config);
+
+	liberar_conexion(conexionKernel);
+	liberar_conexion(conexionCPU);
+}
+
+
+
+//-----------------------------SWAP-----------------------------
 
 void iniciarSwap(){
 
-	//Verifico si el archivo existe, de lo contrario lo creo
-
+ //TODO: Ver si tengo que iniciarlo
 
 }
 
@@ -473,6 +576,7 @@ void crear_archivo_swap(int pid){ //archivo del tamanio del proceso
  */
 
 void eliminar_archivo_swap(int pid){
+
 	//para guardar el pid
 	char buffer[5];
 	//lo paso a entero
@@ -507,3 +611,82 @@ int retardo_swap(){
 
 	return sleep(config->swap_time_delay);
 }
+
+
+//-----------------------------PAGINACION-----------------------------
+
+
+
+
+//-----------------------------MENSAJES-----------------------------
+
+void inicializar_proceso(int socket_cliente){
+
+
+}
+
+void finalizar_proceso(int socket_cliente){
+
+	// 1) Buscar el proceso en memoria y libero el espacio utilizado
+	// 2) Eliminar pcb
+	// 3) Eliminar tablas? No es necesario para este tp
+	// 4) Eliminar archivo de swap
+
+	//recibir pid por mensaje
+	//Pcb* pcb = obtener_pcb(, socket_cliente);
+/*
+	int puedeEliminar = iniciar_eliminacion_proceso(pcb->pid);
+
+	if (puedeEliminar == 1){
+		send(socket_cliente, OK, sizeof(uint8_t), 0);
+		log_info(logger, "Se finalizo el proceso ok");
+	}
+	else{
+		log_error(logger, "Ocurrio un error al finalizar el proceso, lola");
+		send(socket_cliente, FAIL, sizeof(uint8_t), 0);
+	}
+
+*/
+
+}
+
+int iniciar_eliminacion_proceso(int pid){
+
+	/*//Busco el proceso en la lista de espacio utilizado y lo elimino de la lista
+
+	int cantidadProcesos = list_size(espacioUtilizado);
+
+	for (int i = 0; i < cantidadProcesos; i++){
+	proceso = list_get(espacioUtilizado,i);
+
+	if (proceso->pid == pid){
+		limpiar_posiciones(espacio, proceso->posPagina, proceso->cantidadDePaginas);
+		list_remove_and_destroy_element(espacioUtilizado,i, free);
+		eliminar_proceso(unaTabla);
+		log_info(logger, "El proceso %d - Pagina inicial:%d Tamanio:%d fue eliminado correctamente", pid, proceso->posPagina, proceso->cantidadDePaginas);
+	break;//?
+	}
+
+}
+
+	eliminar_archivo_swap(pid);
+*/
+	return 0;
+}
+
+
+void suspender_proceso(int socket_cliente){
+
+	//TODO
+
+}
+
+void acceder_tabla_de_paginas(int socket_cliente){
+	//TODO
+}
+
+void acceder_espacio_de_usuario(int socket_cliente){
+	//TODO
+}
+
+
