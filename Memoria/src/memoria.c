@@ -417,7 +417,7 @@ int iniciar_memoria(){
 	cantidadDePaginasPorProceso = config->quantity_frames_process;
 	log_info(logger, "Cantidad de marcos por proceso: %d", config->quantity_frames_process);
 
-	//Genero la lista de tabla de paginas (contiene una lista de numeros (primer nivel) y una lista de struct (segundo nivel)
+	//Genero la lista de tabla de paginas 
 	tp_procesos = list_create();
 
 	if (tp_procesos == NULL){
