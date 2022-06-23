@@ -1,8 +1,8 @@
 #include "coordenada.h"
 
-void enviar_coordenada(Coordenada_tabla* coordenada, uint32_t* valor_buscado, int conexion){
+void enviar_coordenada(Coordenada_tabla* coordenada, uint32_t* valor_buscado, int conexion,uint8_t codigo_operacion){
 	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
-	void* a_enviar = coordenada_serializar(coordenada,tamano_mensaje,1);
+	void* a_enviar = coordenada_serializar(coordenada,tamano_mensaje,codigo_operacion); // TODO: tener en cuenta que el enum es un int, revisar que pasa si se lo pasa a un uint8_t
 	send(conexion, a_enviar, *tamano_mensaje, 0);
 
 	recv(conexion, valor_buscado, sizeof(uint32_t), 0);

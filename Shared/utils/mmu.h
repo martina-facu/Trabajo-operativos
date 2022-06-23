@@ -39,11 +39,17 @@ typedef struct {
 	double direccion_fisica;
 } Pagina_direccion;
 
+Datos_calculo_direccion* datos;
+t_config* config_cpu;
+t_list* tlb_proceso;
+
+void inicializar_mmu(t_config* config, t_list* tlb);
+
 void mostrar_datos(Datos_calculo_direccion* datos);
 
-void cargar_entrada(t_config* config, t_list* tlb, Entrada_TLB* entrada);
+void cargar_entrada(Entrada_TLB* entrada);
 
-uint32_t buscar_marco(uint32_t pagina, t_list* tlb);
+uint32_t buscar_marco(uint32_t pagina);
 
 void set_numero_pagina(Datos_calculo_direccion* datos, double direccion_logica);
 
@@ -55,21 +61,23 @@ void set_desplazamiento(Datos_calculo_direccion* datos, double direccion_logica)
 
 void calcular_datos_direccion(Datos_calculo_direccion* datos, double direccion_logica);
 
-void reemplazar_entrada(t_config* config, t_list* tlb, Entrada_TLB* entrada);
+void reemplazar_entrada(Entrada_TLB* entrada);
 
-void reemplazar_entrada_FIFO(t_list* tlb, Entrada_TLB* entrada);
+void reemplazar_entrada_FIFO(Entrada_TLB* entrada);
 
-void reemplazar_entrada_LRU(t_list* tlb, Entrada_TLB* entrada);
+void reemplazar_entrada_LRU(Entrada_TLB* entrada);
 
-uint32_t get_marco(Datos_calculo_direccion* datos,t_list* tlb, t_config* config);
+uint32_t get_marco(Datos_calculo_direccion* datos);
 
 uint32_t get_marco_memoria(Datos_calculo_direccion* datos);
+
+Pagina_direccion* traducir_direccion(Datos_calculo_direccion* datos);
 
 void mostrar_datos(Datos_calculo_direccion* datos);
 
 void mostrar_entradas(t_list* list);
 
-t_list* crear_tabla_prueba();
+void crear_tabla_prueba();
 
 
 #endif

@@ -21,4 +21,8 @@ int levantar_puerto_interrupt(t_config* config, int* socket_interrupt);
 
 bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb);
 
+int leer(int direccion_logica, Datos_calculo_direccion* datos);
+
+int escribir(int direccion_logica);
+
 #endif

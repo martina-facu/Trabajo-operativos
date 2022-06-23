@@ -15,6 +15,7 @@
 #include <commons/config.h>
 #include "instrucciones.h"
 
+typedef enum {HANDSHAKE, TABLA_NIVEL_1,TABLA_NIVEL_2,ESCRIBIR, LEER} CPU_MEMORIA;
 
 t_buffer* armar_buffer (uint32_t tamano_estructura,void* stream);
 

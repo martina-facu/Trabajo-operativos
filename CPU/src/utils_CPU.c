@@ -91,9 +91,25 @@ int levantar_puerto_interrupt(t_config* config, int* socket_interrupt) {
 	return cliente2;
 }
 
-bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb) { // TODO : encapsular la logica de las instrucciones mas complicadas
+int leer(int direccion_logica, Datos_calculo_direccion* datos){
+	calcular_datos_direccion(datos, direccion_logica);
+
+	return 0;
+}
+
+int escribir(int direccion_logica){
+	return 0;
+}
+
+bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb) {
 	uint8_t id = instruccion->id;
 	t_list* parametros = instruccion->parametros;
+
+	Datos_calculo_direccion* datos = malloc(sizeof(Datos_calculo_direccion));
+	datos->id_tabla_paginas1 = pcb->pid;
+	datos->conexion_memoria = 0; //va a ser variable global
+	datos->entradas_por_tabla = 4; //va a ser variable global
+	datos->tamano_pagina = 100; //va a ser variable global
 
 	int catidad_parametros = getCantidadParametros(id);
 	int* parametro1,parametro2 = 0;
@@ -119,12 +135,15 @@ bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb) { // TODO : en
 		return true;
 		break;
 	case WRITE: // TODO : Implementar la instruccion WRITE
+//		int resultado = write(instruccion);
 		return false;
 		break;
 	case COPY: // TODO : Implementar la instruccion COPY
 		return false;
 		break;
 	case READ: // TODO : Implementar la instruccion READ
+//		int valor_leido = read(instruccion);
+
 		return false;
 		break;
 	case EXIT:
