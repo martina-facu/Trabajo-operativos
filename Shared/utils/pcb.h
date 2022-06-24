@@ -1,43 +1,54 @@
-#ifndef PCB
-#define PCB
+/*
+ * pcb.h
+ *
+ *  Created on: 24 jun. 2022
+ *      Author: utnso
+ */
 
-#include "./paquete.h"
-#include "./tabla_paginas.h"
-#include <commons/collections/list.h>
-#include <commons/log.h>
+#ifndef PCB_H_
+#define PCB_H_
+
+#include <ctype.h>
 #include <stdlib.h>
-#include "./instrucciones.h"
+#include <unistd.h>
+#include <commons/collections/list.h>
+#include <stdio.h>
+#include "protocolo.h"
+#include "instrucciones.h"
+#include <stdint.h>
 
-typedef enum {INICIADO, BLOQUEADO, FINALIZADO,SUSPENDIDO,INTERRUMPIDO} ESTADO;
+/*
+ * Estructuras
+*/
 
-typedef struct {
-   uint32_t pid;
-   uint32_t tamano;
-   uint32_t program_counter;
-   uint32_t estimado_rafaga;
-   ESTADO estado;
-   uint32_t tiempo_bloqueo;
-   Tabla_paginas *tabla_paginas;
-   t_list* instrucciones;
-} Pcb;
 
-Pcb *pcb_create(
-   uint32_t pid,
-   uint32_t tamano,
-   Tabla_paginas *tabla_paginas,
-   uint32_t estimado_rafaga,
-   t_list* instrucciones,
-   ESTADO estado,
-   uint32_t tiempo_bloqueo);
+	typedef enum {INICIADO, BLOQUEADO, FINALIZADO, SUSPENDIDO, INTERRUMPIDO} ESTADO;
 
-void *pcb_armar_stream(Pcb *pcb);
+	typedef struct {
+	   uint32_t pid;
+	   uint32_t tamano;
+	   uint32_t program_counter;
+	   uint32_t estimado_rafaga;
+	   ESTADO estado;
+	   uint32_t tiempo_block;
+	   uint32_t tabla_paginas;
+	   t_list* instrucciones;
+	} pcb_t;
 
-Pcb *pcb_deserializar(t_buffer* buffer);
 
-void pcb_mostrar(Pcb* pcb, t_log* logger);
 
-uint32_t pcb_calcular_espacio(Pcb* pcb);
 
-void* pcb_serializar(Pcb* pcb, uint32_t* tamano_mensaje, uint32_t codigo_operacion);
+/*
+ * Prototipo de funciones
+*/
 
-#endif
+
+	pcb_t *pcb_create(uint32_t tamano, t_list* instrucciones,uint32_t pid, double estimacion_inicial);
+	void *pcb_armar_stream(pcb_t *pcb);
+	pcb_t *pcb_deserializar(t_buffer* buffer);
+	void pcb_mostrar(pcb_t* pcb, t_log* logger);
+	uint32_t pcb_calcular_espacio(pcb_t* pcb);
+	void* pcb_serializar(pcb_t* pcb, uint32_t* tamano_mensaje, uint8_t codigo_operacion);
+
+
+#endif /* PCB_H_ */

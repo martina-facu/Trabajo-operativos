@@ -20,6 +20,7 @@
 #include "var_glob.h"
 #include "sjf.h"
 #include "fifo.h"
+#include "conexiones.h"
 #include <conexion.h>
 
 #ifndef KERNEL_H_

@@ -3,33 +3,50 @@
 
 
 
-int main(void){
+int main(void)
+{
+	//	Levanto todo el archivo de configuracion
 	establecer_configuracion();
+	//	Inicializo todos los logs
+	inicializar_loggers();
 
+	//	Me levanto como server y establesco todas las conexiones como cliente
 	//	Inicio el servidor Kernel para atencion de consolas
-	server_fd = iniciar_servidor(configuracion->IP_KERNEL,configuracion->PUERTO_ESCUCHA, logger);
+	levantar_conexion_memoria(configuracion->IP_KERNEL,configuracion->PUERTO_ESCUCHA, log);
+
+	//server_fd = iniciar_servidor(configuracion->IP_KERNEL,configuracion->PUERTO_ESCUCHA, log);
+
 	//	Se establece conexion con el Dispatch de la CPU
-	socket_cpu_dispatch = crear_conexion(configuracion->IP_CPU, configuracion->PUERTO_CPU_DISPATCH , logger);
+	levantar_conexion_cpu_dispatch(configuracion->IP_CPU, configuracion->PUERTO_CPU_DISPATCH , log);
+
+	//socket_cpu_dispatch = crear_conexion(configuracion->IP_CPU, configuracion->PUERTO_CPU_DISPATCH , log);
+
 	//	Se establece conexion con el Interrupt de la CPU
-	socket_cpu_interrupt = crear_conexion(configuracion->IP_CPU, configuracion->PUERTO_CPU_INTERRUPT , logger);
+	levantar_conexion_cpu_interrupt(configuracion->IP_CPU, configuracion->PUERTO_CPU_INTERRUPT , log);
+
+	//socket_cpu_interrupt = crear_conexion(configuracion->IP_CPU, configuracion->PUERTO_CPU_INTERRUPT , log);
 
 //	iniciar_conexion_cpu_interrupt();
 //	iniciar_conexion_memoria();
 
-	inicializar_loggers();
+	//	Inicializo las listas de los planificadores
 	inicializar_listas();
+	//	Inicializo los semaros usados por los planificadores
 	inicializar_semaforos();
 
+	//	Defino las variables de identificacion de los threads de cada planificador
 	pthread_t planificador_corto_plazo;
 	pthread_t planificador_mediano_plazo;
 	pthread_t planificador_largo_plazo;
 
 
-	if(strcmp(algoritmo,"FIFO")==0){
+	if(strcmp(configuracion->algoritmo,"FIFO")==0)
+	{
 		log_trace(log,"MODO PLANIFICADOR CORTO PLAZO: FIFO\n");
 		pthread_create(&planificador_corto_plazo,NULL,fifo,NULL);
 	}
-	else if(strcmp(algoritmo,"SJF\n")==0){
+	else if(strcmp(configuracion->algoritmo,"SJF\n")==0)
+	{
 		log_trace(log,"MODO PLANIFICADOR CORTO PLAZO: SJF");
 	}
 	else{
@@ -48,7 +65,8 @@ int main(void){
 
 	return EXIT_SUCCESS;
 }
-void establecer_configuracion(){
+void establecer_configuracion()
+{
 	t_config* kernel_config= config_create("kernel.config");
 
 	if(kernel_config==NULL){

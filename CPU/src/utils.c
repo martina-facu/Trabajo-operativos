@@ -28,7 +28,7 @@ Pcb* obtener_pcb(int cliente)
 
 int levantar_conexion_memoria(char* ipServer, char* portServer, t_log* logger, uint32_t* cantidad_entradas,uint32_t* tamano_pagina)
 {
-	int conexion_memoria = crear_conexion(ipServer, portServer);
+	int conexion_memoria = crear_conexion(ipServer, portServer, logger);
 	log_info(logger, "Conexion establecida en la memoria en la IP %s y puerto %s con el descriptor:  %d", ipServer, portServer, conexion_memoria);
 
 

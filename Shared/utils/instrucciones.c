@@ -131,3 +131,28 @@ void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones){
 	}
 }
 
+t_list* deserializar_paquete_instrucciones(int cliente, uint32_t* tamano_proceso)
+{
+
+	t_paquete* paquete = malloc(sizeof(t_paquete));
+
+	paquete->buffer = malloc(sizeof(t_buffer));
+	t_buffer* buffer = paquete->buffer;
+
+	//recibimos el codigo del tipo de mensaje que nos llega
+	recv(cliente, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
+
+	//recibo el tamaño del paquete
+	recv(cliente, &(buffer->size), sizeof(uint32_t), 0);
+	printf("%d",buffer->size,sizeof(uint32_t));
+	//recibo el buffer con las instrucciones
+	buffer->stream = malloc(buffer->size);
+	recv(cliente, buffer->stream, buffer->size, 0);
+
+	t_list* instrucciones = list_create();
+	deserializar_instrucciones(buffer, instrucciones);
+
+	recv(cliente, tamano_proceso, sizeof(uint32_t), 0);
+
+	return instrucciones;
+}
