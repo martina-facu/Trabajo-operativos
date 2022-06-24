@@ -27,7 +27,7 @@ src/CPU.o: ../src/CPU.c
 src/%.o: ../src/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross GCC Compiler'
-	gcc -Icommons -Ipthread -I/home/utnso/tp-2022-1c-9-12/Shared/utils -I/home/utnso/tp-2022-1c-9-12/Shared -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	gcc -Icommons -I"/home/utnso/tp-2022-1c-9-12/Shared" -I"/home/utnso/tp-2022-1c-9-12/Shared/utils" -Ipthread -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

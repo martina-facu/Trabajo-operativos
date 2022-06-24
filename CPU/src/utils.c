@@ -32,7 +32,7 @@ int levantar_conexion_memoria(char* ipServer, char* portServer, t_log* logger, u
 	log_info(logger, "Conexion establecida en la memoria en la IP %s y puerto %s con el descriptor:  %d", ipServer, portServer, conexion_memoria);
 
 
-	uint8_t handshake_memoria = 8;
+	uint8_t handshake_memoria = INICIAR_CONEXION_CPU;
 	send(conexion_memoria, &handshake_memoria, sizeof(uint8_t), 0);
 	log_info(logger, "Se envia Handshake a la memoria");
 
@@ -40,7 +40,13 @@ int levantar_conexion_memoria(char* ipServer, char* portServer, t_log* logger, u
 	recv(conexion_memoria, &respuesta_memoria, sizeof(uint8_t), 0);
 	log_info(logger, "Mensaje recibido de la memoria:  %d", respuesta_memoria);
 
-	log_info(logger, "Conexion establecida con la memoria");
+	if(respuesta_memoria == ACEPTAR_CONEXION_CPU)
+		log_info(logger, "Conexion establecida con la memoria");
+	else
+	{
+		log_error(logger, "No se puede establecer conexion con la memoria. El server contactado responde con un mensaje no predeterminado: %d.", respuesta_memoria);
+		exit(EXIT_FAILURE);
+	}
 //	TODO: descomentar estas lineas cuando se implemente la parte de la memoria
 //	recv(conexion_memoria, cantidad_entradas, sizeof(uint32_t), 0);
 //	recv(conexion_memoria, tamano_pagina, sizeof(uint32_t), 0);

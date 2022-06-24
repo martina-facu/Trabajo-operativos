@@ -13,6 +13,7 @@
 #include <commons/collections/list.h>
 #include <commons/string.h>
 #include <commons/config.h>
+#include <commons/log.h>
 
 
 #define INICIAR_CONEXION_CPU 1
@@ -30,9 +31,9 @@
 
 
 
-int crear_conexion(char *ip, char* puerto);
-int iniciar_servidor(char *ip, char* puerto_escucha);
-int esperar_cliente(int socket_servidor);
+int crear_conexion(char *ip, char* puerto, t_log* logger);
+int iniciar_servidor(char *ip, char* puerto_escucha, t_log* logger);
+int esperar_cliente(int socket_servidor, t_log* logger);
 
 
 #endif

@@ -1,6 +1,6 @@
 #include "conexion.h"
 
-int crear_conexion(char *ip, char* puerto)
+int crear_conexion(char *ip, char* puerto, t_log* logger)
 {
 	struct addrinfo hints;
 	struct addrinfo *server_info;
@@ -15,11 +15,10 @@ int crear_conexion(char *ip, char* puerto)
 	int socket_cliente = socket(server_info->ai_family,server_info->ai_socktype,server_info->ai_protocol);
 
 	if(connect(socket_cliente, server_info->ai_addr,server_info->ai_addrlen)==0)
-		{
-		printf("\nme conecte con exito");
-	}
-	else{
-		printf("\nerror: NO ME PUDE CONECTAR");
+		log_info(logger, "Conexion establecida con exito");
+	else
+	{
+		log_error(logger, "Fallo la conexion al server");
 		return -1;
 	}
 
@@ -29,7 +28,7 @@ int crear_conexion(char *ip, char* puerto)
 	return socket_cliente;
 }
 
-int iniciar_servidor(char *ip, char* puerto_escucha)
+int iniciar_servidor(char *ip, char* puerto_escucha, t_log* logger)
 {
 	struct addrinfo hints, *servinfo;
 
@@ -44,26 +43,27 @@ int iniciar_servidor(char *ip, char* puerto_escucha)
 	int socketserv=socket(servinfo->ai_family,servinfo->ai_socktype,servinfo->ai_protocol);
 	// Asociamos el socket a un puerto
 	if(bind(socketserv,servinfo->ai_addr,servinfo->ai_addrlen)!=0){
-		perror("fallo el bind");
+		log_error(logger, "Fallo el bind al generar server");
 		return 1;
 	}
 	// Escuchamos las conexiones entrantes
-	if(listen(socketserv,SOMAXCONN)==-1){
-		perror("error en listen");
+	if(listen(socketserv,SOMAXCONN)==-1)
+	{
+		log_error(logger, "Fallo el listen al generar server");
 		return -1;
 	}
-
-	printf("\nServidor escuchando en %s\n",puerto_escucha);
+	log_info(logger, "Server escuchando");
 
 	freeaddrinfo(servinfo);
 	return socketserv;
 }
 
-int esperar_cliente(int socket_servidor)
+int esperar_cliente(int socket_servidor, t_log* logger)
 {
 	int socket_cliente=accept(socket_servidor,NULL,NULL);
-	if(socket_cliente==-1){
-		perror("error al aceptar");
+	if(socket_cliente==-1)
+	{
+		log_error(logger, "Error al aceptar cliente");
 		return -1;
 	}
 

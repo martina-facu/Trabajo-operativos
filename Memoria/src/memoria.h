@@ -166,7 +166,7 @@ t_tabla* paginas_segundo_nivel; //tabla de paginas ed segundo nivel
 	void iniciar_tablas_paginas();
 
 	//FINALIZAR MEMORIA
-	void liberar_memoria(int conexionKernel, int conexionCPU, t_log* logger, t_config* config);
+	void liberar_memoria(int conexionKernel, int conexionCPU, t_log* logger, t_config_memoria* config);
 	void liberar_conexion(int socket_cliente);
 
 	//BITARRAY

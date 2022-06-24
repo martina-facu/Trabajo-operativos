@@ -187,7 +187,7 @@ void aceptoYEvaluoConexion(int socketAnalizar)
 	{
 
 		//	Se recibio mensaje del Kernel
-		case 3:
+		case INICIAR_CONEXION_KERNEL:
 			//	Valido si ya hay un Kernel conectado
 			//	Si el grado de concurrencia admite que se sigan aceptando
 			//	conexiones, la acepto. Sino omito lo recibido.
@@ -197,7 +197,7 @@ void aceptoYEvaluoConexion(int socketAnalizar)
 			}
 		break;
 		//	Se recibio mensaje de la CPU
-		case 8:
+		case INICIAR_CONEXION_CPU:
 			//	Valido si ya hay una CPU conectada
 			//	Si el grado de concurrencia admite que se sigan aceptando
 			//	conexiones, la acepto. Sino omito lo recibido.
@@ -247,7 +247,7 @@ int validoYAceptoConexionKernel(int temporalAcceptedConnection)
 	log_info(logger, "Se agrego al set de descriptores el descriptor: %d", acceptedConecctionKernel);
 
 	//	Devuelvo el handshake predeterminado
-	handshake = 6;
+	handshake = ACEPTAR_CONEXION_KERNEL;
 	send(acceptedConecctionKernel, &handshake, sizeof(uint8_t), 0);
 
 
@@ -290,7 +290,7 @@ int validoYAceptoConexionCPU(int temporalAcceptedConnection)
 	log_info(logger, "Se agrego al set de descriptores el descriptor: %d", acceptedConecctionCPU);
 
 	//	Devuelvo el handshake predeterminado
-	handshake = 9;
+	handshake = ACEPTAR_CONEXION_CPU;
 	send(acceptedConecctionCPU, &handshake, sizeof(uint8_t), 0);
 
 
@@ -474,7 +474,7 @@ void imprimir_bitarray(t_bitarray* marcosOcupadosPpal){
 
 //FINALIZAR MEMORIA
 
-void liberar_memoria(int conexionKernel, int conexionCPU, t_log* logger, t_config* config){
+void liberar_memoria(int conexionKernel, int conexionCPU, t_log* logger, t_config_memoria* config){
 
 	//Por ultimo liberamos conexion, log y config
 	log_info(logger, "Finalizando memoria :(");

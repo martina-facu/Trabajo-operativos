@@ -81,10 +81,10 @@ void aceptoServerDispatch(int socketAnalizar)
 			recv(acceptedConecctionDispatch, &mensaje, sizeof(uint8_t), 0);
 			log_info(logger, "Mensaje recibido dispatch: %d", mensaje);
 
-			if(mensaje == 21)
+			if(mensaje == INICIAR_CONEXION_DISPATCH)
 			{
 				//	Defino y envio Handshake
-				uint8_t handshake = 22;
+				uint8_t handshake = ACEPTAR_CONEXION_DISPATCH;
 				send(acceptedConecctionDispatch, &handshake, sizeof(uint8_t), 0);
 				//	Agrego el descrilptor al maestro
 				FD_SET(acceptedConecctionDispatch, &master_fd_set);
@@ -129,11 +129,11 @@ void aceptoServerInterrupt(int socketAnalizar)
 			recv(acceptedConecctionInterrupt, &mensaje, sizeof(uint8_t), 0);
 			log_info("Mensaje recibido interrupt: %d", mensaje);
 
-			if(mensaje == 23)
+			if(mensaje == INICIAR_CONEXION_INTERRUPT)
 			{
 				//	Recibi el mensaje de conexion de un Kernel Interrupt
 				//	Defino para finalizar la aceptacion de la conexion
-				uint8_t handshake = 24;
+				uint8_t handshake = ACEPTAR_CONEXION_INTERRUPT;
 				//	Envio el mensaje
 				send(acceptedConecctionInterrupt, &handshake, sizeof(uint8_t), 0);
 				//	Levanto el nivel de concurrencia activa de Interrupt
