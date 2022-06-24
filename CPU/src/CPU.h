@@ -23,6 +23,7 @@
 	#include <commons/string.h>
 	#include <logs.h>
 	#include <conexion.h>
+	#include <pthread.h>
 
 /*
  * Listado de estructuras
@@ -94,6 +95,6 @@
 	t_config_cpu* cargarConfiguracion(char* configPath);
 	void aceptoServerInterrupt(int socketAnalizar);
 	void aceptoServerDispatch(int socketAnalizar);
-
+	void * atencionInterrupt(void * socketInterrupt);
 
 #endif /* CPU_H_ */

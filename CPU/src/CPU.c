@@ -94,7 +94,7 @@ void aceptoServerDispatch(int socketAnalizar)
 			else
 			{
 				//	Como el mensaje es incorrecto desestimo el mensaje recibido.
-				log_info("Mensaje recibido del Dispatch es incorrecto, se desestima el mismo");
+				log_info(logger, "Mensaje recibido del Dispatch es incorrecto, se desestima el mismo");
 				close(acceptedConecctionDispatch);
 			}
 		}
@@ -142,14 +142,16 @@ void aceptoServerInterrupt(int socketAnalizar)
 				//	Inicializo los atributos del thread a crear.
 				resThread = pthread_attr_init(&attr);
 				if (resThread != 0)
-					handle_error_en(resThread, "Error al inicializar pthread_attr_init");
+					log_info(logger,"Error al inicializar pthread_attr_init");
+					//handle_error_en(resThread, "Error al inicializar pthread_attr_init");
 //			   struct thread_info *tinfo = calloc(num_threads_interrupt, sizeof(*tinfo));
 //			   if (tinfo == NULL)
 //				   handle_error("Error al alocar la memoria para la informacion de los thread de interrupt");
 
-				resThread = pthread_create(&threadId, &attr, NULL, &atencionInterrupt, (void *) acceptedConecctionInterrupt);
+				resThread = pthread_create(&threadId, &attr, &atencionInterrupt, (void *) acceptedConecctionInterrupt);
 				if (resThread != 0)
-				   handle_error_en(resThread, "Error al crear el Thread");
+					log_info(logger,"Error al crear el Thread");
+				   //handle_error_en(resThread, "Error al crear el Thread");
 
 //				//	NO VA ESTA PARTE PORQUE NO LO VOY A MANTENER CON EL SOCKET SINO CON UN THREAD
 //				//	Agrego el descrilptor al maestro
