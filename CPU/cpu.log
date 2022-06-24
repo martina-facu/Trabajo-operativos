@@ -1,556 +1,92 @@
-[INFO] 13:14:01:677 CPU/(8653:8653): -------------------------
-[INFO] 13:14:01:677 CPU/(8653:8653): Iniciando log Proceso CPU
-[INFO] 13:14:01:677 CPU/(8653:8653): -------------------------
-[INFO] 13:14:01:677 CPU/(8653:8653): Ip de la memoria:  127.0.0.1
-[INFO] 13:14:01:677 CPU/(8653:8653): Puerto de la memoria:  8002
-[INFO] 13:14:01:677 CPU/(8653:8653): Conexion establecida en la memoria con el descriptor:  5
-[INFO] 13:14:01:677 CPU/(8653:8653): Se envia Handshake a la memoria
-[INFO] 13:14:01:677 CPU/(8653:8653): Mensaje recibido de la memoria:  9
-[INFO] 13:14:01:678 CPU/(8653:8653): Conexion establecida con la memoria
-[INFO] 13:14:01:678 CPU/(8653:8653): Puerto escucha 9797
-[INFO] 13:14:01:678 CPU/(8653:8653): La direccion IP del CPU es 192.168.0.104
-[INFO] 13:14:01:678 CPU/(8653:8653): Socket en el que se levanta el server: 6
-[INFO] 13:14:01:678 CPU/(8653:8653): Puerto escucha 8005
-[INFO] 13:14:01:678 CPU/(8653:8653): La direccion IP del CPU es 192.168.0.104
-[INFO] 13:14:01:678 CPU/(8653:8653): Socket en el que se levanta el server: 7
-[INFO] 13:14:01:678 CPU/(8653:8653): Voy a entrar al while infinito
-[INFO] 13:16:19:040 CPU/(8761:8761): -------------------------
-[INFO] 13:16:19:040 CPU/(8761:8761): Iniciando log Proceso CPU
-[INFO] 13:16:19:040 CPU/(8761:8761): -------------------------
-[INFO] 13:16:19:040 CPU/(8761:8761): Ip de la memoria:  127.0.0.1
-[INFO] 13:16:19:040 CPU/(8761:8761): Puerto de la memoria:  8002
-[INFO] 13:16:19:040 CPU/(8761:8761): Conexion establecida en la memoria con el descriptor:  5
-[INFO] 13:16:19:041 CPU/(8761:8761): Se envia Handshake a la memoria
-[INFO] 13:16:19:041 CPU/(8761:8761): Mensaje recibido de la memoria:  9
-[INFO] 13:16:19:041 CPU/(8761:8761): Conexion establecida con la memoria
-[INFO] 13:16:19:041 CPU/(8761:8761): Puerto escucha 9797
-[INFO] 13:16:19:041 CPU/(8761:8761): La direccion IP del CPU es 192.168.0.104
-[INFO] 13:16:19:042 CPU/(8761:8761): Socket en el que se levanta el server: 1
-[INFO] 13:16:19:042 CPU/(8761:8761): Puerto escucha 8005
-[INFO] 13:16:19:042 CPU/(8761:8761): La direccion IP del CPU es 192.168.0.104
-[INFO] 13:16:19:042 CPU/(8761:8761): Socket en el que se levanta el server: 1
-[INFO] 13:16:19:042 CPU/(8761:8761): Voy a entrar al while infinito
-[INFO] 13:17:23:219 CPU/(8815:8815): -------------------------
-[INFO] 13:17:23:219 CPU/(8815:8815): Iniciando log Proceso CPU
-[INFO] 13:17:23:220 CPU/(8815:8815): -------------------------
-[INFO] 13:17:23:220 CPU/(8815:8815): Ip de la memoria:  127.0.0.1
-[INFO] 13:17:23:220 CPU/(8815:8815): Puerto de la memoria:  8002
-[INFO] 13:17:23:221 CPU/(8815:8815): Conexion establecida en la memoria con el descriptor:  5
-[INFO] 13:17:23:221 CPU/(8815:8815): Se envia Handshake a la memoria
-[INFO] 13:17:23:221 CPU/(8815:8815): Mensaje recibido de la memoria:  9
-[INFO] 13:17:23:221 CPU/(8815:8815): Conexion establecida con la memoria
-[INFO] 13:17:23:221 CPU/(8815:8815): Puerto escucha 9797
-[INFO] 13:17:23:221 CPU/(8815:8815): La direccion IP del CPU es 192.168.0.104
-[INFO] 13:17:23:221 CPU/(8815:8815): Socket en el que se levanta el server: 6
-[INFO] 13:17:23:222 CPU/(8815:8815): Puerto escucha 8005
-[INFO] 13:17:23:222 CPU/(8815:8815): La direccion IP del CPU es 192.168.0.104
-[INFO] 13:17:23:222 CPU/(8815:8815): Socket en el que se levanta el server: 7
-[INFO] 13:17:23:222 CPU/(8815:8815): Voy a entrar al while infinito
-[INFO] 13:22:32:210 CPU/(9111:9111): -------------------------
-[INFO] 13:22:32:211 CPU/(9111:9111): Iniciando log Proceso CPU
-[INFO] 13:22:32:211 CPU/(9111:9111): -------------------------
-[INFO] 13:22:32:211 CPU/(9111:9111): Ip de la memoria:  127.0.0.1
-[INFO] 13:22:32:211 CPU/(9111:9111): Puerto de la memoria:  8002
-[INFO] 13:22:32:211 CPU/(9111:9111): Conexion establecida en la memoria con el descriptor:  5
-[INFO] 13:22:32:212 CPU/(9111:9111): Se envia Handshake a la memoria
-[INFO] 13:22:32:212 CPU/(9111:9111): Mensaje recibido de la memoria:  9
-[INFO] 13:22:32:212 CPU/(9111:9111): Conexion establecida con la memoria
-[INFO] 13:22:32:212 CPU/(9111:9111): Puerto escucha 9797
-[INFO] 13:22:32:212 CPU/(9111:9111): La direccion IP del CPU es 192.168.0.104
-[INFO] 13:22:32:212 CPU/(9111:9111): Socket en el que se levanta el server: 6
-[INFO] 13:22:32:213 CPU/(9111:9111): Puerto escucha 8005
-[INFO] 13:22:32:213 CPU/(9111:9111): La direccion IP del CPU es 192.168.0.104
-[INFO] 13:22:32:213 CPU/(9111:9111): Socket en el que se levanta el server: 7
-[INFO] 14:38:58:703 CPU/(10470:10470): -------------------------
-[INFO] 14:38:58:703 CPU/(10470:10470): Iniciando log Proceso CPU
-[INFO] 14:38:58:703 CPU/(10470:10470): -------------------------
-[INFO] 14:38:58:703 CPU/(10470:10470): Ip de la memoria:  127.0.0.1
-[INFO] 14:38:58:703 CPU/(10470:10470): Puerto de la memoria:  8002
-[INFO] 14:38:58:704 CPU/(10470:10470): Conexion establecida en la memoria con el descriptor:  5
-[INFO] 14:38:58:704 CPU/(10470:10470): Se envia Handshake a la memoria
-[INFO] 14:38:58:704 CPU/(10470:10470): Mensaje recibido de la memoria:  9
-[INFO] 14:38:58:704 CPU/(10470:10470): Conexion establecida con la memoria
-[INFO] 14:38:58:704 CPU/(10470:10470): Puerto escucha 9797
-[INFO] 14:38:58:705 CPU/(10470:10470): La direccion IP del CPU es 192.168.0.104
-[INFO] 14:38:58:705 CPU/(10470:10470): Socket en el que se levanta el server: 1
-[INFO] 14:38:58:705 CPU/(10470:10470): Puerto escucha 8005
-[INFO] 14:38:58:705 CPU/(10470:10470): La direccion IP del CPU es 192.168.0.104
-[INFO] 14:38:58:706 CPU/(10470:10470): Socket en el que se levanta el server: 1
-[INFO] 14:41:44:147 CPU/(10656:10656): -------------------------
-[INFO] 14:41:44:147 CPU/(10656:10656): Iniciando log Proceso CPU
-[INFO] 14:41:44:147 CPU/(10656:10656): -------------------------
-[INFO] 14:41:44:147 CPU/(10656:10656): Ip de la memoria:  127.0.0.1
-[INFO] 14:41:44:148 CPU/(10656:10656): Puerto de la memoria:  8002
-[INFO] 14:41:44:148 CPU/(10656:10656): Conexion establecida en la memoria con el descriptor:  5
-[INFO] 14:41:44:148 CPU/(10656:10656): Se envia Handshake a la memoria
-[INFO] 14:41:44:148 CPU/(10656:10656): Mensaje recibido de la memoria:  9
-[INFO] 14:41:44:149 CPU/(10656:10656): Conexion establecida con la memoria
-[INFO] 14:41:44:149 CPU/(10656:10656): Puerto escucha 9797
-[INFO] 14:41:44:149 CPU/(10656:10656): La direccion IP del CPU es 192.168.0.104
-[INFO] 14:41:44:149 CPU/(10656:10656): Socket en el que se levanta el server: 6
-[INFO] 14:41:44:149 CPU/(10656:10656): Puerto escucha 8005
-[INFO] 14:41:44:149 CPU/(10656:10656): La direccion IP del CPU es 192.168.0.104
-[INFO] 14:41:44:150 CPU/(10656:10656): Socket en el que se levanta el server: 7
-[INFO] 14:41:48:534 CPU/(10656:10656): Se acepto la conexion del Dispatch en el socket: 8
-[INFO] 14:41:48:534 CPU/(10656:10656): Se agrego al set de descriptores el descriptor: 8
-[INFO] 14:41:48:534 CPU/(10656:10656): Mensaje recibido dispatch: 2
-[INFO] 15:02:31:839 CPU/(11630:11630): -------------------------
-[INFO] 15:02:31:839 CPU/(11630:11630): Iniciando log Proceso CPU
-[INFO] 15:02:31:839 CPU/(11630:11630): -------------------------
-[INFO] 15:02:31:839 CPU/(11630:11630): Ip de la memoria:  127.0.0.1
-[INFO] 15:02:31:839 CPU/(11630:11630): Puerto de la memoria:  8002
-[INFO] 15:02:31:840 CPU/(11630:11630): Conexion establecida en la memoria con el descriptor:  5
-[INFO] 15:02:31:840 CPU/(11630:11630): Se envia Handshake a la memoria
-[INFO] 15:02:31:840 CPU/(11630:11630): Mensaje recibido de la memoria:  9
-[INFO] 15:02:31:840 CPU/(11630:11630): Conexion establecida con la memoria
-[INFO] 15:02:31:840 CPU/(11630:11630): Puerto escucha 9797
-[INFO] 15:02:31:840 CPU/(11630:11630): La direccion IP del CPU es 192.168.0.104
-[INFO] 15:02:31:840 CPU/(11630:11630): Socket en el que se levanta el server: 6
-[INFO] 15:02:31:840 CPU/(11630:11630): Puerto escucha 8005
-[INFO] 15:02:31:840 CPU/(11630:11630): La direccion IP del CPU es 192.168.0.104
-[INFO] 15:02:31:840 CPU/(11630:11630): Socket en el que se levanta el server: 7
-[INFO] 15:02:50:974 CPU/(11630:11630): Se acepto la conexion del Dispatch en el socket: 8
-[INFO] 15:02:50:979 CPU/(11630:11630): Se agrego al set de descriptores el descriptor: 8
-[INFO] 15:02:50:979 CPU/(11630:11630): Mensaje recibido dispatch: 2
-[INFO] 15:03:39:230 CPU/(11630:11630): INFORMACION DEL PCB RECIBIDO:
-[INFO] 15:03:39:231 CPU/(11630:11630): PID: 0
-[INFO] 15:03:39:231 CPU/(11630:11630): TAMANO: 0
-[INFO] 15:03:39:231 CPU/(11630:11630): PC: 0
-[INFO] 15:03:39:231 CPU/(11630:11630): ESTIMADO_RAFAGA: 0
-[INFO] 15:03:39:231 CPU/(11630:11630): ESTADO: 0
-[INFO] 15:03:39:231 CPU/(11630:11630): TIEMPO BLOQUEO: 0
-[INFO] 15:03:39:231 CPU/(11630:11630): -----------TABLA DE PAGINAS----------------
-[INFO] 15:03:39:231 CPU/(11630:11630): DESPLAZAMIENTO: 0
-[INFO] 15:03:39:231 CPU/(11630:11630): ENTRADA PRIMER NIVEL: 0
-[INFO] 15:03:39:231 CPU/(11630:11630): ENTRADA SEGUNDO NIVEL: 0
-[INFO] 15:03:39:231 CPU/(11630:11630): INUMERO PAGINA: 0
-[INFO] 15:03:39:231 CPU/(11630:11630): Entre a ejecutar instrucciones
-[INFO] 15:34:53:166 CPU/(3806:3806): -------------------------
-[INFO] 15:34:53:166 CPU/(3806:3806): Iniciando log Proceso CPU
-[INFO] 15:34:53:167 CPU/(3806:3806): -------------------------
-[INFO] 15:34:53:167 CPU/(3806:3806): Ip de la memoria:  127.0.0.1
-[INFO] 15:34:53:167 CPU/(3806:3806): Puerto de la memoria:  8002
-[INFO] 15:34:53:167 CPU/(3806:3806): Conexion establecida en la memoria con el descriptor:  5
-[INFO] 15:34:53:167 CPU/(3806:3806): Se envia Handshake a la memoria
-[INFO] 15:34:53:167 CPU/(3806:3806): Mensaje recibido de la memoria:  9
-[INFO] 15:34:53:167 CPU/(3806:3806): Conexion establecida con la memoria
-[INFO] 15:34:53:167 CPU/(3806:3806): Puerto escucha 9797
-[INFO] 15:34:53:167 CPU/(3806:3806): La direccion IP del CPU es 192.168.0.104
-[INFO] 15:34:53:168 CPU/(3806:3806): Socket en el que se levanta el server: 6
-[INFO] 15:34:53:173 CPU/(3806:3806): Puerto escucha 8005
-[INFO] 15:34:53:173 CPU/(3806:3806): La direccion IP del CPU es 192.168.0.104
-[INFO] 15:34:53:174 CPU/(3806:3806): Socket en el que se levanta el server: 7
-[INFO] 15:35:04:605 CPU/(3806:3806): Se acepto la conexion del Dispatch en el socket: 8
-[INFO] 15:35:04:605 CPU/(3806:3806): Se agrego al set de descriptores el descriptor: 8
-[INFO] 15:35:04:605 CPU/(3806:3806): Mensaje recibido dispatch: 2
-[INFO] 15:42:19:165 CPU/(3806:3806): INFORMACION DEL PCB RECIBIDO:
-[INFO] 15:42:19:165 CPU/(3806:3806): PID: 0
-[INFO] 15:42:19:165 CPU/(3806:3806): TAMANO: 0
-[INFO] 15:42:19:165 CPU/(3806:3806): PC: 0
-[INFO] 15:42:19:165 CPU/(3806:3806): ESTIMADO_RAFAGA: 0
-[INFO] 15:42:19:165 CPU/(3806:3806): ESTADO: 0
-[INFO] 15:42:19:165 CPU/(3806:3806): TIEMPO BLOQUEO: 0
-[INFO] 15:42:19:165 CPU/(3806:3806): -----------TABLA DE PAGINAS----------------
-[INFO] 15:42:19:165 CPU/(3806:3806): DESPLAZAMIENTO: 0
-[INFO] 15:42:19:165 CPU/(3806:3806): ENTRADA PRIMER NIVEL: 0
-[INFO] 15:42:19:165 CPU/(3806:3806): ENTRADA SEGUNDO NIVEL: 0
-[INFO] 15:42:19:165 CPU/(3806:3806): INUMERO PAGINA: 0
-[INFO] 15:42:19:165 CPU/(3806:3806): Entre a ejecutar instrucciones
-[INFO] 15:43:07:383 CPU/(4206:4206): -------------------------
-[INFO] 15:43:07:384 CPU/(4206:4206): Iniciando log Proceso CPU
-[INFO] 15:43:07:384 CPU/(4206:4206): -------------------------
-[INFO] 15:43:07:384 CPU/(4206:4206): Ip de la memoria:  127.0.0.1
-[INFO] 15:43:07:385 CPU/(4206:4206): Puerto de la memoria:  8002
-[INFO] 15:43:07:385 CPU/(4206:4206): Conexion establecida en la memoria con el descriptor:  5
-[INFO] 15:43:07:385 CPU/(4206:4206): Se envia Handshake a la memoria
-[INFO] 15:43:07:385 CPU/(4206:4206): Mensaje recibido de la memoria:  9
-[INFO] 15:43:07:385 CPU/(4206:4206): Conexion establecida con la memoria
-[INFO] 15:43:07:386 CPU/(4206:4206): Puerto escucha 9797
-[INFO] 15:43:07:386 CPU/(4206:4206): La direccion IP del CPU es 192.168.0.104
-[INFO] 15:43:07:386 CPU/(4206:4206): Socket en el que se levanta el server: 6
-[INFO] 15:43:07:386 CPU/(4206:4206): Puerto escucha 8005
-[INFO] 15:43:07:386 CPU/(4206:4206): La direccion IP del CPU es 192.168.0.104
-[INFO] 15:43:07:387 CPU/(4206:4206): Socket en el que se levanta el server: 7
-[INFO] 15:43:12:161 CPU/(4206:4206): Se acepto la conexion del Dispatch en el socket: 8
-[INFO] 15:43:12:161 CPU/(4206:4206): Se agrego al set de descriptores el descriptor: 8
-[INFO] 15:43:12:161 CPU/(4206:4206): Mensaje recibido dispatch: 2
-[INFO] 15:46:44:596 CPU/(4373:4373): -------------------------
-[INFO] 15:46:44:596 CPU/(4373:4373): Iniciando log Proceso CPU
-[INFO] 15:46:44:596 CPU/(4373:4373): -------------------------
-[INFO] 15:46:44:597 CPU/(4373:4373): Ip de la memoria:  127.0.0.1
-[INFO] 15:46:44:598 CPU/(4373:4373): Puerto de la memoria:  8002
-[INFO] 15:46:44:598 CPU/(4373:4373): Conexion establecida en la memoria con el descriptor:  5
-[INFO] 15:46:44:598 CPU/(4373:4373): Se envia Handshake a la memoria
-[INFO] 15:46:44:598 CPU/(4373:4373): Mensaje recibido de la memoria:  9
-[INFO] 15:46:44:598 CPU/(4373:4373): Conexion establecida con la memoria
-[INFO] 15:46:44:599 CPU/(4373:4373): Puerto escucha 9797
-[INFO] 15:46:44:599 CPU/(4373:4373): La direccion IP del CPU es 127.0.0.1
-[INFO] 15:46:44:599 CPU/(4373:4373): Socket en el que se levanta el server: 6
-[INFO] 15:46:44:599 CPU/(4373:4373): Puerto escucha 8005
-[INFO] 15:46:44:599 CPU/(4373:4373): La direccion IP del CPU es 127.0.0.1
-[INFO] 15:46:44:600 CPU/(4373:4373): Socket en el que se levanta el server: 7
-[INFO] 15:46:48:703 CPU/(4373:4373): Se acepto la conexion del Dispatch en el socket: 8
-[INFO] 15:46:48:703 CPU/(4373:4373): Se agrego al set de descriptores el descriptor: 8
-[INFO] 15:46:48:703 CPU/(4373:4373): Mensaje recibido dispatch: 2
-[INFO] 15:57:10:660 CPU/(4774:4774): -------------------------
-[INFO] 15:57:10:660 CPU/(4774:4774): Iniciando log Proceso CPU
-[INFO] 15:57:10:660 CPU/(4774:4774): -------------------------
-[INFO] 15:57:10:660 CPU/(4774:4774): Ip de la memoria:  127.0.0.1
-[INFO] 15:57:10:660 CPU/(4774:4774): Puerto de la memoria:  8002
-[INFO] 15:57:10:660 CPU/(4774:4774): Conexion establecida en la memoria con el descriptor:  5
-[INFO] 15:57:10:661 CPU/(4774:4774): Se envia Handshake a la memoria
-[INFO] 15:57:10:661 CPU/(4774:4774): Mensaje recibido de la memoria:  9
-[INFO] 15:57:10:661 CPU/(4774:4774): Conexion establecida con la memoria
-[INFO] 15:57:10:661 CPU/(4774:4774): Puerto escucha 9797
-[INFO] 15:57:10:661 CPU/(4774:4774): La direccion IP del CPU es 127.0.0.1
-[INFO] 15:57:10:661 CPU/(4774:4774): Socket en el que se levanta el server: 6
-[INFO] 15:57:10:661 CPU/(4774:4774): Puerto escucha 8005
-[INFO] 15:57:10:663 CPU/(4774:4774): La direccion IP del CPU es 127.0.0.1
-[INFO] 15:57:10:664 CPU/(4774:4774): Socket en el que se levanta el server: 7
-[INFO] 15:57:24:188 CPU/(4774:4774): Se acepto la conexion del Dispatch en el socket: 8
-[INFO] 15:57:24:188 CPU/(4774:4774): Se agrego al set de descriptores el descriptor: 8
-[INFO] 15:57:24:188 CPU/(4774:4774): Mensaje recibido dispatch: 2
-[INFO] 16:36:55:922 CPU/(5995:5995): -------------------------
-[INFO] 16:36:55:922 CPU/(5995:5995): Iniciando log Proceso CPU
-[INFO] 16:36:55:922 CPU/(5995:5995): -------------------------
-[INFO] 16:36:55:922 CPU/(5995:5995): Ip de la memoria:  127.0.0.1
-[INFO] 16:36:55:922 CPU/(5995:5995): Puerto de la memoria:  8002
-[INFO] 16:36:55:922 CPU/(5995:5995): Conexion establecida en la memoria con el descriptor:  5
-[INFO] 16:36:55:922 CPU/(5995:5995): Se envia Handshake a la memoria
-[INFO] 16:36:55:922 CPU/(5995:5995): Mensaje recibido de la memoria:  9
-[INFO] 16:36:55:922 CPU/(5995:5995): Conexion establecida con la memoria
-[INFO] 16:36:55:922 CPU/(5995:5995): Puerto escucha 9797
-[INFO] 16:36:55:922 CPU/(5995:5995): La direccion IP del CPU es 127.0.0.1
-[INFO] 16:36:55:922 CPU/(5995:5995): Socket en el que se levanta el server: 6
-[INFO] 16:36:55:922 CPU/(5995:5995): Puerto escucha 8005
-[INFO] 16:36:55:922 CPU/(5995:5995): La direccion IP del CPU es 127.0.0.1
-[INFO] 16:36:55:922 CPU/(5995:5995): Socket en el que se levanta el server: 7
-[INFO] 16:37:47:315 CPU/(5995:5995): Se acepto la conexion del Dispatch en el socket: 8
-[INFO] 16:37:47:315 CPU/(5995:5995): Se agrego al set de descriptores el descriptor: 8
-[INFO] 16:37:47:315 CPU/(5995:5995): Mensaje recibido dispatch: 2
-[INFO] 16:40:48:165 CPU/(5995:5995): INFORMACION DEL PCB RECIBIDO:
-[INFO] 16:40:48:165 CPU/(5995:5995): PID: 0
-[INFO] 16:40:48:165 CPU/(5995:5995): TAMANO: 0
-[INFO] 16:40:48:165 CPU/(5995:5995): PC: 0
-[INFO] 16:40:48:165 CPU/(5995:5995): ESTIMADO_RAFAGA: 0
-[INFO] 16:40:48:165 CPU/(5995:5995): ESTADO: 0
-[INFO] 16:40:48:165 CPU/(5995:5995): TIEMPO BLOQUEO: 0
-[INFO] 16:40:48:165 CPU/(5995:5995): -----------TABLA DE PAGINAS----------------
-[INFO] 16:40:48:165 CPU/(5995:5995): DESPLAZAMIENTO: 0
-[INFO] 16:40:48:165 CPU/(5995:5995): ENTRADA PRIMER NIVEL: 0
-[INFO] 16:40:48:165 CPU/(5995:5995): ENTRADA SEGUNDO NIVEL: 0
-[INFO] 16:40:48:165 CPU/(5995:5995): INUMERO PAGINA: 0
-[INFO] 16:40:48:165 CPU/(5995:5995): Entre a ejecutar instrucciones
-[INFO] 16:41:37:324 CPU/(6155:6155): -------------------------
-[INFO] 16:41:37:325 CPU/(6155:6155): Iniciando log Proceso CPU
-[INFO] 16:41:37:325 CPU/(6155:6155): -------------------------
-[INFO] 16:41:37:325 CPU/(6155:6155): Ip de la memoria:  127.0.0.1
-[INFO] 16:41:37:325 CPU/(6155:6155): Puerto de la memoria:  8002
-[INFO] 16:41:37:325 CPU/(6155:6155): Conexion establecida en la memoria con el descriptor:  5
-[INFO] 16:41:37:325 CPU/(6155:6155): Se envia Handshake a la memoria
-[INFO] 16:41:37:325 CPU/(6155:6155): Mensaje recibido de la memoria:  9
-[INFO] 16:41:37:325 CPU/(6155:6155): Conexion establecida con la memoria
-[INFO] 16:41:37:325 CPU/(6155:6155): Puerto escucha 9797
-[INFO] 16:41:37:325 CPU/(6155:6155): La direccion IP del CPU es 127.0.0.1
-[INFO] 16:41:37:325 CPU/(6155:6155): Socket en el que se levanta el server: 6
-[INFO] 16:41:37:325 CPU/(6155:6155): Puerto escucha 8005
-[INFO] 16:41:37:325 CPU/(6155:6155): La direccion IP del CPU es 127.0.0.1
-[INFO] 16:41:37:325 CPU/(6155:6155): Socket en el que se levanta el server: 7
-[INFO] 16:41:54:715 CPU/(6155:6155): Se acepto la conexion del Dispatch en el socket: 8
-[INFO] 16:41:54:715 CPU/(6155:6155): Se agrego al set de descriptores el descriptor: 8
-[INFO] 16:41:54:716 CPU/(6155:6155): Mensaje recibido dispatch: 2
-[INFO] 18:50:18:652 CPU/(9953:9953): -------------------------
-[INFO] 18:50:18:653 CPU/(9953:9953): Iniciando log Proceso CPU
-[INFO] 18:50:18:653 CPU/(9953:9953): -------------------------
-[INFO] 19:09:44:649 CPU/(10482:10482): -------------------------
-[INFO] 19:09:44:649 CPU/(10482:10482): Iniciando log Proceso CPU
-[INFO] 19:09:44:649 CPU/(10482:10482): -------------------------
-[INFO] 19:10:28:453 CPU/(10557:10557): -------------------------
-[INFO] 19:10:28:454 CPU/(10557:10557): Iniciando log Proceso CPU
-[INFO] 19:10:28:454 CPU/(10557:10557): -------------------------
-[INFO] 19:11:15:814 CPU/(10621:10621): -------------------------
-[INFO] 19:11:15:822 CPU/(10621:10621): Iniciando log Proceso CPU
-[INFO] 19:11:15:822 CPU/(10621:10621): -------------------------
-[INFO] 19:11:32:486 CPU/(10660:10660): -------------------------
-[INFO] 19:11:32:486 CPU/(10660:10660): Iniciando log Proceso CPU
-[INFO] 19:11:32:486 CPU/(10660:10660): -------------------------
-[INFO] 19:11:57:902 CPU/(10703:10703): -------------------------
-[INFO] 19:11:57:903 CPU/(10703:10703): Iniciando log Proceso CPU
-[INFO] 19:11:57:903 CPU/(10703:10703): -------------------------
-[INFO] 19:12:16:924 CPU/(10746:10746): -------------------------
-[INFO] 19:12:16:924 CPU/(10746:10746): Iniciando log Proceso CPU
-[INFO] 19:12:16:924 CPU/(10746:10746): -------------------------
-[INFO] 19:29:51:124 CPU/(11052:11052): -------------------------
-[INFO] 19:29:51:124 CPU/(11052:11052): Iniciando log Proceso CPU
-[INFO] 19:29:51:124 CPU/(11052:11052): -------------------------
-[INFO] 19:30:30:059 CPU/(11449:11449): -------------------------
-[INFO] 19:30:30:059 CPU/(11449:11449): Iniciando log Proceso CPU
-[INFO] 19:30:30:059 CPU/(11449:11449): -------------------------
-[INFO] 19:31:49:672 CPU/(11531:11531): -------------------------
-[INFO] 19:31:49:672 CPU/(11531:11531): Iniciando log Proceso CPU
-[INFO] 19:31:49:672 CPU/(11531:11531): -------------------------
-[INFO] 19:31:49:673 CPU/(11531:11531): Se leyo la variable ENTRADAS_TLB
-[INFO] 19:31:49:673 CPU/(11531:11531): Se leyo la variable REEMPLAZO_TLB
-[INFO] 19:31:49:673 CPU/(11531:11531): Se leyo la variable RETARDO_NOOP
-[INFO] 19:31:49:673 CPU/(11531:11531): Se leyo la variable IP_CPU
-[INFO] 19:31:49:673 CPU/(11531:11531): Se leyo la variable IP_MEMORIA
-[INFO] 19:31:49:673 CPU/(11531:11531): Se leyo la variable PUERTO_MEMORIA
-[INFO] 19:31:49:673 CPU/(11531:11531): Se leyo la variable PUERTO_DISPATCH
-[INFO] 19:31:49:673 CPU/(11531:11531): Se leyo la variable PUERTO_INTERRUPT
-[INFO] 19:33:11:528 CPU/(11620:11620): -------------------------
-[INFO] 19:33:11:528 CPU/(11620:11620): Iniciando log Proceso CPU
-[INFO] 19:33:11:528 CPU/(11620:11620): -------------------------
-[INFO] 19:33:11:528 CPU/(11620:11620): Se leyo la variable ENTRADAS_TLB: 4
-[INFO] 19:33:11:529 CPU/(11620:11620): Se leyo la variable REEMPLAZO_TLB: LRU
-[INFO] 19:33:11:529 CPU/(11620:11620): Se leyo la variable RETARDO_NOOP: 1000
-[INFO] 19:33:11:529 CPU/(11620:11620): Se leyo la variable IP_CPU: 192.168.0.104
-[INFO] 19:33:11:532 CPU/(11620:11620): Se leyo la variable IP_MEMORIA: 127.0.0.1
-[INFO] 19:33:11:532 CPU/(11620:11620): Se leyo la variable PUERTO_MEMORIA: 8002
-[INFO] 19:33:11:532 CPU/(11620:11620): Se leyo la variable PUERTO_DISPATCH: 9797
-[INFO] 19:33:11:532 CPU/(11620:11620): Se leyo la variable PUERTO_INTERRUPT: 8005
-[INFO] 19:33:55:450 CPU/(11698:11698): -------------------------
-[INFO] 19:33:55:451 CPU/(11698:11698): Iniciando log Proceso CPU
-[INFO] 19:33:55:451 CPU/(11698:11698): -------------------------
-[INFO] 19:33:55:451 CPU/(11698:11698): Se leyo la variable ENTRADAS_TLB: 4
-[INFO] 19:33:55:451 CPU/(11698:11698): Se leyo la variable REEMPLAZO_TLB: LRU
-[INFO] 19:33:55:451 CPU/(11698:11698): Se leyo la variable RETARDO_NOOP: 1000
-[INFO] 19:33:55:451 CPU/(11698:11698): Se leyo la variable IP_CPU: 192.168.0.104
-[INFO] 19:33:55:451 CPU/(11698:11698): Se leyo la variable IP_MEMORIA: 127.0.0.1
-[INFO] 19:33:55:451 CPU/(11698:11698): Se leyo la variable PUERTO_MEMORIA: 8002
-[INFO] 19:33:55:451 CPU/(11698:11698): Se leyo la variable PUERTO_DISPATCH: 9797
-[INFO] 19:33:55:451 CPU/(11698:11698): Se leyo la variable PUERTO_INTERRUPT: 8005
-[INFO] 19:33:55:451 CPU/(11698:11698): Conexion establecida en la memoria en la IP 127.0.0.1 y puerto 8002 con el descriptor:  5
-[INFO] 19:33:55:451 CPU/(11698:11698): Se envia Handshake a la memoria
-[INFO] 19:33:55:452 CPU/(11698:11698): Mensaje recibido de la memoria:  9
-[INFO] 19:33:55:452 CPU/(11698:11698): Conexion establecida con la memoria
-[INFO] 19:33:55:452 CPU/(11698:11698): Socket en el que se levanta el server SERVER DISPATCH: 6
-[INFO] 19:33:55:452 CPU/(11698:11698): Socket en el que se levanta el server SERVER INTERRUPT: 7
-[INFO] 19:11:42:465 CPU/(10568:10568): -------------------------
-[INFO] 19:11:42:465 CPU/(10568:10568): Iniciando log Proceso CPU
-[INFO] 19:11:42:465 CPU/(10568:10568): -------------------------
-[INFO] 19:11:42:465 CPU/(10568:10568): Se leyo la variable ENTRADAS_TLB: 4
-[INFO] 19:11:42:465 CPU/(10568:10568): Se leyo la variable REEMPLAZO_TLB: LRU
-[INFO] 19:11:42:465 CPU/(10568:10568): Se leyo la variable RETARDO_NOOP: 1000
-[INFO] 19:11:42:465 CPU/(10568:10568): Se leyo la variable IP_CPU: 192.168.0.104
-[INFO] 19:11:42:465 CPU/(10568:10568): Se leyo la variable IP_MEMORIA: 127.0.0.1
-[INFO] 19:11:42:465 CPU/(10568:10568): Se leyo la variable PUERTO_MEMORIA: 8002
-[INFO] 19:11:42:465 CPU/(10568:10568): Se leyo la variable PUERTO_DISPATCH: 9797
-[INFO] 19:11:42:465 CPU/(10568:10568): Se leyo la variable PUERTO_INTERRUPT: 8005
-[INFO] 19:11:42:465 CPU/(10568:10568): Conexion establecida en la memoria en la IP 127.0.0.1 y puerto 8002 con el descriptor:  -1
-[INFO] 19:11:42:465 CPU/(10568:10568): Se envia Handshake a la memoria
-[INFO] 19:11:42:465 CPU/(10568:10568): Mensaje recibido de la memoria:  0
-[INFO] 19:11:42:465 CPU/(10568:10568): Conexion establecida con la memoria
-[INFO] 19:11:42:465 CPU/(10568:10568): Socket en el que se levanta el server SERVER DISPATCH: 1
-[INFO] 19:11:42:466 CPU/(10568:10568): Socket en el que se levanta el server SERVER INTERRUPT: 1
-[INFO] 19:11:42:466 CPU/(10568:10568): INFORMACION DEL PCB RECIBIDO:
-[INFO] 19:11:42:466 CPU/(10568:10568): PID: 0
-[INFO] 19:11:42:466 CPU/(10568:10568): TAMANO: 0
-[INFO] 19:11:42:466 CPU/(10568:10568): PC: 0
-[INFO] 19:11:42:466 CPU/(10568:10568): ESTIMADO_RAFAGA: 0
-[INFO] 19:11:42:466 CPU/(10568:10568): ESTADO: 0
-[INFO] 19:11:42:466 CPU/(10568:10568): TIEMPO BLOQUEO: 0
-[INFO] 19:11:42:466 CPU/(10568:10568): -----------TABLA DE PAGINAS----------------
-[INFO] 19:11:42:466 CPU/(10568:10568): DESPLAZAMIENTO: 0
-[INFO] 19:11:42:466 CPU/(10568:10568): ENTRADA PRIMER NIVEL: 0
-[INFO] 19:11:42:466 CPU/(10568:10568): ENTRADA SEGUNDO NIVEL: 0
-[INFO] 19:11:42:466 CPU/(10568:10568): INUMERO PAGINA: 0
-[INFO] 19:11:42:466 CPU/(10568:10568): Entre a ejecutar instrucciones
-[INFO] 19:18:39:103 CPU/(3481:3481): -------------------------
-[INFO] 19:18:39:110 CPU/(3481:3481): Iniciando log Proceso CPU
-[INFO] 19:18:39:110 CPU/(3481:3481): -------------------------
-[INFO] 19:18:39:110 CPU/(3481:3481): Se leyo la variable ENTRADAS_TLB: 4
-[INFO] 19:18:39:110 CPU/(3481:3481): Se leyo la variable REEMPLAZO_TLB: LRU
-[INFO] 19:18:39:110 CPU/(3481:3481): Se leyo la variable RETARDO_NOOP: 1000
-[INFO] 19:18:39:110 CPU/(3481:3481): Se leyo la variable IP_CPU: 192.168.0.233
-[INFO] 19:18:39:110 CPU/(3481:3481): Se leyo la variable IP_MEMORIA: 192.168.0.233
-[INFO] 19:18:39:110 CPU/(3481:3481): Se leyo la variable PUERTO_MEMORIA: 8002
-[INFO] 19:18:39:110 CPU/(3481:3481): Se leyo la variable PUERTO_DISPATCH: 9797
-[INFO] 19:18:39:110 CPU/(3481:3481): Se leyo la variable PUERTO_INTERRUPT: 8005
-[INFO] 19:18:39:111 CPU/(3481:3481): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  5
-[INFO] 19:18:39:111 CPU/(3481:3481): Se envia Handshake a la memoria
-[INFO] 19:18:39:111 CPU/(3481:3481): Mensaje recibido de la memoria:  9
-[INFO] 19:18:39:111 CPU/(3481:3481): Conexion establecida con la memoria
-[INFO] 19:18:39:111 CPU/(3481:3481): Socket en el que se levanta el server SERVER DISPATCH: 6
-[INFO] 19:18:39:111 CPU/(3481:3481): Socket en el que se levanta el server SERVER INTERRUPT: 7
-[INFO] 19:21:59:435 CPU/(3589:3589): -------------------------
-[INFO] 19:21:59:436 CPU/(3589:3589): Iniciando log Proceso CPU
-[INFO] 19:21:59:436 CPU/(3589:3589): -------------------------
-[INFO] 19:21:59:436 CPU/(3589:3589): Se leyo la variable ENTRADAS_TLB: 4
-[INFO] 19:21:59:436 CPU/(3589:3589): Se leyo la variable REEMPLAZO_TLB: LRU
-[INFO] 19:21:59:436 CPU/(3589:3589): Se leyo la variable RETARDO_NOOP: 1000
-[INFO] 19:21:59:436 CPU/(3589:3589): Se leyo la variable IP_CPU: 192.168.0.233
-[INFO] 19:21:59:436 CPU/(3589:3589): Se leyo la variable IP_MEMORIA: 192.168.0.233
-[INFO] 19:21:59:436 CPU/(3589:3589): Se leyo la variable PUERTO_MEMORIA: 8002
-[INFO] 19:21:59:437 CPU/(3589:3589): Se leyo la variable PUERTO_DISPATCH: 9797
-[INFO] 19:21:59:437 CPU/(3589:3589): Se leyo la variable PUERTO_INTERRUPT: 8005
-[INFO] 19:21:59:437 CPU/(3589:3589): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  5
-[INFO] 19:21:59:437 CPU/(3589:3589): Se envia Handshake a la memoria
-[INFO] 19:21:59:438 CPU/(3589:3589): Mensaje recibido de la memoria:  9
-[INFO] 19:21:59:438 CPU/(3589:3589): Conexion establecida con la memoria
-[INFO] 19:21:59:438 CPU/(3589:3589): Socket en el que se levanta el server SERVER DISPATCH: 6
-[INFO] 19:21:59:438 CPU/(3589:3589): Socket en el que se levanta el server SERVER INTERRUPT: 7
-[INFO] 19:23:45:894 CPU/(3715:3715): -------------------------
-[INFO] 19:23:45:894 CPU/(3715:3715): Iniciando log Proceso CPU
-[INFO] 19:23:45:894 CPU/(3715:3715): -------------------------
-[INFO] 19:23:45:894 CPU/(3715:3715): Se leyo la variable ENTRADAS_TLB: 4
-[INFO] 19:23:45:894 CPU/(3715:3715): Se leyo la variable REEMPLAZO_TLB: LRU
-[INFO] 19:23:45:894 CPU/(3715:3715): Se leyo la variable RETARDO_NOOP: 1000
-[INFO] 19:23:45:894 CPU/(3715:3715): Se leyo la variable IP_CPU: 192.168.0.233
-[INFO] 19:23:45:894 CPU/(3715:3715): Se leyo la variable IP_MEMORIA: 192.168.0.233
-[INFO] 19:23:45:894 CPU/(3715:3715): Se leyo la variable PUERTO_MEMORIA: 8002
-[INFO] 19:23:45:894 CPU/(3715:3715): Se leyo la variable PUERTO_DISPATCH: 9797
-[INFO] 19:23:45:894 CPU/(3715:3715): Se leyo la variable PUERTO_INTERRUPT: 8005
-[INFO] 19:23:45:894 CPU/(3715:3715): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  5
-[INFO] 19:23:45:894 CPU/(3715:3715): Se envia Handshake a la memoria
-[INFO] 19:27:27:566 CPU/(3883:3883): -------------------------
-[INFO] 19:27:27:566 CPU/(3883:3883): Iniciando log Proceso CPU
-[INFO] 19:27:27:567 CPU/(3883:3883): -------------------------
-[INFO] 19:27:27:567 CPU/(3883:3883): Se leyo la variable ENTRADAS_TLB: 4
-[INFO] 19:27:27:567 CPU/(3883:3883): Se leyo la variable REEMPLAZO_TLB: LRU
-[INFO] 19:27:27:567 CPU/(3883:3883): Se leyo la variable RETARDO_NOOP: 1000
-[INFO] 19:27:27:567 CPU/(3883:3883): Se leyo la variable IP_CPU: 192.168.0.233
-[INFO] 19:27:27:567 CPU/(3883:3883): Se leyo la variable IP_MEMORIA: 192.168.0.233
-[INFO] 19:27:27:567 CPU/(3883:3883): Se leyo la variable PUERTO_MEMORIA: 8002
-[INFO] 19:27:27:567 CPU/(3883:3883): Se leyo la variable PUERTO_DISPATCH: 9797
-[INFO] 19:27:27:567 CPU/(3883:3883): Se leyo la variable PUERTO_INTERRUPT: 8005
-[INFO] 19:27:27:568 CPU/(3883:3883): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  5
-[INFO] 19:27:27:568 CPU/(3883:3883): Se envia Handshake a la memoria
-[INFO] 19:27:27:569 CPU/(3883:3883): Mensaje recibido de la memoria:  0
-[INFO] 19:27:27:569 CPU/(3883:3883): Conexion establecida con la memoria
-[INFO] 19:27:27:569 CPU/(3883:3883): Socket en el que se levanta el server SERVER DISPATCH: 6
-[INFO] 19:27:27:569 CPU/(3883:3883): Socket en el que se levanta el server SERVER INTERRUPT: 7
-[INFO] 19:30:35:160 CPU/(4027:4027): -------------------------
-[INFO] 19:30:35:160 CPU/(4027:4027): Iniciando log Proceso CPU
-[INFO] 19:30:35:160 CPU/(4027:4027): -------------------------
-[INFO] 19:30:35:160 CPU/(4027:4027): Se leyo la variable ENTRADAS_TLB: 4
-[INFO] 19:30:35:160 CPU/(4027:4027): Se leyo la variable REEMPLAZO_TLB: LRU
-[INFO] 19:30:35:160 CPU/(4027:4027): Se leyo la variable RETARDO_NOOP: 1000
-[INFO] 19:30:35:160 CPU/(4027:4027): Se leyo la variable IP_CPU: 192.168.0.233
-[INFO] 19:30:35:160 CPU/(4027:4027): Se leyo la variable IP_MEMORIA: 192.168.0.233
-[INFO] 19:30:35:160 CPU/(4027:4027): Se leyo la variable PUERTO_MEMORIA: 8002
-[INFO] 19:30:35:160 CPU/(4027:4027): Se leyo la variable PUERTO_DISPATCH: 9797
-[INFO] 19:30:35:160 CPU/(4027:4027): Se leyo la variable PUERTO_INTERRUPT: 8005
-[INFO] 19:30:35:161 CPU/(4027:4027): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  5
-[INFO] 19:30:35:161 CPU/(4027:4027): Se envia Handshake a la memoria
-[INFO] 19:30:35:161 CPU/(4027:4027): Mensaje recibido de la memoria:  9
-[INFO] 19:30:35:161 CPU/(4027:4027): Conexion establecida con la memoria
-[INFO] 19:30:35:161 CPU/(4027:4027): Socket en el que se levanta el server SERVER DISPATCH: 6
-[INFO] 19:30:35:161 CPU/(4027:4027): Socket en el que se levanta el server SERVER INTERRUPT: 7
-[INFO] 22:00:11:406 CPU/(9439:9439): -------------------------
-[INFO] 22:00:11:406 CPU/(9439:9439): Iniciando log Proceso CPU
-[INFO] 22:00:11:406 CPU/(9439:9439): -------------------------
-[INFO] 22:00:11:406 CPU/(9439:9439): Se leyo la variable ENTRADAS_TLB: 4
-[INFO] 22:00:11:406 CPU/(9439:9439): Se leyo la variable REEMPLAZO_TLB: LRU
-[INFO] 22:00:11:406 CPU/(9439:9439): Se leyo la variable RETARDO_NOOP: 1000
-[INFO] 22:00:11:406 CPU/(9439:9439): Se leyo la variable IP_CPU: 192.168.0.233
-[INFO] 22:00:11:406 CPU/(9439:9439): Se leyo la variable IP_MEMORIA: 192.168.0.233
-[INFO] 22:00:11:406 CPU/(9439:9439): Se leyo la variable PUERTO_MEMORIA: 8002
-[INFO] 22:00:11:406 CPU/(9439:9439): Se leyo la variable PUERTO_DISPATCH: 9797
-[INFO] 22:00:11:406 CPU/(9439:9439): Se leyo la variable PUERTO_INTERRUPT: 8005
-[INFO] 22:00:11:406 CPU/(9439:9439): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  -1
-[INFO] 22:00:11:406 CPU/(9439:9439): Se envia Handshake a la memoria
-[INFO] 22:00:11:406 CPU/(9439:9439): Mensaje recibido de la memoria:  0
-[INFO] 22:00:11:407 CPU/(9439:9439): Conexion establecida con la memoria
-[INFO] 22:00:11:407 CPU/(9439:9439): Socket en el que se levanta el server SERVER DISPATCH: 6
-[INFO] 22:00:11:407 CPU/(9439:9439): Socket en el que se levanta el server SERVER INTERRUPT: 7
-[INFO] 22:00:11:407 CPU/(9439:9439): INFORMACION DEL PCB RECIBIDO:
-[INFO] 22:00:11:407 CPU/(9439:9439): PID: 0
-[INFO] 22:00:11:407 CPU/(9439:9439): TAMANO: 0
-[INFO] 22:00:11:408 CPU/(9439:9439): PC: 0
-[INFO] 22:00:11:408 CPU/(9439:9439): ESTIMADO_RAFAGA: 0
-[INFO] 22:00:11:408 CPU/(9439:9439): ESTADO: 0
-[INFO] 22:00:11:408 CPU/(9439:9439): TIEMPO BLOQUEO: 0
-[INFO] 22:00:11:408 CPU/(9439:9439): -----------TABLA DE PAGINAS----------------
-[INFO] 22:00:11:408 CPU/(9439:9439): DESPLAZAMIENTO: 0
-[INFO] 22:00:11:408 CPU/(9439:9439): ENTRADA PRIMER NIVEL: 0
-[INFO] 22:00:11:408 CPU/(9439:9439): ENTRADA SEGUNDO NIVEL: 0
-[INFO] 22:00:11:408 CPU/(9439:9439): INUMERO PAGINA: 0
-[INFO] 22:00:11:408 CPU/(9439:9439): Entre a ejecutar instrucciones
-[INFO] 22:01:02:899 CPU/(9502:9502): -------------------------
-[INFO] 22:01:02:899 CPU/(9502:9502): Iniciando log Proceso CPU
-[INFO] 22:01:02:899 CPU/(9502:9502): -------------------------
-[INFO] 22:01:02:900 CPU/(9502:9502): Se leyo la variable ENTRADAS_TLB: 4
-[INFO] 22:01:02:900 CPU/(9502:9502): Se leyo la variable REEMPLAZO_TLB: LRU
-[INFO] 22:01:02:900 CPU/(9502:9502): Se leyo la variable RETARDO_NOOP: 1000
-[INFO] 22:01:02:900 CPU/(9502:9502): Se leyo la variable IP_CPU: 192.168.0.233
-[INFO] 22:01:02:900 CPU/(9502:9502): Se leyo la variable IP_MEMORIA: 192.168.0.233
-[INFO] 22:01:02:900 CPU/(9502:9502): Se leyo la variable PUERTO_MEMORIA: 8002
-[INFO] 22:01:02:900 CPU/(9502:9502): Se leyo la variable PUERTO_DISPATCH: 9797
-[INFO] 22:01:02:900 CPU/(9502:9502): Se leyo la variable PUERTO_INTERRUPT: 8005
-[INFO] 22:01:02:900 CPU/(9502:9502): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  -1
-[INFO] 22:01:02:900 CPU/(9502:9502): Se envia Handshake a la memoria
-[INFO] 22:01:02:900 CPU/(9502:9502): Mensaje recibido de la memoria:  0
-[INFO] 22:01:02:900 CPU/(9502:9502): Conexion establecida con la memoria
-[INFO] 22:01:02:900 CPU/(9502:9502): Socket en el que se levanta el server SERVER DISPATCH: 6
-[INFO] 22:01:02:900 CPU/(9502:9502): Socket en el que se levanta el server SERVER INTERRUPT: 7
-[INFO] 22:01:02:904 CPU/(9502:9502): INFORMACION DEL PCB RECIBIDO:
-[INFO] 22:01:02:904 CPU/(9502:9502): PID: 0
-[INFO] 22:01:02:905 CPU/(9502:9502): TAMANO: 0
-[INFO] 22:01:02:905 CPU/(9502:9502): PC: 0
-[INFO] 22:01:02:905 CPU/(9502:9502): ESTIMADO_RAFAGA: 0
-[INFO] 22:01:02:905 CPU/(9502:9502): ESTADO: 0
-[INFO] 22:01:02:905 CPU/(9502:9502): TIEMPO BLOQUEO: 0
-[INFO] 22:01:02:905 CPU/(9502:9502): -----------TABLA DE PAGINAS----------------
-[INFO] 22:01:02:905 CPU/(9502:9502): DESPLAZAMIENTO: 0
-[INFO] 22:01:02:905 CPU/(9502:9502): ENTRADA PRIMER NIVEL: 0
-[INFO] 22:01:02:905 CPU/(9502:9502): ENTRADA SEGUNDO NIVEL: 0
-[INFO] 22:01:02:905 CPU/(9502:9502): INUMERO PAGINA: 0
-[INFO] 22:01:02:905 CPU/(9502:9502): Entre a ejecutar instrucciones
-[INFO] 22:02:08:274 CPU/(9548:9548): -------------------------
-[INFO] 22:02:08:274 CPU/(9548:9548): Iniciando log Proceso CPU
-[INFO] 22:02:08:274 CPU/(9548:9548): -------------------------
-[INFO] 22:02:09:479 CPU/(9548:9548): Se leyo la variable ENTRADAS_TLB: 4
-[INFO] 22:02:09:479 CPU/(9548:9548): Se leyo la variable REEMPLAZO_TLB: LRU
-[INFO] 22:02:09:479 CPU/(9548:9548): Se leyo la variable RETARDO_NOOP: 1000
-[INFO] 22:02:09:479 CPU/(9548:9548): Se leyo la variable IP_CPU: 192.168.0.233
-[INFO] 22:02:09:479 CPU/(9548:9548): Se leyo la variable IP_MEMORIA: 192.168.0.233
-[INFO] 22:02:09:479 CPU/(9548:9548): Se leyo la variable PUERTO_MEMORIA: 8002
-[INFO] 22:02:09:479 CPU/(9548:9548): Se leyo la variable PUERTO_DISPATCH: 9797
-[INFO] 22:02:09:479 CPU/(9548:9548): Se leyo la variable PUERTO_INTERRUPT: 8005
-[INFO] 22:02:14:377 CPU/(9548:9548): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  -1
-[INFO] 22:02:14:377 CPU/(9548:9548): Se envia Handshake a la memoria
-[INFO] 22:02:14:377 CPU/(9548:9548): Mensaje recibido de la memoria:  0
-[INFO] 22:02:14:377 CPU/(9548:9548): Conexion establecida con la memoria
-[INFO] 22:02:29:018 CPU/(9548:9548): Socket en el que se levanta el server SERVER DISPATCH: 6
-[INFO] 22:02:36:302 CPU/(9548:9548): Socket en el que se levanta el server SERVER INTERRUPT: 7
-[INFO] 22:02:51:186 CPU/(9548:9548): INFORMACION DEL PCB RECIBIDO:
-[INFO] 22:02:51:186 CPU/(9548:9548): PID: 0
-[INFO] 22:02:51:186 CPU/(9548:9548): TAMANO: 0
-[INFO] 22:02:51:186 CPU/(9548:9548): PC: 0
-[INFO] 22:02:51:186 CPU/(9548:9548): ESTIMADO_RAFAGA: 0
-[INFO] 22:02:51:186 CPU/(9548:9548): ESTADO: 0
-[INFO] 22:02:51:186 CPU/(9548:9548): TIEMPO BLOQUEO: 0
-[INFO] 22:02:51:186 CPU/(9548:9548): -----------TABLA DE PAGINAS----------------
-[INFO] 22:02:51:186 CPU/(9548:9548): DESPLAZAMIENTO: 0
-[INFO] 22:02:51:186 CPU/(9548:9548): ENTRADA PRIMER NIVEL: 0
-[INFO] 22:02:51:186 CPU/(9548:9548): ENTRADA SEGUNDO NIVEL: 0
-[INFO] 22:02:51:186 CPU/(9548:9548): INUMERO PAGINA: 0
-[INFO] 22:05:17:083 CPU/(9758:9758): -------------------------
-[INFO] 22:05:17:083 CPU/(9758:9758): Iniciando log Proceso CPU
-[INFO] 22:05:17:083 CPU/(9758:9758): -------------------------
-[INFO] 22:05:18:536 CPU/(9758:9758): Se leyo la variable ENTRADAS_TLB: 4
-[INFO] 22:05:18:536 CPU/(9758:9758): Se leyo la variable REEMPLAZO_TLB: LRU
-[INFO] 22:05:18:536 CPU/(9758:9758): Se leyo la variable RETARDO_NOOP: 1000
-[INFO] 22:05:18:536 CPU/(9758:9758): Se leyo la variable IP_CPU: 192.168.0.233
-[INFO] 22:05:18:536 CPU/(9758:9758): Se leyo la variable IP_MEMORIA: 192.168.0.233
-[INFO] 22:05:18:536 CPU/(9758:9758): Se leyo la variable PUERTO_MEMORIA: 8002
-[INFO] 22:05:18:536 CPU/(9758:9758): Se leyo la variable PUERTO_DISPATCH: 9797
-[INFO] 22:05:18:536 CPU/(9758:9758): Se leyo la variable PUERTO_INTERRUPT: 8005
-[INFO] 22:05:23:966 CPU/(9758:9758): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  -1
-[INFO] 22:05:23:966 CPU/(9758:9758): Se envia Handshake a la memoria
-[INFO] 22:05:23:966 CPU/(9758:9758): Mensaje recibido de la memoria:  0
-[INFO] 22:05:23:966 CPU/(9758:9758): Conexion establecida con la memoria
-[INFO] 22:05:35:620 CPU/(9758:9758): Socket en el que se levanta el server SERVER DISPATCH: 6
-[INFO] 22:05:38:666 CPU/(9758:9758): Socket en el que se levanta el server SERVER INTERRUPT: 7
-[INFO] 22:06:00:564 CPU/(9758:9758): INFORMACION DEL PCB RECIBIDO:
-[INFO] 22:06:00:564 CPU/(9758:9758): PID: 0
-[INFO] 22:06:00:564 CPU/(9758:9758): TAMANO: 0
-[INFO] 22:06:00:564 CPU/(9758:9758): PC: 0
-[INFO] 22:06:00:564 CPU/(9758:9758): ESTIMADO_RAFAGA: 0
-[INFO] 22:06:00:564 CPU/(9758:9758): ESTADO: 0
-[INFO] 22:06:00:564 CPU/(9758:9758): TIEMPO BLOQUEO: 0
-[INFO] 22:06:00:564 CPU/(9758:9758): -----------TABLA DE PAGINAS----------------
-[INFO] 22:06:00:564 CPU/(9758:9758): DESPLAZAMIENTO: 0
-[INFO] 22:06:00:564 CPU/(9758:9758): ENTRADA PRIMER NIVEL: 0
-[INFO] 22:06:00:564 CPU/(9758:9758): ENTRADA SEGUNDO NIVEL: 0
-[INFO] 22:06:00:564 CPU/(9758:9758): INUMERO PAGINA: 0
+[INFO] 10:15:17:866 CPU/(5280:5280): -------------------------
+[INFO] 10:15:17:867 CPU/(5280:5280): Iniciando log Proceso CPU
+[INFO] 10:15:17:867 CPU/(5280:5280): -------------------------
+[INFO] 10:15:17:867 CPU/(5280:5280): Se leyo la variable ENTRADAS_TLB: 4
+[INFO] 10:15:17:867 CPU/(5280:5280): Se leyo la variable REEMPLAZO_TLB: LRU
+[INFO] 10:15:17:867 CPU/(5280:5280): Se leyo la variable RETARDO_NOOP: 1000
+[INFO] 10:15:17:867 CPU/(5280:5280): Se leyo la variable IP_CPU: 192.168.0.233
+[INFO] 10:15:17:867 CPU/(5280:5280): Se leyo la variable IP_MEMORIA: 192.168.0.233
+[INFO] 10:15:17:867 CPU/(5280:5280): Se leyo la variable PUERTO_MEMORIA: 8002
+[INFO] 10:15:17:867 CPU/(5280:5280): Se leyo la variable PUERTO_DISPATCH: 9797
+[INFO] 10:15:17:867 CPU/(5280:5280): Se leyo la variable PUERTO_INTERRUPT: 8005
+[INFO] 10:15:17:867 CPU/(5280:5280): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  5
+[INFO] 10:15:17:867 CPU/(5280:5280): Se envia Handshake a la memoria
+[INFO] 10:15:17:868 CPU/(5280:5280): Mensaje recibido de la memoria:  9
+[INFO] 10:15:17:868 CPU/(5280:5280): Conexion establecida con la memoria
+[INFO] 10:15:17:868 CPU/(5280:5280): Socket en el que se levanta el server SERVER DISPATCH: 6
+[INFO] 10:15:17:868 CPU/(5280:5280): Socket en el que se levanta el server SERVER INTERRUPT: 7
+[INFO] 10:15:36:668 CPU/(5280:5280): Se acepto la conexion del Dispatch en el socket: 8
+[INFO] 10:15:36:668 CPU/(5280:5280): Se agrego al set de descriptores el descriptor: 8
+[INFO] 10:15:36:668 CPU/(5280:5280): Mensaje recibido dispatch: 21
+[INFO] 10:15:58:632 CPU/(5280:5280): INFORMACION DEL PCB RECIBIDO:
+[INFO] 10:15:58:632 CPU/(5280:5280): PID: 7
+[INFO] 10:15:58:632 CPU/(5280:5280): TAMANO: 10
+[INFO] 10:15:58:632 CPU/(5280:5280): PC: 0
+[INFO] 10:15:58:632 CPU/(5280:5280): ESTIMADO_RAFAGA: 10000
+[INFO] 10:15:58:632 CPU/(5280:5280): ESTADO: 0
+[INFO] 10:15:58:632 CPU/(5280:5280): TIEMPO BLOQUEO: 0
+[INFO] 10:15:58:632 CPU/(5280:5280): -----------TABLA DE PAGINAS----------------
+[INFO] 10:15:58:632 CPU/(5280:5280): DESPLAZAMIENTO: 0
+[INFO] 10:15:58:632 CPU/(5280:5280): ENTRADA PRIMER NIVEL: 0
+[INFO] 10:15:58:632 CPU/(5280:5280): ENTRADA SEGUNDO NIVEL: 0
+[INFO] 10:15:58:632 CPU/(5280:5280): INUMERO PAGINA: 0
+[INFO] 10:15:58:632 CPU/(5280:5280): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 10:15:58:632 CPU/(5280:5280): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 10:15:58:632 CPU/(5280:5280): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 10:15:58:632 CPU/(5280:5280): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 10:15:58:632 CPU/(5280:5280):  4000 
+[INFO] 10:15:58:632 CPU/(5280:5280): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 10:15:58:632 CPU/(5280:5280):  4 
+[INFO] 10:15:58:632 CPU/(5280:5280):  42 
+[INFO] 10:15:58:632 CPU/(5280:5280): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 10:15:58:632 CPU/(5280:5280):  0 
+[INFO] 10:15:58:632 CPU/(5280:5280):  4 
+[INFO] 10:15:58:632 CPU/(5280:5280): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 10:15:58:632 CPU/(5280:5280):  0 
+[INFO] 10:15:58:633 CPU/(5280:5280): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 10:15:58:633 CPU/(5280:5280): Entre a ejecutar instrucciones
+[INFO] 10:15:59:634 CPU/(5280:5280): Entre a ejecutar instrucciones
+[INFO] 10:16:00:635 CPU/(5280:5280): Entre a ejecutar instrucciones
+[INFO] 10:16:01:636 CPU/(5280:5280): Entre a ejecutar instrucciones
+[INFO] 10:16:01:636 CPU/(5280:5280): INFORMACION DEL PCB RECIBIDO:
+[INFO] 10:16:01:636 CPU/(5280:5280): PID: 7
+[INFO] 10:16:01:636 CPU/(5280:5280): TAMANO: 10
+[INFO] 10:16:01:636 CPU/(5280:5280): PC: 4
+[INFO] 10:16:01:636 CPU/(5280:5280): ESTIMADO_RAFAGA: 10000
+[INFO] 10:16:01:636 CPU/(5280:5280): ESTADO: 1
+[INFO] 10:16:01:636 CPU/(5280:5280): TIEMPO BLOQUEO: 4000
+[INFO] 10:16:01:636 CPU/(5280:5280): -----------TABLA DE PAGINAS----------------
+[INFO] 10:16:01:636 CPU/(5280:5280): DESPLAZAMIENTO: 0
+[INFO] 10:16:01:636 CPU/(5280:5280): ENTRADA PRIMER NIVEL: 0
+[INFO] 10:16:01:636 CPU/(5280:5280): ENTRADA SEGUNDO NIVEL: 0
+[INFO] 10:16:01:636 CPU/(5280:5280): INUMERO PAGINA: 0
+[INFO] 10:16:01:636 CPU/(5280:5280): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 10:16:01:636 CPU/(5280:5280): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 10:16:01:636 CPU/(5280:5280): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 10:16:01:636 CPU/(5280:5280): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 10:16:01:636 CPU/(5280:5280):  4000 
+[INFO] 10:16:01:636 CPU/(5280:5280): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 10:16:01:636 CPU/(5280:5280):  4 
+[INFO] 10:16:01:636 CPU/(5280:5280):  42 
+[INFO] 10:16:01:636 CPU/(5280:5280): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 10:16:01:636 CPU/(5280:5280):  0 
+[INFO] 10:16:01:636 CPU/(5280:5280):  4 
+[INFO] 10:16:01:636 CPU/(5280:5280): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 10:16:01:636 CPU/(5280:5280):  0 
+[INFO] 10:16:01:636 CPU/(5280:5280): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 

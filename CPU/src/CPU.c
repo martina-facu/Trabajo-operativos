@@ -257,9 +257,6 @@ int main(void)
 	//	Agrego el descriptor del server de DISPATCH al maestro del select
 	FD_SET(kernel_dispatch, &master_fd_set);
 
-
-//	int kernel_dispatch = levantar_server(config, &socket_dispatch, SERVER_DISPATCH);
-//	int kernel_dispatch = levantar_canal_dispatch(config, &socket_dispatch);
 	int kernel_interrupt = levantar_server(configuracion->IPCPU, configuracion->puertoInterrupt, logger, SERVER_INTERRUPT);
 	//	Verifico si el descriptor es mayor o menor al maximo o al minimo del select
 	//	Maximo
@@ -271,15 +268,7 @@ int main(void)
 	//	Agrego el descriptor del server de DISPATCH al maestro del select
 	FD_SET(kernel_interrupt, &master_fd_set);
 
-
-
-
-//	int kernel_interrupt = levantar_server(config, &socket_interrupt, SERVER_INTERRUPT);
-//	int kernel_interrupt = levantar_puerto_interrupt(config, &socket_interrupt);
-
-//	Obtener informacion de memoria
-	// cantidad de entradas por tabla de páginas y tamaño de página.
-
+	//	Comienzo con el ciclo de comunicaciones y ejecuciones
 	while(1)
 	{
 		/*
