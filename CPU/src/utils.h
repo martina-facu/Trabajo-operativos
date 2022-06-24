@@ -40,7 +40,7 @@
 //	int connectionsInterrupt;
 //	int acceptedConecctionDispatch;
 //	int acceptedConecctionInterrupt;
-	Pcb* pcb;
+	pcb_t* pcb;
 	fd_set master_fd_set; 		// 	conjunto maestro de descriptores de fichero
 	bool devolver_pcb;		//	Si es True significa que recibi una interrupcion
 	bool recibiPCB;			//	Si es FALSE significa que todavia no recibi ningun PCB si es TRUE ya recibi PCB a procesar desde el Kernel
@@ -56,8 +56,8 @@
 	int levantar_server(char* ipServer, char* portServer, t_log* logger, char* sTipo);
 //	int levantar_server(t_config* config, t_log* logger, char* sTipo);
 
-	Pcb* obtener_pcb(int cliente);
-	bool execute(Instruccion* instruccion,int dormir, Pcb* pcb);
+	pcb_t* obtener_pcb(int cliente);
+	bool execute(Instruccion* instruccion,int dormir, pcb_t* pcb);
 //	bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb);
 
 #endif

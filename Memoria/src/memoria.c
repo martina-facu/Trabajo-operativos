@@ -156,7 +156,7 @@ int levantar_server(char* ipServer, char* portServer, t_log* logger)
 	int socket;
 
 	//	Inicio el servidor en la IP y puertos leidos desde el archivo de configuracion
-	socket = iniciar_servidor(ipServer, portServer);
+	socket = iniciar_servidor(ipServer, portServer, logger);
 	log_info(logger, "Socket en el que se levanta el server de Memoria: %d", socket);
 
 	return socket;
@@ -175,7 +175,7 @@ void aceptoYEvaluoConexion(int socketAnalizar)
 //	uint8_t handshake;
 
 	//	Acepto las conexiones para luego validar que tipo es y si corresponde mantenerla
-	temporalAcceptedConnection = esperar_cliente(socketAnalizar);
+	temporalAcceptedConnection = esperar_cliente(socketAnalizar, logger);
 	log_info(logger, "Se acepto temporalmente conexion en el puerto: %d para evaluar la misma", temporalAcceptedConnection);
 
 	//	Recibo el tipo de mensaja para saber si es Kernel o CPU

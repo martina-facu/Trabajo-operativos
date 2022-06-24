@@ -1,6 +1,6 @@
 #include "utils.h"
 
-Pcb* obtener_pcb(int cliente)
+pcb_t* obtener_pcb(int cliente)
 {
 
 	t_paquete* paquete = malloc(sizeof(t_paquete));
@@ -18,7 +18,7 @@ Pcb* obtener_pcb(int cliente)
 	buffer->stream = malloc(buffer->size);
 	recv(cliente, buffer->stream, buffer->size, 0);
 
-	Pcb* pcb = pcb_deserializar(buffer);
+	pcb_t* pcb = pcb_deserializar(buffer);
 
 	recibiPCB = true;
 
@@ -185,7 +185,7 @@ int levantar_server(char* ipServer, char* portServer, t_log* logger, char* sTipo
 	int socket;
 
 	//	Inicio el servidor en la IP y puertos leidos desde el archivo de configuracion
-	socket = iniciar_servidor(ipServer, portServer);
+	socket = iniciar_servidor(ipServer, portServer, logger);
 	log_info(logger, "Socket en el que se levanta el server %s: %d",sTipo, socket);
 
 	return socket;
@@ -243,7 +243,7 @@ int levantar_server(char* ipServer, char* portServer, t_log* logger, char* sTipo
 //}
 
 //bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb) { // TODO : encapsular la logica de las instrucciones mas complicadas
-bool execute(Instruccion* instruccion,int dormir, Pcb* pcb)
+bool execute(Instruccion* instruccion,int dormir, pcb_t* pcb)
 { // TODO : encapsular la logica de las instrucciones mas complicadas
 	uint8_t id = instruccion->id;
 	t_list* parametros = instruccion->parametros;
@@ -268,7 +268,7 @@ bool execute(Instruccion* instruccion,int dormir, Pcb* pcb)
 		break;
 	case 2:
 		pcb->estado = BLOQUEADO;
-		pcb->tiempo_bloqueo = *parametro1;
+		pcb->tiempo_block = *parametro1;
 		return true;
 		break;
 	case 3: // TODO : Implementar la instruccion WRITE

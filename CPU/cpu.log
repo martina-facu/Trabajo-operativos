@@ -107,3 +107,23 @@
 [INFO] 11:48:35:905 CPU/(7537:7537): Conexion establecida con la memoria
 [INFO] 11:48:35:905 CPU/(7537:7537): Socket en el que se levanta el server SERVER DISPATCH: 6
 [INFO] 11:48:35:905 CPU/(7537:7537): Socket en el que se levanta el server SERVER INTERRUPT: 7
+[INFO] 14:52:09:604 CPU/(13339:13339): -------------------------
+[INFO] 14:52:09:605 CPU/(13339:13339): Iniciando log Proceso CPU
+[INFO] 14:52:09:605 CPU/(13339:13339): -------------------------
+[INFO] 14:52:09:605 CPU/(13339:13339): Se leyo la variable ENTRADAS_TLB: 4
+[INFO] 14:52:09:606 CPU/(13339:13339): Se leyo la variable REEMPLAZO_TLB: LRU
+[INFO] 14:52:09:606 CPU/(13339:13339): Se leyo la variable RETARDO_NOOP: 1000
+[INFO] 14:52:09:606 CPU/(13339:13339): Se leyo la variable IP_CPU: 192.168.0.233
+[INFO] 14:52:09:606 CPU/(13339:13339): Se leyo la variable IP_MEMORIA: 192.168.0.233
+[INFO] 14:52:09:606 CPU/(13339:13339): Se leyo la variable PUERTO_MEMORIA: 8002
+[INFO] 14:52:09:606 CPU/(13339:13339): Se leyo la variable PUERTO_DISPATCH: 9797
+[INFO] 14:52:09:606 CPU/(13339:13339): Se leyo la variable PUERTO_INTERRUPT: 8005
+[INFO] 14:52:09:606 CPU/(13339:13339): Conexion establecida con exito
+[INFO] 14:52:09:607 CPU/(13339:13339): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  5
+[INFO] 14:52:09:607 CPU/(13339:13339): Se envia Handshake a la memoria
+[INFO] 14:52:09:607 CPU/(13339:13339): Mensaje recibido de la memoria:  2
+[INFO] 14:52:09:607 CPU/(13339:13339): Conexion establecida con la memoria
+[INFO] 14:52:09:607 CPU/(13339:13339): Server escuchando
+[INFO] 14:52:09:607 CPU/(13339:13339): Socket en el que se levanta el server SERVER DISPATCH: 6
+[INFO] 14:52:09:607 CPU/(13339:13339): Server escuchando
+[INFO] 14:52:09:608 CPU/(13339:13339): Socket en el que se levanta el server SERVER INTERRUPT: 7

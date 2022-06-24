@@ -4,7 +4,7 @@
 
 
 
-void ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config, bool* devolver_pcb) {
+void ejecutar_ciclo_instrucciones(pcb_t* pcb,t_config* config, bool* devolver_pcb) {
 	t_list* instrucciones = pcb->instrucciones;
 	uint32_t program_counter = pcb->program_counter;
 
@@ -59,7 +59,7 @@ void aceptoServerDispatch(int socketAnalizar)
 		{
 			//	Acepto la conexion del cliente que se conecta
 			//	ESTO TIENE QUE IR DESPUES EN EL THREAD!!!!!!!!!!!!!!!!!!
-			acceptedConecctionDispatch = esperar_cliente(socketAnalizar);
+			acceptedConecctionDispatch = esperar_cliente(socketAnalizar, logger);
 			log_info(logger, "Se acepto la conexion del Dispatch en el socket: %d", acceptedConecctionDispatch);
 
 			//	Valido si tengo que cambiar el maximo o el minimo
@@ -121,7 +121,7 @@ void aceptoServerInterrupt(int socketAnalizar)
 		if(connectionsInterrupt < CONCURRENT_CONNECTION)
 		{
 			//	Acepto la conexion del cliente que se conecta
-			acceptedConecctionInterrupt = esperar_cliente(socketAnalizar);
+			acceptedConecctionInterrupt = esperar_cliente(socketAnalizar, logger);
 			log_info(logger, "Se acepto la conexion del Interrupt en el socket: %d", acceptedConecctionDispatch);
 
 			//	Defino el mensaje a recibir (y lo recibo) del cliente cuando se conecta

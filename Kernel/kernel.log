@@ -69,3 +69,8 @@
 [INFO] 10:16:01:637 KERNEL/(5294:5294):  0 
 [INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 6 , nombre: EXIT 
  cantidad de parametros: 0 parametros: 
+[ERROR] 14:53:57:193 KERNEL/(13369:13369): Fallo la conexion al server
+[INFO] 14:53:57:194 KERNEL/(13369:13369): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8000 con el descriptor:  -1
+[INFO] 14:53:57:194 KERNEL/(13369:13369): Se envia Handshake a la memoria
+[INFO] 14:53:57:194 KERNEL/(13369:13369): Mensaje recibido de la memoria:  0
+[ERROR] 14:53:57:194 KERNEL/(13369:13369): No se puede establecer conexion con la memoria. El server contactado responde con un mensaje no predeterminado: 0.
