@@ -29,7 +29,7 @@ all: Memoria
 Memoria: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc -L"/home/utnso/tp-2022-1c-9-12/Shared/Debug" -o "Memoria" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc -L"/home/utnso/tp912/tp-2022-1c-9-12/Shared/Debug" -o "Memoria" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
