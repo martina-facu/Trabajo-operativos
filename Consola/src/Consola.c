@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
 	char* puerto = config_get_string_value(config, "PUERTO_KERNEL");
 	log_info(logger, "El puerto de conexion al Kernel es: %s", puerto);
 
-	int conexion = crear_conexion(ip, puerto);
+	int conexion = crear_conexion(ip, puerto, logger);
 	if (conexion < 0)
 		exit(EXIT_FAILURE);
 	log_info(logger, "Me conecte al KERNEL en el descriptor: %d", conexion);

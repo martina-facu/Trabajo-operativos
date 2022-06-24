@@ -1,76 +1,73 @@
-[INFO] 10:15:36:667 KERNEL/(5294:5294): -------------------------
-[INFO] 10:15:36:667 KERNEL/(5294:5294): Iniciando log Proceso KERNEL
-[INFO] 10:15:36:667 KERNEL/(5294:5294): -------------------------
-[INFO] 10:15:58:627 KERNEL/(5294:5294): INFORMACION DEL PCB RECIBIDO:
-[INFO] 10:15:58:627 KERNEL/(5294:5294): PID: 7
-[INFO] 10:15:58:627 KERNEL/(5294:5294): TAMANO: 10
-[INFO] 10:15:58:627 KERNEL/(5294:5294): PC: 0
-[INFO] 10:15:58:627 KERNEL/(5294:5294): ESTIMADO_RAFAGA: 10000
-[INFO] 10:15:58:627 KERNEL/(5294:5294): ESTADO: 0
-[INFO] 10:15:58:627 KERNEL/(5294:5294): TIEMPO BLOQUEO: 0
-[INFO] 10:15:58:627 KERNEL/(5294:5294): -----------TABLA DE PAGINAS----------------
-[INFO] 10:15:58:627 KERNEL/(5294:5294): DESPLAZAMIENTO: 0
-[INFO] 10:15:58:627 KERNEL/(5294:5294): ENTRADA PRIMER NIVEL: 0
-[INFO] 10:15:58:627 KERNEL/(5294:5294): ENTRADA SEGUNDO NIVEL: 0
-[INFO] 10:15:58:627 KERNEL/(5294:5294): INUMERO PAGINA: 0
-[INFO] 10:15:58:627 KERNEL/(5294:5294): El codigo de la instruccion es: 1 , nombre: NO_OP 
- cantidad de parametros: 0 parametros: 
-[INFO] 10:15:58:627 KERNEL/(5294:5294): El codigo de la instruccion es: 1 , nombre: NO_OP 
- cantidad de parametros: 0 parametros: 
-[INFO] 10:15:58:627 KERNEL/(5294:5294): El codigo de la instruccion es: 1 , nombre: NO_OP 
- cantidad de parametros: 0 parametros: 
-[INFO] 10:15:58:627 KERNEL/(5294:5294): El codigo de la instruccion es: 2 , nombre: I/O 
- cantidad de parametros: 1 parametros: 
-[INFO] 10:15:58:627 KERNEL/(5294:5294):  4000 
-[INFO] 10:15:58:627 KERNEL/(5294:5294): El codigo de la instruccion es: 3 , nombre: WRITE 
- cantidad de parametros: 2 parametros: 
-[INFO] 10:15:58:627 KERNEL/(5294:5294):  4 
-[INFO] 10:15:58:627 KERNEL/(5294:5294):  42 
-[INFO] 10:15:58:627 KERNEL/(5294:5294): El codigo de la instruccion es: 4 , nombre: COPY 
- cantidad de parametros: 2 parametros: 
-[INFO] 10:15:58:627 KERNEL/(5294:5294):  0 
-[INFO] 10:15:58:627 KERNEL/(5294:5294):  4 
-[INFO] 10:15:58:627 KERNEL/(5294:5294): El codigo de la instruccion es: 5 , nombre: READ 
- cantidad de parametros: 1 parametros: 
-[INFO] 10:15:58:627 KERNEL/(5294:5294):  0 
-[INFO] 10:15:58:627 KERNEL/(5294:5294): El codigo de la instruccion es: 6 , nombre: EXIT 
- cantidad de parametros: 0 parametros: 
-[INFO] 10:16:01:636 KERNEL/(5294:5294): INFORMACION DEL PCB RECIBIDO:
-[INFO] 10:16:01:637 KERNEL/(5294:5294): PID: 7
-[INFO] 10:16:01:637 KERNEL/(5294:5294): TAMANO: 10
-[INFO] 10:16:01:637 KERNEL/(5294:5294): PC: 4
-[INFO] 10:16:01:637 KERNEL/(5294:5294): ESTIMADO_RAFAGA: 10000
-[INFO] 10:16:01:637 KERNEL/(5294:5294): ESTADO: 1
-[INFO] 10:16:01:637 KERNEL/(5294:5294): TIEMPO BLOQUEO: 4000
-[INFO] 10:16:01:637 KERNEL/(5294:5294): -----------TABLA DE PAGINAS----------------
-[INFO] 10:16:01:637 KERNEL/(5294:5294): DESPLAZAMIENTO: 0
-[INFO] 10:16:01:637 KERNEL/(5294:5294): ENTRADA PRIMER NIVEL: 0
-[INFO] 10:16:01:637 KERNEL/(5294:5294): ENTRADA SEGUNDO NIVEL: 0
-[INFO] 10:16:01:637 KERNEL/(5294:5294): INUMERO PAGINA: 0
-[INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 1 , nombre: NO_OP 
- cantidad de parametros: 0 parametros: 
-[INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 1 , nombre: NO_OP 
- cantidad de parametros: 0 parametros: 
-[INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 1 , nombre: NO_OP 
- cantidad de parametros: 0 parametros: 
-[INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 2 , nombre: I/O 
- cantidad de parametros: 1 parametros: 
-[INFO] 10:16:01:637 KERNEL/(5294:5294):  4000 
-[INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 3 , nombre: WRITE 
- cantidad de parametros: 2 parametros: 
-[INFO] 10:16:01:637 KERNEL/(5294:5294):  4 
-[INFO] 10:16:01:637 KERNEL/(5294:5294):  42 
-[INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 4 , nombre: COPY 
- cantidad de parametros: 2 parametros: 
-[INFO] 10:16:01:637 KERNEL/(5294:5294):  0 
-[INFO] 10:16:01:637 KERNEL/(5294:5294):  4 
-[INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 5 , nombre: READ 
- cantidad de parametros: 1 parametros: 
-[INFO] 10:16:01:637 KERNEL/(5294:5294):  0 
-[INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 6 , nombre: EXIT 
- cantidad de parametros: 0 parametros: 
-[ERROR] 14:53:57:193 KERNEL/(13369:13369): Fallo la conexion al server
-[INFO] 14:53:57:194 KERNEL/(13369:13369): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8000 con el descriptor:  -1
-[INFO] 14:53:57:194 KERNEL/(13369:13369): Se envia Handshake a la memoria
-[INFO] 14:53:57:194 KERNEL/(13369:13369): Mensaje recibido de la memoria:  0
-[ERROR] 14:53:57:194 KERNEL/(13369:13369): No se puede establecer conexion con la memoria. El server contactado responde con un mensaje no predeterminado: 0.
+[INFO] 15:55:39:188 KERNEL/(4505:4505): Conexion establecida con exito
+[INFO] 15:55:39:188 KERNEL/(4505:4505): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
+[INFO] 15:55:39:189 KERNEL/(4505:4505): Se envia Handshake a la memoria
+[INFO] 15:55:39:191 KERNEL/(4505:4505): Mensaje recibido de la memoria:  42
+[INFO] 15:55:39:191 KERNEL/(4505:4505): Conexion establecida con la memoria
+[INFO] 15:55:39:191 KERNEL/(4505:4505): Conexion establecida con exito
+[INFO] 15:55:39:191 KERNEL/(4505:4505): Conexion establecida con la CPU dispatch en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
+[INFO] 15:55:39:191 KERNEL/(4505:4505): Se envia Handshake a CPU dispatch
+[INFO] 15:55:39:192 KERNEL/(4505:4505): Mensaje recibido del CPU:  22
+[INFO] 15:55:39:192 KERNEL/(4505:4505): Conexion establecida con la CPU dispatch
+[INFO] 15:55:39:192 KERNEL/(4505:4505): Conexion establecida con exito
+[INFO] 15:55:39:192 KERNEL/(4505:4505): Conexion establecida en la CPU interrupt en la IP 192.168.0.233 y puerto 8005 con el descriptor:  9
+[INFO] 15:55:39:192 KERNEL/(4505:4505): Se envia Handshake a la CPU interrupt
+[INFO] 15:56:53:820 KERNEL/(4505:4505): Mensaje recibido de la CPU interrupt:  0
+[ERROR] 15:56:53:820 KERNEL/(4505:4505): No se puede establecer conexion con la CPU interrupt. El server contactado responde con un mensaje no predeterminado: 0.
+[INFO] 15:58:57:476 KERNEL/(4660:4660): Conexion establecida con exito
+[INFO] 15:58:57:476 KERNEL/(4660:4660): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
+[INFO] 15:58:57:476 KERNEL/(4660:4660): Se envia Handshake a la memoria
+[INFO] 15:58:57:478 KERNEL/(4660:4660): Mensaje recibido de la memoria:  42
+[INFO] 15:58:57:478 KERNEL/(4660:4660): Conexion establecida con la memoria
+[INFO] 15:59:21:548 KERNEL/(4660:4660): Conexion establecida con exito
+[INFO] 15:59:21:548 KERNEL/(4660:4660): Conexion establecida con la CPU dispatch en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
+[INFO] 15:59:21:548 KERNEL/(4660:4660): Se envia Handshake a CPU dispatch
+[INFO] 15:59:21:549 KERNEL/(4660:4660): Mensaje recibido del CPU:  22
+[INFO] 15:59:21:549 KERNEL/(4660:4660): Conexion establecida con la CPU dispatch
+[INFO] 15:59:54:986 KERNEL/(4660:4660): Conexion establecida con exito
+[INFO] 15:59:57:013 KERNEL/(4660:4660): Conexion establecida en la CPU interrupt en la IP 192.168.0.233 y puerto 8005 con el descriptor:  9
+[INFO] 16:01:41:150 KERNEL/(4660:4660): Se envia Handshake a la CPU interrupt
+[ERROR] 16:03:23:965 KERNEL/(4838:4838): Fallo la conexion al server
+[INFO] 16:03:23:966 KERNEL/(4838:4838): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  -1
+[INFO] 16:03:23:966 KERNEL/(4838:4838): Se envia Handshake a la memoria
+[INFO] 16:03:23:966 KERNEL/(4838:4838): Mensaje recibido de la memoria:  0
+[ERROR] 16:03:23:966 KERNEL/(4838:4838): No se puede establecer conexion con la memoria. El server contactado responde con un mensaje no predeterminado: 0.
+[INFO] 16:04:15:345 KERNEL/(4886:4886): Conexion establecida con exito
+[INFO] 16:04:15:345 KERNEL/(4886:4886): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
+[INFO] 16:04:15:345 KERNEL/(4886:4886): Se envia Handshake a la memoria
+[INFO] 16:04:15:345 KERNEL/(4886:4886): Mensaje recibido de la memoria:  42
+[INFO] 16:04:15:345 KERNEL/(4886:4886): Conexion establecida con la memoria
+[INFO] 16:04:20:843 KERNEL/(4886:4886): Conexion establecida con exito
+[INFO] 16:04:20:843 KERNEL/(4886:4886): Conexion establecida con la CPU dispatch en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
+[INFO] 16:04:20:843 KERNEL/(4886:4886): Se envia Handshake a CPU dispatch
+[INFO] 16:04:20:844 KERNEL/(4886:4886): Mensaje recibido del CPU:  22
+[INFO] 16:04:20:844 KERNEL/(4886:4886): Conexion establecida con la CPU dispatch
+[INFO] 16:04:24:242 KERNEL/(4886:4886): Conexion establecida con exito
+[INFO] 16:04:24:706 KERNEL/(4886:4886): Conexion establecida en la CPU interrupt en la IP 192.168.0.233 y puerto 8005 con el descriptor:  9
+[INFO] 16:33:50:187 KERNEL/(3622:3622): Conexion establecida con exito
+[INFO] 16:33:50:187 KERNEL/(3622:3622): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
+[INFO] 16:33:50:188 KERNEL/(3622:3622): Se envia Handshake a la memoria
+[INFO] 16:33:50:188 KERNEL/(3622:3622): Mensaje recibido de la memoria:  42
+[INFO] 16:33:50:188 KERNEL/(3622:3622): Conexion establecida con la memoria
+[INFO] 16:33:50:188 KERNEL/(3622:3622): Conexion establecida con exito
+[INFO] 16:33:50:188 KERNEL/(3622:3622): Conexion establecida con la CPU dispatch en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
+[INFO] 16:33:50:188 KERNEL/(3622:3622): Se envia Handshake a CPU dispatch
+[INFO] 16:33:50:188 KERNEL/(3622:3622): Mensaje recibido del CPU:  22
+[INFO] 16:33:50:188 KERNEL/(3622:3622): Conexion establecida con la CPU dispatch
+[INFO] 16:33:50:188 KERNEL/(3622:3622): Conexion establecida con exito
+[INFO] 16:33:50:188 KERNEL/(3622:3622): Conexion establecida en la CPU interrupt en la IP 192.168.0.233 y puerto 8005 con el descriptor:  9
+[INFO] 16:33:50:188 KERNEL/(3622:3622): Se envia Handshake a la CPU interrupt
+[INFO] 16:34:28:042 KERNEL/(3622:3622): Mensaje recibido de la CPU interrupt:  0
+[ERROR] 16:34:28:042 KERNEL/(3622:3622): No se puede establecer conexion con la CPU interrupt. El server contactado responde con un mensaje no predeterminado: 0.
+[INFO] 16:43:45:153 KERNEL/(4291:4291): Conexion establecida con exito
+[INFO] 16:43:45:153 KERNEL/(4291:4291): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
+[INFO] 16:43:45:153 KERNEL/(4291:4291): Se envia Handshake a la memoria
+[INFO] 16:43:45:153 KERNEL/(4291:4291): Mensaje recibido de la memoria:  42
+[INFO] 16:43:45:153 KERNEL/(4291:4291): Conexion establecida con la memoria
+[INFO] 16:43:46:753 KERNEL/(4291:4291): Conexion establecida con exito
+[INFO] 16:43:46:753 KERNEL/(4291:4291): Conexion establecida con la CPU dispatch en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
+[INFO] 16:43:46:753 KERNEL/(4291:4291): Se envia Handshake a CPU dispatch
+[INFO] 16:44:03:021 KERNEL/(4291:4291): Mensaje recibido del CPU:  22
+[INFO] 16:44:03:021 KERNEL/(4291:4291): Conexion establecida con la CPU dispatch
+[INFO] 16:45:35:243 KERNEL/(4291:4291): Conexion establecida con exito
+[INFO] 16:45:43:725 KERNEL/(4291:4291): Conexion establecida en la CPU interrupt en la IP 192.168.0.233 y puerto 8005 con el descriptor:  9
+[INFO] 16:45:57:334 KERNEL/(4291:4291): Se envia Handshake a la CPU interrupt

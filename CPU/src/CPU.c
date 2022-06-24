@@ -86,6 +86,7 @@ void aceptoServerDispatch(int socketAnalizar)
 				//	Defino y envio Handshake
 				uint8_t handshake = ACEPTAR_CONEXION_DISPATCH;
 				send(acceptedConecctionDispatch, &handshake, sizeof(uint8_t), 0);
+				log_info(logger, "Se envia Handshake %d para dejar establecida la conexion del Dispatch", mensaje);
 				//	Agrego el descrilptor al maestro
 				FD_SET(acceptedConecctionDispatch, &master_fd_set);
 				//	Incremento el grado de concurrencia
@@ -98,10 +99,6 @@ void aceptoServerDispatch(int socketAnalizar)
 				close(acceptedConecctionDispatch);
 			}
 		}
-//		else
-//		{
-//			log_info(logger, "Ya llegue al limite de concurrencia del Dispatch");
-//		}
 	}
 }
 /*
@@ -116,6 +113,7 @@ void aceptoServerInterrupt(int socketAnalizar)
 	//	Verifico si se recibio informacion en este descriptor
 	if (FD_ISSET(socketAnalizar, &read_fd_set))
 	{
+		log_info(logger, "Se quiso conectar alguien al Server Interrupt");
 		//	Si el grado de concurrencia admite que se sigan aceptando
 		//	conexiones, la acepto. Sino omito lo recibido.
 		if(connectionsInterrupt < CONCURRENT_CONNECTION)
@@ -137,6 +135,7 @@ void aceptoServerInterrupt(int socketAnalizar)
 				//	Envio el mensaje
 				send(acceptedConecctionInterrupt, &handshake, sizeof(uint8_t), 0);
 				//	Levanto el nivel de concurrencia activa de Interrupt
+				log_info(logger, "Se envia Handshake %d para dejar establecida la conexion del Dispatch", mensaje);
 				connectionsInterrupt++;
 
 				//	Inicializo los atributos del thread a crear.
@@ -147,28 +146,11 @@ void aceptoServerInterrupt(int socketAnalizar)
 //			   struct thread_info *tinfo = calloc(num_threads_interrupt, sizeof(*tinfo));
 //			   if (tinfo == NULL)
 //				   handle_error("Error al alocar la memoria para la informacion de los thread de interrupt");
-
 				resThread = pthread_create(&threadId, &attr, &atencionInterrupt, (void *) acceptedConecctionInterrupt);
 				if (resThread != 0)
 					log_info(logger,"Error al crear el Thread");
-				   //handle_error_en(resThread, "Error al crear el Thread");
-
-//				//	NO VA ESTA PARTE PORQUE NO LO VOY A MANTENER CON EL SOCKET SINO CON UN THREAD
-//				//	Agrego el descrilptor al maestro
-//				FD_SET(acceptedConecctionInterrupt, &master_fd_set);
-//				//	Valido si tengo que cambiar el maximo o el minimo
-//				//	Maximo
-//				if (acceptedConecctionInterrupt > fdmax)
-//				{
-//					fdmax = acceptedConecctionInterrupt;
-//				}
-//				//	Minimo
-//				if (acceptedConecctionInterrupt < fdmin)
-//				{
-//					fdmin = acceptedConecctionInterrupt;
-//				}
-//				log_info(logger, "Se agrego al set de descriptores el descriptor: %d", acceptedConecctionInterrupt);
-
+				else
+					log_info(logger, "Se genera el Thread del Interrupt con TID: %d", resThread);
 
 
 			}
@@ -178,19 +160,6 @@ void aceptoServerInterrupt(int socketAnalizar)
 				//	Se procede a cerrar la conexion establecida
 				close(acceptedConecctionInterrupt);
 			}
-
-//			//	Defino y envio Handshake
-//			uint8_t handshake = 5;
-//			send(acceptedConecctionInterrupt, &handshake, sizeof(uint8_t), 0);
-//			connectionsInterrupt++;
-
-			/*
-			 * TENGO QUE CREAR EL THREAD DE ATENCION AL INTERRUPT
-			 */
-
-
-
-
 		}
 	}
 }
@@ -355,29 +324,6 @@ int main(void)
 
 		//	Vuelvo a iniciar el proceso del While
 	}
-
-
-
-//	//	Recibir pcb del kernel
-//		Pcb* pcb = obtener_pcb(socket_dispatch, kernel_dispatch);
-//		pcb_mostrar(pcb);
-
-
-////	Ejecutar ciclo de instrucciones
-//	bool devolver_pcb = false;
-//	while (devolver_pcb == false) {
-//		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
-//	}
-//
-//	pcb_mostrar(pcb);
-//
-////	DEVOLVER PCB AL KERNEL
-//	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
-//	void* a_enviar = pcb_serializar(pcb,tamano_mensaje,1);
-//	send(kernel_dispatch, a_enviar, *tamano_mensaje, 0);
-
-
-//	pthread_join( thread_id , NULL);
 
 	log_info(logger, "Sali del while infinito y voy a cerrar las conexiones generadas");
 

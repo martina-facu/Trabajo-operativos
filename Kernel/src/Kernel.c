@@ -12,7 +12,7 @@ int main(void)
 
 	//	Me levanto como server y establesco todas las conexiones como cliente
 	//	Inicio el servidor Kernel para atencion de consolas
-	levantar_conexion_memoria(configuracion->IP_KERNEL,configuracion->PUERTO_ESCUCHA, log);
+	levantar_conexion_memoria(configuracion->IP_MEMORIA,configuracion->PUERTO_MEMORIA, log);
 
 	//server_fd = iniciar_servidor(configuracion->IP_KERNEL,configuracion->PUERTO_ESCUCHA, log);
 
@@ -69,11 +69,10 @@ void establecer_configuracion()
 {
 	t_config* kernel_config= config_create("kernel.config");
 
-	if(kernel_config==NULL){
-		printf("ERROR EN ABRIR EL CONFIG\n");
-		exit(-5);
-	} else {
-		printf("CONFIG ABIERTO EXITOSAMENTE\n");
+	if(kernel_config==NULL)
+	{
+		perror("\nNo pude abrir el archivo de configuracion\n");
+		exit(EXIT_FAILURE);
 	}
 
 	configuracion = malloc(sizeof(t_config_kernel));
