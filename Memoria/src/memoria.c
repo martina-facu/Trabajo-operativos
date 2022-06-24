@@ -172,7 +172,7 @@ void aceptoYEvaluoConexion(int socketAnalizar)
 	{
 
 		//	Se recibio mensaje del Kernel
-		case 41:
+		case INICIAR_CONEXION_KERNEL:
 			//	Valido si ya hay un Kernel conectado
 			//	Si el grado de concurrencia admite que se sigan aceptando
 			//	conexiones, la acepto. Sino omito lo recibido.

@@ -13,6 +13,7 @@
 #include <instrucciones.h>
 #include "./planificadores/estados.h"
 #include "utils.h"
+#include "kernel.h"
 
 int main() {
 	int cpu_interrupt;

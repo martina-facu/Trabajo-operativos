@@ -22,6 +22,7 @@
 	#include <commons/collections/list.h>
 	#include <commons/string.h>
 	#include <logs.h>
+	#include <conexion.h>
 
 /*
  * Listado de estructuras

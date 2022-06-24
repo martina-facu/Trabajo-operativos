@@ -20,9 +20,11 @@
 #include <errno.h>
 #include <conexion.h>
 #include <logs.h>
-#include<sys/socket.h>
-#include<unistd.h>
-#include<netdb.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#include <netdb.h>
+#include <conexion.h>
+
 #define PUERTO_ESCUCHA "PUERTO_ESCUCHA"
 #define TAM_MEMORIA "TAM_MEMORIA"
 #define TAM_PAGINA "TAM_PAGINA"

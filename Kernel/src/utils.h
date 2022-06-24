@@ -18,6 +18,7 @@
 #include <instrucciones.h>
 #include "./planificadores/estados.h"
 
+
 /*
  * Listado de variables globales
 */
