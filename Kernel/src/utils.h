@@ -11,22 +11,36 @@
 #include <commons/collections/list.h>
 #include <commons/string.h>
 #include <commons/config.h>
+#include <logs.h>
 #include <conexion.h>
 #include <protocolo.h>
 #include <pcb.h>
 #include <instrucciones.h>
 #include "./planificadores/estados.h"
 
-t_list* deserializar_mensaje(int socket_serv, int cliente, uint32_t* tamano_proceso);
 
-void avisar_proceso_finalizado(int cliente);
+/*
+ * Listado de variables globales
+*/
 
-Pcb* crear_pcb(t_list* instrucciones, uint32_t tamano_proceso, t_config* config, uint32_t id_proceso);
+	t_log* logger;
 
-int levantar_conexion_memoria(t_config* config);
 
-int levantar_conexion_dispacher(t_config* config);
 
-int levantar_conexion_interrupt(t_config* config);
+/*
+ * Prototipo de funciones
+*/
+
+	t_list* deserializar_mensaje(int socket_serv, int cliente, uint32_t* tamano_proceso);
+
+	void avisar_proceso_finalizado(int cliente);
+
+	Pcb* crear_pcb(t_list* instrucciones, uint32_t tamano_proceso, t_config* config, uint32_t id_proceso);
+
+	int levantar_conexion_memoria(t_config* config);
+
+	int levantar_conexion_dispacher(t_config* config);
+
+	int levantar_conexion_interrupt(t_config* config);
 
 #endif

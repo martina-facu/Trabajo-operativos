@@ -265,7 +265,6 @@ int validoYAceptoConexionKernel(int temporalAcceptedConnection)
  *  		con la misma
  *  Autor:
  */
-
 int validoYAceptoConexionCPU(int temporalAcceptedConnection)
 {
 	int acceptedConecctionCPU;

@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <netdb.h>
 #include <commons/collections/list.h>
+#include <commons/log.h>
 #include "paquete.h"
 
 typedef struct {
@@ -18,9 +19,9 @@ typedef struct {
 } Instruccion;
 
 
-void mostrar_parametros(t_list* list);
+void mostrar_parametros(t_list* list, t_log* logger);
 
-void mostrar_instrucciones(t_list* list);
+void mostrar_instrucciones(t_list* list, t_log* logger);
 
 int calcular_espacio_instrucciones(t_list* instrucciones);
 

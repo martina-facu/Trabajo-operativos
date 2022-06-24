@@ -53,7 +53,7 @@ int iniciar_servidor(char *ip, char* puerto_escucha)
 		return -1;
 	}
 
-	printf("\nServidor escuchando en %s",puerto_escucha);
+	printf("\nServidor escuchando en %s\n",puerto_escucha);
 
 	freeaddrinfo(servinfo);
 	return socketserv;

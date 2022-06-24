@@ -13,19 +13,31 @@
 #include <instrucciones.h>
 #include "./planificadores/estados.h"
 #include "utils.h"
+#include "kernel.h"
 
 int main() {
+	int cpu_interrupt;
+
 	t_config* config = config_create("kernel.config");
+
+	logger = initLogger("kernel.log", "KERNEL", LOG_LEVEL_INFO);
 
 //	Conexiones como cliente
 	int conexion_memoria = levantar_conexion_memoria(config);
 	int cpu_dispatch = levantar_conexion_dispacher(config);
-	int cpu_interrupt = levantar_conexion_interrupt(config);
+//	cpu_interrupt = levantar_conexion_interrupt(config);
 
-//	Servidor para la consola
-	char* puerto_escucha = config_get_string_value(config, "PUERTO_ESCUCHA");
-	int socket_serv = iniciar_servidor("127.0.0.1", puerto_escucha);
-	int cliente = esperar_cliente(socket_serv);
+	//	Servidor para la consola
+		char* puerto_escucha = config_get_string_value(config, "PUERTO_ESCUCHA");
+		char* ip_escucha = config_get_string_value(config, "IP_KERNEL");
+		int socket_serv = iniciar_servidor(ip_escucha, puerto_escucha);
+		int cliente = esperar_cliente(socket_serv);
+
+
+////	Servidor para la consola
+//	char* puerto_escucha = config_get_string_value(config, "PUERTO_ESCUCHA");
+//	int socket_serv = iniciar_servidor("127.0.0.1", puerto_escucha);
+//	int cliente = esperar_cliente(socket_serv);
 
 	uint32_t* tamano_proceso = malloc(sizeof(uint32_t));
 	t_list* instrucciones = deserializar_mensaje(socket_serv, cliente,
@@ -35,7 +47,7 @@ int main() {
 
 // crear PCB
 	Pcb* pcb = crear_pcb(instrucciones, *tamano_proceso, config, socket_serv);
-	pcb_mostrar(pcb);
+	pcb_mostrar(pcb, logger);
 
 //	serializar PCB
 
@@ -61,7 +73,7 @@ int main() {
 	recv(cpu_dispatch, buffer->stream, buffer->size, 0);
 
 	pcb = pcb_deserializar(buffer);
-	pcb_mostrar(pcb);
+	pcb_mostrar(pcb, logger);
 
 	avisar_proceso_finalizado(cliente);
 
