@@ -24,22 +24,12 @@
 								<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.2146748749" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1769440565" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 							</tool>
-<<<<<<< HEAD
-							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.448281743" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
-								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.exe.debug.option.optimization.level.971841083" name="Optimization Level" superClass="gnu.c.compiler.exe.debug.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
-								<option id="gnu.c.compiler.exe.debug.option.debugging.level.1855407595" name="Debug Level" superClass="gnu.c.compiler.exe.debug.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.c.compiler.option.include.paths.797591629" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/home/utnso/tp-2022-1c-9-12/Shared/utils"/>
-									<listOptionValue builtIn="false" value="/home/utnso/tp-2022-1c-9-12/Shared"/>
-									<listOptionValue builtIn="false" value="commons"/>
-=======
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.387452688" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.exe.debug.option.optimization.level.370603793" name="Optimization Level" superClass="gnu.c.compiler.exe.debug.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
 								<option id="gnu.c.compiler.exe.debug.option.debugging.level.313240603" name="Debug Level" superClass="gnu.c.compiler.exe.debug.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.1064588785" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="/home/utnso/tp912/tp-2022-1c-9-12/Shared/utils"/>
 									<listOptionValue builtIn="false" value="/home/utnso/tp912/tp-2022-1c-9-12/Shared"/>
->>>>>>> main
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.967936820" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
