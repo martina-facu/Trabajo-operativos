@@ -54,7 +54,7 @@ int levantar_conexion_memoria(t_config* config){
 		char* puerto_memoria = config_get_string_value(config, "PUERTO_MEMORIA");
 		int conexion_memoria = crear_conexion(ip_memoria, puerto_memoria);
 
-		uint8_t handshake_memoria = 3;
+		uint8_t handshake_memoria = 42;
 		send(conexion_memoria, &handshake_memoria, sizeof(uint8_t), 0);
 
 		uint8_t respuesta_memoria = 0;
@@ -76,7 +76,7 @@ int levantar_conexion_dispacher(t_config* config){
 	int cpu_dispatch = crear_conexion(ip_cpu, puerto_dispatch);
 	printf("\nConexion dispatch: %d", cpu_dispatch);
 
-	uint8_t handshake = 2;
+	uint8_t handshake = 21;
 
 	send(cpu_dispatch, &handshake, sizeof(uint8_t), 0);
 
@@ -97,7 +97,7 @@ int levantar_conexion_interrupt(t_config* config){
 	char* puerto_interrupt = config_get_string_value(config,
 			"PUERTO_CPU_INTERRUPT");
 	int cpu_interrupt = crear_conexion(ip_cpu, puerto_interrupt);
-	uint8_t handshake1 = 3;
+	uint8_t handshake1 = 23;
 	send(cpu_interrupt, &handshake1, sizeof(uint8_t), 0);
 
 	uint8_t respuesta1 = 0;

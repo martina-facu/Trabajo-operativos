@@ -172,7 +172,7 @@ void aceptoYEvaluoConexion(int socketAnalizar)
 	{
 
 		//	Se recibio mensaje del Kernel
-		case 3:
+		case 41:
 			//	Valido si ya hay un Kernel conectado
 			//	Si el grado de concurrencia admite que se sigan aceptando
 			//	conexiones, la acepto. Sino omito lo recibido.
@@ -182,7 +182,7 @@ void aceptoYEvaluoConexion(int socketAnalizar)
 			}
 		break;
 		//	Se recibio mensaje de la CPU
-		case 8:
+		case 1:
 			//	Valido si ya hay una CPU conectada
 			//	Si el grado de concurrencia admite que se sigan aceptando
 			//	conexiones, la acepto. Sino omito lo recibido.
@@ -233,7 +233,7 @@ int validoYAceptoConexionKernel(int temporalAcceptedConnection)
 	log_info(logger, "Se agrego al set de descriptores el descriptor: %d", acceptedConecctionKernel);
 
 	//	Devuelvo el handshake predeterminado
-	handshake = 6;
+	handshake = 42;
 	send(acceptedConecctionKernel, &handshake, sizeof(uint8_t), 0);
 
 
@@ -276,7 +276,7 @@ int validoYAceptoConexionCPU(int temporalAcceptedConnection)
 	log_info(logger, "Se agrego al set de descriptores el descriptor: %d", acceptedConecctionCPU);
 
 	//	Devuelvo el handshake predeterminado
-	handshake = 9;
+	handshake = 2;
 	send(acceptedConecctionCPU, &handshake, sizeof(uint8_t), 0);
 
 

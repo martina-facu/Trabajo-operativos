@@ -2,7 +2,7 @@
 #include "CPU.h"
 
 
-uint32_t interrupcion = 0;
+
 
 void ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config, bool* devolver_pcb) {
 	t_list* instrucciones = pcb->instrucciones;
@@ -62,8 +62,6 @@ void aceptoServerDispatch(int socketAnalizar)
 			acceptedConecctionDispatch = esperar_cliente(socketAnalizar);
 			log_info(logger, "Se acepto la conexion del Dispatch en el socket: %d", acceptedConecctionDispatch);
 
-			//	Agrego el descrilptor al maestro
-			FD_SET(acceptedConecctionDispatch, &master_fd_set);
 			//	Valido si tengo que cambiar el maximo o el minimo
 			//	Maximo
 			if (acceptedConecctionDispatch > fdmax)
@@ -83,10 +81,22 @@ void aceptoServerDispatch(int socketAnalizar)
 			recv(acceptedConecctionDispatch, &mensaje, sizeof(uint8_t), 0);
 			log_info(logger, "Mensaje recibido dispatch: %d", mensaje);
 
-			//	Defino y envio Handshake
-			uint8_t handshake = 4;
-			send(acceptedConecctionDispatch, &handshake, sizeof(uint8_t), 0);
-			connectionsDispatch++;
+			if(mensaje == 21)
+			{
+				//	Defino y envio Handshake
+				uint8_t handshake = 22;
+				send(acceptedConecctionDispatch, &handshake, sizeof(uint8_t), 0);
+				//	Agrego el descrilptor al maestro
+				FD_SET(acceptedConecctionDispatch, &master_fd_set);
+				//	Incremento el grado de concurrencia
+				connectionsDispatch++;
+			}
+			else
+			{
+				//	Como el mensaje es incorrecto desestimo el mensaje recibido.
+				log_info("Mensaje recibido del Dispatch es incorrecto, se desestima el mismo");
+				close(acceptedConecctionDispatch);
+			}
 		}
 //		else
 //		{
@@ -119,11 +129,11 @@ void aceptoServerInterrupt(int socketAnalizar)
 			recv(acceptedConecctionInterrupt, &mensaje, sizeof(uint8_t), 0);
 			log_info("Mensaje recibido interrupt: %d", mensaje);
 
-			if(mensaje == 3)
+			if(mensaje == 23)
 			{
 				//	Recibi el mensaje de conexion de un Kernel Interrupt
 				//	Defino para finalizar la aceptacion de la conexion
-				uint8_t handshake = 5;
+				uint8_t handshake = 24;
 				//	Envio el mensaje
 				send(acceptedConecctionInterrupt, &handshake, sizeof(uint8_t), 0);
 				//	Levanto el nivel de concurrencia activa de Interrupt
@@ -402,15 +412,15 @@ void * atencionInterrupt(void * socketInterrupt)
 		uint8_t mensaje = 0;
 		recv(iSocketInterrupt, &mensaje, sizeof(uint8_t), 0);
 		log_info("Mensaje recibido interrupt: %d", mensaje);
-		if(mensaje == 50)
+		if(mensaje == 25)
 		{
 			//	Como el mensaje es correcto seteo la variable para que el CPU devuelva el PCB
-			devolver_pcb = true;
+			interrupcion = true;
 		}
 		else
 		{
 			//	Como el mensaje es incorrecto desestimo el mensaje recibido.
-			log_info("Mensaje recibido del interrupt es incorrecto, se desestima el mismo");
+			log_info("Mensaje recibido del interrupt %d es incorrecto, se desestima el mismo", mensaje);
 		}
 
 

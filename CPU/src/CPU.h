@@ -72,6 +72,8 @@
 	int acceptedConecctionDispatch;
 	int acceptedConecctionInterrupt;
 
+	bool interrupcion = false;
+
 	pthread_attr_t attr;
 	pthread_t threadId;
 	int resThread;
