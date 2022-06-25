@@ -30,7 +30,7 @@ Pcb* obtener_pcb(int socket_serv, int cliente) {
 	return pcb;
 }
 
-int levantar_conexion_memoria(t_config* config) {
+int levantar_conexion_memoria(t_config* config) { // TODO:implementar la variable conexion_memoria como global en toda la cpu
 	char * ip_memoria = malloc(sizeof(char) * 30);
 	strcpy(ip_memoria, config_get_string_value(config, "IP_MEMORIA"));
 	printf("\nIp de la memoria: %s", ip_memoria);
@@ -46,8 +46,12 @@ int levantar_conexion_memoria(t_config* config) {
 	printf("\nMensaje recibido de la memoria: %d", respuesta_memoria);
 
 //	TODO: descomentar estas lineas cuando se implemente la parte de la memoria
-//	recv(conexion_memoria, cantidad_entradas, sizeof(uint32_t), 0);
-//	recv(conexion_memoria, tamano_pagina, sizeof(uint32_t), 0);
+//	t_paquete* respuesta = recibir_mensaje_memoria(conexion_memoria);
+//	void* stream = respuesta->buffer->stream;
+//
+//	memcpy(cantidad_entradas, stream, sizeof(uint32_t));
+//	stream += sizeof(uint32_t);
+//	memcpy(tamano_pagina, stream, sizeof(uint32_t));
 
 	return conexion_memoria;
 }
@@ -196,9 +200,9 @@ bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb) {
 
 	Datos_calculo_direccion* datos = malloc(sizeof(Datos_calculo_direccion));
 	datos->id_tabla_paginas1 = pcb->pid;
-	datos->conexion_memoria = 0; //va a ser variable global
-	datos->entradas_por_tabla = 4; //va a ser variable global
-	datos->tamano_pagina = 100; //va a ser variable global
+	datos->conexion_memoria = conexion_memoria;
+	datos->entradas_por_tabla = cantidad_entradas;
+	datos->tamano_pagina = tamano_pagina;
 
 	int catidad_parametros = getCantidadParametros(id);
 	uint32_t* parametro1;
@@ -272,7 +276,6 @@ void ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config, bool* devolver_pcb)
 
 	//fetch_operands
 	if (requiere_fetch_operands) {
-		// TODO: Ir a buscar los fetch operands, seria solo en la instruccion copy, va a ser una llamada a memoria
 		printf("\nES UNA INSTRUCCION COPY");
 		printf("\n");
 	}
