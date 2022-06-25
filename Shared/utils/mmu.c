@@ -46,6 +46,7 @@ void reemplazar_entrada(Entrada_TLB* entrada){
 	}else{
 		printf("OCURRIO UN ERROR EN DETECTAR EL ALGORITMO DE REEMPLAZO");
 	}
+	free(algoritmo);
 }
 
 void reemplazar_entrada_FIFO(Entrada_TLB* entrada){

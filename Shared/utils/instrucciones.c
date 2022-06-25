@@ -53,9 +53,8 @@ void mostrar_parametros(t_list* list){
 }
 void mostrar_instrucciones(t_list* list){
 	int aux = list_size(list);
-	Instruccion* instruccion = malloc(sizeof(Instruccion));
+	Instruccion* instruccion;
 	char* nombre[6]={"NO_OP", "I/O", "WRITE", "COPY", "READ", "EXIT"}; // TODO: Liberar la memoria de este array
-
 
 	for(int i=0;i<aux;i++){
 		instruccion= list_get(list,i);
@@ -67,7 +66,7 @@ void mostrar_instrucciones(t_list* list){
 
 int calcular_espacio_instrucciones(t_list* instrucciones){
 	int size = sizeof(uint32_t); // cantidad de instrucciones
-	Instruccion* instruccion = malloc(sizeof(instruccion));
+	Instruccion* instruccion;
 	int aux=list_size(instrucciones);
 
 	for(int i=0;i<aux;i++){
@@ -81,16 +80,18 @@ int calcular_espacio_instrucciones(t_list* instrucciones){
 void* armar_stream_instruccion(t_list* instrucciones){
 	void* stream = malloc(calcular_espacio_instrucciones(instrucciones));
 	int desplazamiento=0;
-	Instruccion* instruccion = malloc(sizeof(instruccion));
+	Instruccion* instruccion;
 	uint32_t aux=list_size(instrucciones);
-	memcpy(stream+desplazamiento,&aux,sizeof(uint32_t)); // CANT DE INSTRUCCIONES
+
+	memcpy(stream,&aux,sizeof(uint32_t)); // CANT DE INSTRUCCIONES
 	desplazamiento+= sizeof(uint32_t);
-	uint8_t aux2;
+
+	uint8_t id;
 	int* prm;
 	for(int i=0;i<list_size(instrucciones);i++){
 		instruccion= list_get(instrucciones,i);
-		aux2= instruccion->id;
-		memcpy(stream+desplazamiento,&aux2,sizeof(uint8_t)); // ID
+		id= instruccion->id;
+		memcpy(stream+desplazamiento,&id,sizeof(uint8_t)); // ID
 		desplazamiento+=sizeof(uint8_t);
 		int cant_prm = list_size(instruccion->parametros);
 		for(int i=0;i<cant_prm;i++){							// PARAMETROS
@@ -125,5 +126,33 @@ void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones){
 		}
 		list_add(instrucciones,instruccion);
 	}
+}
+
+void destruir_lista_instrucciones(t_list* instrucciones){
+	void _destruir_instruccion(void* instruccion){
+		t_list* parametros = ((Instruccion*)instruccion)->parametros;
+
+		void _destruir_parametro(void* parametro){
+			free(parametro);
+		}
+
+		list_clean_and_destroy_elements(parametros, _destruir_parametro);
+	}
+
+	list_destroy_and_destroy_elements(instrucciones, _destruir_instruccion);
+//	int aux = list_size(instrucciones);
+//
+//	for(int i=0;i<aux;i++){
+//		Instruccion* instruccion= list_get(instrucciones,i);
+//		int aux2 = list_size(instruccion->parametros);
+//
+//		for(int i=0;i<aux2;i++){
+//			int* parametro= list_get(instruccion->parametros,i);
+//			free(parametro);
+//		}
+//		free(instruccion->parametros);
+//		free(instruccion);
+//	}
+//	free(instrucciones);
 }
 

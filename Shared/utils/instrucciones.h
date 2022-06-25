@@ -34,4 +34,6 @@ void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones);
 
 void* armar_stream_instruccion(t_list* instrucciones);
 
+void destruir_lista_instrucciones(t_list* instrucciones);
+
 #endif
