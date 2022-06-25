@@ -15,7 +15,7 @@ typedef struct {
 
 void enviar_coordenada(Coordenada_tabla* coordenada, uint32_t* valor_buscado, int conexion, uint8_t codigo_operacion);
 
-void* coordenada_serializar(Coordenada_tabla* coordenada, uint32_t* tamano_mensaje, uint32_t codigo_operacion);
+void* coordenada_serializar(Coordenada_tabla* coordenada, uint32_t* tamano_mensaje, uint8_t codigo_operacion);
 
 void *coordenada_armar_stream(Coordenada_tabla* coordenada);
 

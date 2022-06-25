@@ -143,13 +143,13 @@ uint32_t get_marco_memoria(Datos_calculo_direccion* datos){
 	coordenada->id_tabla = datos->id_tabla_paginas1;
 	coordenada->numero_entrada = datos->entrada_tabla_primer_nivel;
 
-	enviar_coordenada(coordenada, id_tabla_paginas2, datos->conexion_memoria,TABLA_NIVEL_1);
+	enviar_coordenada(coordenada, id_tabla_paginas2, datos->conexion_memoria,5);
 
 	coordenada->id_tabla = *id_tabla_paginas2;
 	coordenada->numero_entrada = datos->entrada_tabla_segundo_nivel;
 
 	uint32_t* marco = malloc(sizeof(uint32_t));
-	enviar_coordenada(coordenada, marco, datos->conexion_memoria,TABLA_NIVEL_2);
+	enviar_coordenada(coordenada, marco, datos->conexion_memoria,7);
 
 	return *marco;
 }
