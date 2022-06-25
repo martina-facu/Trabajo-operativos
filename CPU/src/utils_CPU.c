@@ -1,5 +1,13 @@
 #include "utils_CPU.h"
 
+void inicializar_utils(t_config* config, int conexion_m, bool* interrupcion){
+	conexion_memoria  = conexion_m;
+	cantidad_entradas = 0;
+	tamano_pagina = 0;
+	hubo_interrupcion = interrupcion;
+	config_cpu = config;
+}
+
 Pcb* obtener_pcb(int socket_serv, int cliente) {
 
 	t_paquete* paquete = malloc(sizeof(t_paquete));
@@ -22,7 +30,7 @@ Pcb* obtener_pcb(int socket_serv, int cliente) {
 	return pcb;
 }
 
-int levantar_conexion_memoria(t_config* config, uint32_t* cantidad_entradas,uint32_t* tamano_pagina) {
+int levantar_conexion_memoria(t_config* config) {
 	char * ip_memoria = malloc(sizeof(char) * 30);
 	strcpy(ip_memoria, config_get_string_value(config, "IP_MEMORIA"));
 	printf("\nIp de la memoria: %s", ip_memoria);
@@ -91,14 +99,95 @@ int levantar_puerto_interrupt(t_config* config, int* socket_interrupt) {
 	return cliente2;
 }
 
-int leer(int direccion_logica, Datos_calculo_direccion* datos){
-	calcular_datos_direccion(datos, direccion_logica);
+t_paquete* recibir_mensaje_memoria(){
+	t_paquete* paquete = malloc(sizeof(t_paquete));
 
-	return 0;
+	paquete->buffer = malloc(sizeof(t_buffer));
+	t_buffer* buffer = paquete->buffer;
+
+	//recibimos el codigo del tipo de mensaje que nos llega
+	recv(conexion_memoria, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
+
+	//recibo el tamaño del paquete
+	recv(conexion_memoria, &(buffer->size), sizeof(uint32_t), 0);
+
+	//recibo el buffer con el pcb
+	buffer->stream = malloc(buffer->size);
+	recv(conexion_memoria, buffer->stream, buffer->size, 0);
+
+	return paquete;
 }
 
-int escribir(int direccion_logica){
-	return 0;
+bool validar_codigo(t_paquete* paquete, uint8_t operacion){
+	if(paquete->codigo_operacion == operacion){
+		printf("\nCodigo de operacion incorrecto, se esperaba %d, se recibio %d",operacion,paquete->codigo_operacion);
+		return true;
+	}else{
+		return false;
+	}
+}
+
+void mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion){
+	void* stream;
+	int tamano_mensaje = 0;
+
+	if(operacion == 9){
+		tamano_mensaje = sizeof(uint32_t);
+		stream = malloc(tamano_mensaje);
+		memcpy(stream, &direccion, sizeof(uint32_t));
+	}else if(operacion == 11){
+		tamano_mensaje = sizeof(uint32_t)*2;
+		stream = malloc(tamano_mensaje);
+		memcpy(stream, &direccion, sizeof(uint32_t));
+		memcpy(stream + sizeof(uint32_t), valor, sizeof(uint32_t));
+	}
+
+	t_buffer* buffer = armar_buffer(tamano_mensaje, stream);
+	t_paquete* paquete = empaquetar_buffer(buffer,9);
+
+	void* a_enviar = malloc(paquete->size);
+	a_enviar = serializar_paquete(paquete, a_enviar);
+
+	send(conexion, a_enviar, paquete->size, 0);
+}
+
+uint32_t* leer(int direccion_logica, Datos_calculo_direccion* datos){
+	calcular_datos_direccion(datos, direccion_logica);
+	Pagina_direccion* resultado = traducir_direccion(datos);
+
+	mandar_lecto_escritura(resultado->direccion_fisica, 0, 9, datos->conexion_memoria);
+
+	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
+	uint32_t* valor_leido = malloc(sizeof(uint32_t));
+
+	memcpy(valor_leido, respuesta->buffer->stream, sizeof(uint32_t));
+
+	if(validar_codigo(respuesta,10)){
+		printf("El valor leido: %d", *valor_leido);
+		return valor_leido;
+	}else{
+		return (uint32_t*)-1;
+	}
+}
+
+uint32_t* escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calculo_direccion* datos){
+	calcular_datos_direccion(datos, direccion_logica);
+	Pagina_direccion* resultado = traducir_direccion(datos);
+	printf("El valor de la direccion fisica es: %d", resultado->direccion_fisica);
+
+	mandar_lecto_escritura(resultado->direccion_fisica, valor_a_escribir, 11, datos->conexion_memoria);
+
+	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
+	uint32_t* resultado_escritura = malloc(sizeof(uint32_t));
+
+	memcpy(resultado_escritura, respuesta->buffer->stream, sizeof(uint32_t));
+
+	if(validar_codigo(respuesta,10)){
+		printf("El resultado de escribir fue: %d", *resultado_escritura);
+		return resultado_escritura;
+	}else{
+		return (uint32_t*)-1;
+	}
 }
 
 bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb) {
@@ -112,7 +201,8 @@ bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb) {
 	datos->tamano_pagina = 100; //va a ser variable global
 
 	int catidad_parametros = getCantidadParametros(id);
-	int* parametro1,parametro2 = 0;
+	uint32_t* parametro1;
+	uint32_t* parametro2;
 
 	if(catidad_parametros == 1){
 		parametro1 = list_get(parametros,0);
@@ -122,6 +212,8 @@ bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb) {
 	}
 
 	int dormir = config_get_int_value(config,"RETARDO_NOOP");
+	uint32_t* resultado;
+	uint32_t* valor_leido;
 
 	switch (id) {
 	case NO_OP:
@@ -134,16 +226,23 @@ bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb) {
 		pcb->tiempo_bloqueo = *parametro1;
 		return true;
 		break;
-	case WRITE: // TODO : Implementar la instruccion WRITE
-//		int resultado = write(instruccion);
+	case WRITE:
+		resultado = escribir(*parametro1, parametro2, datos);
+		*resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
+//		free(resultado);
 		return false;
 		break;
-	case COPY: // TODO : Implementar la instruccion COPY
+	case COPY: // COPY(destino, origen)
+		valor_leido = leer(*parametro2,datos);
+		*parametro2 = *valor_leido;
+//		free(valor_leido);
+		resultado = escribir(*parametro1, parametro2, datos);
+		*resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 		return false;
 		break;
-	case READ: // TODO : Implementar la instruccion READ
-//		int valor_leido = read(instruccion);
-
+	case READ:
+		valor_leido = leer(*parametro1,datos);
+//		free(valor_leido);
 		return false;
 		break;
 	case EXIT:
@@ -156,3 +255,33 @@ bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb) {
 	}
 }
 
+void ejecutar_ciclo_instrucciones(Pcb* pcb,t_config* config, bool* devolver_pcb) {
+	t_list* instrucciones = pcb->instrucciones;
+	uint32_t program_counter = pcb->program_counter;
+
+	//fetch
+	Instruccion* instruccion = list_get(instrucciones,program_counter);
+	program_counter++;
+	pcb->program_counter = program_counter;
+
+	//decode
+	bool requiere_fetch_operands = false;
+	if (instruccion->id == COPY) {
+		requiere_fetch_operands = true;
+	}
+
+	//fetch_operands
+	if (requiere_fetch_operands) {
+		// TODO: Ir a buscar los fetch operands, seria solo en la instruccion copy, va a ser una llamada a memoria
+		printf("\nES UNA INSTRUCCION COPY");
+		printf("\n");
+	}
+
+	//execute
+	*devolver_pcb = execute(instruccion,config,pcb);
+
+	//check interrupt
+	if (*devolver_pcb == false) {
+		*devolver_pcb = *hubo_interrupcion;
+	}
+}

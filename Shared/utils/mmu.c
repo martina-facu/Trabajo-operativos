@@ -83,7 +83,7 @@ void reemplazar_entrada_LRU(Entrada_TLB* entrada){
 	list_add(tlb_proceso, entrada);
 }
 
-void set_numero_pagina(Datos_calculo_direccion* datos, double direccion_logica){
+void set_numero_pagina(Datos_calculo_direccion* datos, uint32_t direccion_logica){
 	datos->numero_pagina = direccion_logica/datos->tamano_pagina;
 }
 
@@ -95,11 +95,11 @@ void set_entrada_tabla_2do_nivel (Datos_calculo_direccion* datos){
 	datos->entrada_tabla_segundo_nivel = datos->numero_pagina%datos->entradas_por_tabla;
 }
 
-void set_desplazamiento (Datos_calculo_direccion* datos, double direccion_logica){
+void set_desplazamiento (Datos_calculo_direccion* datos, uint32_t direccion_logica){
 	datos->desplazamiento = direccion_logica - (datos->numero_pagina * datos->tamano_pagina);
 }
 
-void calcular_datos_direccion(Datos_calculo_direccion* datos, double direccion_logica){
+void calcular_datos_direccion(Datos_calculo_direccion* datos, uint32_t direccion_logica){
 	set_numero_pagina(datos,direccion_logica);
 	set_entrada_tabla_1er_nivel(datos);
 	set_entrada_tabla_2do_nivel(datos);

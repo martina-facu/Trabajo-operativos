@@ -36,7 +36,7 @@ typedef struct {
 typedef struct {
 	uint32_t numero_pagina;
 	uint32_t marco;
-	double direccion_fisica;
+	uint32_t direccion_fisica;
 } Pagina_direccion;
 
 Datos_calculo_direccion* datos;
@@ -51,15 +51,15 @@ void cargar_entrada(Entrada_TLB* entrada);
 
 uint32_t buscar_marco(uint32_t pagina);
 
-void set_numero_pagina(Datos_calculo_direccion* datos, double direccion_logica);
+void set_numero_pagina(Datos_calculo_direccion* datos, uint32_t direccion_logica);
 
 void set_entrada_tabla_1er_nivel(Datos_calculo_direccion* datos);
 
 void set_entrada_tabla_2do_nivel(Datos_calculo_direccion* datos);
 
-void set_desplazamiento(Datos_calculo_direccion* datos, double direccion_logica);
+void set_desplazamiento(Datos_calculo_direccion* datos, uint32_t direccion_logica);
 
-void calcular_datos_direccion(Datos_calculo_direccion* datos, double direccion_logica);
+void calcular_datos_direccion(Datos_calculo_direccion* datos, uint32_t direccion_logica);
 
 void reemplazar_entrada(Entrada_TLB* entrada);
 
