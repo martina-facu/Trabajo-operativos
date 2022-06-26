@@ -125,7 +125,7 @@ void aceptoServerInterrupt(int socketAnalizar)
 			//	Defino el mensaje a recibir (y lo recibo) del cliente cuando se conecta
 			uint8_t mensaje = 0;
 			recv(acceptedConecctionInterrupt, &mensaje, sizeof(uint8_t), 0);
-			log_info("Mensaje recibido interrupt: %d", mensaje);
+			log_info(logger,"Mensaje recibido interrupt: %d", mensaje);
 
 			if(mensaje == INICIAR_CONEXION_INTERRUPT)
 			{
@@ -151,7 +151,7 @@ void aceptoServerInterrupt(int socketAnalizar)
 					log_info(logger,"Error al crear el Thread");
 				else
 					log_info(logger, "Se genera el Thread del Interrupt con TID: %d", resThread);
-
+				pthread_detach(resThread);
 
 			}
 			else
@@ -290,6 +290,7 @@ int main(void)
 					//	con el Dispatch proceso la misma (recibo PCB
 					else if(i == acceptedConecctionDispatch)
 					{
+						log_info(logger, "Voy a recibir y procesar un PCB del Dispatch");
 						//	Recibir pcb del kernel
 						//	REVISAR EL PRIMER PARAMETRO PORQUE NO SE USA Y NO SERIA NECESARIO
 						pcb = obtener_pcb(acceptedConecctionDispatch);
@@ -338,6 +339,16 @@ int main(void)
 	return EXIT_SUCCESS;
 }
 
+/*
+ *  Funcion: atencionInterrupt
+ *  Entradas: 	void * socketInterrupt		parametros a castear enviados en la creacion del Thread
+ *  Salidas: void
+ *  Razon: 	Se genera un thread de atencion a las interrupciones enviadas por el Kernel.
+ *  		En caso de recibir el mensaje correcto setea el flag de interrupcion para que el
+ *  		CPU deje de procesar y devuelva el PCB al Kernel.
+ *  		Caso contrario desestima el mensaje.
+ *  Autor:
+ */
 
 void * atencionInterrupt(void * socketInterrupt)
 {
@@ -348,7 +359,7 @@ void * atencionInterrupt(void * socketInterrupt)
 		//	Defino el mensaje a recibir del Kernel Interrupt
 		uint8_t mensaje = 0;
 		recv(iSocketInterrupt, &mensaje, sizeof(uint8_t), 0);
-		log_info("Mensaje recibido interrupt: %d", mensaje);
+		log_info(logger,"Mensaje recibido interrupt: %d", mensaje);
 		if(mensaje == 25)
 		{
 			//	Como el mensaje es correcto seteo la variable para que el CPU devuelva el PCB
@@ -357,7 +368,7 @@ void * atencionInterrupt(void * socketInterrupt)
 		else
 		{
 			//	Como el mensaje es incorrecto desestimo el mensaje recibido.
-			log_info("Mensaje recibido del interrupt %d es incorrecto, se desestima el mismo", mensaje);
+			log_info(logger,"Mensaje recibido del interrupt %d es incorrecto, se desestima el mismo", mensaje);
 		}
 
 

@@ -26,7 +26,8 @@ comunicacion_t* comunicacion_create(sem_t* s,uint32_t pid){
 //ENTRADAS: 		SOCKET , ID,  AVISO DE QUE HAY QUE FINALIZAR
 //SALIDAS:			MENSAJE DE FINALIZACION
 //--------------------------------------------------------------------------------------//
-void* gestionar_comunicacion(void* aux){
+void* gestionar_comunicacion(void* aux)
+{
 	int socket;
 	int id;
 	// RECIBO EL SOCKET Y EL ID
@@ -82,35 +83,81 @@ void* gestionar_comunicacion(void* aux){
 //ENTRADAS:		   CONEXION CON CONSOLA
 //SALIDAS:		   HILO COMUNICADOR, ID Y SOCKET DE LA CONSOLA
 //--------------------------------------------------------------------------------------//
-void* comunicacion_con_consolas(){
+void* comunicacion_con_consolas()
+{
 	uint32_t acum=0; // acumulador se va a encargar de contar las consolas y va a servir para asignarles un id unico
-	while(1){
-		//acepto a un cliente
+	uint8_t handshake;
+	uint8_t mensajeConsola = 0;
+	while(1)
+	{
+		//	Acepto de forma temporal la conexion hasta que valide que es un cliente
 		uint32_t socket_cliente = accept(server_fd,NULL,NULL);
-		printf("se conecto un cliente\n");
-		if(socket_cliente <0){
-			printf("error en aceptar el cliente\n");
-			exit(0);
+		log_trace(PLP,"Se acepto temporalmente la conexion en el descriptor: %d hasta validar la misma", socket_cliente);
+		if( socket_cliente < 0)
+		{
+			log_trace(PLP,"Error al intentar aceptar conexion de un cliente");
+			//	Desestimo la comunicacion porque el hacer un exit significaria dejar sin atender a
+			//	todos los procesos que ya estan corriendo.
+			// 	exit(0);
 		}
-		else{
-			log_trace(PLP,"se conecto un cliente");
-			//guardo el socket y el acumulador para pasarselos a la funcion GESTIONAR_COMUNICACION
-			void* aux = malloc(sizeof(uint32_t)*2);
-			memcpy(aux,&socket_cliente,sizeof(uint32_t));
-			memcpy(aux+sizeof(uint32_t),&acum,sizeof(uint32_t));
-			pthread_t hilo;
-			//CREO UN HILO PARA MANTENER LA COMUNICACION Y LE PASO EL BUFFER AUX QUE CONTIENE EL SOCKET Y EL ACUMULADOR
-			int status =pthread_create(&hilo,NULL,gestionar_comunicacion,aux);
-			pthread_detach(hilo);
-			// AUMENTO EL ACUMULADOR PARA LA PROXIMA COMUNICACION
-			acum++;
-			// EVALUO QUE EL HILO SE HAYA CREADO CORRECTAMENTE
-			if(status <0){
-				printf("error al crear el hilo\n");
+		else
+		{
+			/*
+			 * 	Valido con Handshake sino es correcto cierro comunicacion y si es correcto sigo con
+			 * 	el codigo ya existente.
+			 */
+
+//			handshake = INICIAR_CONEXION_CONSOLA;
+//			send(conexion_memoria, &handshake, sizeof(uint8_t), 0);
+//			log_info(logger, "Se envia Handshake a la memoria");
+
+			//	Recibo el mensaje de la consola
+			mensajeConsola = 0;
+			recv(socket_cliente, &mensajeConsola, sizeof(uint8_t), 0);
+			log_info(PLP, "Mensaje recibido de la consola:  %d", mensajeConsola);
+
+			if(mensajeConsola == INICIAR_CONEXION_CONSOLA)
+			{
+
+				handshake = ACEPTAR_CONEXION_CONSOLA;
+				send(socket_cliente, &handshake, sizeof(uint8_t), 0);
+				log_info(PLP, "Se envia Handshake a la consola");
+
+				log_info(PLP, "Conexion establecida con la Consola");
+//				log_trace(PLP,"se conecto un cliente");
+				//guardo el socket y el acumulador para pasarselos a la funcion GESTIONAR_COMUNICACION
+				void* aux = malloc(sizeof(uint32_t)*2);
+				memcpy(aux,&socket_cliente,sizeof(uint32_t));
+				memcpy(aux+sizeof(uint32_t),&acum,sizeof(uint32_t));
+				pthread_t hilo;
+				//CREO UN HILO PARA MANTENER LA COMUNICACION Y LE PASO EL BUFFER AUX QUE CONTIENE EL SOCKET Y EL ACUMULADOR
+				int status =pthread_create(&hilo,NULL,gestionar_comunicacion,aux);
+				pthread_detach(hilo);
+				// AUMENTO EL ACUMULADOR PARA LA PROXIMA COMUNICACION
+				acum++;
+				// EVALUO QUE EL HILO SE HAYA CREADO CORRECTAMENTE
+				if(status <0){
+					printf("error al crear el hilo\n");
+				}
+				else{
+					printf("exito\n");
+				}
+
 			}
-			else{
-				printf("exito\n");
+			else
+			{
+				log_error(PLP, "Handshake recibido de consola invalido: %d",mensajeConsola);
+				close(socket_cliente);
 			}
+
+
+
+
+
+
+
+
+
 		}
 	}
 	return NULL;
@@ -171,7 +218,7 @@ void* finalizar_procesos(){
 	while(1){
 		// ESPERO QUE HAYA UN PROCESO FINALIZADO
 		sem_wait(&s_proceso_finalizado);
-		log_trace(log,"se va a finalizar un proceso");
+		log_trace(logP,"se va a finalizar un proceso");
 		pcb_t* pcb_finalizado = malloc(sizeof(pcb_t));
 
 		// LO SACO DE LA LISTA DE FINALIZADOR QUE FUNCIONA COMO UN BUFFER
@@ -199,7 +246,8 @@ void* finalizar_procesos(){
 	return NULL;
 }
 
-void* administrador_largo_plazo(){
+void* administrador_largo_plazo()
+{
 
 
 	pthread_t hilo1;

@@ -164,7 +164,7 @@ void* bloquear_proceso(void* pcb_){
 		//DUERMO EL PROCESO POR N MILISEGUNDOS
 		usleep(pcb->tiempo_block);
 
-		log_trace(log,"se DESBLOQUEO un proceso, ID: %d", pcb->pid);
+		log_trace(logP,"se DESBLOQUEO un proceso, ID: %d", pcb->pid);
 
 		// SE DESPERTO Y LO SACO DE LA LISTA DE BLOQUEADOS
 		pthread_mutex_lock(&mx_block_l);

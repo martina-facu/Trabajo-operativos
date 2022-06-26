@@ -1,8 +1,11 @@
 #include "instrucciones.h"
+#include <string.h>
 
 
-uint8_t definirCodigo(char* id) {
-	if (string_contains(id, "NO_OP")) {
+uint8_t definirCodigo(char* id)
+{
+	if (string_contains(id, "NO_OP"))
+	{
 		return 1;
 	}
 	if (string_contains(id, "I/O")) {
@@ -144,7 +147,7 @@ t_list* deserializar_paquete_instrucciones(int cliente, uint32_t* tamano_proceso
 
 	//recibo el tamaño del paquete
 	recv(cliente, &(buffer->size), sizeof(uint32_t), 0);
-	printf("%d",buffer->size,sizeof(uint32_t));
+	printf("\nTamaño del buffer: %d\tTamaño del uint32_t: %d\n",buffer->size,sizeof(uint32_t));
 	//recibo el buffer con las instrucciones
 	buffer->stream = malloc(buffer->size);
 	recv(cliente, buffer->stream, buffer->size, 0);

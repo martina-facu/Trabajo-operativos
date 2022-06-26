@@ -1,0 +1,14 @@
+[TRACE] 13:13:10:221 planificador_largo_plazo/(12017:12025): Se acepto temporalmente la conexion en el descriptor: 8 hasta validar la misma
+[INFO] 13:13:10:221 planificador_largo_plazo/(12017:12025): Mensaje recibido de la consola:  0
+[ERROR] 13:13:10:221 planificador_largo_plazo/(12017:12025): Handshake recibido de consola invalido: 0
+[INFO] 13:15:33:193 planificador_largo_plazo/(12200:12200): Server escuchando
+[INFO] 14:09:28:326 planificador_largo_plazo/(13805:13805): Server escuchando
+[TRACE] 14:09:32:232 planificador_largo_plazo/(13805:13811): Se acepto temporalmente la conexion en el descriptor: 8 hasta validar la misma
+[INFO] 14:09:32:232 planificador_largo_plazo/(13805:13811): Mensaje recibido de la consola:  61
+[INFO] 14:09:32:232 planificador_largo_plazo/(13805:13811): Se envia Handshake a la consola
+[INFO] 14:09:32:232 planificador_largo_plazo/(13805:13811): Conexion establecida con la Consola
+[TRACE] 14:09:32:233 planificador_largo_plazo/(13805:13836): se agrego un proceso a new, ID: 0
+[TRACE] 14:09:32:233 planificador_largo_plazo/(13805:13836): se creo una comunicacion
+[TRACE] 14:09:32:233 planificador_largo_plazo/(13805:13836): me voy a bloquear, ID: 0
+[INFO] 15:02:20:169 planificador_largo_plazo/(15333:15333): Server escuchando
+[INFO] 15:11:16:965 planificador_largo_plazo/(15541:15541): Server escuchando

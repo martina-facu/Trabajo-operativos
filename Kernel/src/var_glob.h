@@ -19,7 +19,7 @@ typedef struct{
 }comunicacion_t;
 
 
-t_log* log;
+t_log* logP;
 t_log* PCP;
 t_log* PMP;
 t_log* PLP;

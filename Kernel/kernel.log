@@ -1,73 +1,82 @@
-[INFO] 15:55:39:188 KERNEL/(4505:4505): Conexion establecida con exito
-[INFO] 15:55:39:188 KERNEL/(4505:4505): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
-[INFO] 15:55:39:189 KERNEL/(4505:4505): Se envia Handshake a la memoria
-[INFO] 15:55:39:191 KERNEL/(4505:4505): Mensaje recibido de la memoria:  42
-[INFO] 15:55:39:191 KERNEL/(4505:4505): Conexion establecida con la memoria
-[INFO] 15:55:39:191 KERNEL/(4505:4505): Conexion establecida con exito
-[INFO] 15:55:39:191 KERNEL/(4505:4505): Conexion establecida con la CPU dispatch en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
-[INFO] 15:55:39:191 KERNEL/(4505:4505): Se envia Handshake a CPU dispatch
-[INFO] 15:55:39:192 KERNEL/(4505:4505): Mensaje recibido del CPU:  22
-[INFO] 15:55:39:192 KERNEL/(4505:4505): Conexion establecida con la CPU dispatch
-[INFO] 15:55:39:192 KERNEL/(4505:4505): Conexion establecida con exito
-[INFO] 15:55:39:192 KERNEL/(4505:4505): Conexion establecida en la CPU interrupt en la IP 192.168.0.233 y puerto 8005 con el descriptor:  9
-[INFO] 15:55:39:192 KERNEL/(4505:4505): Se envia Handshake a la CPU interrupt
-[INFO] 15:56:53:820 KERNEL/(4505:4505): Mensaje recibido de la CPU interrupt:  0
-[ERROR] 15:56:53:820 KERNEL/(4505:4505): No se puede establecer conexion con la CPU interrupt. El server contactado responde con un mensaje no predeterminado: 0.
-[INFO] 15:58:57:476 KERNEL/(4660:4660): Conexion establecida con exito
-[INFO] 15:58:57:476 KERNEL/(4660:4660): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
-[INFO] 15:58:57:476 KERNEL/(4660:4660): Se envia Handshake a la memoria
-[INFO] 15:58:57:478 KERNEL/(4660:4660): Mensaje recibido de la memoria:  42
-[INFO] 15:58:57:478 KERNEL/(4660:4660): Conexion establecida con la memoria
-[INFO] 15:59:21:548 KERNEL/(4660:4660): Conexion establecida con exito
-[INFO] 15:59:21:548 KERNEL/(4660:4660): Conexion establecida con la CPU dispatch en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
-[INFO] 15:59:21:548 KERNEL/(4660:4660): Se envia Handshake a CPU dispatch
-[INFO] 15:59:21:549 KERNEL/(4660:4660): Mensaje recibido del CPU:  22
-[INFO] 15:59:21:549 KERNEL/(4660:4660): Conexion establecida con la CPU dispatch
-[INFO] 15:59:54:986 KERNEL/(4660:4660): Conexion establecida con exito
-[INFO] 15:59:57:013 KERNEL/(4660:4660): Conexion establecida en la CPU interrupt en la IP 192.168.0.233 y puerto 8005 con el descriptor:  9
-[INFO] 16:01:41:150 KERNEL/(4660:4660): Se envia Handshake a la CPU interrupt
-[ERROR] 16:03:23:965 KERNEL/(4838:4838): Fallo la conexion al server
-[INFO] 16:03:23:966 KERNEL/(4838:4838): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  -1
-[INFO] 16:03:23:966 KERNEL/(4838:4838): Se envia Handshake a la memoria
-[INFO] 16:03:23:966 KERNEL/(4838:4838): Mensaje recibido de la memoria:  0
-[ERROR] 16:03:23:966 KERNEL/(4838:4838): No se puede establecer conexion con la memoria. El server contactado responde con un mensaje no predeterminado: 0.
-[INFO] 16:04:15:345 KERNEL/(4886:4886): Conexion establecida con exito
-[INFO] 16:04:15:345 KERNEL/(4886:4886): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
-[INFO] 16:04:15:345 KERNEL/(4886:4886): Se envia Handshake a la memoria
-[INFO] 16:04:15:345 KERNEL/(4886:4886): Mensaje recibido de la memoria:  42
-[INFO] 16:04:15:345 KERNEL/(4886:4886): Conexion establecida con la memoria
-[INFO] 16:04:20:843 KERNEL/(4886:4886): Conexion establecida con exito
-[INFO] 16:04:20:843 KERNEL/(4886:4886): Conexion establecida con la CPU dispatch en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
-[INFO] 16:04:20:843 KERNEL/(4886:4886): Se envia Handshake a CPU dispatch
-[INFO] 16:04:20:844 KERNEL/(4886:4886): Mensaje recibido del CPU:  22
-[INFO] 16:04:20:844 KERNEL/(4886:4886): Conexion establecida con la CPU dispatch
-[INFO] 16:04:24:242 KERNEL/(4886:4886): Conexion establecida con exito
-[INFO] 16:04:24:706 KERNEL/(4886:4886): Conexion establecida en la CPU interrupt en la IP 192.168.0.233 y puerto 8005 con el descriptor:  9
-[INFO] 16:33:50:187 KERNEL/(3622:3622): Conexion establecida con exito
-[INFO] 16:33:50:187 KERNEL/(3622:3622): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
-[INFO] 16:33:50:188 KERNEL/(3622:3622): Se envia Handshake a la memoria
-[INFO] 16:33:50:188 KERNEL/(3622:3622): Mensaje recibido de la memoria:  42
-[INFO] 16:33:50:188 KERNEL/(3622:3622): Conexion establecida con la memoria
-[INFO] 16:33:50:188 KERNEL/(3622:3622): Conexion establecida con exito
-[INFO] 16:33:50:188 KERNEL/(3622:3622): Conexion establecida con la CPU dispatch en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
-[INFO] 16:33:50:188 KERNEL/(3622:3622): Se envia Handshake a CPU dispatch
-[INFO] 16:33:50:188 KERNEL/(3622:3622): Mensaje recibido del CPU:  22
-[INFO] 16:33:50:188 KERNEL/(3622:3622): Conexion establecida con la CPU dispatch
-[INFO] 16:33:50:188 KERNEL/(3622:3622): Conexion establecida con exito
-[INFO] 16:33:50:188 KERNEL/(3622:3622): Conexion establecida en la CPU interrupt en la IP 192.168.0.233 y puerto 8005 con el descriptor:  9
-[INFO] 16:33:50:188 KERNEL/(3622:3622): Se envia Handshake a la CPU interrupt
-[INFO] 16:34:28:042 KERNEL/(3622:3622): Mensaje recibido de la CPU interrupt:  0
-[ERROR] 16:34:28:042 KERNEL/(3622:3622): No se puede establecer conexion con la CPU interrupt. El server contactado responde con un mensaje no predeterminado: 0.
-[INFO] 16:43:45:153 KERNEL/(4291:4291): Conexion establecida con exito
-[INFO] 16:43:45:153 KERNEL/(4291:4291): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
-[INFO] 16:43:45:153 KERNEL/(4291:4291): Se envia Handshake a la memoria
-[INFO] 16:43:45:153 KERNEL/(4291:4291): Mensaje recibido de la memoria:  42
-[INFO] 16:43:45:153 KERNEL/(4291:4291): Conexion establecida con la memoria
-[INFO] 16:43:46:753 KERNEL/(4291:4291): Conexion establecida con exito
-[INFO] 16:43:46:753 KERNEL/(4291:4291): Conexion establecida con la CPU dispatch en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
-[INFO] 16:43:46:753 KERNEL/(4291:4291): Se envia Handshake a CPU dispatch
-[INFO] 16:44:03:021 KERNEL/(4291:4291): Mensaje recibido del CPU:  22
-[INFO] 16:44:03:021 KERNEL/(4291:4291): Conexion establecida con la CPU dispatch
-[INFO] 16:45:35:243 KERNEL/(4291:4291): Conexion establecida con exito
-[INFO] 16:45:43:725 KERNEL/(4291:4291): Conexion establecida en la CPU interrupt en la IP 192.168.0.233 y puerto 8005 con el descriptor:  9
-[INFO] 16:45:57:334 KERNEL/(4291:4291): Se envia Handshake a la CPU interrupt
+[INFO] 11:34:15:919 KERNEL/(7398:7398): Conexion establecida con exito
+[INFO] 11:34:15:919 KERNEL/(7398:7398): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
+[INFO] 11:34:15:919 KERNEL/(7398:7398): Se envia Handshake a la memoria
+[INFO] 11:34:15:920 KERNEL/(7398:7398): Mensaje recibido de la memoria:  42
+[INFO] 11:34:15:920 KERNEL/(7398:7398): Conexion establecida con la memoria
+[INFO] 11:34:15:920 KERNEL/(7398:7398): Conexion establecida con exito
+[INFO] 11:34:15:920 KERNEL/(7398:7398): Conexion establecida con la CPU dispatch en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
+[INFO] 11:34:15:920 KERNEL/(7398:7398): Se envia Handshake a CPU dispatch
+[INFO] 11:34:15:920 KERNEL/(7398:7398): Mensaje recibido del CPU:  22
+[INFO] 11:34:15:920 KERNEL/(7398:7398): Conexion establecida con la CPU dispatch
+[INFO] 11:34:15:920 KERNEL/(7398:7398): Conexion establecida con exito
+[INFO] 11:34:15:920 KERNEL/(7398:7398): Conexion establecida en la CPU interrupt en la IP 192.168.0.233 y puerto 8005 con el descriptor:  9
+[INFO] 11:34:15:920 KERNEL/(7398:7398): Se envia Handshake a la CPU interrupt
+[INFO] 12:42:36:361 KERNEL/(10416:10416): Conexion establecida con exito
+[INFO] 12:42:36:361 KERNEL/(10416:10416): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
+[INFO] 12:42:36:361 KERNEL/(10416:10416): Se envia Handshake a la memoria
+[INFO] 12:44:27:351 KERNEL/(10416:10416): Mensaje recibido de la memoria:  0
+[ERROR] 12:44:27:351 KERNEL/(10416:10416): No se puede establecer conexion con la memoria. El server contactado responde con un mensaje no predeterminado: 0.
+[INFO] 12:44:35:578 KERNEL/(7398:7398): Mensaje recibido de la CPU interrupt:  0
+[ERROR] 12:44:35:578 KERNEL/(7398:7398): No se puede establecer conexion con la CPU interrupt. El server contactado responde con un mensaje no predeterminado: 0.
+[INFO] 12:46:56:092 KERNEL/(10805:10805): Conexion establecida con exito
+[INFO] 12:46:56:092 KERNEL/(10805:10805): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
+[INFO] 12:46:56:092 KERNEL/(10805:10805): Se envia Handshake a la memoria
+[INFO] 12:46:56:092 KERNEL/(10805:10805): Mensaje recibido de la memoria:  42
+[INFO] 12:46:56:092 KERNEL/(10805:10805): Conexion establecida con la memoria
+[INFO] 12:46:56:092 KERNEL/(10805:10805): Conexion establecida con exito
+[INFO] 12:46:56:092 KERNEL/(10805:10805): Conexion establecida con la CPU dispatch en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
+[INFO] 12:46:56:092 KERNEL/(10805:10805): Se envia Handshake a CPU dispatch
+[INFO] 12:46:56:092 KERNEL/(10805:10805): Mensaje recibido del CPU:  22
+[INFO] 12:46:56:092 KERNEL/(10805:10805): Conexion establecida con la CPU dispatch
+[INFO] 12:46:56:092 KERNEL/(10805:10805): Conexion establecida con exito
+[INFO] 12:46:56:092 KERNEL/(10805:10805): Conexion establecida en la CPU interrupt en la IP 192.168.0.233 y puerto 8005 con el descriptor:  9
+[INFO] 12:46:56:092 KERNEL/(10805:10805): Se envia Handshake a la CPU interrupt
+[INFO] 13:11:36:216 KERNEL/(11970:11970): Server escuchando
+[TRACE] 13:11:36:216 KERNEL/(11970:11970): MODO PLANIFICADOR CORTO PLAZO: FIFO
+
+[TRACE] 13:11:36:216 KERNEL/(11970:11970): EJECUTANDO: PLANIFICADOR LARGO PLAZO
+
+[TRACE] 13:11:36:216 KERNEL/(11970:11970): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO
+[INFO] 13:12:23:854 KERNEL/(12017:12017): Server escuchando
+[TRACE] 13:12:23:854 KERNEL/(12017:12017): MODO PLANIFICADOR CORTO PLAZO: FIFO
+
+[TRACE] 13:12:23:854 KERNEL/(12017:12017): EJECUTANDO: PLANIFICADOR LARGO PLAZO
+
+[TRACE] 13:12:23:854 KERNEL/(12017:12017): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO
+[INFO] 13:14:47:462 KERNEL/(10805:10805): Mensaje recibido de la CPU interrupt:  0
+[ERROR] 13:14:47:462 KERNEL/(10805:10805): No se puede establecer conexion con la CPU interrupt. El server contactado responde con un mensaje no predeterminado: 0.
+[TRACE] 13:15:33:193 KERNEL/(12200:12200): MODO PLANIFICADOR CORTO PLAZO: FIFO
+
+[TRACE] 13:15:33:193 KERNEL/(12200:12200): EJECUTANDO: PLANIFICADOR LARGO PLAZO
+
+[TRACE] 13:15:33:193 KERNEL/(12200:12200): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO
+[TRACE] 14:09:28:326 KERNEL/(13805:13805): MODO PLANIFICADOR CORTO PLAZO: FIFO
+
+[TRACE] 14:09:28:326 KERNEL/(13805:13805): EJECUTANDO: PLANIFICADOR LARGO PLAZO
+
+[TRACE] 14:09:28:326 KERNEL/(13805:13805): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO
+[INFO] 15:02:20:168 KERNEL/(15333:15333): Conexion establecida con exito
+[INFO] 15:02:20:169 KERNEL/(15333:15333): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
+[INFO] 15:02:20:169 KERNEL/(15333:15333): Se envia Handshake a la memoria
+[INFO] 15:02:20:169 KERNEL/(15333:15333): Mensaje recibido de la memoria:  42
+[INFO] 15:02:20:169 KERNEL/(15333:15333): Conexion establecida con la memoria
+[INFO] 15:02:20:169 KERNEL/(15333:15333): Conexion establecida con exito
+[INFO] 15:02:20:169 KERNEL/(15333:15333): Conexion establecida con la CPU dispatch en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
+[INFO] 15:02:20:169 KERNEL/(15333:15333): Se envia Handshake a CPU dispatch
+[INFO] 15:02:20:169 KERNEL/(15333:15333): Mensaje recibido del CPU:  22
+[INFO] 15:02:20:169 KERNEL/(15333:15333): Conexion establecida con la CPU dispatch
+[TRACE] 15:02:20:169 KERNEL/(15333:15333): MODO PLANIFICADOR CORTO PLAZO: FIFO
+
+[TRACE] 15:02:20:169 KERNEL/(15333:15333): EJECUTANDO: PLANIFICADOR LARGO PLAZO
+
+[TRACE] 15:02:20:169 KERNEL/(15333:15333): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO
+[INFO] 15:11:16:965 KERNEL/(15541:15541): Conexion establecida con exito
+[INFO] 15:11:16:965 KERNEL/(15541:15541): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
+[INFO] 15:11:16:965 KERNEL/(15541:15541): Se envia Handshake a la memoria
+[INFO] 15:11:16:965 KERNEL/(15541:15541): Mensaje recibido de la memoria:  42
+[INFO] 15:11:16:965 KERNEL/(15541:15541): Conexion establecida con la memoria
+[TRACE] 15:11:16:965 KERNEL/(15541:15541): MODO PLANIFICADOR CORTO PLAZO: FIFO
+
+[TRACE] 15:11:16:965 KERNEL/(15541:15541): EJECUTANDO: PLANIFICADOR LARGO PLAZO
+
+[TRACE] 15:11:16:965 KERNEL/(15541:15541): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO
