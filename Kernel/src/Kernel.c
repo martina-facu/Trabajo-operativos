@@ -14,10 +14,10 @@ int main(void)
 	levantar_conexion_memoria(configuracion->IP_MEMORIA,configuracion->PUERTO_MEMORIA, logP);
 
 	//	Se establece conexion con el Dispatch de la CPU
-//	levantar_conexion_cpu_dispatch(configuracion->IP_CPU, configuracion->PUERTO_CPU_DISPATCH , logP);
+	levantar_conexion_cpu_dispatch(configuracion->IP_CPU, configuracion->PUERTO_CPU_DISPATCH , logP);
 
 	//	Se establece conexion con el Interrupt de la CPU
-//	levantar_conexion_cpu_interrupt(configuracion->IP_CPU, configuracion->PUERTO_CPU_INTERRUPT , log);
+	levantar_conexion_cpu_interrupt(configuracion->IP_CPU, configuracion->PUERTO_CPU_INTERRUPT , logP);
 
 	//	Me levanto como server y establesco todas las conexiones como cliente
 	//	Inicio el servidor Kernel para atencion de consolas
@@ -33,15 +33,15 @@ int main(void)
 	inicializar_semaforos();
 
 	//	Defino las variables de identificacion de los threads de cada planificador
-//	pthread_t planificador_corto_plazo;
-//	pthread_t planificador_mediano_plazo;
+	pthread_t planificador_corto_plazo;
+	pthread_t planificador_mediano_plazo;
 	pthread_t planificador_largo_plazo;
 
 
 	if(strcmp(configuracion->algoritmo,"FIFO")==0)
 	{
 		log_trace(logP,"MODO PLANIFICADOR CORTO PLAZO: FIFO\n");
-//		pthread_create(&planificador_corto_plazo,NULL,fifo,NULL);
+		pthread_create(&planificador_corto_plazo,NULL,fifo,NULL);
 	}
 	else if(strcmp(configuracion->algoritmo,"SJF\n")==0)
 	{
@@ -54,12 +54,12 @@ int main(void)
 	log_trace(logP,"EJECUTANDO: PLANIFICADOR LARGO PLAZO\n");
 	pthread_create(&planificador_largo_plazo,NULL,administrador_largo_plazo,NULL);
 	log_trace(logP,"EJECUTANDO: PLANIFICADOR MEDIANO PLAZO");
-//	pthread_create(&planificador_mediano_plazo,NULL,administrador_mediano_plazo,NULL);
+	pthread_create(&planificador_mediano_plazo,NULL,administrador_mediano_plazo,NULL);
 
 
 	pthread_join(planificador_largo_plazo,NULL);
-//	pthread_join(planificador_corto_plazo,NULL);
-//	pthread_join(planificador_mediano_plazo,NULL);
+	pthread_join(planificador_corto_plazo,NULL);
+	pthread_join(planificador_mediano_plazo,NULL);
 
 	return EXIT_SUCCESS;
 }

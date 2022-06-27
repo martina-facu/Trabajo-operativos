@@ -49,6 +49,6 @@
 	void pcb_mostrar(pcb_t* pcb, t_log* logger);
 	uint32_t pcb_calcular_espacio(pcb_t* pcb);
 	void* pcb_serializar(pcb_t* pcb, uint32_t* tamano_mensaje, uint8_t codigo_operacion);
-
+	pcb_t* recibirPCB(int socket);
 
 #endif /* PCB_H_ */

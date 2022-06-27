@@ -20,6 +20,8 @@ pcb_t* obtener_pcb(int cliente)
 
 	pcb_t* pcb = pcb_deserializar(buffer);
 
+
+
 	recibiPCB = true;
 
 	return pcb;

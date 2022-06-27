@@ -91,6 +91,7 @@ void aceptoServerDispatch(int socketAnalizar)
 				FD_SET(acceptedConecctionDispatch, &master_fd_set);
 				//	Incremento el grado de concurrencia
 				connectionsDispatch++;
+				activeDispatch = true;
 			}
 			else
 			{
@@ -290,13 +291,17 @@ int main(void)
 					//	con el Dispatch proceso la misma (recibo PCB
 					else if(i == acceptedConecctionDispatch)
 					{
-						log_info(logger, "Voy a recibir y procesar un PCB del Dispatch");
-						//	Recibir pcb del kernel
-						//	REVISAR EL PRIMER PARAMETRO PORQUE NO SE USA Y NO SERIA NECESARIO
-						pcb = obtener_pcb(acceptedConecctionDispatch);
-						pcb_mostrar(pcb, logger);
-					}
+						if((activeDispatch == true) && (activeInterrupt == true) )
+						{
+							log_info(logger, "Voy a recibir y procesar un PCB del Dispatch");
+							//	Recibir pcb del kernel
+							//	REVISAR EL PRIMER PARAMETRO PORQUE NO SE USA Y NO SERIA NECESARIO
+							pcb = obtener_pcb(acceptedConecctionDispatch);
+							log_info(logger, "Voy a loguear informacion del PCB recibida por el Dispatch");
+							pcb_mostrar(pcb, logger);
 
+						}
+					}
 				}
 			}
 		//	Termine de revisar las conexiones por lo que supongo que ya recibi un PCB
@@ -353,6 +358,8 @@ int main(void)
 void * atencionInterrupt(void * socketInterrupt)
 {
 	int iSocketInterrupt = (int) socketInterrupt;
+
+	activeInterrupt = true;
 
 	while(1)
 	{

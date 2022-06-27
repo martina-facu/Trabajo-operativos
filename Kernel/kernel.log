@@ -80,3 +80,33 @@
 [TRACE] 15:11:16:965 KERNEL/(15541:15541): EJECUTANDO: PLANIFICADOR LARGO PLAZO
 
 [TRACE] 15:11:16:965 KERNEL/(15541:15541): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO
+[INFO] 19:38:11:409 KERNEL/(3366:3366): Conexion establecida con exito
+[INFO] 19:38:11:410 KERNEL/(3366:3366): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
+[INFO] 19:38:11:410 KERNEL/(3366:3366): Se envia Handshake a la memoria
+[INFO] 19:38:11:410 KERNEL/(3366:3366): Mensaje recibido de la memoria:  42
+[INFO] 19:38:11:410 KERNEL/(3366:3366): Conexion establecida con la memoria
+[TRACE] 19:38:11:410 KERNEL/(3366:3366): MODO PLANIFICADOR CORTO PLAZO: FIFO
+
+[TRACE] 19:38:11:410 KERNEL/(3366:3366): EJECUTANDO: PLANIFICADOR LARGO PLAZO
+
+[TRACE] 19:38:11:410 KERNEL/(3366:3366): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO
+[ERROR] 19:40:10:277 KERNEL/(3506:3506): Fallo la conexion al server
+[INFO] 19:40:10:277 KERNEL/(3506:3506): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  -1
+[INFO] 19:40:10:277 KERNEL/(3506:3506): Se envia Handshake a la memoria
+[INFO] 19:40:10:277 KERNEL/(3506:3506): Mensaje recibido de la memoria:  0
+[ERROR] 19:40:10:277 KERNEL/(3506:3506): No se puede establecer conexion con la memoria. El server contactado responde con un mensaje no predeterminado: 0.
+[INFO] 19:40:27:356 KERNEL/(3551:3551): Conexion establecida con exito
+[INFO] 19:40:27:356 KERNEL/(3551:3551): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
+[INFO] 19:40:27:356 KERNEL/(3551:3551): Se envia Handshake a la memoria
+[INFO] 19:40:27:356 KERNEL/(3551:3551): Mensaje recibido de la memoria:  42
+[INFO] 19:40:27:356 KERNEL/(3551:3551): Conexion establecida con la memoria
+[INFO] 19:40:27:356 KERNEL/(3551:3551): Conexion establecida con exito
+[INFO] 19:40:27:356 KERNEL/(3551:3551): Conexion establecida con la CPU dispatch en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
+[INFO] 19:40:27:356 KERNEL/(3551:3551): Se envia Handshake a CPU dispatch
+[INFO] 19:40:27:357 KERNEL/(3551:3551): Mensaje recibido del CPU:  22
+[INFO] 19:40:27:357 KERNEL/(3551:3551): Conexion establecida con la CPU dispatch
+[TRACE] 19:40:27:357 KERNEL/(3551:3551): MODO PLANIFICADOR CORTO PLAZO: FIFO
+
+[TRACE] 19:40:27:357 KERNEL/(3551:3551): EJECUTANDO: PLANIFICADOR LARGO PLAZO
+
+[TRACE] 19:40:27:357 KERNEL/(3551:3551): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO

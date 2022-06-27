@@ -80,6 +80,30 @@ void* pcb_serializar(pcb_t* pcb, uint32_t* tamano_mensaje, uint8_t codigo_operac
 	return a_enviar;
 }
 
+pcb_t* recibirPCB(int socket)
+{
+
+	t_paquete* paquete = malloc(sizeof(t_paquete));
+
+	paquete->buffer = malloc(sizeof(t_buffer));
+	t_buffer* buffer = paquete->buffer;
+
+	//recibimos el codigo del tipo de mensaje que nos llega
+	recv(socket, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
+
+	//recibo el tamaño del paquete
+	recv(socket, &(buffer->size), sizeof(uint32_t), 0);
+
+	//recibo el buffer con el pcb
+	buffer->stream = malloc(buffer->size);
+	recv(socket, buffer->stream, buffer->size, 0);
+
+	pcb_t* pcb = pcb_deserializar(buffer);
+
+	return pcb;
+}
+
+
 pcb_t* pcb_deserializar(t_buffer* buffer) {
 	pcb_t* pcb = malloc(sizeof(pcb_t));
 	void* stream = buffer->stream;

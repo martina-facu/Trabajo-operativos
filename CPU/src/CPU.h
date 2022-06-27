@@ -75,6 +75,8 @@
 	int acceptedConecctionInterrupt;
 
 	bool interrupcion = false;
+	bool activeDispatch = false;
+	bool activeInterrupt = false;
 
 	pthread_attr_t attr;
 	pthread_t threadId;
