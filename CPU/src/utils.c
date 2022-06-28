@@ -22,7 +22,7 @@ pcb_t* obtener_pcb(int cliente)
 
 
 
-	recibiPCB = true;
+
 
 	return pcb;
 }

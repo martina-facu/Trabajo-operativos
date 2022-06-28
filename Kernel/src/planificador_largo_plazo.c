@@ -35,7 +35,8 @@ void* gestionar_comunicacion(void* aux)
 	memcpy(&id,aux+sizeof(uint32_t),sizeof(uint32_t));
 	uint32_t espacio;
 	// RECIBO LAS INSTRUCCIONES Y EL ESPACIO DEL PROCESO
-	t_list* instrucciones = deserializar_paquete_instrucciones(socket,&espacio);
+	t_list* instrucciones = deserializar_mensaje(socket, &espacio, PLP);
+//	t_list* instrucciones = deserializar_paquete_instrucciones(socket,&espacio, PLP);
 	// CREO UN PCB CON ESAS INSTRUCCIONES Y EL ESPACIO QUE VA A OCUPAR
 	pcb_t* pcb=  pcb_create(espacio,instrucciones,id, estimacion_inicial);
 

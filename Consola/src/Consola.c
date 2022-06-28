@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 
 	//	Envio mensaje al Kernel con el PCB
 	send(conexion, a_enviar,*tamano_mensaje, 0);
-	log_info(logger, "Se envio el mensaje %s al KERNEL", (char*)a_enviar);
+	log_info(logger, "Se envio el mensaje %s al KERNEL de tamaño %d", (char*)a_enviar,*tamano_mensaje);
 
 	//	Espero respuesta del Kernel que se termino de procesar
 	uint8_t respuesta = 0;
@@ -100,7 +100,7 @@ int levantarConexionKernel(char* ip, char* puerto, t_log* logger)
 		//	Recibo la respuesta del Kernel
 		uint8_t respuesta_kernel = 0;
 		recv(conexion, &respuesta_kernel, sizeof(uint8_t), 0);
-		log_info(logger, "Mensaje recibido de la memoria:  %d", respuesta_kernel);
+		log_info(logger, "Mensaje recibido del Kernel:  %d", respuesta_kernel);
 
 		if(respuesta_kernel == ACEPTAR_CONEXION_CONSOLA)
 		{

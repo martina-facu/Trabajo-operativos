@@ -34,7 +34,7 @@
 	int getCantidadParametros(uint8_t id);
 	void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones);
 	void* armar_stream_instruccion(t_list* instrucciones);
-	t_list* deserializar_paquete_instrucciones(int cliente, uint32_t* tamano_proceso);
-
+	t_list* deserializar_paquete_instrucciones(int cliente, uint32_t* tamano_proceso, t_log* logger);
+	t_list* deserializar_mensaje(int cliente, uint32_t* tamano_proceso, t_log* logger);
 
 #endif

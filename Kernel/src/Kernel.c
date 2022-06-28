@@ -11,7 +11,7 @@ int main(void)
 	inicializar_loggers();
 
 	//	Se establece la conexion con la Memoria
-	levantar_conexion_memoria(configuracion->IP_MEMORIA,configuracion->PUERTO_MEMORIA, logP);
+//	levantar_conexion_memoria(configuracion->IP_MEMORIA,configuracion->PUERTO_MEMORIA, logP);
 
 	//	Se establece conexion con el Dispatch de la CPU
 	levantar_conexion_cpu_dispatch(configuracion->IP_CPU, configuracion->PUERTO_CPU_DISPATCH , logP);
@@ -22,10 +22,6 @@ int main(void)
 	//	Me levanto como server y establesco todas las conexiones como cliente
 	//	Inicio el servidor Kernel para atencion de consolas
 	server_fd = iniciar_servidor(configuracion->IP_KERNEL,configuracion->PUERTO_ESCUCHA, PLP);
-
-
-//	iniciar_conexion_cpu_interrupt();
-//	iniciar_conexion_memoria();
 
 	//	Inicializo las listas de los planificadores
 	inicializar_listas();

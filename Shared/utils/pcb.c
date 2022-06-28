@@ -87,16 +87,19 @@ pcb_t* recibirPCB(int socket)
 
 	paquete->buffer = malloc(sizeof(t_buffer));
 	t_buffer* buffer = paquete->buffer;
-
+	printf("\nAntes del primer recibir\n");
 	//recibimos el codigo del tipo de mensaje que nos llega
 	recv(socket, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
+	printf("\nDespues del primer recibir\n");
 
 	//recibo el tamaño del paquete
 	recv(socket, &(buffer->size), sizeof(uint32_t), 0);
+	printf("\nDespues del segundo recibir\n");
 
 	//recibo el buffer con el pcb
 	buffer->stream = malloc(buffer->size);
 	recv(socket, buffer->stream, buffer->size, 0);
+	printf("\nDespues del tercer recibir\n");
 
 	pcb_t* pcb = pcb_deserializar(buffer);
 
@@ -148,6 +151,5 @@ void pcb_mostrar(pcb_t* pcb, t_log* logger)
 	printf("ESTIMADO_RAFAGA: %d\n", pcb->estimado_rafaga);
 	printf("ESTADO: %s\n", estados[pcb->estado]);
 	printf("TIEMPO BLOQUEO: %d\n", pcb->tiempo_block);
-//	tabla_paginas_mostrar(pcb->tabla_paginas);
 	mostrar_instrucciones(pcb->instrucciones, logger);
 }

@@ -296,7 +296,9 @@ int main(void)
 							log_info(logger, "Voy a recibir y procesar un PCB del Dispatch");
 							//	Recibir pcb del kernel
 							//	REVISAR EL PRIMER PARAMETRO PORQUE NO SE USA Y NO SERIA NECESARIO
-							pcb = obtener_pcb(acceptedConecctionDispatch);
+//							pcb = obtener_pcb(acceptedConecctionDispatch);
+							pcb = recibirPCB(acceptedConecctionDispatch);
+							recibiPCB = true;
 							log_info(logger, "Voy a loguear informacion del PCB recibida por el Dispatch");
 							pcb_mostrar(pcb, logger);
 
@@ -357,7 +359,7 @@ int main(void)
 
 void * atencionInterrupt(void * socketInterrupt)
 {
-	int iSocketInterrupt = (int) socketInterrupt;
+	int iSocketInterrupt = *((int*) socketInterrupt);
 
 	activeInterrupt = true;
 

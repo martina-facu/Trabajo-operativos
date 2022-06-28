@@ -24,6 +24,7 @@
 	#include <logs.h>
 	#include <conexion.h>
 	#include <pthread.h>
+	#include <pcb.h>
 
 /*
  * Listado de estructuras

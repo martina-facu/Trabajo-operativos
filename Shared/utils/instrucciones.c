@@ -109,7 +109,8 @@ void* armar_stream_instruccion(t_list* instrucciones){
 	return stream;
 }
 
-void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones){
+void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones)
+{
 	void* stream = buffer->stream;
 	uint32_t* parametro;
 	uint32_t cant_instrucciones;
@@ -130,11 +131,12 @@ void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones){
 			stream+=sizeof(uint32_t);
 			list_add(instruccion->parametros,parametro);
 		}
+//		printf("\nInstruccion: %s\n", instruccion->parametros->head->data);
 		list_add(instrucciones,instruccion);
 	}
 }
 
-t_list* deserializar_paquete_instrucciones(int cliente, uint32_t* tamano_proceso)
+t_list* deserializar_paquete_instrucciones(int cliente, uint32_t* tamano_proceso, t_log* logger)
 {
 
 	t_paquete* paquete = malloc(sizeof(t_paquete));
@@ -156,6 +158,41 @@ t_list* deserializar_paquete_instrucciones(int cliente, uint32_t* tamano_proceso
 	deserializar_instrucciones(buffer, instrucciones);
 
 	recv(cliente, tamano_proceso, sizeof(uint32_t), 0);
+
+	log_info(logger, "Tamaño de las instrucciones a recibir: %d", &tamano_proceso);
+
+	return instrucciones;
+}
+
+t_list* deserializar_mensaje(int cliente, uint32_t* tamano_proceso, t_log* logger)
+{
+
+	log_info(logger,"Comenzamos a deserializar el mensaje recibido de la consola.");
+	t_paquete* paquete = malloc(sizeof(t_paquete));
+
+	paquete->buffer = malloc(sizeof(t_buffer));
+	t_buffer* buffer = paquete->buffer;
+
+	//recibimos el codigo del tipo de mensaje que nos llega
+	recv(cliente, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
+	log_info(logger,"Recibo codigo de operacion desde la consola: %d", paquete->codigo_operacion);
+
+	//recibo el tamaño del paquete
+	recv(cliente, &(buffer->size), sizeof(uint32_t), 0);
+	log_info(logger,"Recibo tamaño del buffer desde la consola: %d", buffer->size);
+
+	//recibo el buffer con las instrucciones
+	buffer->stream = malloc(buffer->size);
+	recv(cliente, buffer->stream, buffer->size, 0);
+//	log_info(logger,"Recibo el siguiente buffer: %s", buffer->stream);
+
+	t_list* instrucciones = list_create();
+	deserializar_instrucciones(buffer, instrucciones);
+	mostrar_instrucciones(instrucciones, logger);
+
+	recv(cliente, tamano_proceso, sizeof(uint32_t), 0);
+
+	log_info(logger, "Tamaño del proceso a recibir: %d", *tamano_proceso);
 
 	return instrucciones;
 }
