@@ -11,7 +11,7 @@ int main(void)
 	inicializar_loggers();
 
 	//	Se establece la conexion con la Memoria
-//	levantar_conexion_memoria(configuracion->IP_MEMORIA,configuracion->PUERTO_MEMORIA, logP);
+	levantar_conexion_memoria(configuracion->IP_MEMORIA,configuracion->PUERTO_MEMORIA, logP);
 
 	//	Se establece conexion con el Dispatch de la CPU
 	levantar_conexion_cpu_dispatch(configuracion->IP_CPU, configuracion->PUERTO_CPU_DISPATCH , logP);

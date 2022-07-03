@@ -24,7 +24,7 @@
 	#include <logs.h>
 	#include <conexion.h>
 	#include <pthread.h>
-	#include <pcb.h>
+	#include "utils.h"
 
 /*
  * Listado de estructuras
@@ -103,5 +103,6 @@
 	int levantarServerDispatch(void);
 	int levantarServerInterrupt(void);
 	void procesarPCB(void);
+	void reciboPCBdesdeKernel(int acceptedConecctionDispatch);
 
 #endif /* CPU_H_ */

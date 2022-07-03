@@ -273,21 +273,7 @@ int main(void)
 					else if(i == acceptedConecctionDispatch)
 					{
 						if (FD_ISSET(acceptedConecctionDispatch, &read_fd_set))
-						{
-							log_info(logger, "Tengo que evaluar mensaje enviado por el Dispatch");
-							if((activeDispatch == true) && (activeInterrupt == true) )
-							{
-								log_info(logger, "Voy a recibir y procesar un PCB del Dispatch");
-								//	Recibir pcb del kernel
-								//	REVISAR EL PRIMER PARAMETRO PORQUE NO SE USA Y NO SERIA NECESARIO
-	//							pcb = obtener_pcb(acceptedConecctionDispatch);
-								pcb = recibirPCB(acceptedConecctionDispatch);
-								recibiPCB = true;
-								log_info(logger, "Voy a loguear informacion del PCB recibida por el Dispatch");
-								pcb_mostrar(pcb, logger);
-
-							}
-						}
+							reciboPCBdesdeKernel(acceptedConecctionDispatch);
 					}
 				}
 			}
@@ -314,6 +300,32 @@ int main(void)
 	return EXIT_SUCCESS;
 }
 
+/*
+ *  Funcion: reciboPCBdesdeKernel
+ *  Entradas: 	int acceptedConecctionDispatch		Descriptor del Dispatch
+ *  Salidas: void
+ *  Razon: 	Recibo un PCB a procesar desde el Kernel
+ *  Autor:
+ */
+void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
+{
+	log_info(logger, "Valor de ActiveDispatch %s\tValor de ActiveInterrupt %s", activeDispatch?"true":"false", activeInterrupt?"true":"false");
+
+
+	if((activeDispatch == true) && (activeInterrupt == true) )
+	{
+		log_info(logger, "Voy a recibir y procesar un PCB del Dispatch");
+		//	Recibir pcb del kernel
+		//	REVISAR EL PRIMER PARAMETRO PORQUE NO SE USA Y NO SERIA NECESARIO
+//							pcb = obtener_pcb(acceptedConecctionDispatch);
+
+		pcb = recibirPCB(acceptedConnectionDispatch);
+		recibiPCB = true;
+		log_info(logger, "Voy a loguear informacion del PCB recibida por el Dispatch");
+		pcb_mostrar(pcb, logger);
+	}
+
+}
 
 /*
  *  Funcion: procesarPCB

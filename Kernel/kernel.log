@@ -28,3 +28,58 @@
 [TRACE] 17:02:43:690 KERNEL/(3870:3870): EJECUTANDO: PLANIFICADOR LARGO PLAZO
 
 [TRACE] 17:02:43:690 KERNEL/(3870:3870): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO
+[INFO] 17:57:00:508 KERNEL/(6223:6223): Conexion establecida con exito
+[INFO] 17:57:00:508 KERNEL/(6223:6223): Creo conexion con la CPU DISPATCH en la IP 192.168.0.233 y puerto 9797 con el descriptor:  7
+[INFO] 17:57:00:508 KERNEL/(6223:6223): Se envia Handshake a CPU dispatch
+[INFO] 17:57:00:509 KERNEL/(6223:6223): Mensaje recibido del CPU:  22
+[INFO] 17:57:00:509 KERNEL/(6223:6223): Conexion establecida con la CPU dispatch
+[INFO] 17:57:00:509 KERNEL/(6223:6223): Conexion establecida con exito
+[INFO] 17:57:00:509 KERNEL/(6223:6223): Creo conexion con la CPU INTERRUPT en la IP 192.168.0.233 y puerto 8005 con el descriptor:  8
+[INFO] 17:57:00:509 KERNEL/(6223:6223): Se envia Handshake a la CPU interrupt
+[INFO] 17:57:00:509 KERNEL/(6223:6223): Mensaje recibido de la CPU interrupt:  24
+[INFO] 17:57:00:509 KERNEL/(6223:6223): Conexion establecida con la CPU interrupt
+[TRACE] 17:57:00:509 KERNEL/(6223:6223): MODO PLANIFICADOR CORTO PLAZO: FIFO
+
+[TRACE] 17:57:00:509 KERNEL/(6223:6223): EJECUTANDO: PLANIFICADOR LARGO PLAZO
+
+[TRACE] 17:57:00:510 KERNEL/(6223:6223): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO
+[INFO] 18:02:41:433 KERNEL/(6528:6528): Conexion establecida con exito
+[INFO] 18:02:41:434 KERNEL/(6528:6528): Creo conexion con la MEMORIA en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
+[INFO] 18:02:41:434 KERNEL/(6528:6528): Se envia Handshake a la memoria
+[INFO] 18:02:41:435 KERNEL/(6528:6528): Mensaje recibido de la memoria:  42
+[INFO] 18:02:41:435 KERNEL/(6528:6528): Conexion establecida con la memoria
+[INFO] 18:02:41:435 KERNEL/(6528:6528): Conexion establecida con exito
+[INFO] 18:02:41:435 KERNEL/(6528:6528): Creo conexion con la CPU DISPATCH en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
+[INFO] 18:02:41:435 KERNEL/(6528:6528): Se envia Handshake a CPU dispatch
+[INFO] 18:02:41:435 KERNEL/(6528:6528): Mensaje recibido del CPU:  22
+[INFO] 18:02:41:435 KERNEL/(6528:6528): Conexion establecida con la CPU dispatch
+[INFO] 18:02:41:436 KERNEL/(6528:6528): Conexion establecida con exito
+[INFO] 18:02:41:436 KERNEL/(6528:6528): Creo conexion con la CPU INTERRUPT en la IP 192.168.0.233 y puerto 8005 con el descriptor:  9
+[INFO] 18:02:41:436 KERNEL/(6528:6528): Se envia Handshake a la CPU interrupt
+[INFO] 18:02:41:436 KERNEL/(6528:6528): Mensaje recibido de la CPU interrupt:  24
+[INFO] 18:02:41:436 KERNEL/(6528:6528): Conexion establecida con la CPU interrupt
+[TRACE] 18:02:41:436 KERNEL/(6528:6528): MODO PLANIFICADOR CORTO PLAZO: FIFO
+
+[TRACE] 18:02:41:436 KERNEL/(6528:6528): EJECUTANDO: PLANIFICADOR LARGO PLAZO
+
+[TRACE] 18:02:41:436 KERNEL/(6528:6528): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO
+[INFO] 18:50:42:754 KERNEL/(8232:8232): Conexion establecida con exito
+[INFO] 18:50:42:754 KERNEL/(8232:8232): Creo conexion con la MEMORIA en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
+[INFO] 18:50:42:754 KERNEL/(8232:8232): Se envia Handshake a la memoria
+[INFO] 18:50:42:754 KERNEL/(8232:8232): Mensaje recibido de la memoria:  42
+[INFO] 18:50:42:754 KERNEL/(8232:8232): Conexion establecida con la memoria
+[INFO] 18:50:42:754 KERNEL/(8232:8232): Conexion establecida con exito
+[INFO] 18:50:42:754 KERNEL/(8232:8232): Creo conexion con la CPU DISPATCH en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
+[INFO] 18:50:42:755 KERNEL/(8232:8232): Se envia Handshake a CPU dispatch
+[INFO] 18:50:42:755 KERNEL/(8232:8232): Mensaje recibido del CPU:  22
+[INFO] 18:50:42:755 KERNEL/(8232:8232): Conexion establecida con la CPU dispatch
+[INFO] 18:50:42:755 KERNEL/(8232:8232): Conexion establecida con exito
+[INFO] 18:50:42:755 KERNEL/(8232:8232): Creo conexion con la CPU INTERRUPT en la IP 192.168.0.233 y puerto 8005 con el descriptor:  9
+[INFO] 18:50:42:755 KERNEL/(8232:8232): Se envia Handshake a la CPU interrupt
+[INFO] 18:50:42:755 KERNEL/(8232:8232): Mensaje recibido de la CPU interrupt:  24
+[INFO] 18:50:42:755 KERNEL/(8232:8232): Conexion establecida con la CPU interrupt
+[TRACE] 18:50:42:755 KERNEL/(8232:8232): MODO PLANIFICADOR CORTO PLAZO: FIFO
+
+[TRACE] 18:50:42:755 KERNEL/(8232:8232): EJECUTANDO: PLANIFICADOR LARGO PLAZO
+
+[TRACE] 18:50:42:755 KERNEL/(8232:8232): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO

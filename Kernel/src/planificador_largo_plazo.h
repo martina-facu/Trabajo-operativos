@@ -24,6 +24,7 @@
 #include "planificador_mediano_plazo.h"
 #include "var_glob.h"
 #include <conexion.h>
+#include <instrucciones.h>
 
 /*
  * Prototipo de funciones

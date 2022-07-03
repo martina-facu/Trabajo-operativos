@@ -44,3 +44,99 @@
 [INFO] 17:02:40:132 MEMORIA/(3833:3833): Mensaje recibido en el server Memoria para aceptar conexiones: 1
 [INFO] 17:02:40:132 MEMORIA/(3833:3833): Se acepto la conexion del CPU en el socket: 6
 [INFO] 17:02:40:132 MEMORIA/(3833:3833): Se agrego al set de descriptores el descriptor: 6
+[INFO] 17:56:50:579 MEMORIA/(6203:6203): -------------------------
+[INFO] 17:56:50:580 MEMORIA/(6203:6203): Iniciando log Proceso MEMORIA
+[INFO] 17:56:50:580 MEMORIA/(6203:6203): -------------------------
+[INFO] 17:56:50:580 MEMORIA/(6203:6203): PUERTO_ESCUCHA: 8002
+[INFO] 17:56:50:580 MEMORIA/(6203:6203): TAM_MEMORIA: 4096
+[INFO] 17:56:50:580 MEMORIA/(6203:6203): TAM_PAGINA: 64
+[INFO] 17:56:50:580 MEMORIA/(6203:6203): ENTRADAS_POR_TABLA: 4
+[INFO] 17:56:50:580 MEMORIA/(6203:6203): RETARDO_MEMORIA: 1000
+[INFO] 17:56:50:580 MEMORIA/(6203:6203): MARCOS_POR_PROCESO: 4
+[INFO] 17:56:50:581 MEMORIA/(6203:6203): RETARDO_MEMORIA: 1000
+[INFO] 17:56:50:581 MEMORIA/(6203:6203): PATH_SWAP: /home/utnso/swap
+[INFO] 17:56:50:581 MEMORIA/(6203:6203): ALGORITMO_REEMPLAZO: CLOCK-M
+[INFO] 17:56:50:581 MEMORIA/(6203:6203): IP_MEMORIA: 192.168.0.233
+[INFO] 17:56:50:581 MEMORIA/(6203:6203): Reservando memoria
+[INFO] 17:56:50:581 MEMORIA/(6203:6203): Tamano memoria: 4096
+[INFO] 17:56:50:581 MEMORIA/(6203:6203): Cantidad de marcos: 64
+[INFO] 17:56:50:581 MEMORIA/(6203:6203): Cantidad de marcos por proceso: 4
+[INFO] 17:56:50:581 MEMORIA/(6203:6203): Server escuchando
+[INFO] 17:56:50:581 MEMORIA/(6203:6203): Socket en el que se levanta el server de Memoria: 5
+[INFO] 17:56:57:206 MEMORIA/(6203:6203): Se acepto temporalmente conexion en el descriptor: 6 para evaluar la misma
+[INFO] 17:56:57:206 MEMORIA/(6203:6203): Mensaje recibido en el server Memoria para aceptar conexiones: 1
+[INFO] 17:56:57:206 MEMORIA/(6203:6203): Se acepto la conexion del CPU en el socket: 6
+[INFO] 17:56:57:206 MEMORIA/(6203:6203): Se agrego al set de descriptores el descriptor: 6
+[INFO] 18:02:26:144 MEMORIA/(6480:6480): -------------------------
+[INFO] 18:02:26:144 MEMORIA/(6480:6480): Iniciando log Proceso MEMORIA
+[INFO] 18:02:26:144 MEMORIA/(6480:6480): -------------------------
+[INFO] 18:02:26:145 MEMORIA/(6480:6480): PUERTO_ESCUCHA: 8002
+[INFO] 18:02:26:145 MEMORIA/(6480:6480): TAM_MEMORIA: 4096
+[INFO] 18:02:26:145 MEMORIA/(6480:6480): TAM_PAGINA: 64
+[INFO] 18:02:26:145 MEMORIA/(6480:6480): ENTRADAS_POR_TABLA: 4
+[INFO] 18:02:26:145 MEMORIA/(6480:6480): RETARDO_MEMORIA: 1000
+[INFO] 18:02:26:145 MEMORIA/(6480:6480): MARCOS_POR_PROCESO: 4
+[INFO] 18:02:26:145 MEMORIA/(6480:6480): RETARDO_MEMORIA: 1000
+[INFO] 18:02:26:145 MEMORIA/(6480:6480): PATH_SWAP: /home/utnso/swap
+[INFO] 18:02:26:145 MEMORIA/(6480:6480): ALGORITMO_REEMPLAZO: CLOCK-M
+[INFO] 18:02:26:145 MEMORIA/(6480:6480): IP_MEMORIA: 192.168.0.233
+[INFO] 18:02:26:145 MEMORIA/(6480:6480): Reservando memoria
+[INFO] 18:02:26:145 MEMORIA/(6480:6480): Tamano memoria: 4096
+[INFO] 18:02:26:145 MEMORIA/(6480:6480): Cantidad de marcos: 64
+[INFO] 18:02:26:145 MEMORIA/(6480:6480): Cantidad de marcos por proceso: 4
+[INFO] 18:02:26:145 MEMORIA/(6480:6480): Server escuchando
+[INFO] 18:02:26:145 MEMORIA/(6480:6480): Socket en el que se levanta el server de Memoria: 5
+[INFO] 18:02:32:574 MEMORIA/(6480:6480): Se acepto temporalmente conexion en el descriptor: 6 para evaluar la misma
+[INFO] 18:02:32:574 MEMORIA/(6480:6480): Mensaje recibido en el server Memoria para aceptar conexiones: 1
+[INFO] 18:02:32:574 MEMORIA/(6480:6480): Se acepto la conexion del CPU en el socket: 6
+[INFO] 18:02:32:574 MEMORIA/(6480:6480): Se agrego al set de descriptores el descriptor: 6
+[INFO] 18:02:41:433 MEMORIA/(6480:6480): Se acepto temporalmente conexion en el descriptor: 7 para evaluar la misma
+[INFO] 18:02:41:435 MEMORIA/(6480:6480): Mensaje recibido en el server Memoria para aceptar conexiones: 41
+[INFO] 18:02:41:435 MEMORIA/(6480:6480): Se acepto la conexion del Kernel en el socket: 7
+[INFO] 18:02:41:435 MEMORIA/(6480:6480): Se agrego al set de descriptores el descriptor: 7
+[INFO] 18:47:41:666 MEMORIA/(8018:8018): -------------------------
+[INFO] 18:47:41:668 MEMORIA/(8018:8018): Iniciando log Proceso MEMORIA
+[INFO] 18:47:41:668 MEMORIA/(8018:8018): -------------------------
+[INFO] 18:47:41:668 MEMORIA/(8018:8018): PUERTO_ESCUCHA: 8002
+[INFO] 18:47:41:668 MEMORIA/(8018:8018): TAM_MEMORIA: 4096
+[INFO] 18:47:41:668 MEMORIA/(8018:8018): TAM_PAGINA: 64
+[INFO] 18:47:41:668 MEMORIA/(8018:8018): ENTRADAS_POR_TABLA: 4
+[INFO] 18:47:41:668 MEMORIA/(8018:8018): RETARDO_MEMORIA: 1000
+[INFO] 18:47:41:668 MEMORIA/(8018:8018): MARCOS_POR_PROCESO: 4
+[INFO] 18:47:41:668 MEMORIA/(8018:8018): RETARDO_MEMORIA: 1000
+[INFO] 18:47:41:668 MEMORIA/(8018:8018): PATH_SWAP: /home/utnso/swap
+[INFO] 18:47:41:668 MEMORIA/(8018:8018): ALGORITMO_REEMPLAZO: CLOCK-M
+[INFO] 18:47:41:669 MEMORIA/(8018:8018): IP_MEMORIA: 192.168.0.233
+[INFO] 18:47:41:669 MEMORIA/(8018:8018): Reservando memoria
+[INFO] 18:47:41:669 MEMORIA/(8018:8018): Tamano memoria: 4096
+[INFO] 18:47:41:669 MEMORIA/(8018:8018): Cantidad de marcos: 64
+[INFO] 18:47:41:669 MEMORIA/(8018:8018): Cantidad de marcos por proceso: 4
+[ERROR] 18:47:41:669 MEMORIA/(8018:8018): Fallo el bind al generar server
+[INFO] 18:47:41:669 MEMORIA/(8018:8018): Socket en el que se levanta el server de Memoria: 1
+[INFO] 18:50:36:096 MEMORIA/(8210:8210): -------------------------
+[INFO] 18:50:36:096 MEMORIA/(8210:8210): Iniciando log Proceso MEMORIA
+[INFO] 18:50:36:096 MEMORIA/(8210:8210): -------------------------
+[INFO] 18:50:36:101 MEMORIA/(8210:8210): PUERTO_ESCUCHA: 8002
+[INFO] 18:50:36:101 MEMORIA/(8210:8210): TAM_MEMORIA: 4096
+[INFO] 18:50:36:101 MEMORIA/(8210:8210): TAM_PAGINA: 64
+[INFO] 18:50:36:101 MEMORIA/(8210:8210): ENTRADAS_POR_TABLA: 4
+[INFO] 18:50:36:101 MEMORIA/(8210:8210): RETARDO_MEMORIA: 1000
+[INFO] 18:50:36:101 MEMORIA/(8210:8210): MARCOS_POR_PROCESO: 4
+[INFO] 18:50:36:101 MEMORIA/(8210:8210): RETARDO_MEMORIA: 1000
+[INFO] 18:50:36:101 MEMORIA/(8210:8210): PATH_SWAP: /home/utnso/swap
+[INFO] 18:50:36:101 MEMORIA/(8210:8210): ALGORITMO_REEMPLAZO: CLOCK-M
+[INFO] 18:50:36:101 MEMORIA/(8210:8210): IP_MEMORIA: 192.168.0.233
+[INFO] 18:50:36:101 MEMORIA/(8210:8210): Reservando memoria
+[INFO] 18:50:36:101 MEMORIA/(8210:8210): Tamano memoria: 4096
+[INFO] 18:50:36:101 MEMORIA/(8210:8210): Cantidad de marcos: 64
+[INFO] 18:50:36:101 MEMORIA/(8210:8210): Cantidad de marcos por proceso: 4
+[INFO] 18:50:36:101 MEMORIA/(8210:8210): Server escuchando
+[INFO] 18:50:36:101 MEMORIA/(8210:8210): Socket en el que se levanta el server de Memoria: 5
+[INFO] 18:50:40:168 MEMORIA/(8210:8210): Se acepto temporalmente conexion en el descriptor: 6 para evaluar la misma
+[INFO] 18:50:40:168 MEMORIA/(8210:8210): Mensaje recibido en el server Memoria para aceptar conexiones: 1
+[INFO] 18:50:40:168 MEMORIA/(8210:8210): Se acepto la conexion del CPU en el socket: 6
+[INFO] 18:50:40:168 MEMORIA/(8210:8210): Se agrego al set de descriptores el descriptor: 6
+[INFO] 18:50:42:754 MEMORIA/(8210:8210): Se acepto temporalmente conexion en el descriptor: 7 para evaluar la misma
+[INFO] 18:50:42:754 MEMORIA/(8210:8210): Mensaje recibido en el server Memoria para aceptar conexiones: 41
+[INFO] 18:50:42:754 MEMORIA/(8210:8210): Se acepto la conexion del Kernel en el socket: 7
+[INFO] 18:50:42:754 MEMORIA/(8210:8210): Se agrego al set de descriptores el descriptor: 7

@@ -33,3 +33,107 @@
 [TRACE] 17:02:49:073 planificador_largo_plazo/(3870:3910): se agrego un proceso a new, ID: 0
 [TRACE] 17:02:49:073 planificador_largo_plazo/(3870:3910): se creo una comunicacion
 [TRACE] 17:02:49:073 planificador_largo_plazo/(3870:3910): me voy a bloquear, ID: 0
+[INFO] 17:57:00:509 planificador_largo_plazo/(6223:6223): Server escuchando
+[TRACE] 17:57:04:979 planificador_largo_plazo/(6223:6233): Se acepto temporalmente la conexion en el descriptor: 10 hasta validar la misma
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6233): Mensaje recibido de la consola:  61
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6233): Se envia Handshake a la consola
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6233): Conexion establecida con la Consola
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252): Comenzamos a deserializar el mensaje recibido de la consola.
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252): Recibo codigo de operacion desde la consola: 0
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252): Recibo tamaño del buffer desde la consola: 36
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252):  4000 
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252):  4 
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252):  42 
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252):  0 
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252):  4 
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252):  0 
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 17:57:04:980 planificador_largo_plazo/(6223:6252): Tamaño del proceso a recibir: 10
+[TRACE] 17:57:04:980 planificador_largo_plazo/(6223:6252): se agrego un proceso a new, ID: 0
+[TRACE] 17:57:04:980 planificador_largo_plazo/(6223:6252): se creo una comunicacion
+[TRACE] 17:57:04:980 planificador_largo_plazo/(6223:6252): me voy a bloquear, ID: 0
+[INFO] 18:02:41:436 planificador_largo_plazo/(6528:6528): Server escuchando
+[TRACE] 18:02:52:272 planificador_largo_plazo/(6528:6539): Se acepto temporalmente la conexion en el descriptor: 11 hasta validar la misma
+[INFO] 18:02:52:273 planificador_largo_plazo/(6528:6539): Mensaje recibido de la consola:  61
+[INFO] 18:02:52:273 planificador_largo_plazo/(6528:6539): Se envia Handshake a la consola
+[INFO] 18:02:52:273 planificador_largo_plazo/(6528:6539): Conexion establecida con la Consola
+[INFO] 18:02:52:273 planificador_largo_plazo/(6528:6555): Comenzamos a deserializar el mensaje recibido de la consola.
+[INFO] 18:02:52:273 planificador_largo_plazo/(6528:6555): Recibo codigo de operacion desde la consola: 0
+[INFO] 18:02:52:273 planificador_largo_plazo/(6528:6555): Recibo tamaño del buffer desde la consola: 36
+[INFO] 18:02:52:273 planificador_largo_plazo/(6528:6555): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:02:52:273 planificador_largo_plazo/(6528:6555): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:02:52:273 planificador_largo_plazo/(6528:6555): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:02:52:274 planificador_largo_plazo/(6528:6555): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:02:52:274 planificador_largo_plazo/(6528:6555):  4000 
+[INFO] 18:02:52:274 planificador_largo_plazo/(6528:6555): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:02:52:274 planificador_largo_plazo/(6528:6555):  4 
+[INFO] 18:02:52:274 planificador_largo_plazo/(6528:6555):  42 
+[INFO] 18:02:52:274 planificador_largo_plazo/(6528:6555): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:02:52:274 planificador_largo_plazo/(6528:6555):  0 
+[INFO] 18:02:52:274 planificador_largo_plazo/(6528:6555):  4 
+[INFO] 18:02:52:274 planificador_largo_plazo/(6528:6555): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:02:52:274 planificador_largo_plazo/(6528:6555):  0 
+[INFO] 18:02:52:274 planificador_largo_plazo/(6528:6555): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:02:52:274 planificador_largo_plazo/(6528:6555): Tamaño del proceso a recibir: 10
+[TRACE] 18:02:52:274 planificador_largo_plazo/(6528:6555): se agrego un proceso a new, ID: 0
+[TRACE] 18:02:52:274 planificador_largo_plazo/(6528:6555): se creo una comunicacion
+[TRACE] 18:02:52:274 planificador_largo_plazo/(6528:6555): me voy a bloquear, ID: 0
+[INFO] 18:50:42:755 planificador_largo_plazo/(8232:8232): Server escuchando
+[TRACE] 18:50:47:279 planificador_largo_plazo/(8232:8243): Se acepto temporalmente la conexion en el descriptor: 11 hasta validar la misma
+[INFO] 18:50:47:279 planificador_largo_plazo/(8232:8243): Mensaje recibido de la consola:  61
+[INFO] 18:50:47:279 planificador_largo_plazo/(8232:8243): Conexion establecida con la Consola
+[INFO] 18:50:47:279 planificador_largo_plazo/(8232:8243): Se creo un nuevo hilo para comunicarme con una consola.
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259): Mi ID de Thread es: 0
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259): El descriptor para comunicarme con mi consola es: 11
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259): Comenzamos a deserializar el mensaje recibido de la consola.
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259): Recibo codigo de operacion desde la consola: 0
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259): Recibo tamaño del buffer desde la consola: 36
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259):  4000 
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259):  4 
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259):  42 
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259):  0 
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259):  4 
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259):  0 
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:50:47:280 planificador_largo_plazo/(8232:8259): Tamaño del proceso a recibir: 10
+[TRACE] 18:50:47:280 planificador_largo_plazo/(8232:8259): se agrego un proceso a new, ID: 0
+[TRACE] 18:50:47:280 planificador_largo_plazo/(8232:8259): se creo una comunicacion
+[TRACE] 18:50:47:280 planificador_largo_plazo/(8232:8259): me voy a bloquear, ID: 0

@@ -30,9 +30,15 @@ void* gestionar_comunicacion(void* aux)
 {
 	int socket;
 	int id;
-	// RECIBO EL SOCKET Y EL ID
+
+	// RECIBO EL SOCKET Y EL ID POR PARAMETRO
 	memcpy(&socket,aux,sizeof(uint32_t));
 	memcpy(&id,aux+sizeof(uint32_t),sizeof(uint32_t));
+
+	log_info(PLP,"Mi ID de Thread es: %d", id);
+	log_info(PLP,"El descriptor para comunicarme con mi consola es: %d", socket);
+
+
 	uint32_t espacio;
 	// RECIBO LAS INSTRUCCIONES Y EL ESPACIO DEL PROCESO
 	t_list* instrucciones = deserializar_mensaje(socket, &espacio, PLP);
@@ -95,23 +101,13 @@ void* comunicacion_con_consolas()
 		uint32_t socket_cliente = accept(server_fd,NULL,NULL);
 		log_trace(PLP,"Se acepto temporalmente la conexion en el descriptor: %d hasta validar la misma", socket_cliente);
 		if( socket_cliente < 0)
-		{
 			log_trace(PLP,"Error al intentar aceptar conexion de un cliente");
-			//	Desestimo la comunicacion porque el hacer un exit significaria dejar sin atender a
-			//	todos los procesos que ya estan corriendo.
-			// 	exit(0);
-		}
 		else
 		{
 			/*
 			 * 	Valido con Handshake sino es correcto cierro comunicacion y si es correcto sigo con
 			 * 	el codigo ya existente.
 			 */
-
-//			handshake = INICIAR_CONEXION_CONSOLA;
-//			send(conexion_memoria, &handshake, sizeof(uint8_t), 0);
-//			log_info(logger, "Se envia Handshake a la memoria");
-
 			//	Recibo el mensaje de la consola
 			mensajeConsola = 0;
 			recv(socket_cliente, &mensajeConsola, sizeof(uint8_t), 0);
@@ -122,27 +118,28 @@ void* comunicacion_con_consolas()
 
 				handshake = ACEPTAR_CONEXION_CONSOLA;
 				send(socket_cliente, &handshake, sizeof(uint8_t), 0);
-				log_info(PLP, "Se envia Handshake a la consola");
-
 				log_info(PLP, "Conexion establecida con la Consola");
-//				log_trace(PLP,"se conecto un cliente");
+
 				//guardo el socket y el acumulador para pasarselos a la funcion GESTIONAR_COMUNICACION
 				void* aux = malloc(sizeof(uint32_t)*2);
 				memcpy(aux,&socket_cliente,sizeof(uint32_t));
 				memcpy(aux+sizeof(uint32_t),&acum,sizeof(uint32_t));
+
+				//	CREO UN HILO PARA MANTENER LA COMUNICACION CON UNA NUEVA CONSOLA
+				//	Y LE PASO EL BUFFER AUX QUE CONTIENE EL SOCKET Y EL ACUMULADOR
 				pthread_t hilo;
-				//CREO UN HILO PARA MANTENER LA COMUNICACION Y LE PASO EL BUFFER AUX QUE CONTIENE EL SOCKET Y EL ACUMULADOR
 				int status =pthread_create(&hilo,NULL,gestionar_comunicacion,aux);
 				pthread_detach(hilo);
 				// AUMENTO EL ACUMULADOR PARA LA PROXIMA COMUNICACION
 				acum++;
 				// EVALUO QUE EL HILO SE HAYA CREADO CORRECTAMENTE
-				if(status <0){
-					printf("error al crear el hilo\n");
+				if(status <0)
+				{
+					log_error(PLP, "No pudo crearse un nuevo hilo de atencion a consola. Cierro la conexion con la misma");
+					close(socket_cliente);
 				}
-				else{
-					printf("exito\n");
-				}
+				else
+					log_info(PLP, "Se creo un nuevo hilo para comunicarme con una consola.");
 
 			}
 			else
@@ -150,15 +147,6 @@ void* comunicacion_con_consolas()
 				log_error(PLP, "Handshake recibido de consola invalido: %d",mensajeConsola);
 				close(socket_cliente);
 			}
-
-
-
-
-
-
-
-
-
 		}
 	}
 	return NULL;

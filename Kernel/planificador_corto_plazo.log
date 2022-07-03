@@ -2,3 +2,7 @@
 [TRACE] 17:01:08:223 planificador_corto_plazo/(3769:3785): error null
 [TRACE] 17:03:07:434 planificador_corto_plazo/(3870:3886): recibi un proceso ID: 0 
 [TRACE] 17:03:07:434 planificador_corto_plazo/(3870:3886): error null
+[TRACE] 18:00:02:261 planificador_corto_plazo/(6223:6235): recibi un proceso ID: 0 
+[TRACE] 18:00:02:261 planificador_corto_plazo/(6223:6235): error null
+[TRACE] 18:47:26:287 planificador_corto_plazo/(6528:6544): recibi un proceso ID: 0 
+[TRACE] 18:47:26:287 planificador_corto_plazo/(6528:6544): error null

@@ -3381,3 +3381,96 @@
 [INFO] 17:02:43:690 CPU/(3860:3860): Se genera el Thread del Interrupt con TID: 0
 [INFO] 17:02:43:693 CPU/(3860:3875): Entre al hilo
 [INFO] 17:02:43:696 CPU/(3860:3875): El valor del socket que recibe el thread es: 9
+[INFO] 17:56:57:204 CPU/(6213:6213): -------------------------
+[INFO] 17:56:57:204 CPU/(6213:6213): Iniciando log Proceso CPU
+[INFO] 17:56:57:205 CPU/(6213:6213): -------------------------
+[INFO] 17:56:57:205 CPU/(6213:6213): Se leyo la variable ENTRADAS_TLB: 4
+[INFO] 17:56:57:205 CPU/(6213:6213): Se leyo la variable REEMPLAZO_TLB: LRU
+[INFO] 17:56:57:205 CPU/(6213:6213): Se leyo la variable RETARDO_NOOP: 1000
+[INFO] 17:56:57:205 CPU/(6213:6213): Se leyo la variable IP_CPU: 192.168.0.233
+[INFO] 17:56:57:205 CPU/(6213:6213): Se leyo la variable IP_MEMORIA: 192.168.0.233
+[INFO] 17:56:57:205 CPU/(6213:6213): Se leyo la variable PUERTO_MEMORIA: 8002
+[INFO] 17:56:57:205 CPU/(6213:6213): Se leyo la variable PUERTO_DISPATCH: 9797
+[INFO] 17:56:57:205 CPU/(6213:6213): Se leyo la variable PUERTO_INTERRUPT: 8005
+[INFO] 17:56:57:206 CPU/(6213:6213): Conexion establecida con exito
+[INFO] 17:56:57:206 CPU/(6213:6213): Se intenta conectarse con la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  5
+[INFO] 17:56:57:206 CPU/(6213:6213): Se envia Handshake a la memoria
+[INFO] 17:56:57:206 CPU/(6213:6213): Mensaje recibido de la memoria:  2
+[INFO] 17:56:57:206 CPU/(6213:6213): Conexion establecida con la memoria
+[INFO] 17:56:57:206 CPU/(6213:6213): Server escuchando
+[INFO] 17:56:57:206 CPU/(6213:6213): Socket en el que se levanta el server SERVER DISPATCH: 6 en la IP: 192.168.0.233 y Puerto: 9797
+[INFO] 17:56:57:206 CPU/(6213:6213): Server escuchando
+[INFO] 17:56:57:207 CPU/(6213:6213): Socket en el que se levanta el server SERVER INTERRUPT: 7 en la IP: 192.168.0.233 y Puerto: 8005
+[INFO] 17:57:00:508 CPU/(6213:6213): Se acepto la conexion del Dispatch en el socket: 8
+[INFO] 17:57:00:508 CPU/(6213:6213): Se agrego al set de descriptores el descriptor: 8
+[INFO] 17:57:00:509 CPU/(6213:6213): Mensaje recibido dispatch: 21
+[INFO] 17:57:00:509 CPU/(6213:6213): Se envia Handshake 21 para dejar establecida la conexion del Dispatch
+[INFO] 17:57:00:509 CPU/(6213:6213): Se quiso conectar alguien al Server Interrupt
+[INFO] 17:57:00:509 CPU/(6213:6213): Se acepto la conexion del Interrupt en el socket: 9
+[INFO] 17:57:00:509 CPU/(6213:6213): Mensaje recibido interrupt: 23
+[INFO] 17:57:00:509 CPU/(6213:6213): Se envia Handshake 23 para dejar establecida la conexion del Dispatch
+[INFO] 17:57:00:509 CPU/(6213:6213): Se genera el Thread del Interrupt con TID: 0
+[INFO] 17:57:00:511 CPU/(6213:6228): Entre al hilo
+[INFO] 17:57:00:511 CPU/(6213:6228): El valor del socket que recibe el thread es: 9
+[INFO] 18:02:32:570 CPU/(6512:6512): -------------------------
+[INFO] 18:02:32:571 CPU/(6512:6512): Iniciando log Proceso CPU
+[INFO] 18:02:32:573 CPU/(6512:6512): -------------------------
+[INFO] 18:02:32:573 CPU/(6512:6512): Se leyo la variable ENTRADAS_TLB: 4
+[INFO] 18:02:32:573 CPU/(6512:6512): Se leyo la variable REEMPLAZO_TLB: LRU
+[INFO] 18:02:32:573 CPU/(6512:6512): Se leyo la variable RETARDO_NOOP: 1000
+[INFO] 18:02:32:574 CPU/(6512:6512): Se leyo la variable IP_CPU: 192.168.0.233
+[INFO] 18:02:32:574 CPU/(6512:6512): Se leyo la variable IP_MEMORIA: 192.168.0.233
+[INFO] 18:02:32:574 CPU/(6512:6512): Se leyo la variable PUERTO_MEMORIA: 8002
+[INFO] 18:02:32:574 CPU/(6512:6512): Se leyo la variable PUERTO_DISPATCH: 9797
+[INFO] 18:02:32:574 CPU/(6512:6512): Se leyo la variable PUERTO_INTERRUPT: 8005
+[INFO] 18:02:32:574 CPU/(6512:6512): Conexion establecida con exito
+[INFO] 18:02:32:574 CPU/(6512:6512): Se intenta conectarse con la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  5
+[INFO] 18:02:32:575 CPU/(6512:6512): Se envia Handshake a la memoria
+[INFO] 18:02:32:575 CPU/(6512:6512): Mensaje recibido de la memoria:  2
+[INFO] 18:02:32:575 CPU/(6512:6512): Conexion establecida con la memoria
+[INFO] 18:02:32:575 CPU/(6512:6512): Server escuchando
+[INFO] 18:02:32:575 CPU/(6512:6512): Socket en el que se levanta el server SERVER DISPATCH: 6 en la IP: 192.168.0.233 y Puerto: 9797
+[INFO] 18:02:32:575 CPU/(6512:6512): Server escuchando
+[INFO] 18:02:32:575 CPU/(6512:6512): Socket en el que se levanta el server SERVER INTERRUPT: 7 en la IP: 192.168.0.233 y Puerto: 8005
+[INFO] 18:02:41:435 CPU/(6512:6512): Se acepto la conexion del Dispatch en el socket: 8
+[INFO] 18:02:41:435 CPU/(6512:6512): Se agrego al set de descriptores el descriptor: 8
+[INFO] 18:02:41:435 CPU/(6512:6512): Mensaje recibido dispatch: 21
+[INFO] 18:02:41:435 CPU/(6512:6512): Se envia Handshake 21 para dejar establecida la conexion del Dispatch
+[INFO] 18:02:41:436 CPU/(6512:6512): Se quiso conectar alguien al Server Interrupt
+[INFO] 18:02:41:436 CPU/(6512:6512): Se acepto la conexion del Interrupt en el socket: 9
+[INFO] 18:02:41:436 CPU/(6512:6512): Mensaje recibido interrupt: 23
+[INFO] 18:02:41:436 CPU/(6512:6512): Se envia Handshake 23 para dejar establecida la conexion del Dispatch
+[INFO] 18:02:41:436 CPU/(6512:6512): Se genera el Thread del Interrupt con TID: 0
+[INFO] 18:02:41:436 CPU/(6512:6533): Entre al hilo
+[INFO] 18:02:41:436 CPU/(6512:6533): El valor del socket que recibe el thread es: 9
+[INFO] 18:50:40:168 CPU/(8221:8221): -------------------------
+[INFO] 18:50:40:168 CPU/(8221:8221): Iniciando log Proceso CPU
+[INFO] 18:50:40:168 CPU/(8221:8221): -------------------------
+[INFO] 18:50:40:168 CPU/(8221:8221): Se leyo la variable ENTRADAS_TLB: 4
+[INFO] 18:50:40:168 CPU/(8221:8221): Se leyo la variable REEMPLAZO_TLB: LRU
+[INFO] 18:50:40:168 CPU/(8221:8221): Se leyo la variable RETARDO_NOOP: 1000
+[INFO] 18:50:40:168 CPU/(8221:8221): Se leyo la variable IP_CPU: 192.168.0.233
+[INFO] 18:50:40:168 CPU/(8221:8221): Se leyo la variable IP_MEMORIA: 192.168.0.233
+[INFO] 18:50:40:168 CPU/(8221:8221): Se leyo la variable PUERTO_MEMORIA: 8002
+[INFO] 18:50:40:168 CPU/(8221:8221): Se leyo la variable PUERTO_DISPATCH: 9797
+[INFO] 18:50:40:168 CPU/(8221:8221): Se leyo la variable PUERTO_INTERRUPT: 8005
+[INFO] 18:50:40:168 CPU/(8221:8221): Conexion establecida con exito
+[INFO] 18:50:40:168 CPU/(8221:8221): Se intenta conectarse con la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  5
+[INFO] 18:50:40:168 CPU/(8221:8221): Se envia Handshake a la memoria
+[INFO] 18:50:40:169 CPU/(8221:8221): Mensaje recibido de la memoria:  2
+[INFO] 18:50:40:169 CPU/(8221:8221): Conexion establecida con la memoria
+[INFO] 18:50:40:169 CPU/(8221:8221): Server escuchando
+[INFO] 18:50:40:169 CPU/(8221:8221): Socket en el que se levanta el server SERVER DISPATCH: 6 en la IP: 192.168.0.233 y Puerto: 9797
+[INFO] 18:50:40:169 CPU/(8221:8221): Server escuchando
+[INFO] 18:50:40:169 CPU/(8221:8221): Socket en el que se levanta el server SERVER INTERRUPT: 7 en la IP: 192.168.0.233 y Puerto: 8005
+[INFO] 18:50:42:754 CPU/(8221:8221): Se acepto la conexion del Dispatch en el socket: 8
+[INFO] 18:50:42:754 CPU/(8221:8221): Se agrego al set de descriptores el descriptor: 8
+[INFO] 18:50:42:754 CPU/(8221:8221): Mensaje recibido dispatch: 21
+[INFO] 18:50:42:754 CPU/(8221:8221): Se envia Handshake 21 para dejar establecida la conexion del Dispatch
+[INFO] 18:50:42:755 CPU/(8221:8221): Se quiso conectar alguien al Server Interrupt
+[INFO] 18:50:42:755 CPU/(8221:8221): Se acepto la conexion del Interrupt en el socket: 9
+[INFO] 18:50:42:755 CPU/(8221:8221): Mensaje recibido interrupt: 23
+[INFO] 18:50:42:755 CPU/(8221:8221): Se envia Handshake 23 para dejar establecida la conexion del Dispatch
+[INFO] 18:50:42:755 CPU/(8221:8221): Se genera el Thread del Interrupt con TID: 0
+[INFO] 18:50:42:756 CPU/(8221:8237): Entre al hilo
+[INFO] 18:50:42:756 CPU/(8221:8237): El valor del socket que recibe el thread es: 9
