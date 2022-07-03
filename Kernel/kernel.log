@@ -1,0 +1,30 @@
+[INFO] 17:01:04:413 KERNEL/(3769:3769): Conexion establecida con exito
+[INFO] 17:01:04:414 KERNEL/(3769:3769): Creo conexion con la CPU DISPATCH en la IP 192.168.0.233 y puerto 9797 con el descriptor:  7
+[INFO] 17:01:04:414 KERNEL/(3769:3769): Se envia Handshake a CPU dispatch
+[INFO] 17:01:04:414 KERNEL/(3769:3769): Mensaje recibido del CPU:  22
+[INFO] 17:01:04:415 KERNEL/(3769:3769): Conexion establecida con la CPU dispatch
+[INFO] 17:01:04:415 KERNEL/(3769:3769): Conexion establecida con exito
+[INFO] 17:01:04:415 KERNEL/(3769:3769): Creo conexion con la CPU INTERRUPT en la IP 192.168.0.233 y puerto 8005 con el descriptor:  8
+[INFO] 17:01:04:415 KERNEL/(3769:3769): Se envia Handshake a la CPU interrupt
+[INFO] 17:01:04:415 KERNEL/(3769:3769): Mensaje recibido de la CPU interrupt:  24
+[INFO] 17:01:04:416 KERNEL/(3769:3769): Conexion establecida con la CPU interrupt
+[TRACE] 17:01:04:416 KERNEL/(3769:3769): MODO PLANIFICADOR CORTO PLAZO: FIFO
+
+[TRACE] 17:01:04:416 KERNEL/(3769:3769): EJECUTANDO: PLANIFICADOR LARGO PLAZO
+
+[TRACE] 17:01:04:416 KERNEL/(3769:3769): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO
+[INFO] 17:02:43:688 KERNEL/(3870:3870): Conexion establecida con exito
+[INFO] 17:02:43:689 KERNEL/(3870:3870): Creo conexion con la CPU DISPATCH en la IP 192.168.0.233 y puerto 9797 con el descriptor:  7
+[INFO] 17:02:43:689 KERNEL/(3870:3870): Se envia Handshake a CPU dispatch
+[INFO] 17:02:43:689 KERNEL/(3870:3870): Mensaje recibido del CPU:  22
+[INFO] 17:02:43:689 KERNEL/(3870:3870): Conexion establecida con la CPU dispatch
+[INFO] 17:02:43:690 KERNEL/(3870:3870): Conexion establecida con exito
+[INFO] 17:02:43:690 KERNEL/(3870:3870): Creo conexion con la CPU INTERRUPT en la IP 192.168.0.233 y puerto 8005 con el descriptor:  8
+[INFO] 17:02:43:690 KERNEL/(3870:3870): Se envia Handshake a la CPU interrupt
+[INFO] 17:02:43:690 KERNEL/(3870:3870): Mensaje recibido de la CPU interrupt:  24
+[INFO] 17:02:43:690 KERNEL/(3870:3870): Conexion establecida con la CPU interrupt
+[TRACE] 17:02:43:690 KERNEL/(3870:3870): MODO PLANIFICADOR CORTO PLAZO: FIFO
+
+[TRACE] 17:02:43:690 KERNEL/(3870:3870): EJECUTANDO: PLANIFICADOR LARGO PLAZO
+
+[TRACE] 17:02:43:690 KERNEL/(3870:3870): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO

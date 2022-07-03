@@ -99,5 +99,9 @@
 	void aceptoServerInterrupt(int socketAnalizar);
 	void aceptoServerDispatch(int socketAnalizar);
 	void * atencionInterrupt(void * socketInterrupt);
+	void compararLimitesConNuevoDescriptor(int nuevoSocket);
+	int levantarServerDispatch(void);
+	int levantarServerInterrupt(void);
+	void procesarPCB(void);
 
 #endif /* CPU_H_ */

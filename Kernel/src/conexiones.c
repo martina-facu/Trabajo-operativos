@@ -10,7 +10,7 @@
 void levantar_conexion_cpu_dispatch(char* ipServer, char* portServer, t_log* logger)
 {
 	socket_cpu_dispatch = crear_conexion(ipServer, portServer,logger);
-	log_info(logger, "Conexion establecida con la CPU dispatch en la IP %s y puerto %s con el descriptor:  %d", ipServer, portServer, socket_cpu_dispatch);
+	log_info(logger, "Creo conexion con la CPU DISPATCH en la IP %s y puerto %s con el descriptor:  %d", ipServer, portServer, socket_cpu_dispatch);
 
 
 	uint8_t handshake = INICIAR_CONEXION_DISPATCH;
@@ -34,8 +34,7 @@ void levantar_conexion_cpu_dispatch(char* ipServer, char* portServer, t_log* log
 void levantar_conexion_cpu_interrupt(char* ipServer, char* portServer, t_log* logger)
 {
 	socket_cpu_interrupt = crear_conexion(ipServer, portServer,logger);
-	log_info(logger, "Conexion establecida en la CPU interrupt en la IP %s y puerto %s con el descriptor:  %d", ipServer, portServer, socket_cpu_interrupt);
-
+	log_info(logger, "Creo conexion con la CPU INTERRUPT en la IP %s y puerto %s con el descriptor:  %d", ipServer, portServer, socket_cpu_interrupt);
 
 	uint8_t handshake= INICIAR_CONEXION_INTERRUPT;
 	send(socket_cpu_interrupt, &handshake, sizeof(uint8_t), 0);
@@ -52,13 +51,12 @@ void levantar_conexion_cpu_interrupt(char* ipServer, char* portServer, t_log* lo
 		log_error(logger, "No se puede establecer conexion con la CPU interrupt. El server contactado responde con un mensaje no predeterminado: %d.", respuesta);
 		exit(EXIT_FAILURE);
 	}
-
 }
 
 void levantar_conexion_memoria(char* ipServer, char* portServer, t_log* logger)
 {
 	socket_memoria = crear_conexion(ipServer, portServer,logger);
-	log_info(logger, "Conexion establecida en la memoria en la IP %s y puerto %s con el descriptor:  %d", ipServer, portServer, socket_memoria);
+	log_info(logger, "Creo conexion con la MEMORIA en la IP %s y puerto %s con el descriptor:  %d", ipServer, portServer, socket_memoria);
 
 
 	uint8_t handshake= INICIAR_CONEXION_KERNEL;

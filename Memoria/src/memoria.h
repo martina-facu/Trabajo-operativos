@@ -152,7 +152,7 @@ t_tabla* paginas_segundo_nivel; //tabla de paginas ed segundo nivel
 	int validoYAceptoConexionCPU(int temporalAcceptedConnection);
 	void iniciar_comunicacion();
 	int manejo_mensajes_kernel(int socket_cliente);
-	int manejo_mensajes_cpu(int socket_cliente);
+	void manejo_mensajes_cpu(int socket_cliente);
 
 	//MENSAJES
 	void inicializar_proceso(int socket_cliente);

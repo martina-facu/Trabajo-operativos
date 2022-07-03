@@ -121,7 +121,7 @@ void aceptoServerInterrupt(int socketAnalizar)
 		{
 			//	Acepto la conexion del cliente que se conecta
 			acceptedConecctionInterrupt = esperar_cliente(socketAnalizar, logger);
-			log_info(logger, "Se acepto la conexion del Interrupt en el socket: %d", acceptedConecctionDispatch);
+			log_info(logger, "Se acepto la conexion del Interrupt en el socket: %d", acceptedConecctionInterrupt);
 
 			//	Defino el mensaje a recibir (y lo recibo) del cliente cuando se conecta
 			uint8_t mensaje = 0;
@@ -134,6 +134,8 @@ void aceptoServerInterrupt(int socketAnalizar)
 				//	Defino para finalizar la aceptacion de la conexion
 				uint8_t handshake = ACEPTAR_CONEXION_INTERRUPT;
 				//	Envio el mensaje
+//				printf("\nEstoy por enviar el handshake pero para evaluar voy a dormir 15 segundos\n");
+//				sleep(15);
 				send(acceptedConecctionInterrupt, &handshake, sizeof(uint8_t), 0);
 				//	Levanto el nivel de concurrencia activa de Interrupt
 				log_info(logger, "Se envia Handshake %d para dejar establecida la conexion del Dispatch", mensaje);
@@ -216,27 +218,10 @@ int main(void)
 	fdmin = conexion_memoria;
 
 	//	Levanto el server para el DISPATCH
-	int kernel_dispatch = levantar_server(configuracion->IPCPU, configuracion->puertoDispatch, logger, SERVER_DISPATCH);
-	//	Verifico si el descriptor es mayor o menor al maximo o al minimo del select
-	//	Maximo
-	if( fdmax < kernel_dispatch)
-		fdmax = kernel_dispatch;
-	//	Minimo
-	if( kernel_dispatch < fdmin)
-		fdmin = kernel_dispatch;
-	//	Agrego el descriptor del server de DISPATCH al maestro del select
-	FD_SET(kernel_dispatch, &master_fd_set);
+	int kernel_dispatch =  levantarServerDispatch();
 
-	int kernel_interrupt = levantar_server(configuracion->IPCPU, configuracion->puertoInterrupt, logger, SERVER_INTERRUPT);
-	//	Verifico si el descriptor es mayor o menor al maximo o al minimo del select
-	//	Maximo
-	if( fdmax < kernel_interrupt)
-		fdmax = kernel_interrupt;
-	//	Minimo
-	if(kernel_interrupt < fdmin)
-		fdmin = kernel_interrupt;
-	//	Agrego el descriptor del server de DISPATCH al maestro del select
-	FD_SET(kernel_interrupt, &master_fd_set);
+	//	Levanto el server para el Interrupt
+	int kernel_interrupt = levantarServerInterrupt();
 
 	//	Comienzo con el ciclo de comunicaciones y ejecuciones
 	while(1)
@@ -252,13 +237,9 @@ int main(void)
 		 * 	La interrupcion se maneja con un thread independiente
 		 *
 		 */
-
-
 		//	Seteo tiempos de respuesta del select
 		tiempoSelect.tv_sec = 0;
 		tiempoSelect.tv_usec = 500;
-
-
 
 		//	Clono el set maestro en uno de read para revision del select
 		read_fd_set = master_fd_set;
@@ -291,17 +272,21 @@ int main(void)
 					//	con el Dispatch proceso la misma (recibo PCB
 					else if(i == acceptedConecctionDispatch)
 					{
-						if((activeDispatch == true) && (activeInterrupt == true) )
+						if (FD_ISSET(acceptedConecctionDispatch, &read_fd_set))
 						{
-							log_info(logger, "Voy a recibir y procesar un PCB del Dispatch");
-							//	Recibir pcb del kernel
-							//	REVISAR EL PRIMER PARAMETRO PORQUE NO SE USA Y NO SERIA NECESARIO
-//							pcb = obtener_pcb(acceptedConecctionDispatch);
-							pcb = recibirPCB(acceptedConecctionDispatch);
-							recibiPCB = true;
-							log_info(logger, "Voy a loguear informacion del PCB recibida por el Dispatch");
-							pcb_mostrar(pcb, logger);
+							log_info(logger, "Tengo que evaluar mensaje enviado por el Dispatch");
+							if((activeDispatch == true) && (activeInterrupt == true) )
+							{
+								log_info(logger, "Voy a recibir y procesar un PCB del Dispatch");
+								//	Recibir pcb del kernel
+								//	REVISAR EL PRIMER PARAMETRO PORQUE NO SE USA Y NO SERIA NECESARIO
+	//							pcb = obtener_pcb(acceptedConecctionDispatch);
+								pcb = recibirPCB(acceptedConecctionDispatch);
+								recibiPCB = true;
+								log_info(logger, "Voy a loguear informacion del PCB recibida por el Dispatch");
+								pcb_mostrar(pcb, logger);
 
+							}
 						}
 					}
 				}
@@ -311,24 +296,7 @@ int main(void)
 		//	Ejecutar ciclo de instrucciones
 
 		if(recibiPCB == true)
-		{
-			while (devolver_pcb == false)
-			{
-				log_info(logger, "Entre a ejecutar instrucciones");
-				ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
-			}
-
-			pcb_mostrar(pcb, logger);
-
-			//	DEVOLVER PCB AL KERNEL
-			uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
-			void* a_enviar = pcb_serializar(pcb,tamano_mensaje,1);
-			send(acceptedConecctionDispatch, a_enviar, *tamano_mensaje, 0);
-			recibiPCB = false;
-
-		}
-
-
+			procesarPCB();
 
 		//	Vuelvo a iniciar el proceso del While
 	}
@@ -346,6 +314,75 @@ int main(void)
 	return EXIT_SUCCESS;
 }
 
+
+/*
+ *  Funcion: procesarPCB
+ *  Entradas: 	void
+ *  Salidas: void
+ *  Razon: 	Proceso las instrucciones del PCB
+ *  Autor:
+ */
+void procesarPCB(void)
+{
+	log_info(logger, "Se recibio un PCB procedo a procesar el mismo");
+	while (devolver_pcb == false)
+	{
+		log_info(logger, "Entre a ejecutar instrucciones");
+		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
+	}
+	log_info(logger, "Voy a mostrar como quedo el contenido del PCB luego de la ejecucion");
+	pcb_mostrar(pcb, logger);
+
+	//	DEVOLVER PCB AL KERNEL
+	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
+	log_info(logger, "Se arma el stream para devolver el PCB al Kernel");
+	void* a_enviar = pcb_serializar(pcb,tamano_mensaje,1);
+	send(acceptedConecctionDispatch, a_enviar, *tamano_mensaje, 0);
+	log_info(logger, "Se devuelve el PCB al Kernel");
+	recibiPCB = false;
+
+
+}
+
+
+/*
+ *  Funcion: levantarServerDispatch
+ *  Entradas: 	void
+ *  Salidas: void
+ *  Razon: 	Se levanta el server para crear comunicacion con un Dispatch
+ *  Autor:
+ */
+
+
+int levantarServerDispatch()
+{
+	//	Levanto el server para el DISPATCH
+	int kernel_dispatch = levantar_server(configuracion->IPCPU, configuracion->puertoDispatch, logger, SERVER_DISPATCH);
+	//	Verifico si el descriptor es mayor o menor al maximo o al minimo del select
+	compararLimitesConNuevoDescriptor(kernel_dispatch);
+	//	Agrego el descriptor del server de DISPATCH al maestro del select
+	FD_SET(kernel_dispatch, &master_fd_set);
+	return kernel_dispatch;
+}
+
+/*
+ *  Funcion: levantarServerInterrupt
+ *  Entradas: 	void
+ *  Salidas: void
+ *  Razon: 	Se levanta el server para crear comunicacion con un Interrupt
+ *  Autor:
+ */
+int levantarServerInterrupt(void)
+{
+	int kernel_interrupt = levantar_server(configuracion->IPCPU, configuracion->puertoInterrupt, logger, SERVER_INTERRUPT);
+	//	Verifico si el descriptor es mayor o menor al maximo o al minimo del select
+	compararLimitesConNuevoDescriptor(kernel_interrupt);
+	//	Agrego el descriptor del server de DISPATCH al maestro del select
+	FD_SET(kernel_interrupt, &master_fd_set);
+
+	return kernel_interrupt;
+
+}
 /*
  *  Funcion: atencionInterrupt
  *  Entradas: 	void * socketInterrupt		parametros a castear enviados en la creacion del Thread
@@ -359,8 +396,10 @@ int main(void)
 
 void * atencionInterrupt(void * socketInterrupt)
 {
-	int iSocketInterrupt = *((int*) socketInterrupt);
+	log_info(logger,"Entre al hilo");
+	int iSocketInterrupt = (int) socketInterrupt;
 
+	log_info(logger,"El valor del socket que recibe el thread es: %d", iSocketInterrupt);
 	activeInterrupt = true;
 
 	while(1)
@@ -385,4 +424,23 @@ void * atencionInterrupt(void * socketInterrupt)
 
 
     return NULL;
+}
+
+/*
+ *  Funcion: compararLimitesConNuevoDescriptor
+ *  Entradas: 	int nuevoSocket		Nuevo socket que se ingresara al select
+ *  Salidas: void
+ *  Razon: 	Se compara el nuevo socket con los maximos y minimos del select.
+ *  		En caso de el mismo ser mayor o menor que el anterior limite
+ *  		se lo modifica.
+ *  Autor:
+ */
+
+void compararLimitesConNuevoDescriptor(int nuevoSocket)
+{
+	if( fdmax < nuevoSocket)
+		fdmax = nuevoSocket;
+	//	Minimo
+	if( nuevoSocket < fdmin)
+		fdmin = nuevoSocket;
 }

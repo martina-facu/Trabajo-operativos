@@ -1,0 +1,4 @@
+[TRACE] 17:01:08:223 planificador_corto_plazo/(3769:3785): recibi un proceso ID: 0 
+[TRACE] 17:01:08:223 planificador_corto_plazo/(3769:3785): error null
+[TRACE] 17:03:07:434 planificador_corto_plazo/(3870:3886): recibi un proceso ID: 0 
+[TRACE] 17:03:07:434 planificador_corto_plazo/(3870:3886): error null

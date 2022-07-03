@@ -1,0 +1,37 @@
+[INFO] 17:02:49:039 CONSOLA/(3905:3905): -------------------------
+[INFO] 17:02:49:050 CONSOLA/(3905:3905): Iniciando log Proceso CONSOLA
+[INFO] 17:02:49:051 CONSOLA/(3905:3905): -------------------------
+[INFO] 17:02:49:051 CONSOLA/(3905:3905): El archivo de instrucciones para esta consola es: /home/utnso/tp-2022-1c-9-12/Consola/instrucciones.txt
+[INFO] 17:02:49:051 CONSOLA/(3905:3905): El tamaño del proceso para esta consola es: 10
+[INFO] 17:02:49:059 CONSOLA/(3905:3905): La IP de conexion al Kernel es: 192.168.0.233
+[INFO] 17:02:49:059 CONSOLA/(3905:3905): El puerto de conexion al Kernel es: 8000
+[INFO] 17:02:49:060 CONSOLA/(3905:3905): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 17:02:49:060 CONSOLA/(3905:3905): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 17:02:49:060 CONSOLA/(3905:3905): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 17:02:49:060 CONSOLA/(3905:3905): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 17:02:49:060 CONSOLA/(3905:3905):  4000 
+[INFO] 17:02:49:060 CONSOLA/(3905:3905): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 17:02:49:060 CONSOLA/(3905:3905):  4 
+[INFO] 17:02:49:060 CONSOLA/(3905:3905):  42 
+[INFO] 17:02:49:060 CONSOLA/(3905:3905): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 17:02:49:060 CONSOLA/(3905:3905):  0 
+[INFO] 17:02:49:060 CONSOLA/(3905:3905):  4 
+[INFO] 17:02:49:060 CONSOLA/(3905:3905): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 17:02:49:060 CONSOLA/(3905:3905):  0 
+[INFO] 17:02:49:060 CONSOLA/(3905:3905): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 17:02:49:060 CONSOLA/(3905:3905): Conexion establecida con exito
+[INFO] 17:02:49:060 CONSOLA/(3905:3905): Se establece una conexion voy a comenzar con el envio de Handshake para validar la misma
+[INFO] 17:02:49:060 CONSOLA/(3905:3905): Se envia Handshake al Kernel
+[INFO] 17:02:49:060 CONSOLA/(3905:3905): Mensaje recibido del Kernel:  62
+[INFO] 17:02:49:060 CONSOLA/(3905:3905): Conexion establecida con el Kernel
+[INFO] 17:02:49:060 CONSOLA/(3905:3905): Se envio el mensaje  al KERNEL de tamaño 45
+[INFO] 17:03:09:506 CONSOLA/(3905:3905): Se recibio la respuesta 0 del KERNEL
+[INFO] 17:03:09:507 CONSOLA/(3905:3905): No pudo finalizarse en forma exitosa el proceso

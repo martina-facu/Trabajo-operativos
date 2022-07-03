@@ -176,7 +176,7 @@ void aceptoYEvaluoConexion(int socketAnalizar)
 
 	//	Acepto las conexiones para luego validar que tipo es y si corresponde mantenerla
 	temporalAcceptedConnection = esperar_cliente(socketAnalizar, logger);
-	log_info(logger, "Se acepto temporalmente conexion en el puerto: %d para evaluar la misma", temporalAcceptedConnection);
+	log_info(logger, "Se acepto temporalmente conexion en el descriptor: %d para evaluar la misma", temporalAcceptedConnection);
 
 	//	Recibo el tipo de mensaja para saber si es Kernel o CPU
 	uint8_t mensaje = 0;
@@ -336,7 +336,7 @@ int manejo_mensajes_kernel(int acceptedConecctionKernel){
 				break;
 
 				default:
-					log_info(logger,"El mensaje recibido no corresponde a ninguno de los preestablecidos: %d", mensaje);
+					log_info(logger,"El mensaje recibido no corresponde a ninguno de los preestablecidos para el Kernel: %d", mensaje);
 					log_info(logger,"Procedo a cerrar sesion temporal establecida en el descriptor: %d", acceptedConecctionKernel);
 					close(acceptedConecctionKernel);
 				break;
@@ -354,20 +354,20 @@ int manejo_mensajes_kernel(int acceptedConecctionKernel){
  *  Razon: 	Validar el tipo de mensaje que se recibe del cpu y responder
  */
 
-int manejo_mensajes_cpu(int acceptedConecctionCPU){
-	uint8_t mensaje = 0;
-	recv(acceptedConecctionKernel, &mensaje, sizeof(uint8_t), 0);
-	log_info(logger, "Mensaje recibido en el server Memoria para aceptar conexiones: %d", mensaje);
-
-	switch(mensaje){
-					default:
-						log_info(logger,"El mensaje recibido no corresponde a ninguno de los preestablecidos: %d", mensaje);
-						log_info(logger,"Procedo a cerrar sesion temporal establecida en el descriptor: %d", acceptedConecctionKernel);
-						close(acceptedConecctionKernel);
-					break;
-				}
-
-		return acceptedConecctionCPU; //ESTO ESTA BIEN HERNAN?
+void manejo_mensajes_cpu(int acceptedConecctionCPU){
+//	uint8_t mensaje = 0;
+//	recv(acceptedConecctionKernel, &mensaje, sizeof(uint8_t), 0);
+//	log_info(logger, "Mensaje recibido en el server Memoria para aceptar conexiones: %d", mensaje);
+//
+//	switch(mensaje){
+//					default:
+//						log_info(logger,"El mensaje recibido no corresponde a ninguno de los preestablecidos para la CPU: %d", mensaje);
+//						log_info(logger,"Procedo a cerrar sesion temporal establecida en el descriptor: %d", acceptedConecctionKernel);
+//						close(acceptedConecctionKernel);
+//					break;
+//				}
+//
+//		return acceptedConecctionCPU; //ESTO ESTA BIEN HERNAN?
 }
 
 void liberar_conexion(int socket_cliente){
