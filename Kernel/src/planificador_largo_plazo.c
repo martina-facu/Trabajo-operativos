@@ -44,7 +44,7 @@ void* gestionar_comunicacion(void* aux)
 	t_list* instrucciones = deserializar_mensaje(socket, &espacio, PLP);
 //	t_list* instrucciones = deserializar_paquete_instrucciones(socket,&espacio, PLP);
 	// CREO UN PCB CON ESAS INSTRUCCIONES Y EL ESPACIO QUE VA A OCUPAR
-	pcb_t* pcb=  pcb_create(espacio,instrucciones,id, estimacion_inicial);
+	pcb_t* pcb=  pcb_create(espacio,instrucciones,id, configuracion->estimacion_inicial);
 
 	// AÑADO EL PCB CREADO A NEW
 	pthread_mutex_lock(&mx_new_l);
@@ -52,15 +52,15 @@ void* gestionar_comunicacion(void* aux)
 	pthread_mutex_unlock(&mx_new_l);
 	log_trace(PLP,"se agrego un proceso a new, ID: %d", pcb->pid);
 
-
-
 	// CREO EL SEMAFORO CUYA FUNCION VA A SER ESPERAR QUE EL PROCESO FINALICE PARA PODER AVISARLE A LA CONSOLA QUE FINALIZO
 	sem_t s;
 	sem_init(&s,0,0);
-
 	log_trace(PLP,"se creo una comunicacion");
-	// CREO UNA VARIABLE DE ESTRUCTURA COMUNICACION PARA PODER GUARDAR EL SEMAFORO Y EL IDENTIFICADOR DEL PROCESO PARA QUE
-	// LA FUNCION: FINALIZAR PROCESO SEPA A CUAL HILO DEBE DESBLOQUEAR PARA AVISAR LA FINALIZACION DEL MISMO
+	/*
+	 *	CREO UNA VARIABLE DE ESTRUCTURA COMUNICACION PARA PODER GUARDAR EL SEMAFORO Y EL
+	 *	IDENTIFICADOR DEL PROCESO PARA QUE LA FUNCION: FINALIZAR PROCESO SEPA A CUAL HILO
+	 *	DEBE DESBLOQUEAR PARA AVISAR LA FINALIZACION DEL MISMO
+	 */
 	comunicacion_t* comunicacion = comunicacion_create(&s,pcb->pid);
 	pthread_mutex_lock(&mx_comunicaciones_l);
 	list_add(comunicaciones_l,comunicacion);
@@ -159,7 +159,8 @@ void* comunicacion_con_consolas()
 //--------------------------------------------------------------------------------------//
 void* pasar_a_ready(){
 	while(1){
-		// ESPERO QUE HAYA UN PROCESO EN NEW Y QUE EL GRADO DE MULTIPROGRAMACION ME PERMITA ASIGNAR MEMORIA
+		// 	ESPERO QUE HAYA UN PROCESO EN NEW Y QUE EL GRADO DE MULTIPROGRAMACION
+		//	ME PERMITA ASIGNAR MEMORIA
 		sem_wait(&s_proceso_new);
 		sem_wait(&s_grado_multiprogramacion);
 		// SACO AL PCB DE LA LISTA DE NEW
@@ -168,9 +169,10 @@ void* pasar_a_ready(){
 		pthread_mutex_unlock(&mx_new_l);
 		log_trace(PLP,"se pasa un proceso a ready, ID: %d",pcb->pid);
 
-		// TODO PEDIR MEMORIA
+		// 	TODO PEDIR MEMORIA
 
-		// LO AGREGO A UN BUFFER ENTRE PLP Y PCP, PARA QUE EL PCP LO SAQUE DEL BUFFER Y NO DE LA LISTA DE NEW
+		//	LO AGREGO A UN BUFFER ENTRE PLP Y PCP, PARA QUE EL PCP LO SAQUE
+		//	DEL BUFFER Y NO DE LA LISTA DE NEW
 		pthread_mutex_lock(&mx_newM_l);
 		list_add(newM_l,pcb);
 		pthread_mutex_unlock(&mx_newM_l);

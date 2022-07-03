@@ -16,7 +16,7 @@
 #include <semaphore.h>
 #include <unistd.h>
 #include <time.h>
-#include "pcb.h"
+#include <pcb.h>
 #include "listas.h"
 #include "semaforos.h"
 #include "planificador_mediano_plazo.h"
@@ -87,7 +87,8 @@ void* agregar_a_ready(){ // REVISAR(no estoy seguro que sea un problema): SI SE 
 //--------------------------------------------------------------------------------------//
 
 void* enviar_a_ejecutar()  {
-	while(1){
+	while(1)
+	{
 		// ESPERO QUE HAYA PROCESOS PARA EJECUTAR Y QUE NO SE ESTE EJECUTANDO NINGUNO
 		sem_wait(&s_cpu);
 		sem_wait(&s_proceso_ejecutando);
@@ -125,7 +126,8 @@ void remover_de_lista(t_list* lista,pcb_t* pcb){
 void* bloquear_proceso(void* pcb_){
 	pcb_t* pcb= pcb_;
 	// EVALUO SI HAY QUE SUSPENDER
-	if(pcb->tiempo_block>TIEMPO_BLOCK_MAX){ // CONDICION DE SUSPENSION
+	if(pcb->tiempo_block > configuracion->TIEMPO_BLOCK_MAX)
+	{ // CONDICION DE SUSPENSION
 		log_trace(PCP,"se va a suspender un proceso por %d, ID: %d", pcb->tiempo_block,pcb->pid);
 		// LO SACO DE LISTAS DE BLOQUEADOS
 		pthread_mutex_lock(&mx_block_l);
@@ -184,7 +186,8 @@ void* bloquear_proceso(void* pcb_){
 	return NULL;
 }
 
-pcb_t* recibir_paquete_pcb(){
+pcb_t* recibir_paquete_pcb()
+{
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 	t_buffer* buffer = malloc(sizeof(t_buffer));
 	recv(socket_cpu_dispatch,&paquete->codigo_operacion,sizeof(uint8_t),0);
@@ -192,6 +195,7 @@ pcb_t* recibir_paquete_pcb(){
 	buffer->stream = malloc(buffer->size);
 	recv(socket_cpu_dispatch,buffer->stream,buffer->size,0);
 	pcb_t* pcb = pcb_deserializar(buffer);
+	pcb_mostrar(pcb, PCP);
 	log_trace(PCP,"recibi un proceso ID: %d ",pcb->pid);
 	return pcb;
 }
@@ -205,7 +209,8 @@ pcb_t* recibir_paquete_pcb(){
 //					AVISAR QUE NO HAY NINGUN PROCESO EJECUTANDO
 //--------------------------------------------------------------------------------------//
 void* recibir_proceso_de_cpu(){
-	while(1){
+	while(1)
+	{
 		pcb_t* pcb = recibir_paquete_pcb();
 		if(pcb->estado == FINALIZADO){ // SE PODRIA MODELAR CON UN SWITCH
 			// AGREGARLO A FINALIZADO QUE ES UN BUFFER ENTRE PLP Y PCP

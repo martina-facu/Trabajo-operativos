@@ -26,29 +26,29 @@
 #ifndef KERNEL_H_
 #define KERNEL_H_
 
-	typedef struct
-	{
-
-		int grado_multiprogramacion;
-		double TIEMPO_BLOCK_MAX;
-		char* algoritmo;
-		double estimacion_inicial;
-		double alpha;
-		char* IP_CPU;
-		char* IP_MEMORIA;
-		char* PUERTO_ESCUCHA;
-		char* PUERTO_MEMORIA;
-		char* PUERTO_CPU_DISPATCH;
-		char* PUERTO_CPU_INTERRUPT;
-		char* IP_KERNEL;
-
-	}t_config_kernel;
+//	typedef struct
+//	{
+//
+//		int grado_multiprogramacion;
+//		double TIEMPO_BLOCK_MAX;
+//		char* algoritmo;
+//		double estimacion_inicial;
+//		double alpha;
+//		char* IP_CPU;
+//		char* IP_MEMORIA;
+//		char* PUERTO_ESCUCHA;
+//		char* PUERTO_MEMORIA;
+//		char* PUERTO_CPU_DISPATCH;
+//		char* PUERTO_CPU_INTERRUPT;
+//		char* IP_KERNEL;
+//
+//	}t_config_kernel;
 
 /*
  * Listado de variables globales
 */
 	t_log* logger;
-	t_config_kernel* configuracion;
+//	t_config_kernel* configuracion;
 
 /*
  * Prototipo de funciones

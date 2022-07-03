@@ -111,7 +111,7 @@ void inicializar_semaforos(){
 	sem_init(&s_cpu,0,0);
 	sem_init(&s_proceso_finalizado,0,0);
 	sem_init(&s_proceso_new,0,0);
-	sem_init(&s_grado_multiprogramacion,0,grado_multiprogramacion);// contador
+	sem_init(&s_grado_multiprogramacion,0,configuracion->grado_multiprogramacion);// contador
 	sem_init(&s_proceso_susp,0,0);
 	sem_init(&s_interrupcion,0,0);
 	sem_init(&s_susp,0,0);
