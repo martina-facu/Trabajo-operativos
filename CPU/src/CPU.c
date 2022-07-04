@@ -4,36 +4,7 @@
 
 
 
-void ejecutar_ciclo_instrucciones(pcb_t* pcb,t_config* config, bool* devolver_pcb) {
-	t_list* instrucciones = pcb->instrucciones;
-	uint32_t program_counter = pcb->program_counter;
 
-	//fetch
-	Instruccion* instruccion = list_get(instrucciones,program_counter);
-	program_counter++;
-	pcb->program_counter = program_counter;
-
-	//decode
-	bool requiere_fetch_operands = false;
-	if (instruccion->id == 4) {
-		requiere_fetch_operands = true;
-	}
-
-	//fetch_operands
-	if (requiere_fetch_operands) {
-		// TODO: Ir a buscar los fetch operands, seria solo en la instruccion copy, va a ser una llamada a memoria
-		printf("\nES UNA INSTRUCCION COPY");
-		printf("\n");
-	}
-
-	//execute
-	*devolver_pcb = execute(instruccion,configuracion->retardoNoOp,pcb);
-
-	//check interrupt
-	if (*devolver_pcb == false) {
-		*devolver_pcb = interrupcion;
-	}
-}
 
 t_config_cpu* crearConfigCPU(void)
 {
@@ -336,12 +307,12 @@ void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
  */
 void procesarPCB(void)
 {
-	log_info(logger, "Se recibio un PCB procedo a procesar el mismo");
+	log_info(logger, "Se recibio un PCB y procedo a ejecutar el mismo");
 	while (devolver_pcb == false)
-	{
-		log_info(logger, "Entre a ejecutar instrucciones");
-		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
-	}
+		ejecutar_ciclo_instrucciones(pcb, &devolver_pcb, configuracion->retardoNoOp, configuracion->entradasTLB, acceptedConecctionDispatch, 0, logger);
+//		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
+
+
 	log_info(logger, "Voy a mostrar como quedo el contenido del PCB luego de la ejecucion");
 	pcb_mostrar(pcb, logger);
 

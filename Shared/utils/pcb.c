@@ -13,26 +13,31 @@
 #include "pcb.h"
 
 
-pcb_t *pcb_create(uint32_t tamano, t_list* instrucciones,uint32_t pid, double estimacion_inicial)
+pcb_t *pcb_create(uint32_t tamano, t_list* instrucciones,uint32_t pid, double estimacion_inicial,
+		uint32_t tabla_paginas, uint32_t estimado_rafaga)
 {
 	pcb_t *pcb = malloc(sizeof(pcb_t));
 	pcb->pid = pid;
 	pcb->tamano = tamano;
 	pcb->program_counter = 0;
-	pcb->estimado_rafaga = estimacion_inicial;
+	pcb->estimado_rafaga = estimado_rafaga;
+//	pcb->estimado_rafaga = estimacion_inicial;
 	pcb->estado = INICIADO;
 	pcb->tiempo_block = 0;
-	pcb->tabla_paginas = 0;
+	pcb->tabla_paginas = tabla_paginas;
+//	pcb->tabla_paginas = 0;
 	pcb->instrucciones = instrucciones;
 	return pcb;
 }
 
-uint32_t pcb_calcular_espacio(pcb_t* pcb) {
+uint32_t pcb_calcular_espacio(pcb_t* pcb)
+{
 	uint32_t tamano_instrucciones = calcular_espacio_instrucciones(pcb->instrucciones);
 	return  tamano_instrucciones + sizeof(uint32_t) * 7; // PID, TAMANO, PC, ESTIMACION, estado, tiempo_bloqueo, TABLA
 }
 
-void *pcb_armar_stream(pcb_t *pcb) {
+void *pcb_armar_stream(pcb_t *pcb)
+{
 	int tamano_pcb = pcb_calcular_espacio(pcb);
 	void* stream = malloc(tamano_pcb);
 
@@ -65,7 +70,8 @@ void *pcb_armar_stream(pcb_t *pcb) {
 }
 
 
-void* pcb_serializar(pcb_t* pcb, uint32_t* tamano_mensaje, uint8_t codigo_operacion) {
+void* pcb_serializar(pcb_t* pcb, uint32_t* tamano_mensaje, uint8_t codigo_operacion)
+{
 	void* stream_pcb = pcb_armar_stream(pcb);
 	uint32_t tamano_pcb = pcb_calcular_espacio(pcb);
 
@@ -80,34 +86,8 @@ void* pcb_serializar(pcb_t* pcb, uint32_t* tamano_mensaje, uint8_t codigo_operac
 	return a_enviar;
 }
 
-pcb_t* recibirPCB(int socket)
+pcb_t* pcb_deserializar(t_buffer* buffer)
 {
-
-	t_paquete* paquete = malloc(sizeof(t_paquete));
-
-	paquete->buffer = malloc(sizeof(t_buffer));
-	t_buffer* buffer = paquete->buffer;
-	printf("\nAntes del primer recibir\n");
-	//recibimos el codigo del tipo de mensaje que nos llega
-	recv(socket, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
-	printf("\nDespues del primer recibir\n");
-
-	//recibo el tamaño del paquete
-	recv(socket, &(buffer->size), sizeof(uint32_t), 0);
-	printf("\nDespues del segundo recibir\n");
-
-	//recibo el buffer con el pcb
-	buffer->stream = malloc(buffer->size);
-	recv(socket, buffer->stream, buffer->size, 0);
-	printf("\nDespues del tercer recibir\n");
-
-	pcb_t* pcb = pcb_deserializar(buffer);
-
-	return pcb;
-}
-
-
-pcb_t* pcb_deserializar(t_buffer* buffer) {
 	pcb_t* pcb = malloc(sizeof(pcb_t));
 	void* stream = buffer->stream;
 
@@ -159,4 +139,26 @@ void pcb_mostrar(pcb_t* pcb, t_log* logger)
 	printf("TIEMPO BLOQUEO: %d\n", pcb->tiempo_block);
 	log_info(logger, "TIEMPO BLOQUEO: %d\n", pcb->tiempo_block);
 	mostrar_instrucciones(pcb->instrucciones, logger);
+}
+
+pcb_t* recibirPCB(int socket)
+{
+
+	t_paquete* paquete = malloc(sizeof(t_paquete));
+
+	paquete->buffer = malloc(sizeof(t_buffer));
+	t_buffer* buffer = paquete->buffer;
+	//recibimos el codigo del tipo de mensaje que nos llega
+	recv(socket, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
+
+	//recibo el tamaño del paquete
+	recv(socket, &(buffer->size), sizeof(uint32_t), 0);
+
+	//recibo el buffer con el pcb
+	buffer->stream = malloc(buffer->size);
+	recv(socket, buffer->stream, buffer->size, 0);
+
+	pcb_t* pcb = pcb_deserializar(buffer);
+
+	return pcb;
 }

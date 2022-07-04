@@ -22,6 +22,7 @@
 		uint8_t id;
 	} Instruccion;
 
+	typedef enum {NO_VALIDO, NO_OP, I_O,WRITE, COPY, READ, EXIT} INSTRUCCION;
 
 /*
  * Prototipo de funciones
@@ -36,5 +37,7 @@
 	void* armar_stream_instruccion(t_list* instrucciones);
 	t_list* deserializar_paquete_instrucciones(int cliente, uint32_t* tamano_proceso, t_log* logger);
 	t_list* deserializar_mensaje(int cliente, uint32_t* tamano_proceso, t_log* logger);
+	void* armar_stream_instruccion(t_list* instrucciones);
+	void destruir_lista_instrucciones(t_list* instrucciones);
 
 #endif

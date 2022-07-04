@@ -36,18 +36,18 @@
 	 */
 
 
-	typedef struct
-	{
-
-		int entradasTLB;
-		char* algoritmoReemplazoTLB;
-		int retardoNoOp;
-		char* IPMemoria;
-		char* IPCPU;
-		char* puertoMemoria;
-		char* puertoDispatch;
-		char* puertoInterrupt;
-	}t_config_cpu;
+//	typedef struct
+//	{
+//
+//		int entradasTLB;
+//		char* algoritmoReemplazoTLB;
+//		int retardoNoOp;
+//		char* IPMemoria;
+//		char* IPCPU;
+//		char* puertoMemoria;
+//		char* puertoDispatch;
+//		char* puertoInterrupt;
+//	}t_config_cpu;
 
 /*
  * Listado de variables globales

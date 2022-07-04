@@ -4,44 +4,45 @@
 
 uint8_t definirCodigo(char* id)
 {
-	if (string_contains(id, "NO_OP"))
-	{
-		return 1;
+	if (string_contains(id, "NO_OP")) {
+		return NO_OP;
 	}
 	if (string_contains(id, "I/O")) {
-		return 2;
+		return I_O;
 	}
 	if (string_contains(id, "WRITE")) {
-		return 3;
+		return WRITE;
 	}
 	if (string_contains(id, "COPY")) {
-		return 4;
+		return COPY;
 	}
 	if (string_contains(id, "READ")) {
-		return 5;
+		return READ;
 	}
 	if (string_contains(id, "EXIT")) {
-		return 6;
+		return EXIT;
 	}else{
 		return -1;
 	}
 }
 
-int getCantidadParametros(uint8_t id) {
-	switch (id) {
-	case 2: case 5:
-		return 1;
-		break;
-	case 3: case 4:
-		return 2;
-		break;
-	case 1: case 6:
-		return 0;
-		break;
-	default:
-		printf("\n Se ingreso una operacion incorrecta");
-		return -1;
-		break;
+int getCantidadParametros(uint8_t id)
+{
+	switch (id)
+	{
+		case I_O: case READ:
+			return 1;
+			break;
+		case WRITE: case COPY:
+			return 2;
+			break;
+		case NO_OP: case EXIT:
+			return 0;
+			break;
+		default:
+			printf("\n Se ingreso una operacion incorrecta");
+			return -1;
+			break;
 	}
 }
 
@@ -59,7 +60,8 @@ void mostrar_parametros(t_list* list, t_log* logger)
 void mostrar_instrucciones(t_list* list, t_log* logger)
 {
 	int aux = list_size(list);
-	Instruccion* instruccion = malloc(sizeof(Instruccion));
+	Instruccion* instruccion;
+//	Instruccion* instruccion = malloc(sizeof(Instruccion));
 	char* nombre[6]={"NO_OP", "I/O", "WRITE", "COPY", "READ", "EXIT"}; // TODO: Liberar la memoria de este array
 
 
@@ -72,9 +74,11 @@ void mostrar_instrucciones(t_list* list, t_log* logger)
 
 }
 
-int calcular_espacio_instrucciones(t_list* instrucciones){
+int calcular_espacio_instrucciones(t_list* instrucciones)
+{
 	int size = sizeof(uint32_t); // cantidad de instrucciones
-	Instruccion* instruccion = malloc(sizeof(instruccion));
+	Instruccion* instruccion;
+//	Instruccion* instruccion = malloc(sizeof(instruccion));
 	int aux=list_size(instrucciones);
 
 	for(int i=0;i<aux;i++){
@@ -85,19 +89,24 @@ int calcular_espacio_instrucciones(t_list* instrucciones){
 	return size;
 }
 
-void* armar_stream_instruccion(t_list* instrucciones){
+void* armar_stream_instruccion(t_list* instrucciones)
+{
 	void* stream = malloc(calcular_espacio_instrucciones(instrucciones));
 	int desplazamiento=0;
-	Instruccion* instruccion = malloc(sizeof(instruccion));
+	Instruccion* instruccion;
+//	Instruccion* instruccion = malloc(sizeof(instruccion));
 	uint32_t aux=list_size(instrucciones);
-	memcpy(stream+desplazamiento,&aux,sizeof(uint32_t)); // CANT DE INSTRUCCIONES
+
+
+	memcpy(stream,&aux,sizeof(uint32_t)); // CANT DE INSTRUCCIONES
 	desplazamiento+= sizeof(uint32_t);
-	uint8_t aux2;
+
+	uint8_t id;
 	int* prm;
 	for(int i=0;i<list_size(instrucciones);i++){
 		instruccion= list_get(instrucciones,i);
-		aux2= instruccion->id;
-		memcpy(stream+desplazamiento,&aux2,sizeof(uint8_t)); // ID
+		id= instruccion->id;
+		memcpy(stream+desplazamiento,&id,sizeof(uint8_t)); // ID
 		desplazamiento+=sizeof(uint8_t);
 		int cant_prm = list_size(instruccion->parametros);
 		for(int i=0;i<cant_prm;i++){							// PARAMETROS
@@ -106,6 +115,24 @@ void* armar_stream_instruccion(t_list* instrucciones){
 			desplazamiento+=sizeof(uint32_t);
 		}
 	}
+
+	//	memcpy(stream+desplazamiento,&aux,sizeof(uint32_t)); // CANT DE INSTRUCCIONES
+	//	desplazamiento+= sizeof(uint32_t);
+
+//	uint8_t aux2;
+//	int* prm;
+//	for(int i=0;i<list_size(instrucciones);i++){
+//		instruccion= list_get(instrucciones,i);
+//		aux2= instruccion->id;
+//		memcpy(stream+desplazamiento,&aux2,sizeof(uint8_t)); // ID
+//		desplazamiento+=sizeof(uint8_t);
+//		int cant_prm = list_size(instruccion->parametros);
+//		for(int i=0;i<cant_prm;i++){							// PARAMETROS
+//			prm= list_get(instruccion->parametros,i);
+//			memcpy(stream+desplazamiento,prm,sizeof(uint32_t));
+//			desplazamiento+=sizeof(uint32_t);
+//		}
+//	}
 	return stream;
 }
 
@@ -118,7 +145,8 @@ void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones)
 	uint8_t id;
 	memcpy(&cant_instrucciones,stream,sizeof(uint32_t));
 	stream+=sizeof(uint32_t);
-	for(int i=0;i<cant_instrucciones;i++){
+	for(int i=0;i<cant_instrucciones;i++)
+	{
 		Instruccion* instruccion = malloc(sizeof(Instruccion));
 		instruccion->parametros= list_create();
 		memcpy(&id,stream,sizeof(uint8_t));
@@ -131,7 +159,6 @@ void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones)
 			stream+=sizeof(uint32_t);
 			list_add(instruccion->parametros,parametro);
 		}
-//		printf("\nInstruccion: %s\n", instruccion->parametros->head->data);
 		list_add(instrucciones,instruccion);
 	}
 }
@@ -159,7 +186,7 @@ t_list* deserializar_paquete_instrucciones(int cliente, uint32_t* tamano_proceso
 
 	recv(cliente, tamano_proceso, sizeof(uint32_t), 0);
 
-	log_info(logger, "Tamaño de las instrucciones a recibir: %d", &tamano_proceso);
+	log_info(logger, "Tamaño de las instrucciones a recibir: %d", *tamano_proceso);
 
 	return instrucciones;
 }
@@ -184,7 +211,6 @@ t_list* deserializar_mensaje(int cliente, uint32_t* tamano_proceso, t_log* logge
 	//recibo el buffer con las instrucciones
 	buffer->stream = malloc(buffer->size);
 	recv(cliente, buffer->stream, buffer->size, 0);
-//	log_info(logger,"Recibo el siguiente buffer: %s", buffer->stream);
 
 	t_list* instrucciones = list_create();
 	deserializar_instrucciones(buffer, instrucciones);
@@ -195,4 +221,19 @@ t_list* deserializar_mensaje(int cliente, uint32_t* tamano_proceso, t_log* logge
 	log_info(logger, "Tamaño del proceso a recibir: %d", *tamano_proceso);
 
 	return instrucciones;
+}
+
+void destruir_lista_instrucciones(t_list* instrucciones)
+{
+	void _destruir_instruccion(void* instruccion){
+		t_list* parametros = ((Instruccion*)instruccion)->parametros;
+
+		void _destruir_parametro(void* parametro){
+			free(parametro);
+		}
+
+		list_clean_and_destroy_elements(parametros, _destruir_parametro);
+	}
+
+	list_destroy_and_destroy_elements(instrucciones, _destruir_instruccion);
 }
