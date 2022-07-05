@@ -249,6 +249,7 @@ bool execute(Instruccion* instruccion,int dormir, int cantidad_entradas, int con
 		case EXIT:
 			log_info(logger, "CPU-EXECUTE Proceso una operacion de EXIT");
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
+			pcb->estado = FINALIZADO;
 			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
 			sleep(5);
 			return true;

@@ -1,259 +1,598 @@
-[INFO] 09:52:40:469 CPU/(24826:24826): -------------------------
-[INFO] 09:52:40:470 CPU/(24826:24826): Iniciando log Proceso CPU
-[INFO] 09:52:40:470 CPU/(24826:24826): -------------------------
-[INFO] 09:52:40:470 CPU/(24826:24826): Se leyo la variable ENTRADAS_TLB: 4
-[INFO] 09:52:40:470 CPU/(24826:24826): Se leyo la variable REEMPLAZO_TLB: LRU
-[INFO] 09:52:40:470 CPU/(24826:24826): Se leyo la variable RETARDO_NOOP: 1000
-[INFO] 09:52:40:471 CPU/(24826:24826): Se leyo la variable IP_CPU: 192.168.0.233
-[INFO] 09:52:40:471 CPU/(24826:24826): Se leyo la variable IP_MEMORIA: 192.168.0.233
-[INFO] 09:52:40:471 CPU/(24826:24826): Se leyo la variable PUERTO_MEMORIA: 8002
-[INFO] 09:52:40:471 CPU/(24826:24826): Se leyo la variable PUERTO_DISPATCH: 9797
-[INFO] 09:52:40:471 CPU/(24826:24826): Se leyo la variable PUERTO_INTERRUPT: 8005
-[INFO] 09:52:40:471 CPU/(24826:24826): Conexion establecida con exito
-[INFO] 09:52:40:471 CPU/(24826:24826): Se intenta conectarse con la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  5
-[INFO] 09:52:40:471 CPU/(24826:24826): Se envia Handshake a la memoria
-[INFO] 09:52:40:471 CPU/(24826:24826): Mensaje recibido de la memoria:  2
-[INFO] 09:52:40:472 CPU/(24826:24826): Conexion establecida con la memoria
-[INFO] 09:52:40:472 CPU/(24826:24826): Server escuchando
-[INFO] 09:52:40:472 CPU/(24826:24826): Socket en el que se levanta el server SERVER DISPATCH: 6 en la IP: 192.168.0.233 y Puerto: 9797
-[INFO] 09:52:40:472 CPU/(24826:24826): Server escuchando
-[INFO] 09:52:40:472 CPU/(24826:24826): Socket en el que se levanta el server SERVER INTERRUPT: 7 en la IP: 192.168.0.233 y Puerto: 8005
-[INFO] 09:52:43:539 CPU/(24826:24826): Se acepto la conexion del Dispatch en el socket: 8
-[INFO] 09:52:43:539 CPU/(24826:24826): Se agrego al set de descriptores el descriptor: 8
-[INFO] 09:52:43:539 CPU/(24826:24826): Mensaje recibido dispatch: 21
-[INFO] 09:52:43:539 CPU/(24826:24826): Se envia Handshake 21 para dejar establecida la conexion del Dispatch
-[INFO] 09:52:43:539 CPU/(24826:24826): Se quiso conectar alguien al Server Interrupt
-[INFO] 09:52:43:540 CPU/(24826:24826): Se acepto la conexion del Interrupt en el socket: 9
-[INFO] 09:52:43:540 CPU/(24826:24826): Mensaje recibido interrupt: 23
-[INFO] 09:52:43:540 CPU/(24826:24826): Se envia Handshake 23 para dejar establecida la conexion del Dispatch
-[INFO] 09:52:43:540 CPU/(24826:24826): Se genera el Thread del Interrupt con TID: 0
-[INFO] 09:52:43:540 CPU/(24826:24843): Entre al hilo
-[INFO] 09:52:43:540 CPU/(24826:24843): El valor del socket que recibe el thread es: 9
-[INFO] 09:52:46:516 CPU/(24826:24826): Valor de ActiveDispatch true	Valor de ActiveInterrupt true
-[INFO] 09:52:46:516 CPU/(24826:24826): Voy a recibir y procesar un PCB del Dispatch
-[INFO] 09:52:46:516 CPU/(24826:24826): Voy a loguear informacion del PCB recibida por el Dispatch
-[INFO] 09:52:46:516 CPU/(24826:24826): INFORMACION PCB:
-[INFO] 09:52:46:516 CPU/(24826:24826): PID: 0
+[INFO] 18:42:33:386 CPU/(6380:6380): -------------------------
+[INFO] 18:42:33:386 CPU/(6380:6380): Iniciando log Proceso CPU
+[INFO] 18:42:33:386 CPU/(6380:6380): -------------------------
+[INFO] 18:42:33:386 CPU/(6380:6380): Se leyo la variable ENTRADAS_TLB: 4
+[INFO] 18:42:33:386 CPU/(6380:6380): Se leyo la variable REEMPLAZO_TLB: LRU
+[INFO] 18:42:33:386 CPU/(6380:6380): Se leyo la variable RETARDO_NOOP: 1000
+[INFO] 18:42:33:386 CPU/(6380:6380): Se leyo la variable IP_CPU: 192.168.0.233
+[INFO] 18:42:33:386 CPU/(6380:6380): Se leyo la variable IP_MEMORIA: 192.168.0.233
+[INFO] 18:42:33:387 CPU/(6380:6380): Se leyo la variable PUERTO_MEMORIA: 8002
+[INFO] 18:42:33:387 CPU/(6380:6380): Se leyo la variable PUERTO_DISPATCH: 9797
+[INFO] 18:42:33:387 CPU/(6380:6380): Se leyo la variable PUERTO_INTERRUPT: 8005
+[INFO] 18:42:33:387 CPU/(6380:6380): Conexion establecida con exito
+[INFO] 18:42:33:387 CPU/(6380:6380): Se intenta conectarse con la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  5
+[INFO] 18:42:33:387 CPU/(6380:6380): Se envia Handshake a la memoria
+[INFO] 18:42:33:388 CPU/(6380:6380): Mensaje recibido de la memoria:  2
+[INFO] 18:42:33:388 CPU/(6380:6380): Conexion establecida con la memoria
+[INFO] 18:42:33:388 CPU/(6380:6380): Server escuchando
+[INFO] 18:42:33:388 CPU/(6380:6380): Socket en el que se levanta el server SERVER DISPATCH: 6 en la IP: 192.168.0.233 y Puerto: 9797
+[INFO] 18:42:33:388 CPU/(6380:6380): Server escuchando
+[INFO] 18:42:33:388 CPU/(6380:6380): Socket en el que se levanta el server SERVER INTERRUPT: 7 en la IP: 192.168.0.233 y Puerto: 8005
+[INFO] 18:42:36:248 CPU/(6380:6380): Se acepto la conexion del Dispatch en el socket: 8
+[INFO] 18:42:36:248 CPU/(6380:6380): Se agrego al set de descriptores el descriptor: 8
+[INFO] 18:42:36:248 CPU/(6380:6380): Mensaje recibido dispatch: 21
+[INFO] 18:42:36:248 CPU/(6380:6380): Se envia Handshake 21 para dejar establecida la conexion del Dispatch
+[INFO] 18:42:36:248 CPU/(6380:6380): Se quiso conectar alguien al Server Interrupt
+[INFO] 18:42:36:248 CPU/(6380:6380): Se acepto la conexion del Interrupt en el socket: 9
+[INFO] 18:42:36:248 CPU/(6380:6380): Mensaje recibido interrupt: 23
+[INFO] 18:42:36:248 CPU/(6380:6380): Se envia Handshake 23 para dejar establecida la conexion del Dispatch
+[INFO] 18:42:36:248 CPU/(6380:6380): Se genera el Thread del Interrupt con TID: 0
+[INFO] 18:42:36:249 CPU/(6380:6405): Entre al hilo
+[INFO] 18:42:36:249 CPU/(6380:6405): El valor del socket que recibe el thread es: 9
+[INFO] 18:42:39:889 CPU/(6380:6380): Valor de ActiveDispatch true	Valor de ActiveInterrupt true
+[INFO] 18:42:39:889 CPU/(6380:6380): Voy a recibir y procesar un PCB del Dispatch
+[INFO] 18:42:39:889 CPU/(6380:6380): Voy a loguear informacion del PCB recibida por el Dispatch
+[INFO] 18:42:39:889 CPU/(6380:6380): INFORMACION PCB:
+[INFO] 18:42:39:889 CPU/(6380:6380): PID: 0
 
-[INFO] 09:52:46:516 CPU/(24826:24826): TAMANO: 10
+[INFO] 18:42:39:889 CPU/(6380:6380): TAMANO: 10
 
-[INFO] 09:52:46:516 CPU/(24826:24826): PC: 0
+[INFO] 18:42:39:889 CPU/(6380:6380): PC: 0
 
-[INFO] 09:52:46:516 CPU/(24826:24826): ESTIMADO_RAFAGA: 1
+[INFO] 18:42:39:889 CPU/(6380:6380): ESTIMADO_RAFAGA: 1
 
-[INFO] 09:52:46:516 CPU/(24826:24826): ESTADO: INICIADO
+[INFO] 18:42:39:889 CPU/(6380:6380): ESTADO: INICIADO
 
-[INFO] 09:52:46:516 CPU/(24826:24826): TIEMPO BLOQUEO: 0
+[INFO] 18:42:39:889 CPU/(6380:6380): TIEMPO BLOQUEO: 0
 
-[INFO] 09:52:46:516 CPU/(24826:24826): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:42:39:889 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:52:46:516 CPU/(24826:24826): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:42:39:889 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:52:46:516 CPU/(24826:24826): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:42:39:889 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:52:46:516 CPU/(24826:24826): El codigo de la instruccion es: 2 , nombre: I/O 
+[INFO] 18:42:39:889 CPU/(6380:6380): El codigo de la instruccion es: 2 , nombre: I/O 
  cantidad de parametros: 1 parametros: 
-[INFO] 09:52:46:516 CPU/(24826:24826):  4000 
-[INFO] 09:52:46:517 CPU/(24826:24826): El codigo de la instruccion es: 3 , nombre: WRITE 
+[INFO] 18:42:39:889 CPU/(6380:6380):  4000 
+[INFO] 18:42:39:889 CPU/(6380:6380): El codigo de la instruccion es: 3 , nombre: WRITE 
  cantidad de parametros: 2 parametros: 
-[INFO] 09:52:46:517 CPU/(24826:24826):  4 
-[INFO] 09:52:46:517 CPU/(24826:24826):  42 
-[INFO] 09:52:46:517 CPU/(24826:24826): El codigo de la instruccion es: 4 , nombre: COPY 
+[INFO] 18:42:39:889 CPU/(6380:6380):  4 
+[INFO] 18:42:39:889 CPU/(6380:6380):  42 
+[INFO] 18:42:39:889 CPU/(6380:6380): El codigo de la instruccion es: 4 , nombre: COPY 
  cantidad de parametros: 2 parametros: 
-[INFO] 09:52:46:517 CPU/(24826:24826):  0 
-[INFO] 09:52:46:517 CPU/(24826:24826):  4 
-[INFO] 09:52:46:517 CPU/(24826:24826): El codigo de la instruccion es: 5 , nombre: READ 
+[INFO] 18:42:39:889 CPU/(6380:6380):  0 
+[INFO] 18:42:39:890 CPU/(6380:6380):  4 
+[INFO] 18:42:39:890 CPU/(6380:6380): El codigo de la instruccion es: 5 , nombre: READ 
  cantidad de parametros: 1 parametros: 
-[INFO] 09:52:46:517 CPU/(24826:24826):  0 
-[INFO] 09:52:46:517 CPU/(24826:24826): El codigo de la instruccion es: 6 , nombre: EXIT 
+[INFO] 18:42:39:890 CPU/(6380:6380):  0 
+[INFO] 18:42:39:890 CPU/(6380:6380): El codigo de la instruccion es: 6 , nombre: EXIT 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:52:46:517 CPU/(24826:24826): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
-[INFO] 09:52:46:517 CPU/(24826:24826): CPU-EXECUTE Aumento el program counter del PCB a: 1
-[INFO] 09:52:46:517 CPU/(24826:24826): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
-[INFO] 09:52:47:518 CPU/(24826:24826): Duermo 5 segundos antes de la siguiente operacion
-[INFO] 09:52:52:519 CPU/(24826:24826): Valor de devolver PCBt false
-[INFO] 09:52:52:519 CPU/(24826:24826): CPU-EXECUTE Aumento el program counter del PCB a: 2
-[INFO] 09:52:52:519 CPU/(24826:24826): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
-[INFO] 09:52:53:521 CPU/(24826:24826): Duermo 5 segundos antes de la siguiente operacion
-[INFO] 09:52:58:522 CPU/(24826:24826): Valor de devolver PCBt false
-[INFO] 09:52:58:522 CPU/(24826:24826): CPU-EXECUTE Aumento el program counter del PCB a: 3
-[INFO] 09:52:58:522 CPU/(24826:24826): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
-[INFO] 09:52:59:522 CPU/(24826:24826): Duermo 5 segundos antes de la siguiente operacion
-[INFO] 09:53:04:523 CPU/(24826:24826): Valor de devolver PCBt false
-[INFO] 09:53:04:523 CPU/(24826:24826): CPU-EXECUTE Aumento el program counter del PCB a: 4
-[INFO] 09:53:04:523 CPU/(24826:24826): CPU-EXECUTE Proceso una operacion de I/0
-[INFO] 09:53:04:523 CPU/(24826:24826): Duermo 5 segundos antes de la siguiente operacion
-[INFO] 09:53:09:528 CPU/(24826:24826): Valor de devolver PCBt true
-[INFO] 09:53:09:528 CPU/(24826:24826): CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion
-[INFO] 09:53:09:528 CPU/(24826:24826): INFORMACION PCB:
-[INFO] 09:53:09:528 CPU/(24826:24826): PID: 0
+[INFO] 18:42:39:890 CPU/(6380:6380): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
+[INFO] 18:42:39:890 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 1
+[INFO] 18:42:39:890 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
+[INFO] 18:42:40:890 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:42:45:890 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:42:45:890 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 2
+[INFO] 18:42:45:890 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
+[INFO] 18:42:46:891 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:42:51:897 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:42:51:897 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 3
+[INFO] 18:42:51:897 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
+[INFO] 18:42:52:899 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:42:57:906 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:42:57:907 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 4
+[INFO] 18:42:57:907 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de I/0
+[INFO] 18:42:57:907 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:43:02:907 CPU/(6380:6380): Valor de devolver PCBt true
+[INFO] 18:43:02:907 CPU/(6380:6380): CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion
+[INFO] 18:43:02:907 CPU/(6380:6380): INFORMACION PCB:
+[INFO] 18:43:02:907 CPU/(6380:6380): PID: 0
 
-[INFO] 09:53:09:528 CPU/(24826:24826): TAMANO: 10
+[INFO] 18:43:02:907 CPU/(6380:6380): TAMANO: 10
 
-[INFO] 09:53:09:528 CPU/(24826:24826): PC: 4
+[INFO] 18:43:02:907 CPU/(6380:6380): PC: 4
 
-[INFO] 09:53:09:528 CPU/(24826:24826): ESTIMADO_RAFAGA: 1
+[INFO] 18:43:02:907 CPU/(6380:6380): ESTIMADO_RAFAGA: 1
 
-[INFO] 09:53:09:528 CPU/(24826:24826): ESTADO: BLOQUEADO
+[INFO] 18:43:02:907 CPU/(6380:6380): ESTADO: BLOQUEADO
 
-[INFO] 09:53:09:528 CPU/(24826:24826): TIEMPO BLOQUEO: 4000
+[INFO] 18:43:02:907 CPU/(6380:6380): TIEMPO BLOQUEO: 4000
 
-[INFO] 09:53:09:528 CPU/(24826:24826): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:02:907 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:09:528 CPU/(24826:24826): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:02:908 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:09:528 CPU/(24826:24826): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:02:908 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:09:528 CPU/(24826:24826): El codigo de la instruccion es: 2 , nombre: I/O 
+[INFO] 18:43:02:908 CPU/(6380:6380): El codigo de la instruccion es: 2 , nombre: I/O 
  cantidad de parametros: 1 parametros: 
-[INFO] 09:53:09:528 CPU/(24826:24826):  4000 
-[INFO] 09:53:09:528 CPU/(24826:24826): El codigo de la instruccion es: 3 , nombre: WRITE 
+[INFO] 18:43:02:908 CPU/(6380:6380):  4000 
+[INFO] 18:43:02:908 CPU/(6380:6380): El codigo de la instruccion es: 3 , nombre: WRITE 
  cantidad de parametros: 2 parametros: 
-[INFO] 09:53:09:528 CPU/(24826:24826):  4 
-[INFO] 09:53:09:528 CPU/(24826:24826):  42 
-[INFO] 09:53:09:528 CPU/(24826:24826): El codigo de la instruccion es: 4 , nombre: COPY 
+[INFO] 18:43:02:908 CPU/(6380:6380):  4 
+[INFO] 18:43:02:908 CPU/(6380:6380):  42 
+[INFO] 18:43:02:908 CPU/(6380:6380): El codigo de la instruccion es: 4 , nombre: COPY 
  cantidad de parametros: 2 parametros: 
-[INFO] 09:53:09:528 CPU/(24826:24826):  0 
-[INFO] 09:53:09:529 CPU/(24826:24826):  4 
-[INFO] 09:53:09:529 CPU/(24826:24826): El codigo de la instruccion es: 5 , nombre: READ 
+[INFO] 18:43:02:908 CPU/(6380:6380):  0 
+[INFO] 18:43:02:908 CPU/(6380:6380):  4 
+[INFO] 18:43:02:908 CPU/(6380:6380): El codigo de la instruccion es: 5 , nombre: READ 
  cantidad de parametros: 1 parametros: 
-[INFO] 09:53:09:529 CPU/(24826:24826):  0 
-[INFO] 09:53:09:529 CPU/(24826:24826): El codigo de la instruccion es: 6 , nombre: EXIT 
+[INFO] 18:43:02:908 CPU/(6380:6380):  0 
+[INFO] 18:43:02:908 CPU/(6380:6380): El codigo de la instruccion es: 6 , nombre: EXIT 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:09:529 CPU/(24826:24826): CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel
-[INFO] 09:53:09:529 CPU/(24826:24826): CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel
-[INFO] 09:53:09:529 CPU/(24826:24826): CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel
-[INFO] 09:53:09:534 CPU/(24826:24826): Valor de ActiveDispatch true	Valor de ActiveInterrupt true
-[INFO] 09:53:09:534 CPU/(24826:24826): Voy a recibir y procesar un PCB del Dispatch
-[INFO] 09:53:09:534 CPU/(24826:24826): Voy a loguear informacion del PCB recibida por el Dispatch
-[INFO] 09:53:09:534 CPU/(24826:24826): INFORMACION PCB:
-[INFO] 09:53:09:534 CPU/(24826:24826): PID: 0
+[INFO] 18:43:02:908 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel
+[INFO] 18:43:02:908 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel
+[INFO] 18:43:02:908 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel
+[INFO] 18:43:02:909 CPU/(6380:6380): Valor de ActiveDispatch true	Valor de ActiveInterrupt true
+[INFO] 18:43:02:909 CPU/(6380:6380): Voy a recibir y procesar un PCB del Dispatch
+[INFO] 18:43:02:909 CPU/(6380:6380): Voy a loguear informacion del PCB recibida por el Dispatch
+[INFO] 18:43:02:909 CPU/(6380:6380): INFORMACION PCB:
+[INFO] 18:43:02:909 CPU/(6380:6380): PID: 1
 
-[INFO] 09:53:09:534 CPU/(24826:24826): TAMANO: 10
+[INFO] 18:43:02:909 CPU/(6380:6380): TAMANO: 10
 
-[INFO] 09:53:09:534 CPU/(24826:24826): PC: 4
+[INFO] 18:43:02:909 CPU/(6380:6380): PC: 0
 
-[INFO] 09:53:09:534 CPU/(24826:24826): ESTIMADO_RAFAGA: 1
+[INFO] 18:43:02:909 CPU/(6380:6380): ESTIMADO_RAFAGA: 1
 
-[INFO] 09:53:09:534 CPU/(24826:24826): ESTADO: BLOQUEADO
+[INFO] 18:43:02:909 CPU/(6380:6380): ESTADO: INICIADO
 
-[INFO] 09:53:09:535 CPU/(24826:24826): TIEMPO BLOQUEO: 4000
+[INFO] 18:43:02:909 CPU/(6380:6380): TIEMPO BLOQUEO: 0
 
-[INFO] 09:53:09:535 CPU/(24826:24826): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:02:909 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:09:535 CPU/(24826:24826): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:02:909 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:09:535 CPU/(24826:24826): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:02:909 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:09:535 CPU/(24826:24826): El codigo de la instruccion es: 2 , nombre: I/O 
+[INFO] 18:43:02:909 CPU/(6380:6380): El codigo de la instruccion es: 2 , nombre: I/O 
  cantidad de parametros: 1 parametros: 
-[INFO] 09:53:09:535 CPU/(24826:24826):  4000 
-[INFO] 09:53:09:535 CPU/(24826:24826): El codigo de la instruccion es: 3 , nombre: WRITE 
+[INFO] 18:43:02:909 CPU/(6380:6380):  4000 
+[INFO] 18:43:02:909 CPU/(6380:6380): El codigo de la instruccion es: 3 , nombre: WRITE 
  cantidad de parametros: 2 parametros: 
-[INFO] 09:53:09:535 CPU/(24826:24826):  4 
-[INFO] 09:53:09:535 CPU/(24826:24826):  42 
-[INFO] 09:53:09:535 CPU/(24826:24826): El codigo de la instruccion es: 4 , nombre: COPY 
+[INFO] 18:43:02:909 CPU/(6380:6380):  4 
+[INFO] 18:43:02:909 CPU/(6380:6380):  42 
+[INFO] 18:43:02:909 CPU/(6380:6380): El codigo de la instruccion es: 4 , nombre: COPY 
  cantidad de parametros: 2 parametros: 
-[INFO] 09:53:09:535 CPU/(24826:24826):  0 
-[INFO] 09:53:09:535 CPU/(24826:24826):  4 
-[INFO] 09:53:09:535 CPU/(24826:24826): El codigo de la instruccion es: 5 , nombre: READ 
+[INFO] 18:43:02:909 CPU/(6380:6380):  0 
+[INFO] 18:43:02:909 CPU/(6380:6380):  4 
+[INFO] 18:43:02:909 CPU/(6380:6380): El codigo de la instruccion es: 5 , nombre: READ 
  cantidad de parametros: 1 parametros: 
-[INFO] 09:53:09:535 CPU/(24826:24826):  0 
-[INFO] 09:53:09:535 CPU/(24826:24826): El codigo de la instruccion es: 6 , nombre: EXIT 
+[INFO] 18:43:02:910 CPU/(6380:6380):  0 
+[INFO] 18:43:02:910 CPU/(6380:6380): El codigo de la instruccion es: 6 , nombre: EXIT 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:09:535 CPU/(24826:24826): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
-[INFO] 09:53:09:535 CPU/(24826:24826): CPU-EXECUTE Aumento el program counter del PCB a: 5
-[INFO] 09:53:09:535 CPU/(24826:24826): CPU-EXECUTE Proceso una operacion de WRITE
-[INFO] 09:53:09:535 CPU/(24826:24826): Duermo 5 segundos antes de la siguiente operacion
-[INFO] 09:53:14:536 CPU/(24826:24826): Valor de devolver PCBt false
-[INFO] 09:53:14:537 CPU/(24826:24826): CPU-EXECUTE Aumento el program counter del PCB a: 6
-[INFO] 09:53:14:537 CPU/(24826:24826): Es una INSTRUCCION COPY
-[INFO] 09:53:14:537 CPU/(24826:24826): CPU-EXECUTE Proceso una operacion de COPY
-[INFO] 09:53:14:537 CPU/(24826:24826): Duermo 5 segundos antes de la siguiente operacion
-[INFO] 09:53:19:537 CPU/(24826:24826): Valor de devolver PCBt false
-[INFO] 09:53:19:537 CPU/(24826:24826): CPU-EXECUTE Aumento el program counter del PCB a: 7
-[INFO] 09:53:19:537 CPU/(24826:24826): CPU-EXECUTE Proceso una operacion de READ
-[INFO] 09:53:19:537 CPU/(24826:24826): Duermo 5 segundos antes de la siguiente operacion
-[INFO] 09:53:24:538 CPU/(24826:24826): Valor de devolver PCBt false
-[INFO] 09:53:24:539 CPU/(24826:24826): CPU-EXECUTE Aumento el program counter del PCB a: 8
-[INFO] 09:53:24:539 CPU/(24826:24826): CPU-EXECUTE Proceso una operacion de EXIT
-[INFO] 09:53:24:539 CPU/(24826:24826): Duermo 5 segundos antes de la siguiente operacion
-[INFO] 09:53:29:540 CPU/(24826:24826): Valor de devolver PCBt true
-[INFO] 09:53:29:540 CPU/(24826:24826): CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion
-[INFO] 09:53:29:541 CPU/(24826:24826): INFORMACION PCB:
-[INFO] 09:53:29:541 CPU/(24826:24826): PID: 0
+[INFO] 18:43:02:910 CPU/(6380:6380): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
+[INFO] 18:43:02:910 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 1
+[INFO] 18:43:02:910 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
+[INFO] 18:43:03:918 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:43:08:919 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:43:08:919 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 2
+[INFO] 18:43:08:919 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
+[INFO] 18:43:09:919 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:43:14:923 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:43:14:923 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 3
+[INFO] 18:43:14:924 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
+[INFO] 18:43:15:924 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:43:20:925 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:43:20:925 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 4
+[INFO] 18:43:20:925 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de I/0
+[INFO] 18:43:20:925 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:43:25:927 CPU/(6380:6380): Valor de devolver PCBt true
+[INFO] 18:43:25:928 CPU/(6380:6380): CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion
+[INFO] 18:43:25:928 CPU/(6380:6380): INFORMACION PCB:
+[INFO] 18:43:25:928 CPU/(6380:6380): PID: 1
 
-[INFO] 09:53:29:541 CPU/(24826:24826): TAMANO: 10
+[INFO] 18:43:25:928 CPU/(6380:6380): TAMANO: 10
 
-[INFO] 09:53:29:541 CPU/(24826:24826): PC: 8
+[INFO] 18:43:25:928 CPU/(6380:6380): PC: 4
 
-[INFO] 09:53:29:541 CPU/(24826:24826): ESTIMADO_RAFAGA: 1
+[INFO] 18:43:25:928 CPU/(6380:6380): ESTIMADO_RAFAGA: 1
 
-[INFO] 09:53:29:541 CPU/(24826:24826): ESTADO: BLOQUEADO
+[INFO] 18:43:25:928 CPU/(6380:6380): ESTADO: BLOQUEADO
 
-[INFO] 09:53:29:541 CPU/(24826:24826): TIEMPO BLOQUEO: 4000
+[INFO] 18:43:25:928 CPU/(6380:6380): TIEMPO BLOQUEO: 4000
 
-[INFO] 09:53:29:541 CPU/(24826:24826): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:25:928 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:29:541 CPU/(24826:24826): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:25:929 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:29:541 CPU/(24826:24826): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:25:929 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:29:541 CPU/(24826:24826): El codigo de la instruccion es: 2 , nombre: I/O 
+[INFO] 18:43:25:929 CPU/(6380:6380): El codigo de la instruccion es: 2 , nombre: I/O 
  cantidad de parametros: 1 parametros: 
-[INFO] 09:53:29:541 CPU/(24826:24826):  4000 
-[INFO] 09:53:29:541 CPU/(24826:24826): El codigo de la instruccion es: 3 , nombre: WRITE 
+[INFO] 18:43:25:929 CPU/(6380:6380):  4000 
+[INFO] 18:43:25:929 CPU/(6380:6380): El codigo de la instruccion es: 3 , nombre: WRITE 
  cantidad de parametros: 2 parametros: 
-[INFO] 09:53:29:541 CPU/(24826:24826):  4 
-[INFO] 09:53:29:541 CPU/(24826:24826):  42 
-[INFO] 09:53:29:541 CPU/(24826:24826): El codigo de la instruccion es: 4 , nombre: COPY 
+[INFO] 18:43:25:929 CPU/(6380:6380):  4 
+[INFO] 18:43:25:929 CPU/(6380:6380):  42 
+[INFO] 18:43:25:929 CPU/(6380:6380): El codigo de la instruccion es: 4 , nombre: COPY 
  cantidad de parametros: 2 parametros: 
-[INFO] 09:53:29:541 CPU/(24826:24826):  0 
-[INFO] 09:53:29:541 CPU/(24826:24826):  4 
-[INFO] 09:53:29:541 CPU/(24826:24826): El codigo de la instruccion es: 5 , nombre: READ 
+[INFO] 18:43:25:929 CPU/(6380:6380):  0 
+[INFO] 18:43:25:929 CPU/(6380:6380):  4 
+[INFO] 18:43:25:929 CPU/(6380:6380): El codigo de la instruccion es: 5 , nombre: READ 
  cantidad de parametros: 1 parametros: 
-[INFO] 09:53:29:541 CPU/(24826:24826):  0 
-[INFO] 09:53:29:541 CPU/(24826:24826): El codigo de la instruccion es: 6 , nombre: EXIT 
+[INFO] 18:43:25:929 CPU/(6380:6380):  0 
+[INFO] 18:43:25:929 CPU/(6380:6380): El codigo de la instruccion es: 6 , nombre: EXIT 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:29:541 CPU/(24826:24826): CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel
-[INFO] 09:53:29:541 CPU/(24826:24826): CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel
-[INFO] 09:53:29:541 CPU/(24826:24826): CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel
-[INFO] 09:53:29:546 CPU/(24826:24826): Valor de ActiveDispatch true	Valor de ActiveInterrupt true
-[INFO] 09:53:29:546 CPU/(24826:24826): Voy a recibir y procesar un PCB del Dispatch
-[INFO] 09:53:29:546 CPU/(24826:24826): Voy a loguear informacion del PCB recibida por el Dispatch
-[INFO] 09:53:29:546 CPU/(24826:24826): INFORMACION PCB:
-[INFO] 09:53:29:546 CPU/(24826:24826): PID: 0
+[INFO] 18:43:25:929 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel
+[INFO] 18:43:25:929 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel
+[INFO] 18:43:25:929 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel
+[INFO] 18:43:25:930 CPU/(6380:6380): Valor de ActiveDispatch true	Valor de ActiveInterrupt true
+[INFO] 18:43:25:930 CPU/(6380:6380): Voy a recibir y procesar un PCB del Dispatch
+[INFO] 18:43:25:930 CPU/(6380:6380): Voy a loguear informacion del PCB recibida por el Dispatch
+[INFO] 18:43:25:930 CPU/(6380:6380): INFORMACION PCB:
+[INFO] 18:43:25:930 CPU/(6380:6380): PID: 2
 
-[INFO] 09:53:29:546 CPU/(24826:24826): TAMANO: 10
+[INFO] 18:43:25:930 CPU/(6380:6380): TAMANO: 10
 
-[INFO] 09:53:29:546 CPU/(24826:24826): PC: 8
+[INFO] 18:43:25:930 CPU/(6380:6380): PC: 0
 
-[INFO] 09:53:29:546 CPU/(24826:24826): ESTIMADO_RAFAGA: 1
+[INFO] 18:43:25:930 CPU/(6380:6380): ESTIMADO_RAFAGA: 1
 
-[INFO] 09:53:29:546 CPU/(24826:24826): ESTADO: BLOQUEADO
+[INFO] 18:43:25:930 CPU/(6380:6380): ESTADO: INICIADO
 
-[INFO] 09:53:29:546 CPU/(24826:24826): TIEMPO BLOQUEO: 4000
+[INFO] 18:43:25:931 CPU/(6380:6380): TIEMPO BLOQUEO: 0
 
-[INFO] 09:53:29:547 CPU/(24826:24826): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:25:931 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:29:547 CPU/(24826:24826): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:25:931 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:29:547 CPU/(24826:24826): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:25:931 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:29:547 CPU/(24826:24826): El codigo de la instruccion es: 2 , nombre: I/O 
+[INFO] 18:43:25:931 CPU/(6380:6380): El codigo de la instruccion es: 2 , nombre: I/O 
  cantidad de parametros: 1 parametros: 
-[INFO] 09:53:29:547 CPU/(24826:24826):  4000 
-[INFO] 09:53:29:547 CPU/(24826:24826): El codigo de la instruccion es: 3 , nombre: WRITE 
+[INFO] 18:43:25:931 CPU/(6380:6380):  4000 
+[INFO] 18:43:25:931 CPU/(6380:6380): El codigo de la instruccion es: 3 , nombre: WRITE 
  cantidad de parametros: 2 parametros: 
-[INFO] 09:53:29:547 CPU/(24826:24826):  4 
-[INFO] 09:53:29:547 CPU/(24826:24826):  42 
-[INFO] 09:53:29:547 CPU/(24826:24826): El codigo de la instruccion es: 4 , nombre: COPY 
+[INFO] 18:43:25:931 CPU/(6380:6380):  4 
+[INFO] 18:43:25:931 CPU/(6380:6380):  42 
+[INFO] 18:43:25:932 CPU/(6380:6380): El codigo de la instruccion es: 4 , nombre: COPY 
  cantidad de parametros: 2 parametros: 
-[INFO] 09:53:29:547 CPU/(24826:24826):  0 
-[INFO] 09:53:29:547 CPU/(24826:24826):  4 
-[INFO] 09:53:29:547 CPU/(24826:24826): El codigo de la instruccion es: 5 , nombre: READ 
+[INFO] 18:43:25:932 CPU/(6380:6380):  0 
+[INFO] 18:43:25:932 CPU/(6380:6380):  4 
+[INFO] 18:43:25:932 CPU/(6380:6380): El codigo de la instruccion es: 5 , nombre: READ 
  cantidad de parametros: 1 parametros: 
-[INFO] 09:53:29:547 CPU/(24826:24826):  0 
-[INFO] 09:53:29:547 CPU/(24826:24826): El codigo de la instruccion es: 6 , nombre: EXIT 
+[INFO] 18:43:25:932 CPU/(6380:6380):  0 
+[INFO] 18:43:25:932 CPU/(6380:6380): El codigo de la instruccion es: 6 , nombre: EXIT 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:29:547 CPU/(24826:24826): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
+[INFO] 18:43:25:932 CPU/(6380:6380): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
+[INFO] 18:43:25:932 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 1
+[INFO] 18:43:25:932 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
+[INFO] 18:43:26:933 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:43:31:940 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:43:31:940 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 2
+[INFO] 18:43:31:941 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
+[INFO] 18:43:32:944 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:43:37:944 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:43:37:945 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 3
+[INFO] 18:43:37:945 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
+[INFO] 18:43:38:945 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:43:43:946 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:43:43:946 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 4
+[INFO] 18:43:43:946 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de I/0
+[INFO] 18:43:43:946 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:43:48:947 CPU/(6380:6380): Valor de devolver PCBt true
+[INFO] 18:43:48:947 CPU/(6380:6380): CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion
+[INFO] 18:43:48:947 CPU/(6380:6380): INFORMACION PCB:
+[INFO] 18:43:48:947 CPU/(6380:6380): PID: 2
+
+[INFO] 18:43:48:948 CPU/(6380:6380): TAMANO: 10
+
+[INFO] 18:43:48:949 CPU/(6380:6380): PC: 4
+
+[INFO] 18:43:48:949 CPU/(6380:6380): ESTIMADO_RAFAGA: 1
+
+[INFO] 18:43:48:949 CPU/(6380:6380): ESTADO: BLOQUEADO
+
+[INFO] 18:43:48:949 CPU/(6380:6380): TIEMPO BLOQUEO: 4000
+
+[INFO] 18:43:48:949 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:43:48:949 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:43:48:949 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:43:48:949 CPU/(6380:6380): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:43:48:949 CPU/(6380:6380):  4000 
+[INFO] 18:43:48:949 CPU/(6380:6380): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:43:48:949 CPU/(6380:6380):  4 
+[INFO] 18:43:48:949 CPU/(6380:6380):  42 
+[INFO] 18:43:48:949 CPU/(6380:6380): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:43:48:949 CPU/(6380:6380):  0 
+[INFO] 18:43:48:949 CPU/(6380:6380):  4 
+[INFO] 18:43:48:949 CPU/(6380:6380): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:43:48:949 CPU/(6380:6380):  0 
+[INFO] 18:43:48:950 CPU/(6380:6380): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:43:48:950 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel
+[INFO] 18:43:48:951 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel
+[INFO] 18:43:48:951 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel
+[INFO] 18:43:48:951 CPU/(6380:6380): Valor de ActiveDispatch true	Valor de ActiveInterrupt true
+[INFO] 18:43:48:951 CPU/(6380:6380): Voy a recibir y procesar un PCB del Dispatch
+[INFO] 18:43:48:951 CPU/(6380:6380): Voy a loguear informacion del PCB recibida por el Dispatch
+[INFO] 18:43:48:951 CPU/(6380:6380): INFORMACION PCB:
+[INFO] 18:43:48:951 CPU/(6380:6380): PID: 0
+
+[INFO] 18:43:48:951 CPU/(6380:6380): TAMANO: 10
+
+[INFO] 18:43:48:951 CPU/(6380:6380): PC: 4
+
+[INFO] 18:43:48:951 CPU/(6380:6380): ESTIMADO_RAFAGA: 1
+
+[INFO] 18:43:48:951 CPU/(6380:6380): ESTADO: BLOQUEADO
+
+[INFO] 18:43:48:951 CPU/(6380:6380): TIEMPO BLOQUEO: 4000
+
+[INFO] 18:43:48:951 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:43:48:951 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:43:48:952 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:43:48:952 CPU/(6380:6380): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:43:48:952 CPU/(6380:6380):  4000 
+[INFO] 18:43:48:952 CPU/(6380:6380): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:43:48:953 CPU/(6380:6380):  4 
+[INFO] 18:43:48:953 CPU/(6380:6380):  42 
+[INFO] 18:43:48:953 CPU/(6380:6380): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:43:48:953 CPU/(6380:6380):  0 
+[INFO] 18:43:48:953 CPU/(6380:6380):  4 
+[INFO] 18:43:48:953 CPU/(6380:6380): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:43:48:953 CPU/(6380:6380):  0 
+[INFO] 18:43:48:953 CPU/(6380:6380): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:43:48:954 CPU/(6380:6380): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
+[INFO] 18:43:48:954 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 5
+[INFO] 18:43:48:954 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de WRITE
+[INFO] 18:43:48:954 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:43:53:956 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:43:53:956 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 6
+[INFO] 18:43:53:956 CPU/(6380:6380): Es una INSTRUCCION COPY
+[INFO] 18:43:53:956 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de COPY
+[INFO] 18:43:53:956 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:43:58:956 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:43:58:957 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 7
+[INFO] 18:43:58:957 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de READ
+[INFO] 18:43:58:957 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:44:03:957 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:44:03:958 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 8
+[INFO] 18:44:03:958 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de EXIT
+[INFO] 18:44:03:958 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:44:08:961 CPU/(6380:6380): Valor de devolver PCBt true
+[INFO] 18:44:08:961 CPU/(6380:6380): CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion
+[INFO] 18:44:08:961 CPU/(6380:6380): INFORMACION PCB:
+[INFO] 18:44:08:962 CPU/(6380:6380): PID: 0
+
+[INFO] 18:44:08:962 CPU/(6380:6380): TAMANO: 10
+
+[INFO] 18:44:08:962 CPU/(6380:6380): PC: 8
+
+[INFO] 18:44:08:962 CPU/(6380:6380): ESTIMADO_RAFAGA: 1
+
+[INFO] 18:44:08:962 CPU/(6380:6380): ESTADO: FINALIZADO
+
+[INFO] 18:44:08:962 CPU/(6380:6380): TIEMPO BLOQUEO: 4000
+
+[INFO] 18:44:08:962 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:08:962 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:08:962 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:08:962 CPU/(6380:6380): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:08:962 CPU/(6380:6380):  4000 
+[INFO] 18:44:08:962 CPU/(6380:6380): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:08:962 CPU/(6380:6380):  4 
+[INFO] 18:44:08:962 CPU/(6380:6380):  42 
+[INFO] 18:44:08:962 CPU/(6380:6380): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:08:962 CPU/(6380:6380):  0 
+[INFO] 18:44:08:962 CPU/(6380:6380):  4 
+[INFO] 18:44:08:962 CPU/(6380:6380): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:08:962 CPU/(6380:6380):  0 
+[INFO] 18:44:08:962 CPU/(6380:6380): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:08:962 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel
+[INFO] 18:44:08:962 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel
+[INFO] 18:44:08:962 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel
+[INFO] 18:44:08:964 CPU/(6380:6380): Valor de ActiveDispatch true	Valor de ActiveInterrupt true
+[INFO] 18:44:08:964 CPU/(6380:6380): Voy a recibir y procesar un PCB del Dispatch
+[INFO] 18:44:08:964 CPU/(6380:6380): Voy a loguear informacion del PCB recibida por el Dispatch
+[INFO] 18:44:08:964 CPU/(6380:6380): INFORMACION PCB:
+[INFO] 18:44:08:964 CPU/(6380:6380): PID: 1
+
+[INFO] 18:44:08:964 CPU/(6380:6380): TAMANO: 10
+
+[INFO] 18:44:08:964 CPU/(6380:6380): PC: 4
+
+[INFO] 18:44:08:964 CPU/(6380:6380): ESTIMADO_RAFAGA: 1
+
+[INFO] 18:44:08:964 CPU/(6380:6380): ESTADO: BLOQUEADO
+
+[INFO] 18:44:08:965 CPU/(6380:6380): TIEMPO BLOQUEO: 4000
+
+[INFO] 18:44:08:965 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:08:965 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:08:965 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:08:965 CPU/(6380:6380): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:08:965 CPU/(6380:6380):  4000 
+[INFO] 18:44:08:965 CPU/(6380:6380): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:08:965 CPU/(6380:6380):  4 
+[INFO] 18:44:08:965 CPU/(6380:6380):  42 
+[INFO] 18:44:08:965 CPU/(6380:6380): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:08:965 CPU/(6380:6380):  0 
+[INFO] 18:44:08:965 CPU/(6380:6380):  4 
+[INFO] 18:44:08:965 CPU/(6380:6380): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:08:965 CPU/(6380:6380):  0 
+[INFO] 18:44:08:965 CPU/(6380:6380): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:08:965 CPU/(6380:6380): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
+[INFO] 18:44:08:965 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 5
+[INFO] 18:44:08:965 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de WRITE
+[INFO] 18:44:08:967 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:44:13:967 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:44:13:968 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 6
+[INFO] 18:44:13:968 CPU/(6380:6380): Es una INSTRUCCION COPY
+[INFO] 18:44:13:968 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de COPY
+[INFO] 18:44:13:968 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:44:18:969 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:44:18:970 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 7
+[INFO] 18:44:18:970 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de READ
+[INFO] 18:44:18:970 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:44:23:975 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:44:23:975 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 8
+[INFO] 18:44:23:975 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de EXIT
+[INFO] 18:44:23:975 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:44:28:978 CPU/(6380:6380): Valor de devolver PCBt true
+[INFO] 18:44:28:978 CPU/(6380:6380): CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion
+[INFO] 18:44:28:978 CPU/(6380:6380): INFORMACION PCB:
+[INFO] 18:44:28:978 CPU/(6380:6380): PID: 1
+
+[INFO] 18:44:28:978 CPU/(6380:6380): TAMANO: 10
+
+[INFO] 18:44:28:978 CPU/(6380:6380): PC: 8
+
+[INFO] 18:44:28:978 CPU/(6380:6380): ESTIMADO_RAFAGA: 1
+
+[INFO] 18:44:28:978 CPU/(6380:6380): ESTADO: FINALIZADO
+
+[INFO] 18:44:28:978 CPU/(6380:6380): TIEMPO BLOQUEO: 4000
+
+[INFO] 18:44:28:978 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:28:978 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:28:978 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:28:978 CPU/(6380:6380): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:28:978 CPU/(6380:6380):  4000 
+[INFO] 18:44:28:979 CPU/(6380:6380): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:28:979 CPU/(6380:6380):  4 
+[INFO] 18:44:28:979 CPU/(6380:6380):  42 
+[INFO] 18:44:28:979 CPU/(6380:6380): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:28:979 CPU/(6380:6380):  0 
+[INFO] 18:44:28:979 CPU/(6380:6380):  4 
+[INFO] 18:44:28:979 CPU/(6380:6380): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:28:979 CPU/(6380:6380):  0 
+[INFO] 18:44:28:979 CPU/(6380:6380): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:28:979 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel
+[INFO] 18:44:28:979 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel
+[INFO] 18:44:28:979 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel
+[INFO] 18:44:28:980 CPU/(6380:6380): Valor de ActiveDispatch true	Valor de ActiveInterrupt true
+[INFO] 18:44:28:981 CPU/(6380:6380): Voy a recibir y procesar un PCB del Dispatch
+[INFO] 18:44:28:981 CPU/(6380:6380): Voy a loguear informacion del PCB recibida por el Dispatch
+[INFO] 18:44:28:981 CPU/(6380:6380): INFORMACION PCB:
+[INFO] 18:44:28:982 CPU/(6380:6380): PID: 2
+
+[INFO] 18:44:28:982 CPU/(6380:6380): TAMANO: 10
+
+[INFO] 18:44:28:982 CPU/(6380:6380): PC: 4
+
+[INFO] 18:44:28:982 CPU/(6380:6380): ESTIMADO_RAFAGA: 1
+
+[INFO] 18:44:28:982 CPU/(6380:6380): ESTADO: BLOQUEADO
+
+[INFO] 18:44:28:982 CPU/(6380:6380): TIEMPO BLOQUEO: 4000
+
+[INFO] 18:44:28:982 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:28:982 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:28:982 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:28:983 CPU/(6380:6380): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:28:983 CPU/(6380:6380):  4000 
+[INFO] 18:44:28:983 CPU/(6380:6380): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:28:983 CPU/(6380:6380):  4 
+[INFO] 18:44:28:983 CPU/(6380:6380):  42 
+[INFO] 18:44:28:983 CPU/(6380:6380): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:28:983 CPU/(6380:6380):  0 
+[INFO] 18:44:28:983 CPU/(6380:6380):  4 
+[INFO] 18:44:28:983 CPU/(6380:6380): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:28:983 CPU/(6380:6380):  0 
+[INFO] 18:44:28:983 CPU/(6380:6380): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:28:983 CPU/(6380:6380): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
+[INFO] 18:44:28:983 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 5
+[INFO] 18:44:28:984 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de WRITE
+[INFO] 18:44:28:984 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:44:33:986 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:44:33:986 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 6
+[INFO] 18:44:33:986 CPU/(6380:6380): Es una INSTRUCCION COPY
+[INFO] 18:44:33:986 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de COPY
+[INFO] 18:44:33:986 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:44:38:987 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:44:38:987 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 7
+[INFO] 18:44:38:987 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de READ
+[INFO] 18:44:38:987 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:44:43:987 CPU/(6380:6380): Valor de devolver PCBt false
+[INFO] 18:44:43:988 CPU/(6380:6380): CPU-EXECUTE Aumento el program counter del PCB a: 8
+[INFO] 18:44:43:989 CPU/(6380:6380): CPU-EXECUTE Proceso una operacion de EXIT
+[INFO] 18:44:43:989 CPU/(6380:6380): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 18:44:48:992 CPU/(6380:6380): Valor de devolver PCBt true
+[INFO] 18:44:48:992 CPU/(6380:6380): CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion
+[INFO] 18:44:48:992 CPU/(6380:6380): INFORMACION PCB:
+[INFO] 18:44:48:993 CPU/(6380:6380): PID: 2
+
+[INFO] 18:44:48:993 CPU/(6380:6380): TAMANO: 10
+
+[INFO] 18:44:48:993 CPU/(6380:6380): PC: 8
+
+[INFO] 18:44:48:993 CPU/(6380:6380): ESTIMADO_RAFAGA: 1
+
+[INFO] 18:44:48:993 CPU/(6380:6380): ESTADO: FINALIZADO
+
+[INFO] 18:44:48:993 CPU/(6380:6380): TIEMPO BLOQUEO: 4000
+
+[INFO] 18:44:48:993 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:48:993 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:48:993 CPU/(6380:6380): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:48:993 CPU/(6380:6380): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:48:993 CPU/(6380:6380):  4000 
+[INFO] 18:44:48:993 CPU/(6380:6380): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:48:993 CPU/(6380:6380):  4 
+[INFO] 18:44:48:993 CPU/(6380:6380):  42 
+[INFO] 18:44:48:993 CPU/(6380:6380): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:48:993 CPU/(6380:6380):  0 
+[INFO] 18:44:48:993 CPU/(6380:6380):  4 
+[INFO] 18:44:48:993 CPU/(6380:6380): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:48:993 CPU/(6380:6380):  0 
+[INFO] 18:44:48:993 CPU/(6380:6380): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:48:993 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel
+[INFO] 18:44:48:994 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel
+[INFO] 18:44:48:994 CPU/(6380:6380): CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel

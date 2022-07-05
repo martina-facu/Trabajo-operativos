@@ -99,7 +99,7 @@ void* enviar_a_ejecutar()  {
 		pthread_mutex_unlock(&mx_ready_l);
 
 		uint32_t espacio;
-		log_trace(PCP,"se va a mandar a ejecutar un proceso %d", pcb->pid);
+		log_trace(PCP,"KERNEL-CPU-PCB Se va a mandar a ejecutar un proceso %d", pcb->pid);
 
 		// ENVIO EL PROCESO A EJECUTAR
 		void* a_enviar= pcb_serializar(pcb,&espacio,0);
@@ -212,12 +212,14 @@ void* recibir_proceso_de_cpu(){
 	while(1)
 	{
 		pcb_t* pcb = recibir_paquete_pcb();
+		log_trace(PCP,"KERNEL-CPU-PCB Recibi PCB desde la CPU");
 		if(pcb->estado == FINALIZADO){ // SE PODRIA MODELAR CON UN SWITCH
 			// AGREGARLO A FINALIZADO QUE ES UN BUFFER ENTRE PLP Y PCP
 			pthread_mutex_lock(&mx_finalizado_l);
 			list_add(finalizado_l,pcb);
 			pthread_mutex_unlock(&mx_finalizado_l);
 			// AVISAR QUE HAY UN PROCESO FINALIZADO
+			log_trace(PCP,"KERNEL-CPU-PCB Libero semaforo para finalizar proceso con ID: %d ",pcb->pid);
 			sem_post(&s_proceso_finalizado);
 
 		}

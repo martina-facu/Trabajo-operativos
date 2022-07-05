@@ -1,37 +1,220 @@
-[INFO] 09:52:43:540 planificador_largo_plazo/(24838:24838): Server escuchando
-[TRACE] 09:52:46:515 planificador_largo_plazo/(24838:24849): Se acepto temporalmente la conexion en el descriptor: 11 hasta validar la misma
-[INFO] 09:52:46:515 planificador_largo_plazo/(24838:24849): Mensaje recibido de la consola:  61
-[INFO] 09:52:46:515 planificador_largo_plazo/(24838:24849): Conexion establecida con la Consola
-[INFO] 09:52:46:515 planificador_largo_plazo/(24838:24849): Se creo un nuevo hilo para comunicarme con una consola.
-[INFO] 09:52:46:515 planificador_largo_plazo/(24838:24866): Mi ID de Thread es: 0
-[INFO] 09:52:46:515 planificador_largo_plazo/(24838:24866): El descriptor para comunicarme con mi consola es: 11
-[INFO] 09:52:46:515 planificador_largo_plazo/(24838:24866): Comenzamos a deserializar el mensaje recibido de la consola.
-[INFO] 09:52:46:515 planificador_largo_plazo/(24838:24866): Recibo codigo de operacion desde la consola: 0
-[INFO] 09:52:46:515 planificador_largo_plazo/(24838:24866): Recibo tamaño del buffer desde la consola: 36
-[INFO] 09:52:46:515 planificador_largo_plazo/(24838:24866): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:42:36:249 planificador_largo_plazo/(6400:6400): Server escuchando
+[TRACE] 18:42:39:888 planificador_largo_plazo/(6400:6411): Se acepto temporalmente la conexion en el descriptor: 11 hasta validar la misma
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6411): Mensaje recibido de la consola:  61
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6411): Conexion establecida con la Consola
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6411): Se creo un nuevo hilo para comunicarme con una consola.
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433): Mi ID de Thread es: 0
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433): El descriptor para comunicarme con mi consola es: 11
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433): Comenzamos a deserializar el mensaje recibido de la consola.
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433): Recibo codigo de operacion desde la consola: 0
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433): Recibo tamaño del buffer desde la consola: 36
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:52:46:515 planificador_largo_plazo/(24838:24866): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:52:46:515 planificador_largo_plazo/(24838:24866): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:52:46:516 planificador_largo_plazo/(24838:24866): El codigo de la instruccion es: 2 , nombre: I/O 
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433): El codigo de la instruccion es: 2 , nombre: I/O 
  cantidad de parametros: 1 parametros: 
-[INFO] 09:52:46:516 planificador_largo_plazo/(24838:24866):  4000 
-[INFO] 09:52:46:516 planificador_largo_plazo/(24838:24866): El codigo de la instruccion es: 3 , nombre: WRITE 
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433):  4000 
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433): El codigo de la instruccion es: 3 , nombre: WRITE 
  cantidad de parametros: 2 parametros: 
-[INFO] 09:52:46:516 planificador_largo_plazo/(24838:24866):  4 
-[INFO] 09:52:46:516 planificador_largo_plazo/(24838:24866):  42 
-[INFO] 09:52:46:516 planificador_largo_plazo/(24838:24866): El codigo de la instruccion es: 4 , nombre: COPY 
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433):  4 
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433):  42 
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433): El codigo de la instruccion es: 4 , nombre: COPY 
  cantidad de parametros: 2 parametros: 
-[INFO] 09:52:46:516 planificador_largo_plazo/(24838:24866):  0 
-[INFO] 09:52:46:516 planificador_largo_plazo/(24838:24866):  4 
-[INFO] 09:52:46:516 planificador_largo_plazo/(24838:24866): El codigo de la instruccion es: 5 , nombre: READ 
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433):  0 
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433):  4 
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433): El codigo de la instruccion es: 5 , nombre: READ 
  cantidad de parametros: 1 parametros: 
-[INFO] 09:52:46:516 planificador_largo_plazo/(24838:24866):  0 
-[INFO] 09:52:46:516 planificador_largo_plazo/(24838:24866): El codigo de la instruccion es: 6 , nombre: EXIT 
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433):  0 
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433): El codigo de la instruccion es: 6 , nombre: EXIT 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:52:46:516 planificador_largo_plazo/(24838:24866): Tamaño del proceso a recibir: 10
-[TRACE] 09:52:46:516 planificador_largo_plazo/(24838:24866): se agrego un proceso a new, ID: 0
-[TRACE] 09:52:46:516 planificador_largo_plazo/(24838:24866): se creo una comunicacion
-[TRACE] 09:52:46:516 planificador_largo_plazo/(24838:24866): me voy a bloquear, ID: 0
-[TRACE] 09:52:46:516 planificador_largo_plazo/(24838:24850): se pasa un proceso a ready, ID: 0
+[INFO] 18:42:39:888 planificador_largo_plazo/(6400:6433): Tamaño del proceso a recibir: 10
+[TRACE] 18:42:39:888 planificador_largo_plazo/(6400:6433): se agrego un proceso a new, ID: 0
+[TRACE] 18:42:39:888 planificador_largo_plazo/(6400:6433): se creo una comunicacion
+[TRACE] 18:42:39:888 planificador_largo_plazo/(6400:6433): me voy a bloquear, ID: 0
+[TRACE] 18:42:39:889 planificador_largo_plazo/(6400:6412): se pasa un proceso a ready, ID: 0
+[TRACE] 18:42:43:471 planificador_largo_plazo/(6400:6411): Se acepto temporalmente la conexion en el descriptor: 12 hasta validar la misma
+[INFO] 18:42:43:471 planificador_largo_plazo/(6400:6411): Mensaje recibido de la consola:  61
+[INFO] 18:42:43:471 planificador_largo_plazo/(6400:6411): Conexion establecida con la Consola
+[INFO] 18:42:43:471 planificador_largo_plazo/(6400:6411): Se creo un nuevo hilo para comunicarme con una consola.
+[INFO] 18:42:43:472 planificador_largo_plazo/(6400:6444): Mi ID de Thread es: 1
+[INFO] 18:42:43:472 planificador_largo_plazo/(6400:6444): El descriptor para comunicarme con mi consola es: 12
+[INFO] 18:42:43:472 planificador_largo_plazo/(6400:6444): Comenzamos a deserializar el mensaje recibido de la consola.
+[INFO] 18:42:43:472 planificador_largo_plazo/(6400:6444): Recibo codigo de operacion desde la consola: 0
+[INFO] 18:42:43:472 planificador_largo_plazo/(6400:6444): Recibo tamaño del buffer desde la consola: 36
+[INFO] 18:42:43:473 planificador_largo_plazo/(6400:6444): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:42:43:473 planificador_largo_plazo/(6400:6444): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:42:43:473 planificador_largo_plazo/(6400:6444): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:42:43:473 planificador_largo_plazo/(6400:6444): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:42:43:473 planificador_largo_plazo/(6400:6444):  4000 
+[INFO] 18:42:43:473 planificador_largo_plazo/(6400:6444): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:42:43:473 planificador_largo_plazo/(6400:6444):  4 
+[INFO] 18:42:43:473 planificador_largo_plazo/(6400:6444):  42 
+[INFO] 18:42:43:473 planificador_largo_plazo/(6400:6444): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:42:43:473 planificador_largo_plazo/(6400:6444):  0 
+[INFO] 18:42:43:473 planificador_largo_plazo/(6400:6444):  4 
+[INFO] 18:42:43:473 planificador_largo_plazo/(6400:6444): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:42:43:473 planificador_largo_plazo/(6400:6444):  0 
+[INFO] 18:42:43:473 planificador_largo_plazo/(6400:6444): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:42:43:473 planificador_largo_plazo/(6400:6444): Tamaño del proceso a recibir: 10
+[TRACE] 18:42:43:473 planificador_largo_plazo/(6400:6444): se agrego un proceso a new, ID: 1
+[TRACE] 18:42:43:473 planificador_largo_plazo/(6400:6444): se creo una comunicacion
+[TRACE] 18:42:43:473 planificador_largo_plazo/(6400:6444): me voy a bloquear, ID: 1
+[TRACE] 18:42:43:473 planificador_largo_plazo/(6400:6412): se pasa un proceso a ready, ID: 1
+[TRACE] 18:42:46:303 planificador_largo_plazo/(6400:6411): Se acepto temporalmente la conexion en el descriptor: 13 hasta validar la misma
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6411): Mensaje recibido de la consola:  61
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6411): Conexion establecida con la Consola
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6411): Se creo un nuevo hilo para comunicarme con una consola.
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6455): Mi ID de Thread es: 2
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6455): El descriptor para comunicarme con mi consola es: 13
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6455): Comenzamos a deserializar el mensaje recibido de la consola.
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6455): Recibo codigo de operacion desde la consola: 0
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6455): Recibo tamaño del buffer desde la consola: 36
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6455): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6455): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6455): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6455): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6455):  4000 
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6455): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6455):  4 
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6455):  42 
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6455): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6455):  0 
+[INFO] 18:42:46:303 planificador_largo_plazo/(6400:6455):  4 
+[INFO] 18:42:46:304 planificador_largo_plazo/(6400:6455): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:42:46:304 planificador_largo_plazo/(6400:6455):  0 
+[INFO] 18:42:46:304 planificador_largo_plazo/(6400:6455): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:42:46:304 planificador_largo_plazo/(6400:6455): Tamaño del proceso a recibir: 10
+[TRACE] 18:42:46:304 planificador_largo_plazo/(6400:6455): se agrego un proceso a new, ID: 2
+[TRACE] 18:42:46:304 planificador_largo_plazo/(6400:6455): se creo una comunicacion
+[TRACE] 18:42:46:304 planificador_largo_plazo/(6400:6455): me voy a bloquear, ID: 2
+[TRACE] 18:42:46:304 planificador_largo_plazo/(6400:6412): se pasa un proceso a ready, ID: 2
+[INFO] 18:44:08:963 planificador_largo_plazo/(6400:6413): INFORMACION PCB:
+[INFO] 18:44:08:963 planificador_largo_plazo/(6400:6413): PID: 0
+
+[INFO] 18:44:08:963 planificador_largo_plazo/(6400:6413): TAMANO: 10
+
+[INFO] 18:44:08:963 planificador_largo_plazo/(6400:6413): PC: 8
+
+[INFO] 18:44:08:963 planificador_largo_plazo/(6400:6413): ESTIMADO_RAFAGA: 1
+
+[INFO] 18:44:08:963 planificador_largo_plazo/(6400:6413): ESTADO: FINALIZADO
+
+[INFO] 18:44:08:963 planificador_largo_plazo/(6400:6413): TIEMPO BLOQUEO: 4000
+
+[INFO] 18:44:08:963 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:08:963 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:08:964 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:08:964 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:08:964 planificador_largo_plazo/(6400:6413):  4000 
+[INFO] 18:44:08:964 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:08:964 planificador_largo_plazo/(6400:6413):  4 
+[INFO] 18:44:08:964 planificador_largo_plazo/(6400:6413):  42 
+[INFO] 18:44:08:964 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:08:964 planificador_largo_plazo/(6400:6413):  0 
+[INFO] 18:44:08:964 planificador_largo_plazo/(6400:6413):  4 
+[INFO] 18:44:08:964 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:08:964 planificador_largo_plazo/(6400:6413):  0 
+[INFO] 18:44:08:964 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[TRACE] 18:44:08:964 planificador_largo_plazo/(6400:6413): se encontro una comunicacion
+[TRACE] 18:44:08:964 planificador_largo_plazo/(6400:6433): Puedo finalizar el proceso ID: 0, envio mensaje
+[INFO] 18:44:28:979 planificador_largo_plazo/(6400:6413): INFORMACION PCB:
+[INFO] 18:44:28:979 planificador_largo_plazo/(6400:6413): PID: 1
+
+[INFO] 18:44:28:979 planificador_largo_plazo/(6400:6413): TAMANO: 10
+
+[INFO] 18:44:28:979 planificador_largo_plazo/(6400:6413): PC: 8
+
+[INFO] 18:44:28:979 planificador_largo_plazo/(6400:6413): ESTIMADO_RAFAGA: 1
+
+[INFO] 18:44:28:979 planificador_largo_plazo/(6400:6413): ESTADO: FINALIZADO
+
+[INFO] 18:44:28:979 planificador_largo_plazo/(6400:6413): TIEMPO BLOQUEO: 4000
+
+[INFO] 18:44:28:979 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:28:980 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:28:980 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:28:980 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:28:980 planificador_largo_plazo/(6400:6413):  4000 
+[INFO] 18:44:28:980 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:28:980 planificador_largo_plazo/(6400:6413):  4 
+[INFO] 18:44:28:980 planificador_largo_plazo/(6400:6413):  42 
+[INFO] 18:44:28:980 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:28:980 planificador_largo_plazo/(6400:6413):  0 
+[INFO] 18:44:28:980 planificador_largo_plazo/(6400:6413):  4 
+[INFO] 18:44:28:980 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:28:980 planificador_largo_plazo/(6400:6413):  0 
+[INFO] 18:44:28:980 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[TRACE] 18:44:28:980 planificador_largo_plazo/(6400:6413): se encontro una comunicacion
+[TRACE] 18:44:28:980 planificador_largo_plazo/(6400:6444): Puedo finalizar el proceso ID: 1, envio mensaje
+[INFO] 18:44:48:995 planificador_largo_plazo/(6400:6413): INFORMACION PCB:
+[INFO] 18:44:48:995 planificador_largo_plazo/(6400:6413): PID: 2
+
+[INFO] 18:44:48:995 planificador_largo_plazo/(6400:6413): TAMANO: 10
+
+[INFO] 18:44:48:995 planificador_largo_plazo/(6400:6413): PC: 8
+
+[INFO] 18:44:48:995 planificador_largo_plazo/(6400:6413): ESTIMADO_RAFAGA: 1
+
+[INFO] 18:44:48:995 planificador_largo_plazo/(6400:6413): ESTADO: FINALIZADO
+
+[INFO] 18:44:48:995 planificador_largo_plazo/(6400:6413): TIEMPO BLOQUEO: 4000
+
+[INFO] 18:44:48:995 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:48:996 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:48:996 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:48:996 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:48:996 planificador_largo_plazo/(6400:6413):  4000 
+[INFO] 18:44:48:996 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:48:996 planificador_largo_plazo/(6400:6413):  4 
+[INFO] 18:44:48:996 planificador_largo_plazo/(6400:6413):  42 
+[INFO] 18:44:48:996 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:48:996 planificador_largo_plazo/(6400:6413):  0 
+[INFO] 18:44:48:996 planificador_largo_plazo/(6400:6413):  4 
+[INFO] 18:44:48:996 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:48:996 planificador_largo_plazo/(6400:6413):  0 
+[INFO] 18:44:48:996 planificador_largo_plazo/(6400:6413): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[TRACE] 18:44:48:996 planificador_largo_plazo/(6400:6413): se encontro una comunicacion
+[TRACE] 18:44:48:996 planificador_largo_plazo/(6400:6455): Puedo finalizar el proceso ID: 2, envio mensaje

@@ -1,95 +1,260 @@
-[TRACE] 09:52:46:516 planificador_corto_plazo/(24838:24852): se esta pasando un pcb a ready
-[TRACE] 09:52:46:516 planificador_corto_plazo/(24838:24852): PCB = 0, prioridad= 0 
+[TRACE] 18:42:39:889 planificador_corto_plazo/(6400:6414): se esta pasando un pcb a ready
+[TRACE] 18:42:39:889 planificador_corto_plazo/(6400:6414): PCB = 0, prioridad= 0 
 
-[TRACE] 09:52:46:516 planificador_corto_plazo/(24838:24853): se va a mandar a ejecutar un proceso 0
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854): INFORMACION PCB:
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854): PID: 0
+[TRACE] 18:42:39:889 planificador_corto_plazo/(6400:6415): KERNEL-CPU-PCB Se va a mandar a ejecutar un proceso 0
+[TRACE] 18:42:43:473 planificador_corto_plazo/(6400:6414): se esta pasando un pcb a ready
+[TRACE] 18:42:43:473 planificador_corto_plazo/(6400:6414): PCB = 1, prioridad= 0 
 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854): TAMANO: 10
+[TRACE] 18:42:46:304 planificador_corto_plazo/(6400:6414): se esta pasando un pcb a ready
+[TRACE] 18:42:46:304 planificador_corto_plazo/(6400:6414): PCB = 1, prioridad= 0 
 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854): PC: 4
+[TRACE] 18:42:46:304 planificador_corto_plazo/(6400:6414): PCB = 2, prioridad= 1 
 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854): ESTIMADO_RAFAGA: 1
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416): INFORMACION PCB:
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416): PID: 0
 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854): ESTADO: BLOQUEADO
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416): TAMANO: 10
 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854): TIEMPO BLOQUEO: 4000
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416): PC: 4
 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416): ESTIMADO_RAFAGA: 1
+
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416): ESTADO: BLOQUEADO
+
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416): TIEMPO BLOQUEO: 4000
+
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854): El codigo de la instruccion es: 2 , nombre: I/O 
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 2 , nombre: I/O 
  cantidad de parametros: 1 parametros: 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854):  4000 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854): El codigo de la instruccion es: 3 , nombre: WRITE 
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416):  4000 
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 3 , nombre: WRITE 
  cantidad de parametros: 2 parametros: 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854):  4 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854):  42 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854): El codigo de la instruccion es: 4 , nombre: COPY 
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416):  4 
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416):  42 
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 4 , nombre: COPY 
  cantidad de parametros: 2 parametros: 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854):  0 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854):  4 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854): El codigo de la instruccion es: 5 , nombre: READ 
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416):  0 
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416):  4 
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 5 , nombre: READ 
  cantidad de parametros: 1 parametros: 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854):  0 
-[INFO] 09:53:09:529 planificador_corto_plazo/(24838:24854): El codigo de la instruccion es: 6 , nombre: EXIT 
+[INFO] 18:43:02:908 planificador_corto_plazo/(6400:6416):  0 
+[INFO] 18:43:02:909 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 6 , nombre: EXIT 
  cantidad de parametros: 0 parametros: 
-[TRACE] 09:53:09:529 planificador_corto_plazo/(24838:24854): recibi un proceso ID: 0 
-[TRACE] 09:53:09:529 planificador_corto_plazo/(24838:24874): se va a bloquear un proceso por ID: 0
-[TRACE] 09:53:09:534 planificador_corto_plazo/(24838:24852): se esta pasando un pcb a ready
-[TRACE] 09:53:09:534 planificador_corto_plazo/(24838:24852): PCB = 0, prioridad= 0 
+[TRACE] 18:43:02:909 planificador_corto_plazo/(6400:6416): recibi un proceso ID: 0 
+[TRACE] 18:43:02:909 planificador_corto_plazo/(6400:6416): KERNEL-CPU-PCB Recibi PCB desde la CPU
+[TRACE] 18:43:02:909 planificador_corto_plazo/(6400:6415): KERNEL-CPU-PCB Se va a mandar a ejecutar un proceso 1
+[TRACE] 18:43:02:909 planificador_corto_plazo/(6400:6463): se va a bloquear un proceso por ID: 0
+[TRACE] 18:43:02:915 planificador_corto_plazo/(6400:6414): se esta pasando un pcb a ready
+[TRACE] 18:43:02:915 planificador_corto_plazo/(6400:6414): PCB = 2, prioridad= 0 
 
-[TRACE] 09:53:09:534 planificador_corto_plazo/(24838:24853): se va a mandar a ejecutar un proceso 0
-[INFO] 09:53:29:541 planificador_corto_plazo/(24838:24854): INFORMACION PCB:
-[INFO] 09:53:29:541 planificador_corto_plazo/(24838:24854): PID: 0
+[TRACE] 18:43:02:915 planificador_corto_plazo/(6400:6414): PCB = 0, prioridad= 1 
 
-[INFO] 09:53:29:541 planificador_corto_plazo/(24838:24854): TAMANO: 10
+[INFO] 18:43:25:929 planificador_corto_plazo/(6400:6416): INFORMACION PCB:
+[INFO] 18:43:25:929 planificador_corto_plazo/(6400:6416): PID: 1
 
-[INFO] 09:53:29:541 planificador_corto_plazo/(24838:24854): PC: 8
+[INFO] 18:43:25:929 planificador_corto_plazo/(6400:6416): TAMANO: 10
 
-[INFO] 09:53:29:541 planificador_corto_plazo/(24838:24854): ESTIMADO_RAFAGA: 1
+[INFO] 18:43:25:929 planificador_corto_plazo/(6400:6416): PC: 4
 
-[INFO] 09:53:29:542 planificador_corto_plazo/(24838:24854): ESTADO: BLOQUEADO
+[INFO] 18:43:25:929 planificador_corto_plazo/(6400:6416): ESTIMADO_RAFAGA: 1
 
-[INFO] 09:53:29:542 planificador_corto_plazo/(24838:24854): TIEMPO BLOQUEO: 4000
+[INFO] 18:43:25:929 planificador_corto_plazo/(6400:6416): ESTADO: BLOQUEADO
 
-[INFO] 09:53:29:542 planificador_corto_plazo/(24838:24854): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:25:929 planificador_corto_plazo/(6400:6416): TIEMPO BLOQUEO: 4000
+
+[INFO] 18:43:25:929 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:29:542 planificador_corto_plazo/(24838:24854): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:25:930 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:29:542 planificador_corto_plazo/(24838:24854): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 18:43:25:930 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 09:53:29:542 planificador_corto_plazo/(24838:24854): El codigo de la instruccion es: 2 , nombre: I/O 
+[INFO] 18:43:25:930 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 2 , nombre: I/O 
  cantidad de parametros: 1 parametros: 
-[INFO] 09:53:29:542 planificador_corto_plazo/(24838:24854):  4000 
-[INFO] 09:53:29:542 planificador_corto_plazo/(24838:24854): El codigo de la instruccion es: 3 , nombre: WRITE 
+[INFO] 18:43:25:930 planificador_corto_plazo/(6400:6416):  4000 
+[INFO] 18:43:25:930 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 3 , nombre: WRITE 
  cantidad de parametros: 2 parametros: 
-[INFO] 09:53:29:542 planificador_corto_plazo/(24838:24854):  4 
-[INFO] 09:53:29:542 planificador_corto_plazo/(24838:24854):  42 
-[INFO] 09:53:29:542 planificador_corto_plazo/(24838:24854): El codigo de la instruccion es: 4 , nombre: COPY 
+[INFO] 18:43:25:930 planificador_corto_plazo/(6400:6416):  4 
+[INFO] 18:43:25:930 planificador_corto_plazo/(6400:6416):  42 
+[INFO] 18:43:25:930 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 4 , nombre: COPY 
  cantidad de parametros: 2 parametros: 
-[INFO] 09:53:29:542 planificador_corto_plazo/(24838:24854):  0 
-[INFO] 09:53:29:542 planificador_corto_plazo/(24838:24854):  4 
-[INFO] 09:53:29:542 planificador_corto_plazo/(24838:24854): El codigo de la instruccion es: 5 , nombre: READ 
+[INFO] 18:43:25:930 planificador_corto_plazo/(6400:6416):  0 
+[INFO] 18:43:25:930 planificador_corto_plazo/(6400:6416):  4 
+[INFO] 18:43:25:930 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 5 , nombre: READ 
  cantidad de parametros: 1 parametros: 
-[INFO] 09:53:29:542 planificador_corto_plazo/(24838:24854):  0 
-[INFO] 09:53:29:542 planificador_corto_plazo/(24838:24854): El codigo de la instruccion es: 6 , nombre: EXIT 
+[INFO] 18:43:25:930 planificador_corto_plazo/(6400:6416):  0 
+[INFO] 18:43:25:930 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 6 , nombre: EXIT 
  cantidad de parametros: 0 parametros: 
-[TRACE] 09:53:29:542 planificador_corto_plazo/(24838:24854): recibi un proceso ID: 0 
-[TRACE] 09:53:29:542 planificador_corto_plazo/(24838:24879): se va a bloquear un proceso por ID: 0
-[TRACE] 09:53:29:546 planificador_corto_plazo/(24838:24852): se esta pasando un pcb a ready
-[TRACE] 09:53:29:546 planificador_corto_plazo/(24838:24852): PCB = 0, prioridad= 0 
+[TRACE] 18:43:25:930 planificador_corto_plazo/(6400:6416): recibi un proceso ID: 1 
+[TRACE] 18:43:25:930 planificador_corto_plazo/(6400:6416): KERNEL-CPU-PCB Recibi PCB desde la CPU
+[TRACE] 18:43:25:930 planificador_corto_plazo/(6400:6415): KERNEL-CPU-PCB Se va a mandar a ejecutar un proceso 2
+[TRACE] 18:43:25:930 planificador_corto_plazo/(6400:6478): se va a bloquear un proceso por ID: 1
+[TRACE] 18:43:25:934 planificador_corto_plazo/(6400:6414): se esta pasando un pcb a ready
+[TRACE] 18:43:25:934 planificador_corto_plazo/(6400:6414): PCB = 0, prioridad= 0 
 
-[TRACE] 09:53:29:546 planificador_corto_plazo/(24838:24853): se va a mandar a ejecutar un proceso 0
-[INFO] 09:53:29:650 planificador_corto_plazo/(24838:24854): INFORMACION PCB:
-[INFO] 09:53:29:650 planificador_corto_plazo/(24838:24854): PID: 156107200
+[TRACE] 18:43:25:934 planificador_corto_plazo/(6400:6414): PCB = 1, prioridad= 1 
 
-[INFO] 09:53:29:651 planificador_corto_plazo/(24838:24854): TAMANO: 0
+[INFO] 18:43:48:950 planificador_corto_plazo/(6400:6416): INFORMACION PCB:
+[INFO] 18:43:48:950 planificador_corto_plazo/(6400:6416): PID: 2
 
-[INFO] 09:53:29:651 planificador_corto_plazo/(24838:24854): PC: 16
+[INFO] 18:43:48:950 planificador_corto_plazo/(6400:6416): TAMANO: 10
 
-[INFO] 09:53:29:651 planificador_corto_plazo/(24838:24854): ESTIMADO_RAFAGA: 17
+[INFO] 18:43:48:950 planificador_corto_plazo/(6400:6416): PC: 4
 
+[INFO] 18:43:48:950 planificador_corto_plazo/(6400:6416): ESTIMADO_RAFAGA: 1
+
+[INFO] 18:43:48:950 planificador_corto_plazo/(6400:6416): ESTADO: BLOQUEADO
+
+[INFO] 18:43:48:950 planificador_corto_plazo/(6400:6416): TIEMPO BLOQUEO: 4000
+
+[INFO] 18:43:48:950 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:43:48:950 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:43:48:950 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:43:48:950 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:43:48:950 planificador_corto_plazo/(6400:6416):  4000 
+[INFO] 18:43:48:951 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:43:48:951 planificador_corto_plazo/(6400:6416):  4 
+[INFO] 18:43:48:951 planificador_corto_plazo/(6400:6416):  42 
+[INFO] 18:43:48:951 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:43:48:951 planificador_corto_plazo/(6400:6416):  0 
+[INFO] 18:43:48:951 planificador_corto_plazo/(6400:6416):  4 
+[INFO] 18:43:48:951 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:43:48:951 planificador_corto_plazo/(6400:6416):  0 
+[INFO] 18:43:48:951 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[TRACE] 18:43:48:951 planificador_corto_plazo/(6400:6416): recibi un proceso ID: 2 
+[TRACE] 18:43:48:951 planificador_corto_plazo/(6400:6416): KERNEL-CPU-PCB Recibi PCB desde la CPU
+[TRACE] 18:43:48:951 planificador_corto_plazo/(6400:6415): KERNEL-CPU-PCB Se va a mandar a ejecutar un proceso 0
+[TRACE] 18:43:48:952 planificador_corto_plazo/(6400:6480): se va a bloquear un proceso por ID: 2
+[TRACE] 18:43:48:957 planificador_corto_plazo/(6400:6414): se esta pasando un pcb a ready
+[TRACE] 18:43:48:957 planificador_corto_plazo/(6400:6414): PCB = 1, prioridad= 0 
+
+[TRACE] 18:43:48:957 planificador_corto_plazo/(6400:6414): PCB = 2, prioridad= 1 
+
+[INFO] 18:44:08:962 planificador_corto_plazo/(6400:6416): INFORMACION PCB:
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416): PID: 0
+
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416): TAMANO: 10
+
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416): PC: 8
+
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416): ESTIMADO_RAFAGA: 1
+
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416): ESTADO: FINALIZADO
+
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416): TIEMPO BLOQUEO: 4000
+
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416):  4000 
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416):  4 
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416):  42 
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416):  0 
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416):  4 
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416):  0 
+[INFO] 18:44:08:963 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[TRACE] 18:44:08:963 planificador_corto_plazo/(6400:6416): recibi un proceso ID: 0 
+[TRACE] 18:44:08:963 planificador_corto_plazo/(6400:6416): KERNEL-CPU-PCB Recibi PCB desde la CPU
+[TRACE] 18:44:08:963 planificador_corto_plazo/(6400:6416): KERNEL-CPU-PCB Libero semaforo para finalizar proceso con ID: 0 
+[TRACE] 18:44:08:963 planificador_corto_plazo/(6400:6415): KERNEL-CPU-PCB Se va a mandar a ejecutar un proceso 1
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416): INFORMACION PCB:
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416): PID: 1
+
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416): TAMANO: 10
+
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416): PC: 8
+
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416): ESTIMADO_RAFAGA: 1
+
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416): ESTADO: FINALIZADO
+
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416): TIEMPO BLOQUEO: 4000
+
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416):  4000 
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416):  4 
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416):  42 
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416):  0 
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416):  4 
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416):  0 
+[INFO] 18:44:28:979 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[TRACE] 18:44:28:979 planificador_corto_plazo/(6400:6416): recibi un proceso ID: 1 
+[TRACE] 18:44:28:979 planificador_corto_plazo/(6400:6416): KERNEL-CPU-PCB Recibi PCB desde la CPU
+[TRACE] 18:44:28:979 planificador_corto_plazo/(6400:6416): KERNEL-CPU-PCB Libero semaforo para finalizar proceso con ID: 1 
+[TRACE] 18:44:28:979 planificador_corto_plazo/(6400:6415): KERNEL-CPU-PCB Se va a mandar a ejecutar un proceso 2
+[INFO] 18:44:48:994 planificador_corto_plazo/(6400:6416): INFORMACION PCB:
+[INFO] 18:44:48:994 planificador_corto_plazo/(6400:6416): PID: 2
+
+[INFO] 18:44:48:994 planificador_corto_plazo/(6400:6416): TAMANO: 10
+
+[INFO] 18:44:48:994 planificador_corto_plazo/(6400:6416): PC: 8
+
+[INFO] 18:44:48:994 planificador_corto_plazo/(6400:6416): ESTIMADO_RAFAGA: 1
+
+[INFO] 18:44:48:994 planificador_corto_plazo/(6400:6416): ESTADO: FINALIZADO
+
+[INFO] 18:44:48:994 planificador_corto_plazo/(6400:6416): TIEMPO BLOQUEO: 4000
+
+[INFO] 18:44:48:994 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:48:994 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:48:994 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 18:44:48:995 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:48:995 planificador_corto_plazo/(6400:6416):  4000 
+[INFO] 18:44:48:995 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:48:995 planificador_corto_plazo/(6400:6416):  4 
+[INFO] 18:44:48:995 planificador_corto_plazo/(6400:6416):  42 
+[INFO] 18:44:48:995 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 18:44:48:995 planificador_corto_plazo/(6400:6416):  0 
+[INFO] 18:44:48:995 planificador_corto_plazo/(6400:6416):  4 
+[INFO] 18:44:48:995 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 18:44:48:995 planificador_corto_plazo/(6400:6416):  0 
+[INFO] 18:44:48:995 planificador_corto_plazo/(6400:6416): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[TRACE] 18:44:48:995 planificador_corto_plazo/(6400:6416): recibi un proceso ID: 2 
+[TRACE] 18:44:48:995 planificador_corto_plazo/(6400:6416): KERNEL-CPU-PCB Recibi PCB desde la CPU
+[TRACE] 18:44:48:995 planificador_corto_plazo/(6400:6416): KERNEL-CPU-PCB Libero semaforo para finalizar proceso con ID: 2 

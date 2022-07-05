@@ -75,8 +75,8 @@ void* gestionar_comunicacion(void* aux)
 	sem_wait(&s);
 
 	// AVISO QUE TERMINO BIEN!! :D
-	log_trace(PLP,"desbloqueo un hilo, ID: %d", pcb->pid);
-	uint8_t auxv= 1;
+	log_trace(PLP,"Puedo finalizar el proceso ID: %d, envio mensaje", pcb->pid);
+	uint8_t auxv= PROCESO_FINALIZADO;
 	void* a_enviar = malloc(sizeof(uint8_t));
 	memcpy(a_enviar,&auxv,sizeof(uint8_t));
 	send(socket,a_enviar,sizeof(uint8_t),0);
@@ -207,7 +207,8 @@ comunicacion_t* buscar_comunicacion(pcb_t* pcb){
 //--------------------------------------------------------------------------------------//
 
 void* finalizar_procesos(){
-	while(1){
+	while(1)
+	{
 		// ESPERO QUE HAYA UN PROCESO FINALIZADO
 		sem_wait(&s_proceso_finalizado);
 		log_trace(logP,"se va a finalizar un proceso");

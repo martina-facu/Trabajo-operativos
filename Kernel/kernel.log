@@ -1,22 +1,26 @@
-[INFO] 09:52:43:539 KERNEL/(24838:24838): Conexion establecida con exito
-[INFO] 09:52:43:539 KERNEL/(24838:24838): Creo conexion con la MEMORIA en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
-[INFO] 09:52:43:539 KERNEL/(24838:24838): Se envia Handshake a la memoria
-[INFO] 09:52:43:539 KERNEL/(24838:24838): Mensaje recibido de la memoria:  42
-[INFO] 09:52:43:539 KERNEL/(24838:24838): Conexion establecida con la memoria
-[INFO] 09:52:43:539 KERNEL/(24838:24838): Conexion establecida con exito
-[INFO] 09:52:43:539 KERNEL/(24838:24838): Creo conexion con la CPU DISPATCH en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
-[INFO] 09:52:43:539 KERNEL/(24838:24838): Se envia Handshake a CPU dispatch
-[INFO] 09:52:43:539 KERNEL/(24838:24838): Mensaje recibido del CPU:  22
-[INFO] 09:52:43:539 KERNEL/(24838:24838): Conexion establecida con la CPU dispatch
-[INFO] 09:52:43:539 KERNEL/(24838:24838): Conexion establecida con exito
-[INFO] 09:52:43:539 KERNEL/(24838:24838): Creo conexion con la CPU INTERRUPT en la IP 192.168.0.233 y puerto 8005 con el descriptor:  9
-[INFO] 09:52:43:539 KERNEL/(24838:24838): Se envia Handshake a la CPU interrupt
-[INFO] 09:52:43:540 KERNEL/(24838:24838): Mensaje recibido de la CPU interrupt:  24
-[INFO] 09:52:43:540 KERNEL/(24838:24838): Conexion establecida con la CPU interrupt
-[TRACE] 09:52:43:540 KERNEL/(24838:24838): MODO PLANIFICADOR CORTO PLAZO: FIFO
+[INFO] 18:42:36:247 KERNEL/(6400:6400): Conexion establecida con exito
+[INFO] 18:42:36:247 KERNEL/(6400:6400): Creo conexion con la MEMORIA en la IP 192.168.0.233 y puerto 8002 con el descriptor:  7
+[INFO] 18:42:36:247 KERNEL/(6400:6400): Se envia Handshake a la memoria
+[INFO] 18:42:36:248 KERNEL/(6400:6400): Mensaje recibido de la memoria:  42
+[INFO] 18:42:36:248 KERNEL/(6400:6400): Conexion establecida con la memoria
+[INFO] 18:42:36:248 KERNEL/(6400:6400): Conexion establecida con exito
+[INFO] 18:42:36:248 KERNEL/(6400:6400): Creo conexion con la CPU DISPATCH en la IP 192.168.0.233 y puerto 9797 con el descriptor:  8
+[INFO] 18:42:36:248 KERNEL/(6400:6400): Se envia Handshake a CPU dispatch
+[INFO] 18:42:36:248 KERNEL/(6400:6400): Mensaje recibido del CPU:  22
+[INFO] 18:42:36:248 KERNEL/(6400:6400): Conexion establecida con la CPU dispatch
+[INFO] 18:42:36:248 KERNEL/(6400:6400): Conexion establecida con exito
+[INFO] 18:42:36:248 KERNEL/(6400:6400): Creo conexion con la CPU INTERRUPT en la IP 192.168.0.233 y puerto 8005 con el descriptor:  9
+[INFO] 18:42:36:248 KERNEL/(6400:6400): Se envia Handshake a la CPU interrupt
+[INFO] 18:42:36:248 KERNEL/(6400:6400): Mensaje recibido de la CPU interrupt:  24
+[INFO] 18:42:36:249 KERNEL/(6400:6400): Conexion establecida con la CPU interrupt
+[TRACE] 18:42:36:249 KERNEL/(6400:6400): MODO PLANIFICADOR CORTO PLAZO: FIFO
 
-[TRACE] 09:52:43:540 KERNEL/(24838:24838): EJECUTANDO: PLANIFICADOR LARGO PLAZO
+[TRACE] 18:42:36:249 KERNEL/(6400:6400): EJECUTANDO: PLANIFICADOR LARGO PLAZO
 
-[TRACE] 09:52:43:540 KERNEL/(24838:24838): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO
-[TRACE] 09:53:09:534 KERNEL/(24838:24874): se DESBLOQUEO un proceso, ID: 0
-[TRACE] 09:53:29:546 KERNEL/(24838:24879): se DESBLOQUEO un proceso, ID: 0
+[TRACE] 18:42:36:249 KERNEL/(6400:6400): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO
+[TRACE] 18:43:02:915 KERNEL/(6400:6463): se DESBLOQUEO un proceso, ID: 0
+[TRACE] 18:43:25:934 KERNEL/(6400:6478): se DESBLOQUEO un proceso, ID: 1
+[TRACE] 18:43:48:957 KERNEL/(6400:6480): se DESBLOQUEO un proceso, ID: 2
+[TRACE] 18:44:08:963 KERNEL/(6400:6413): se va a finalizar un proceso
+[TRACE] 18:44:28:979 KERNEL/(6400:6413): se va a finalizar un proceso
+[TRACE] 18:44:48:995 KERNEL/(6400:6413): se va a finalizar un proceso
