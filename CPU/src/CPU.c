@@ -307,23 +307,24 @@ void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
  */
 void procesarPCB(void)
 {
-	log_info(logger, "Se recibio un PCB y procedo a ejecutar el mismo");
+	log_info(logger, "CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo");
 	while (devolver_pcb == false)
-		ejecutar_ciclo_instrucciones(pcb, &devolver_pcb, configuracion->retardoNoOp, configuracion->entradasTLB, acceptedConecctionDispatch, 0, logger);
+		ejecutar_ciclo_instrucciones(pcb, &devolver_pcb, configuracion->retardoNoOp, configuracion->entradasTLB, acceptedConecctionDispatch, 0, &interrupcion, logger);
 //		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
 
 
-	log_info(logger, "Voy a mostrar como quedo el contenido del PCB luego de la ejecucion");
+	log_info(logger, "CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion");
 	pcb_mostrar(pcb, logger);
 
 	//	DEVOLVER PCB AL KERNEL
 	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
-	log_info(logger, "Se arma el stream para devolver el PCB al Kernel");
+	log_info(logger, "CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel");
 	void* a_enviar = pcb_serializar(pcb,tamano_mensaje,1);
 	send(acceptedConecctionDispatch, a_enviar, *tamano_mensaje, 0);
-	log_info(logger, "Se devuelve el PCB al Kernel");
+	log_info(logger, "CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel");
+	devolver_pcb = false;
 	recibiPCB = false;
-
+	log_info(logger, "CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel");
 
 }
 

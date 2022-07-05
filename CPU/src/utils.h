@@ -55,7 +55,7 @@
 	fd_set master_fd_set; 		// 	conjunto maestro de descriptores de fichero
 	bool devolver_pcb;			//	Si es True significa que recibi una interrupcion
 	bool recibiPCB;				//	Si es FALSE significa que todavia no recibi ningun PCB si es TRUE ya recibi PCB a procesar desde el Kernel
-	bool* hubo_interrupcion;
+//	bool* hubo_interrupcion;
 
 
 /*
@@ -68,7 +68,7 @@
 	int levantar_server(char* ipServer, char* portServer, t_log* logger, char* sTipo);
 	pcb_t* obtener_pcb(int cliente);
 	bool execute(Instruccion* instruccion,int dormir, int cantidad_entradas, int conexion_memoria, int tamano_pagina, pcb_t* pcb, t_log* logger);
-	void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoOp, int cantidad_entradas, int conexion_memoria, int tamano_pagina, t_log* logger);
+	void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoOp, int cantidad_entradas, int conexion_memoria, int tamano_pagina, bool* hubo_interrupcion, t_log* logger);
 	uint32_t* leer(int direccion_logica, Datos_calculo_direccion* datos, t_log* logger);
 	uint32_t* escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calculo_direccion* datos, t_log* logger);
 	t_paquete* recibir_mensaje_memoria(int conexion_memoria, t_log* logger);

@@ -74,7 +74,6 @@
 	int connectionsInterrupt = 0;
 	int acceptedConecctionDispatch;
 	int acceptedConecctionInterrupt;
-
 	bool interrupcion = false;
 	bool activeDispatch = false;
 	bool activeInterrupt = false;
