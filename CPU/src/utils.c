@@ -303,53 +303,28 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 }
 
 
+t_config_cpu* cargarConfiguracion(char* configPath)
+{
 
+	t_config* configFile = config_create(configPath);
+	t_config_cpu* configTemp = crearConfigCPU();
 
-//bool execute(Instruccion* instruccion,int dormir, pcb_t* pcb)
-//{ // TODO : encapsular la logica de las instrucciones mas complicadas
-//	uint8_t id = instruccion->id;
-//	t_list* parametros = instruccion->parametros;
-//
-//	int catidad_parametros = getCantidadParametros(id);
-//	int* parametro1,parametro2 = 0;
-//
-//	if(catidad_parametros == 1){
-//		parametro1 = list_get(parametros,0);
-//	}else if(catidad_parametros >= 1){
-//		parametro1 = list_get(parametros,0);
-//		parametro2 = list_get(parametros,1);
-//	}
-//
-////	int dormir = config_get_int_value(config,"RETARDO_NOOP");
-//
-//	switch (id)
-//	{
-//		case 1:
-//			dormir = dormir/1000;
-//			sleep(dormir);
-//			return false;
-//			break;
-//		case 2:
-//			pcb->estado = BLOQUEADO;
-//			pcb->tiempo_block = *parametro1;
-//			return true;
-//			break;
-//		case 3: // TODO : Implementar la instruccion WRITE
-//			return false;
-//			break;
-//		case 4: // TODO : Implementar la instruccion COPY
-//			return false;
-//			break;
-//		case 5: // TODO : Implementar la instruccion READ
-//			return false;
-//			break;
-//		case 6:
-//			return true;
-//			break;
-//		default:
-//			printf("\nHUBO UN FALLO EN LA EJECUCION DE LAS INSTRUCCIONES");
-//			return true;
-//			break;
-//	}
-//}
+	configTemp->entradasTLB = config_get_int_value(configFile, ENTRADAS_TLB);
+		log_info(logger, "Se leyo la variable ENTRADAS_TLB: %d", configTemp->entradasTLB);
+	configTemp->algoritmoReemplazoTLB = config_get_string_value(configFile, ALG_TLB);
+		log_info(logger, "Se leyo la variable REEMPLAZO_TLB: %s", configTemp->algoritmoReemplazoTLB);
+	configTemp->retardoNoOp = config_get_int_value(configFile, RETARDO_NOOP);
+		log_info(logger, "Se leyo la variable RETARDO_NOOP: %d", configTemp->retardoNoOp);
+	configTemp->IPCPU = config_get_string_value(configFile, IP_CPU);
+		log_info(logger, "Se leyo la variable IP_CPU: %s", configTemp->IPCPU);
+	configTemp->IPMemoria = config_get_string_value(configFile, IP_MEMORIA);
+		log_info(logger, "Se leyo la variable IP_MEMORIA: %s", configTemp->IPMemoria);
+	configTemp->puertoMemoria = config_get_string_value(configFile, PUERTO_MEMORIA);
+		log_info(logger, "Se leyo la variable PUERTO_MEMORIA: %s", configTemp->puertoMemoria);
+	configTemp->puertoDispatch = config_get_string_value(configFile, PUERTO_DISPATCH);
+		log_info(logger, "Se leyo la variable PUERTO_DISPATCH: %s", configTemp->puertoDispatch);
+	configTemp->puertoInterrupt = config_get_string_value(configFile, PUERTO_INTERRUPT);
+		log_info(logger, "Se leyo la variable PUERTO_INTERRUPT: %s", configTemp->puertoInterrupt);
 
+	return configTemp;
+}

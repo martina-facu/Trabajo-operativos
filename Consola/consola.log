@@ -1,111 +1,74 @@
-[INFO] 18:42:39:886 CONSOLA/(6428:6428): -------------------------
-[INFO] 18:42:39:887 CONSOLA/(6428:6428): Iniciando log Proceso CONSOLA
-[INFO] 18:42:39:887 CONSOLA/(6428:6428): -------------------------
-[INFO] 18:42:39:887 CONSOLA/(6428:6428): El archivo de instrucciones para esta consola es: /home/utnso/tp-2022-1c-9-12/Consola/instrucciones.txt
-[INFO] 18:42:39:887 CONSOLA/(6428:6428): El tamaño del proceso para esta consola es: 10
-[INFO] 18:42:39:887 CONSOLA/(6428:6428): La IP de conexion al Kernel es: 192.168.0.233
-[INFO] 18:42:39:887 CONSOLA/(6428:6428): El puerto de conexion al Kernel es: 8000
-[INFO] 18:42:39:887 CONSOLA/(6428:6428): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 00:22:58:316 CONSOLA/(11719:11719): -------------------------
+[INFO] 00:22:58:316 CONSOLA/(11719:11719): Iniciando log Proceso CONSOLA
+[INFO] 00:22:58:316 CONSOLA/(11719:11719): -------------------------
+[INFO] 00:22:58:316 CONSOLA/(11719:11719): El archivo de instrucciones para esta consola es: instrucciones.txt
+[INFO] 00:22:58:316 CONSOLA/(11719:11719): El tamaño del proceso para esta consola es: 10
+[INFO] 00:22:58:317 CONSOLA/(11719:11719): La IP de conexion al Kernel es: 127.0.0.1
+[INFO] 00:22:58:317 CONSOLA/(11719:11719): El puerto de conexion al Kernel es: 8000
+[INFO] 00:22:58:318 CONSOLA/(11719:11719): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 18:42:39:887 CONSOLA/(6428:6428): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 00:22:58:318 CONSOLA/(11719:11719): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 18:42:39:887 CONSOLA/(6428:6428): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 00:22:58:318 CONSOLA/(11719:11719): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 18:42:39:887 CONSOLA/(6428:6428): El codigo de la instruccion es: 2 , nombre: I/O 
+[INFO] 00:22:58:318 CONSOLA/(11719:11719): El codigo de la instruccion es: 2 , nombre: I/O 
  cantidad de parametros: 1 parametros: 
-[INFO] 18:42:39:887 CONSOLA/(6428:6428):  4000 
-[INFO] 18:42:39:887 CONSOLA/(6428:6428): El codigo de la instruccion es: 3 , nombre: WRITE 
+[INFO] 00:22:58:318 CONSOLA/(11719:11719):  4000 
+[INFO] 00:22:58:318 CONSOLA/(11719:11719): El codigo de la instruccion es: 3 , nombre: WRITE 
  cantidad de parametros: 2 parametros: 
-[INFO] 18:42:39:887 CONSOLA/(6428:6428):  4 
-[INFO] 18:42:39:887 CONSOLA/(6428:6428):  42 
-[INFO] 18:42:39:887 CONSOLA/(6428:6428): El codigo de la instruccion es: 4 , nombre: COPY 
+[INFO] 00:22:58:318 CONSOLA/(11719:11719):  4 
+[INFO] 00:22:58:318 CONSOLA/(11719:11719):  42 
+[INFO] 00:22:58:318 CONSOLA/(11719:11719): El codigo de la instruccion es: 4 , nombre: COPY 
  cantidad de parametros: 2 parametros: 
-[INFO] 18:42:39:887 CONSOLA/(6428:6428):  0 
-[INFO] 18:42:39:887 CONSOLA/(6428:6428):  4 
-[INFO] 18:42:39:887 CONSOLA/(6428:6428): El codigo de la instruccion es: 5 , nombre: READ 
+[INFO] 00:22:58:318 CONSOLA/(11719:11719):  0 
+[INFO] 00:22:58:318 CONSOLA/(11719:11719):  4 
+[INFO] 00:22:58:318 CONSOLA/(11719:11719): El codigo de la instruccion es: 5 , nombre: READ 
  cantidad de parametros: 1 parametros: 
-[INFO] 18:42:39:887 CONSOLA/(6428:6428):  0 
-[INFO] 18:42:39:887 CONSOLA/(6428:6428): El codigo de la instruccion es: 6 , nombre: EXIT 
+[INFO] 00:22:58:318 CONSOLA/(11719:11719):  0 
+[INFO] 00:22:58:318 CONSOLA/(11719:11719): El codigo de la instruccion es: 6 , nombre: EXIT 
  cantidad de parametros: 0 parametros: 
-[INFO] 18:42:39:887 CONSOLA/(6428:6428): Conexion establecida con exito
-[INFO] 18:42:39:887 CONSOLA/(6428:6428): Se establece una conexion voy a comenzar con el envio de Handshake para validar la misma
-[INFO] 18:42:39:888 CONSOLA/(6428:6428): Se envia Handshake al Kernel
-[INFO] 18:42:39:888 CONSOLA/(6428:6428): Mensaje recibido del Kernel:  62
-[INFO] 18:42:39:888 CONSOLA/(6428:6428): Conexion establecida con el Kernel
-[INFO] 18:42:39:888 CONSOLA/(6428:6428): Se envio el mensaje  al KERNEL de tamaño 45
-[INFO] 18:42:43:469 CONSOLA/(6439:6439): -------------------------
-[INFO] 18:42:43:469 CONSOLA/(6439:6439): Iniciando log Proceso CONSOLA
-[INFO] 18:42:43:469 CONSOLA/(6439:6439): -------------------------
-[INFO] 18:42:43:469 CONSOLA/(6439:6439): El archivo de instrucciones para esta consola es: /home/utnso/tp-2022-1c-9-12/Consola/instrucciones.txt
-[INFO] 18:42:43:470 CONSOLA/(6439:6439): El tamaño del proceso para esta consola es: 10
-[INFO] 18:42:43:470 CONSOLA/(6439:6439): La IP de conexion al Kernel es: 192.168.0.233
-[INFO] 18:42:43:470 CONSOLA/(6439:6439): El puerto de conexion al Kernel es: 8000
-[INFO] 18:42:43:470 CONSOLA/(6439:6439): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 00:22:58:318 CONSOLA/(11719:11719): Conexion establecida con exito
+[INFO] 00:22:58:319 CONSOLA/(11719:11719): Se establece una conexion voy a comenzar con el envio de Handshake para validar la misma
+[INFO] 00:22:58:319 CONSOLA/(11719:11719): Se envia Handshake al Kernel
+[INFO] 00:22:58:319 CONSOLA/(11719:11719): Mensaje recibido del Kernel:  62
+[INFO] 00:22:58:319 CONSOLA/(11719:11719): Conexion establecida con el Kernel
+[INFO] 00:22:58:319 CONSOLA/(11719:11719): Se envio el mensaje  al KERNEL de tamaño 45
+[INFO] 00:23:14:852 CONSOLA/(11738:11738): -------------------------
+[INFO] 00:23:14:853 CONSOLA/(11738:11738): Iniciando log Proceso CONSOLA
+[INFO] 00:23:14:853 CONSOLA/(11738:11738): -------------------------
+[INFO] 00:23:14:853 CONSOLA/(11738:11738): El archivo de instrucciones para esta consola es: instrucciones.txt
+[INFO] 00:23:14:853 CONSOLA/(11738:11738): El tamaño del proceso para esta consola es: 10
+[INFO] 00:23:14:853 CONSOLA/(11738:11738): La IP de conexion al Kernel es: 127.0.0.1
+[INFO] 00:23:14:853 CONSOLA/(11738:11738): El puerto de conexion al Kernel es: 8000
+[INFO] 00:23:14:853 CONSOLA/(11738:11738): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 18:42:43:470 CONSOLA/(6439:6439): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 00:23:14:853 CONSOLA/(11738:11738): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 18:42:43:470 CONSOLA/(6439:6439): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 00:23:14:853 CONSOLA/(11738:11738): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 18:42:43:470 CONSOLA/(6439:6439): El codigo de la instruccion es: 2 , nombre: I/O 
+[INFO] 00:23:14:853 CONSOLA/(11738:11738): El codigo de la instruccion es: 2 , nombre: I/O 
  cantidad de parametros: 1 parametros: 
-[INFO] 18:42:43:470 CONSOLA/(6439:6439):  4000 
-[INFO] 18:42:43:470 CONSOLA/(6439:6439): El codigo de la instruccion es: 3 , nombre: WRITE 
+[INFO] 00:23:14:853 CONSOLA/(11738:11738):  4000 
+[INFO] 00:23:14:854 CONSOLA/(11738:11738): El codigo de la instruccion es: 3 , nombre: WRITE 
  cantidad de parametros: 2 parametros: 
-[INFO] 18:42:43:471 CONSOLA/(6439:6439):  4 
-[INFO] 18:42:43:471 CONSOLA/(6439:6439):  42 
-[INFO] 18:42:43:471 CONSOLA/(6439:6439): El codigo de la instruccion es: 4 , nombre: COPY 
+[INFO] 00:23:14:854 CONSOLA/(11738:11738):  4 
+[INFO] 00:23:14:854 CONSOLA/(11738:11738):  42 
+[INFO] 00:23:14:854 CONSOLA/(11738:11738): El codigo de la instruccion es: 4 , nombre: COPY 
  cantidad de parametros: 2 parametros: 
-[INFO] 18:42:43:471 CONSOLA/(6439:6439):  0 
-[INFO] 18:42:43:471 CONSOLA/(6439:6439):  4 
-[INFO] 18:42:43:471 CONSOLA/(6439:6439): El codigo de la instruccion es: 5 , nombre: READ 
+[INFO] 00:23:14:854 CONSOLA/(11738:11738):  0 
+[INFO] 00:23:14:854 CONSOLA/(11738:11738):  4 
+[INFO] 00:23:14:854 CONSOLA/(11738:11738): El codigo de la instruccion es: 5 , nombre: READ 
  cantidad de parametros: 1 parametros: 
-[INFO] 18:42:43:471 CONSOLA/(6439:6439):  0 
-[INFO] 18:42:43:471 CONSOLA/(6439:6439): El codigo de la instruccion es: 6 , nombre: EXIT 
+[INFO] 00:23:14:854 CONSOLA/(11738:11738):  0 
+[INFO] 00:23:14:854 CONSOLA/(11738:11738): El codigo de la instruccion es: 6 , nombre: EXIT 
  cantidad de parametros: 0 parametros: 
-[INFO] 18:42:43:471 CONSOLA/(6439:6439): Conexion establecida con exito
-[INFO] 18:42:43:471 CONSOLA/(6439:6439): Se establece una conexion voy a comenzar con el envio de Handshake para validar la misma
-[INFO] 18:42:43:471 CONSOLA/(6439:6439): Se envia Handshake al Kernel
-[INFO] 18:42:43:472 CONSOLA/(6439:6439): Mensaje recibido del Kernel:  62
-[INFO] 18:42:43:472 CONSOLA/(6439:6439): Conexion establecida con el Kernel
-[INFO] 18:42:43:472 CONSOLA/(6439:6439): Se envio el mensaje  al KERNEL de tamaño 45
-[INFO] 18:42:46:302 CONSOLA/(6450:6450): -------------------------
-[INFO] 18:42:46:302 CONSOLA/(6450:6450): Iniciando log Proceso CONSOLA
-[INFO] 18:42:46:302 CONSOLA/(6450:6450): -------------------------
-[INFO] 18:42:46:302 CONSOLA/(6450:6450): El archivo de instrucciones para esta consola es: /home/utnso/tp-2022-1c-9-12/Consola/instrucciones.txt
-[INFO] 18:42:46:302 CONSOLA/(6450:6450): El tamaño del proceso para esta consola es: 10
-[INFO] 18:42:46:302 CONSOLA/(6450:6450): La IP de conexion al Kernel es: 192.168.0.233
-[INFO] 18:42:46:302 CONSOLA/(6450:6450): El puerto de conexion al Kernel es: 8000
-[INFO] 18:42:46:302 CONSOLA/(6450:6450): El codigo de la instruccion es: 1 , nombre: NO_OP 
- cantidad de parametros: 0 parametros: 
-[INFO] 18:42:46:302 CONSOLA/(6450:6450): El codigo de la instruccion es: 1 , nombre: NO_OP 
- cantidad de parametros: 0 parametros: 
-[INFO] 18:42:46:302 CONSOLA/(6450:6450): El codigo de la instruccion es: 1 , nombre: NO_OP 
- cantidad de parametros: 0 parametros: 
-[INFO] 18:42:46:302 CONSOLA/(6450:6450): El codigo de la instruccion es: 2 , nombre: I/O 
- cantidad de parametros: 1 parametros: 
-[INFO] 18:42:46:302 CONSOLA/(6450:6450):  4000 
-[INFO] 18:42:46:302 CONSOLA/(6450:6450): El codigo de la instruccion es: 3 , nombre: WRITE 
- cantidad de parametros: 2 parametros: 
-[INFO] 18:42:46:302 CONSOLA/(6450:6450):  4 
-[INFO] 18:42:46:302 CONSOLA/(6450:6450):  42 
-[INFO] 18:42:46:302 CONSOLA/(6450:6450): El codigo de la instruccion es: 4 , nombre: COPY 
- cantidad de parametros: 2 parametros: 
-[INFO] 18:42:46:303 CONSOLA/(6450:6450):  0 
-[INFO] 18:42:46:303 CONSOLA/(6450:6450):  4 
-[INFO] 18:42:46:303 CONSOLA/(6450:6450): El codigo de la instruccion es: 5 , nombre: READ 
- cantidad de parametros: 1 parametros: 
-[INFO] 18:42:46:303 CONSOLA/(6450:6450):  0 
-[INFO] 18:42:46:303 CONSOLA/(6450:6450): El codigo de la instruccion es: 6 , nombre: EXIT 
- cantidad de parametros: 0 parametros: 
-[INFO] 18:42:46:303 CONSOLA/(6450:6450): Conexion establecida con exito
-[INFO] 18:42:46:303 CONSOLA/(6450:6450): Se establece una conexion voy a comenzar con el envio de Handshake para validar la misma
-[INFO] 18:42:46:303 CONSOLA/(6450:6450): Se envia Handshake al Kernel
-[INFO] 18:42:46:303 CONSOLA/(6450:6450): Mensaje recibido del Kernel:  62
-[INFO] 18:42:46:303 CONSOLA/(6450:6450): Conexion establecida con el Kernel
-[INFO] 18:42:46:303 CONSOLA/(6450:6450): Se envio el mensaje  al KERNEL de tamaño 45
-[INFO] 18:44:08:964 CONSOLA/(6428:6428): Se recibio la respuesta 63 del KERNEL
-[INFO] 18:44:08:964 CONSOLA/(6428:6428): Se recibio la respuesta de finalizacion exitosa del KERNEL: 63
-[INFO] 18:44:28:980 CONSOLA/(6439:6439): Se recibio la respuesta 63 del KERNEL
-[INFO] 18:44:28:980 CONSOLA/(6439:6439): Se recibio la respuesta de finalizacion exitosa del KERNEL: 63
-[INFO] 18:44:48:996 CONSOLA/(6450:6450): Se recibio la respuesta 63 del KERNEL
-[INFO] 18:44:48:996 CONSOLA/(6450:6450): Se recibio la respuesta de finalizacion exitosa del KERNEL: 63
+[INFO] 00:23:14:854 CONSOLA/(11738:11738): Conexion establecida con exito
+[INFO] 00:23:14:854 CONSOLA/(11738:11738): Se establece una conexion voy a comenzar con el envio de Handshake para validar la misma
+[INFO] 00:23:14:855 CONSOLA/(11738:11738): Se envia Handshake al Kernel
+[INFO] 00:23:14:855 CONSOLA/(11738:11738): Mensaje recibido del Kernel:  62
+[INFO] 00:23:14:855 CONSOLA/(11738:11738): Conexion establecida con el Kernel
+[INFO] 00:23:14:855 CONSOLA/(11738:11738): Se envio el mensaje  al KERNEL de tamaño 45
+[INFO] 00:24:04:341 CONSOLA/(11719:11719): Se recibio la respuesta 63 del KERNEL
+[INFO] 00:24:04:341 CONSOLA/(11719:11719): Se recibio la respuesta de finalizacion exitosa del KERNEL: 63
+[INFO] 00:24:24:351 CONSOLA/(11738:11738): Se recibio la respuesta 63 del KERNEL
+[INFO] 00:24:24:351 CONSOLA/(11738:11738): Se recibio la respuesta de finalizacion exitosa del KERNEL: 63

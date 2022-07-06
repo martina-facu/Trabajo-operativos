@@ -28,6 +28,15 @@
  * Listado de estructuras
 */
 
+#define ENTRADAS_TLB "ENTRADAS_TLB"
+#define ALG_TLB "REEMPLAZO_TLB"
+#define RETARDO_NOOP "RETARDO_NOOP"
+#define IP_MEMORIA "IP_MEMORIA"
+#define PUERTO_MEMORIA "PUERTO_MEMORIA"
+#define PUERTO_DISPATCH "PUERTO_ESCUCHA_DISPATCH"
+#define PUERTO_INTERRUPT "PUERTO_ESCUCHA_INTERRUPT"
+#define IP_CPU "IP_CPU"
+
 	typedef struct
 	{
 
@@ -45,7 +54,7 @@
 /*
  * Listado de variables globales
 */
-
+	t_log* logger;
 	int fdDispatch;
 	// thread identifier
 	pthread_t thread_id;
@@ -61,8 +70,6 @@
 /*
  * Prototipo de funciones
 */
-
-
 
 	int levantar_conexion_memoria(char* ipServer, char* portServer, t_log* logger, uint32_t* cantidad_entradas,uint32_t* tamano_pagina);
 	int levantar_server(char* ipServer, char* portServer, t_log* logger, char* sTipo);

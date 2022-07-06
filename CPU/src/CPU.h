@@ -52,16 +52,7 @@
 /*
  * Listado de variables globales
 */
-	#define ENTRADAS_TLB "ENTRADAS_TLB"
-	#define ALG_TLB "REEMPLAZO_TLB"
-	#define RETARDO_NOOP "RETARDO_NOOP"
-	#define IP_MEMORIA "IP_MEMORIA"
-	#define PUERTO_MEMORIA "PUERTO_MEMORIA"
-	#define PUERTO_DISPATCH "PUERTO_ESCUCHA_DISPATCH"
-	#define PUERTO_INTERRUPT "PUERTO_ESCUCHA_INTERRUPT"
-	#define IP_CPU "IP_CPU"
 
-	t_log* logger;
 	t_config* config;
 	t_config_cpu* configuracion;
 
@@ -70,13 +61,13 @@
 
 	int fdmax = -1;
 	int fdmin = 201669;
-	int connectionsDispatch = 0;
-	int connectionsInterrupt = 0;
-	int acceptedConecctionDispatch;
-	int acceptedConecctionInterrupt;
+	int cantidad_clientes_dispatch = 0;
+	int cantidad_clientes_interrupt = 0;
+	int cliente_dispatch;
+	int cliente_interrupt;
 	bool interrupcion = false;
-	bool activeDispatch = false;
-	bool activeInterrupt = false;
+//	bool dispatch_activo = false;
+//	bool interrupt_activo = false;
 
 	pthread_attr_t attr;
 	pthread_t threadId;
