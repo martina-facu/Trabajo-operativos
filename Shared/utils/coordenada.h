@@ -32,6 +32,7 @@
 	void* coordenada_serializar(Coordenada_tabla* coordenada, uint32_t* tamano_mensaje, uint8_t codigo_operacion);
 	void *coordenada_armar_stream(Coordenada_tabla* coordenada);
 	Coordenada_tabla* coordenada_deserializar(t_buffer* buffer);
+	Coordenada_tabla* recibir_coordenada(int socket_cliente);
 
 
 #endif /* UTILS_COORDENADA_H_ */
