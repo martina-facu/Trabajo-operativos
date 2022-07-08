@@ -56,3 +56,25 @@ Coordenada_tabla* coordenada_deserializar(t_buffer* buffer) {
 
 	return coordenada;
 }
+
+Coordenada_tabla* recibir_coordenada(int socket_cliente){
+
+	t_paquete* paquete = malloc(sizeof(t_paquete));
+
+	paquete->buffer = malloc (sizeof(t_paquete));
+	t_buffer* buffer = paquete->buffer;
+
+	//recibimos el cod de operacion
+	recv(socket_cliente, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
+
+	//recibimos el tamano del paquete
+	recv(socket_cliente, &(buffer->size), sizeof(uint32_t), 0);
+
+	//recibo buffer con coordenadas
+	buffer->stream = malloc(buffer->size);
+	recv(socket_cliente, buffer->stream, buffer->size, 0);
+
+	Coordenada_tabla* coordenada = coordenada_deserializar(buffer);
+
+	return coordenada;
+}
