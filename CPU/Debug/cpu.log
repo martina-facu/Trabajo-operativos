@@ -1549,3 +1549,384 @@
 [INFO] 10:59:56:423 CPU/(3374:3374): Se envia Handshake a la memoria
 [INFO] 10:59:56:424 CPU/(3374:3374): Mensaje recibido de la memoria:  0
 [ERROR] 10:59:56:431 CPU/(3374:3374): No se puede establecer conexion con la memoria. El server contactado responde con un mensaje no predeterminado: 0.
+[INFO] 12:42:49:678 CPU/(18983:18983): -------------------------
+[INFO] 12:42:49:688 CPU/(18983:18983): Iniciando log Proceso CPU
+[INFO] 12:42:49:688 CPU/(18983:18983): -------------------------
+[INFO] 12:42:49:688 CPU/(18983:18983): Se leyo la variable ENTRADAS_TLB: 4
+[INFO] 12:42:49:688 CPU/(18983:18983): Se leyo la variable REEMPLAZO_TLB: LRU
+[INFO] 12:42:49:688 CPU/(18983:18983): Se leyo la variable RETARDO_NOOP: 1000
+[INFO] 12:42:49:688 CPU/(18983:18983): Se leyo la variable IP_CPU: 127.0.0.1
+[INFO] 12:42:49:688 CPU/(18983:18983): Se leyo la variable IP_MEMORIA: 127.0.0.1
+[INFO] 12:42:49:688 CPU/(18983:18983): Se leyo la variable PUERTO_MEMORIA: 8002
+[INFO] 12:42:49:688 CPU/(18983:18983): Se leyo la variable PUERTO_DISPATCH: 8001
+[INFO] 12:42:49:688 CPU/(18983:18983): Se leyo la variable PUERTO_INTERRUPT: 8005
+[ERROR] 12:42:49:688 CPU/(18983:18983): Fallo la conexion al server
+[INFO] 12:42:49:688 CPU/(18983:18983): Se intenta conectarse con la memoria en la IP 127.0.0.1 y puerto 8002 con el descriptor:  -1
+[INFO] 12:42:49:689 CPU/(18983:18983): Se envia Handshake a la memoria
+[INFO] 12:42:49:689 CPU/(18983:18983): Mensaje recibido de la memoria:  0
+[ERROR] 12:42:49:689 CPU/(18983:18983): No se puede establecer conexion con la memoria. El server contactado responde con un mensaje no predeterminado: 0.
+[INFO] 12:44:16:334 CPU/(19057:19057): -------------------------
+[INFO] 12:44:16:335 CPU/(19057:19057): Iniciando log Proceso CPU
+[INFO] 12:44:16:335 CPU/(19057:19057): -------------------------
+[INFO] 12:44:16:335 CPU/(19057:19057): Se leyo la variable ENTRADAS_TLB: 4
+[INFO] 12:44:16:335 CPU/(19057:19057): Se leyo la variable REEMPLAZO_TLB: LRU
+[INFO] 12:44:16:335 CPU/(19057:19057): Se leyo la variable RETARDO_NOOP: 1000
+[INFO] 12:44:16:335 CPU/(19057:19057): Se leyo la variable IP_CPU: 127.0.0.1
+[INFO] 12:44:16:335 CPU/(19057:19057): Se leyo la variable IP_MEMORIA: 127.0.0.1
+[INFO] 12:44:16:335 CPU/(19057:19057): Se leyo la variable PUERTO_MEMORIA: 8002
+[INFO] 12:44:16:335 CPU/(19057:19057): Se leyo la variable PUERTO_DISPATCH: 8001
+[INFO] 12:44:16:335 CPU/(19057:19057): Se leyo la variable PUERTO_INTERRUPT: 8005
+[INFO] 12:44:16:335 CPU/(19057:19057): Conexion establecida con exito
+[INFO] 12:44:16:335 CPU/(19057:19057): Se intenta conectarse con la memoria en la IP 127.0.0.1 y puerto 8002 con el descriptor:  5
+[INFO] 12:44:16:336 CPU/(19057:19057): Se envia Handshake a la memoria
+[INFO] 12:44:16:336 CPU/(19057:19057): Mensaje recibido de la memoria:  2
+[INFO] 12:44:16:336 CPU/(19057:19057): Conexion establecida con la memoria
+[INFO] 12:44:16:336 CPU/(19057:19057): Server escuchando
+[INFO] 12:44:16:336 CPU/(19057:19057): Socket en el que se levanta el server SERVER DISPATCH: 7 en la IP: 127.0.0.1 y Puerto: 8001
+[INFO] 12:44:16:336 CPU/(19057:19057): Server escuchando
+[INFO] 12:44:16:336 CPU/(19057:19057): Socket en el que se levanta el server SERVER INTERRUPT: 8 en la IP: 127.0.0.1 y Puerto: 8005
+[INFO] 12:44:17:336 CPU/(19057:19057): Se acepto la conexion del Dispatch en el socket: 9
+[INFO] 12:44:17:336 CPU/(19057:19057): Se agrego al set de descriptores el descriptor: 9
+[INFO] 12:44:17:336 CPU/(19057:19057): Mensaje recibido dispatch: 21
+[INFO] 12:44:17:336 CPU/(19057:19057): Se envia Handshake 21 para dejar establecida la conexion del Dispatch
+[INFO] 12:44:17:336 CPU/(19057:19057): Se quiso conectar alguien al Server Interrupt
+[INFO] 12:44:17:337 CPU/(19057:19057): Se acepto la conexion del Interrupt en el socket: 10
+[INFO] 12:44:17:337 CPU/(19057:19057): Mensaje recibido interrupt: 23
+[INFO] 12:44:17:337 CPU/(19057:19057): Se envia Handshake 23 para dejar establecida la conexion del Dispatch
+[INFO] 12:44:17:337 CPU/(19057:19057): Se genera el Thread del Interrupt con TID: 0
+[INFO] 12:44:17:337 CPU/(19057:19061): Entre al hilo
+[INFO] 12:44:17:337 CPU/(19057:19061): El valor del socket que recibe el thread es: 10
+[INFO] 12:44:18:340 CPU/(19057:19057): Voy a recibir y procesar un PCB del Dispatch
+[INFO] 12:44:18:341 CPU/(19057:19057): Voy a loguear informacion del PCB recibida por el Dispatch
+[INFO] 12:44:18:341 CPU/(19057:19057): INFORMACION PCB:
+[INFO] 12:44:18:341 CPU/(19057:19057): PID: 0
+
+[INFO] 12:44:18:341 CPU/(19057:19057): TAMANO: 1024
+
+[INFO] 12:44:18:341 CPU/(19057:19057): PC: 0
+
+[INFO] 12:44:18:341 CPU/(19057:19057): ESTIMADO_RAFAGA: 1
+
+[INFO] 12:44:18:341 CPU/(19057:19057): ESTADO: INICIADO
+
+[INFO] 12:44:18:341 CPU/(19057:19057): TIEMPO BLOQUEO: 0
+
+[INFO] 12:44:18:341 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:18:341 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:18:341 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:18:341 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:18:341 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:18:341 CPU/(19057:19057): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 12:44:18:341 CPU/(19057:19057):  3000 
+[INFO] 12:44:18:341 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:18:341 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:18:341 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:18:341 CPU/(19057:19057): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:18:341 CPU/(19057:19057): Borro el contenido de la TLB ya que no es el mismo proceso que el anterior
+[INFO] 12:44:18:341 CPU/(19057:19057): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
+[INFO] 12:44:18:341 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 1
+[INFO] 12:44:18:341 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 0
+[INFO] 12:44:24:341 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:44:24:341 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 2
+[INFO] 12:44:24:341 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 0
+[INFO] 12:44:30:342 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:44:30:342 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 3
+[INFO] 12:44:30:342 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 0
+[INFO] 12:44:36:342 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:44:36:342 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 4
+[INFO] 12:44:36:342 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 0
+[INFO] 12:44:42:342 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:44:42:343 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 5
+[INFO] 12:44:42:343 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 0
+[INFO] 12:44:48:344 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:44:48:344 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 6
+[INFO] 12:44:48:344 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de I/0 PID: 0
+[INFO] 12:44:53:344 CPU/(19057:19057): Valor de devolver PCBt true
+[INFO] 12:44:53:344 CPU/(19057:19057): CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion
+[INFO] 12:44:53:344 CPU/(19057:19057): INFORMACION PCB:
+[INFO] 12:44:53:344 CPU/(19057:19057): PID: 0
+
+[INFO] 12:44:53:344 CPU/(19057:19057): TAMANO: 1024
+
+[INFO] 12:44:53:344 CPU/(19057:19057): PC: 6
+
+[INFO] 12:44:53:344 CPU/(19057:19057): ESTIMADO_RAFAGA: 1
+
+[INFO] 12:44:53:344 CPU/(19057:19057): ESTADO: BLOQUEADO
+
+[INFO] 12:44:53:344 CPU/(19057:19057): TIEMPO BLOQUEO: 3000
+
+[INFO] 12:44:53:345 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:53:345 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:53:345 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:53:345 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:53:345 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:53:345 CPU/(19057:19057): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 12:44:53:345 CPU/(19057:19057):  3000 
+[INFO] 12:44:53:345 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:53:345 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:53:345 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:53:345 CPU/(19057:19057): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:53:345 CPU/(19057:19057): CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel
+[INFO] 12:44:53:345 CPU/(19057:19057): CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel
+[INFO] 12:44:53:345 CPU/(19057:19057): CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel
+[INFO] 12:44:53:345 CPU/(19057:19057): Voy a recibir y procesar un PCB del Dispatch
+[INFO] 12:44:53:346 CPU/(19057:19057): Voy a loguear informacion del PCB recibida por el Dispatch
+[INFO] 12:44:53:346 CPU/(19057:19057): INFORMACION PCB:
+[INFO] 12:44:53:346 CPU/(19057:19057): PID: 1
+
+[INFO] 12:44:53:346 CPU/(19057:19057): TAMANO: 1024
+
+[INFO] 12:44:53:346 CPU/(19057:19057): PC: 0
+
+[INFO] 12:44:53:346 CPU/(19057:19057): ESTIMADO_RAFAGA: 1
+
+[INFO] 12:44:53:346 CPU/(19057:19057): ESTADO: INICIADO
+
+[INFO] 12:44:53:346 CPU/(19057:19057): TIEMPO BLOQUEO: 0
+
+[INFO] 12:44:53:346 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:53:346 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:53:346 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:53:346 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:53:346 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:53:346 CPU/(19057:19057): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:44:53:346 CPU/(19057:19057): Borro el contenido de la TLB ya que no es el mismo proceso que el anterior
+[INFO] 12:44:53:346 CPU/(19057:19057): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
+[INFO] 12:44:53:346 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 1
+[INFO] 12:44:53:346 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 1
+[INFO] 12:44:59:346 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:44:59:346 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 2
+[INFO] 12:44:59:346 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 1
+[INFO] 12:45:05:347 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:45:05:347 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 3
+[INFO] 12:45:05:347 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 1
+[INFO] 12:45:11:347 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:45:11:347 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 4
+[INFO] 12:45:11:347 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 1
+[INFO] 12:45:17:348 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:45:17:348 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 5
+[INFO] 12:45:17:348 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 1
+[INFO] 12:45:23:348 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:45:23:348 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 6
+[INFO] 12:45:23:348 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de EXIT PID: 1
+[INFO] 12:45:28:348 CPU/(19057:19057): Valor de devolver PCBt true
+[INFO] 12:45:28:349 CPU/(19057:19057): CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion
+[INFO] 12:45:28:349 CPU/(19057:19057): INFORMACION PCB:
+[INFO] 12:45:28:349 CPU/(19057:19057): PID: 1
+
+[INFO] 12:45:28:349 CPU/(19057:19057): TAMANO: 1024
+
+[INFO] 12:45:28:349 CPU/(19057:19057): PC: 6
+
+[INFO] 12:45:28:349 CPU/(19057:19057): ESTIMADO_RAFAGA: 1
+
+[INFO] 12:45:28:349 CPU/(19057:19057): ESTADO: FINALIZADO
+
+[INFO] 12:45:28:349 CPU/(19057:19057): TIEMPO BLOQUEO: 0
+
+[INFO] 12:45:28:349 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:28:349 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:28:349 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:28:349 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:28:349 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:28:349 CPU/(19057:19057): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:28:349 CPU/(19057:19057): CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel
+[INFO] 12:45:28:349 CPU/(19057:19057): CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel
+[INFO] 12:45:28:350 CPU/(19057:19057): CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel
+[INFO] 12:45:28:351 CPU/(19057:19057): Voy a recibir y procesar un PCB del Dispatch
+[INFO] 12:45:28:351 CPU/(19057:19057): Voy a loguear informacion del PCB recibida por el Dispatch
+[INFO] 12:45:28:351 CPU/(19057:19057): INFORMACION PCB:
+[INFO] 12:45:28:351 CPU/(19057:19057): PID: 0
+
+[INFO] 12:45:28:351 CPU/(19057:19057): TAMANO: 1024
+
+[INFO] 12:45:28:351 CPU/(19057:19057): PC: 6
+
+[INFO] 12:45:28:351 CPU/(19057:19057): ESTIMADO_RAFAGA: 1
+
+[INFO] 12:45:28:351 CPU/(19057:19057): ESTADO: BLOQUEADO
+
+[INFO] 12:45:28:351 CPU/(19057:19057): TIEMPO BLOQUEO: 3000
+
+[INFO] 12:45:28:351 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:28:351 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:28:351 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:28:351 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:28:351 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:28:351 CPU/(19057:19057): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 12:45:28:351 CPU/(19057:19057):  3000 
+[INFO] 12:45:28:351 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:28:351 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:28:351 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:28:351 CPU/(19057:19057): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:28:351 CPU/(19057:19057): Borro el contenido de la TLB ya que no es el mismo proceso que el anterior
+[INFO] 12:45:28:351 CPU/(19057:19057): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
+[INFO] 12:45:28:351 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 7
+[INFO] 12:45:28:351 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 0
+[INFO] 12:45:34:351 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:45:34:351 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 8
+[INFO] 12:45:34:351 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 0
+[INFO] 12:45:40:352 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:45:40:352 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 9
+[INFO] 12:45:40:352 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 0
+[INFO] 12:45:46:352 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:45:46:352 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 10
+[INFO] 12:45:46:352 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de EXIT PID: 0
+[INFO] 12:45:51:352 CPU/(19057:19057): Valor de devolver PCBt true
+[INFO] 12:45:51:353 CPU/(19057:19057): CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion
+[INFO] 12:45:51:353 CPU/(19057:19057): INFORMACION PCB:
+[INFO] 12:45:51:353 CPU/(19057:19057): PID: 0
+
+[INFO] 12:45:51:353 CPU/(19057:19057): TAMANO: 1024
+
+[INFO] 12:45:51:353 CPU/(19057:19057): PC: 10
+
+[INFO] 12:45:51:353 CPU/(19057:19057): ESTIMADO_RAFAGA: 1
+
+[INFO] 12:45:51:353 CPU/(19057:19057): ESTADO: FINALIZADO
+
+[INFO] 12:45:51:353 CPU/(19057:19057): TIEMPO BLOQUEO: 3000
+
+[INFO] 12:45:51:353 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:51:353 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:51:353 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:51:353 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:51:353 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:51:353 CPU/(19057:19057): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 12:45:51:353 CPU/(19057:19057):  3000 
+[INFO] 12:45:51:353 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:51:354 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:51:354 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:51:354 CPU/(19057:19057): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:51:354 CPU/(19057:19057): CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel
+[INFO] 12:45:51:354 CPU/(19057:19057): CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel
+[INFO] 12:45:51:355 CPU/(19057:19057): CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel
+[INFO] 12:45:51:355 CPU/(19057:19057): Voy a recibir y procesar un PCB del Dispatch
+[INFO] 12:45:51:355 CPU/(19057:19057): Voy a loguear informacion del PCB recibida por el Dispatch
+[INFO] 12:45:51:355 CPU/(19057:19057): INFORMACION PCB:
+[INFO] 12:45:51:355 CPU/(19057:19057): PID: 2
+
+[INFO] 12:45:51:355 CPU/(19057:19057): TAMANO: 1024
+
+[INFO] 12:45:51:355 CPU/(19057:19057): PC: 0
+
+[INFO] 12:45:51:355 CPU/(19057:19057): ESTIMADO_RAFAGA: 1
+
+[INFO] 12:45:51:355 CPU/(19057:19057): ESTADO: INICIADO
+
+[INFO] 12:45:51:355 CPU/(19057:19057): TIEMPO BLOQUEO: 0
+
+[INFO] 12:45:51:355 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:51:355 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:51:355 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:51:355 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:51:355 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:51:355 CPU/(19057:19057): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:45:51:355 CPU/(19057:19057): Borro el contenido de la TLB ya que no es el mismo proceso que el anterior
+[INFO] 12:45:51:355 CPU/(19057:19057): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
+[INFO] 12:45:51:355 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 1
+[INFO] 12:45:51:355 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 2
+[INFO] 12:45:57:355 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:45:57:356 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 2
+[INFO] 12:45:57:356 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 2
+[INFO] 12:46:03:356 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:46:03:356 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 3
+[INFO] 12:46:03:356 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 2
+[INFO] 12:46:09:356 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:46:09:356 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 4
+[INFO] 12:46:09:356 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 2
+[INFO] 12:46:15:357 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:46:15:357 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 5
+[INFO] 12:46:15:357 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1 del PID: 2
+[INFO] 12:46:21:357 CPU/(19057:19057): Valor de devolver PCBt false
+[INFO] 12:46:21:357 CPU/(19057:19057): CPU-EXECUTE Aumento el program counter del PCB a: 6
+[INFO] 12:46:21:357 CPU/(19057:19057): CPU-EXECUTE Proceso una operacion de EXIT PID: 2
+[INFO] 12:46:26:357 CPU/(19057:19057): Valor de devolver PCBt true
+[INFO] 12:46:26:358 CPU/(19057:19057): CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion
+[INFO] 12:46:26:358 CPU/(19057:19057): INFORMACION PCB:
+[INFO] 12:46:26:358 CPU/(19057:19057): PID: 2
+
+[INFO] 12:46:26:358 CPU/(19057:19057): TAMANO: 1024
+
+[INFO] 12:46:26:358 CPU/(19057:19057): PC: 6
+
+[INFO] 12:46:26:358 CPU/(19057:19057): ESTIMADO_RAFAGA: 1
+
+[INFO] 12:46:26:358 CPU/(19057:19057): ESTADO: FINALIZADO
+
+[INFO] 12:46:26:358 CPU/(19057:19057): TIEMPO BLOQUEO: 0
+
+[INFO] 12:46:26:358 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:46:26:358 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:46:26:358 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:46:26:358 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:46:26:358 CPU/(19057:19057): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:46:26:358 CPU/(19057:19057): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 12:46:26:358 CPU/(19057:19057): CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel
+[INFO] 12:46:26:359 CPU/(19057:19057): CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel
+[INFO] 12:46:26:359 CPU/(19057:19057): CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel

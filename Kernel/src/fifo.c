@@ -236,7 +236,7 @@ void* recibir_proceso_de_cpu(){
 		}
 		else{
 			log_trace(PCP,"error null");
-			printf("ocurrio un error al recibir al proceso: funcion: recibir_proceso_de_cpu \n");
+			log_trace(PCP,"ocurrio un error al recibir al proceso: funcion: recibir_proceso_de_cpu, estado: %d", pcb->estado);
 			return NULL;
 		}
 		// AVISAR QUE NO HAY NINGUN PROCESO EJECUTANDO

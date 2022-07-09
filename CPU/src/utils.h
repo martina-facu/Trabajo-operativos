@@ -76,10 +76,10 @@
 	pcb_t* obtener_pcb(int cliente);
 
 	void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoOp, int cantidad_entradas, int conexion_memoria, int tamano_pagina, bool* hubo_interrupcion);
-	bool execute(Instruccion* instruccion,int dormir, int cantidad_entradas, int conexion_memoria, int tamano_pagina, pcb_t* pcb);
-	uint32_t* leer(int direccion_logica, Datos_calculo_direccion* datos);
+	bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos, pcb_t* pcb);
+	uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos);
 	uint32_t* escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calculo_direccion* datos);
-	bool validar_codigo(t_paquete* paquete, uint8_t operacion, t_log* logger);
+	bool validar_codigo(t_paquete* paquete, uint8_t operacion);
 	void mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion);
 
 

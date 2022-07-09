@@ -123,8 +123,9 @@ void mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operaci
 	send(conexion, a_enviar, paquete->size, 0);
 }
 
-uint32_t* leer(int direccion_logica, Datos_calculo_direccion* datos)
+uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
 {
+	uint32_t valor_leido_respuesta;
 	calcular_datos_direccion(datos, direccion_logica);
 	Pagina_direccion* resultado = traducir_direccion(datos);
 
@@ -135,13 +136,16 @@ uint32_t* leer(int direccion_logica, Datos_calculo_direccion* datos)
 
 	memcpy(valor_leido, respuesta->buffer->stream, sizeof(uint32_t));
 
-	if(validar_codigo(respuesta,10, logger))
+	if(validar_codigo(respuesta,10))
 	{
-		printf("El valor leido: %d", *valor_leido);
-		return valor_leido;
+		valor_leido_respuesta = *valor_leido;
+		log_info(logger, "El valor leido fue: %d", *valor_leido);
 	}else{
-		return (uint32_t*)-1;
+		log_info(logger, "HUBO UN ERROR EN LA LECTURA DE LA DIRECCION");
 	}
+
+	free(valor_leido);
+	return valor_leido_respuesta;
 }
 
 uint32_t* escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calculo_direccion* datos)
@@ -157,7 +161,7 @@ uint32_t* escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calcu
 
 	memcpy(resultado_escritura, respuesta->buffer->stream, sizeof(uint32_t));
 
-	if(validar_codigo(respuesta,10, logger)){
+	if(validar_codigo(respuesta,10)){
 		printf("El resultado de escribir fue: %d", *resultado_escritura);
 		return resultado_escritura;
 	}else{
@@ -278,14 +282,14 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 		requiere_fetch_operands = true;
 
 	//fetch_operands
-	if (requiere_fetch_operands)
-	{
-		uint32_t* origen_dir = list_get(instruccion->parametros,1);
-		*origen_dir = leer(origen_dir,datos);
-	}
+//	if (requiere_fetch_operands)
+//	{
+//		uint32_t* origen_dir = list_get(instruccion->parametros,1);
+//		*origen_dir = leer(*origen_dir,datos);
+//	}
 
 	//	Ejecuto la instruccion
-	*devolver_pcb = execute(instruccion, retardoNoOp, cantidad_entradas, conexion_memoria, tamano_pagina, pcb, logger);
+	*devolver_pcb = execute(instruccion, retardoNoOp, datos, pcb);
 	log_info(logger, "Valor de devolver PCBt %s", *devolver_pcb?"true":"false");
 	//check interrupt
 	if (!*devolver_pcb){
