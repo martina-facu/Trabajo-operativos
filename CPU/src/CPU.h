@@ -66,20 +66,12 @@
 	int cliente_dispatch;
 	int cliente_interrupt;
 	bool interrupcion = false;
-//	bool dispatch_activo = false;
-//	bool interrupt_activo = false;
 
 	pthread_attr_t attr;
 	pthread_t threadId;
 	int resThread;
-//	int num_threads_interrupt = 1;
 
-
-//	int client_memory_socket;
-//	int client_dispatch_socket;
-//	int client_interrupt_socket;
-//	int server_dispatch_socket;
-//	int server_interrupt_socket;
+	int idAnteriorPCB = -1;
 
 /*
  * Prototipo de funciones

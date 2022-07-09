@@ -198,66 +198,66 @@ bool execute(Instruccion* instruccion,int dormir, int cantidad_entradas, int con
 	switch (id)
 	{
 		case NO_OP:
-			log_info(logger, "CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir %d", dormir/1000);
+			log_info(logger, "CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir %d del PID: %d", dormir/1000, pcb->pid);
 			dormir = dormir/1000;
 			sleep(dormir);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
-			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
+//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
 			sleep(5);
 			return false;
 			break;
 		case I_O:
-			log_info(logger, "CPU-EXECUTE Proceso una operacion de I/0");
+			log_info(logger, "CPU-EXECUTE Proceso una operacion de I/0 PID: %d", pcb->pid);
 			pcb->estado = BLOQUEADO;
 			pcb->tiempo_block = *parametro1;
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
-			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
+//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
 			sleep(5);
 			return true;
 			break;
 		case WRITE:
-			log_info(logger, "CPU-EXECUTE Proceso una operacion de WRITE");
+			log_info(logger, "CPU-EXECUTE Proceso una operacion de WRITE PID: %d", pcb->pid);
 //			resultado = escribir(*parametro1, parametro2, datos, logger);
 //			*resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 	//		free(resultado);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
-			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
+//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
 			sleep(5);
 			return false;
 			break;
 		case COPY: // COPY(destino, origen)
-			log_info(logger, "CPU-EXECUTE Proceso una operacion de COPY");
+			log_info(logger, "CPU-EXECUTE Proceso una operacion de COPY PID: %d", pcb->pid);
 //			valor_leido = leer(*parametro2,datos, logger);
 //			*parametro2 = *valor_leido;
 	//		free(valor_leido);
 //			resultado = escribir(*parametro1, parametro2, datos, logger);
 //			*resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
-			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
+//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
 			sleep(5);
 			return false;
 			break;
 		case READ:
-			log_info(logger, "CPU-EXECUTE Proceso una operacion de READ");
+			log_info(logger, "CPU-EXECUTE Proceso una operacion de READ PID: %d", pcb->pid);
 //			valor_leido = leer(*parametro1,datos, logger);
 	//		free(valor_leido);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
-			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
+//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
 			sleep(5);
 			return false;
 			break;
 		case EXIT:
-			log_info(logger, "CPU-EXECUTE Proceso una operacion de EXIT");
+			log_info(logger, "CPU-EXECUTE Proceso una operacion de EXIT PID: %d", pcb->pid);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 			pcb->estado = FINALIZADO;
-			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
+//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
 			sleep(5);
 			return true;
 			break;
 		default:
-			printf("\nCPU-EXECUTE HUBO UN FALLO EN LA EJECUCION DE LAS INSTRUCCIONES");
+			printf("\nCPU-EXECUTE HUBO UN FALLO EN LA EJECUCION DE LAS INSTRUCCIONES PID: %d", pcb->pid);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
-			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
+//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
 			sleep(5);
 			return true;
 			break;

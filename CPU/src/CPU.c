@@ -264,6 +264,12 @@ void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
 		recibiPCB = true;
 		log_info(logger, "Voy a loguear informacion del PCB recibida por el Dispatch");
 		pcb_mostrar(pcb, logger);
+
+		if(idAnteriorPCB != pcb->pid)
+		{
+			log_info(logger, "Borro el contenido de la TLB ya que no es el mismo proceso que el anterior");
+			//	Falta implementar aca la funcion que hace el borrado
+		}
 	}
 
 }
@@ -294,6 +300,7 @@ void procesarPCB(void)
 	log_info(logger, "CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel");
 	devolver_pcb = false;
 	recibiPCB = false;
+	idAnteriorPCB = pcb->pid;
 	log_info(logger, "CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel");
 
 }
