@@ -54,3 +54,8 @@ dkms.conf
 
 *.json
 !spec/*.json
+
+# Config, Logs, Settings
+*.config
+*.log 
+*.settings
