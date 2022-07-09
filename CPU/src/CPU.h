@@ -66,12 +66,10 @@
 	int cliente_dispatch;
 	int cliente_interrupt;
 	bool interrupcion = false;
-//	bool dispatch_activo = false;
-//	bool interrupt_activo = false;
 
-	pthread_attr_t attr;
+	pthread_attr_t attr; // atributos de un hilo
 	pthread_t threadId;
-	int resThread;
+	int resThread; // codigo de respuesta del hilo
 //	int num_threads_interrupt = 1;
 
 

@@ -2,10 +2,6 @@
 #include "CPU.h"
 
 
-
-
-
-
 t_config_cpu* crearConfigCPU(void)
 {
 	t_config_cpu* config = malloc(sizeof(t_config_cpu));
@@ -26,7 +22,7 @@ void aceptoServerDispatch(int socketAnalizar)
 	if (FD_ISSET(socketAnalizar, &read_fd_set))
 	{
 		//	Si el grado de concurrencia admite que se sigan aceptando
-		//	conexiones, la acepto. Sino omito lo recibido.
+		// conexiones, la acepto. Sino omito lo recibido.
 		if(cantidad_clientes_dispatch < CONCURRENT_CONNECTION)
 		{
 			//	Acepto la conexion del cliente que se conecta
@@ -35,16 +31,7 @@ void aceptoServerDispatch(int socketAnalizar)
 			log_info(logger, "Se acepto la conexion del Dispatch en el socket: %d", cliente_dispatch);
 
 			//	Valido si tengo que cambiar el maximo o el minimo
-			//	Maximo
-			if (cliente_dispatch > fdmax)
-			{
-				fdmax = cliente_dispatch;
-			}
-			//	Minimo
-			if (cliente_dispatch < fdmin)
-			{
-				fdmin = cliente_dispatch;
-			}
+			compararLimitesConNuevoDescriptor(cliente_dispatch);
 			log_info(logger, "Se agrego al set de descriptores el descriptor: %d", cliente_dispatch);
 
 
@@ -375,9 +362,6 @@ void * atencionInterrupt(void * socketInterrupt)
 
 
 	}
-
-
-    return NULL;
 }
 
 /*
