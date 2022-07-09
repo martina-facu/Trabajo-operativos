@@ -1,71 +1,24 @@
-[INFO] 10:15:36:667 KERNEL/(5294:5294): -------------------------
-[INFO] 10:15:36:667 KERNEL/(5294:5294): Iniciando log Proceso KERNEL
-[INFO] 10:15:36:667 KERNEL/(5294:5294): -------------------------
-[INFO] 10:15:58:627 KERNEL/(5294:5294): INFORMACION DEL PCB RECIBIDO:
-[INFO] 10:15:58:627 KERNEL/(5294:5294): PID: 7
-[INFO] 10:15:58:627 KERNEL/(5294:5294): TAMANO: 10
-[INFO] 10:15:58:627 KERNEL/(5294:5294): PC: 0
-[INFO] 10:15:58:627 KERNEL/(5294:5294): ESTIMADO_RAFAGA: 10000
-[INFO] 10:15:58:627 KERNEL/(5294:5294): ESTADO: 0
-[INFO] 10:15:58:627 KERNEL/(5294:5294): TIEMPO BLOQUEO: 0
-[INFO] 10:15:58:627 KERNEL/(5294:5294): -----------TABLA DE PAGINAS----------------
-[INFO] 10:15:58:627 KERNEL/(5294:5294): DESPLAZAMIENTO: 0
-[INFO] 10:15:58:627 KERNEL/(5294:5294): ENTRADA PRIMER NIVEL: 0
-[INFO] 10:15:58:627 KERNEL/(5294:5294): ENTRADA SEGUNDO NIVEL: 0
-[INFO] 10:15:58:627 KERNEL/(5294:5294): INUMERO PAGINA: 0
-[INFO] 10:15:58:627 KERNEL/(5294:5294): El codigo de la instruccion es: 1 , nombre: NO_OP 
- cantidad de parametros: 0 parametros: 
-[INFO] 10:15:58:627 KERNEL/(5294:5294): El codigo de la instruccion es: 1 , nombre: NO_OP 
- cantidad de parametros: 0 parametros: 
-[INFO] 10:15:58:627 KERNEL/(5294:5294): El codigo de la instruccion es: 1 , nombre: NO_OP 
- cantidad de parametros: 0 parametros: 
-[INFO] 10:15:58:627 KERNEL/(5294:5294): El codigo de la instruccion es: 2 , nombre: I/O 
- cantidad de parametros: 1 parametros: 
-[INFO] 10:15:58:627 KERNEL/(5294:5294):  4000 
-[INFO] 10:15:58:627 KERNEL/(5294:5294): El codigo de la instruccion es: 3 , nombre: WRITE 
- cantidad de parametros: 2 parametros: 
-[INFO] 10:15:58:627 KERNEL/(5294:5294):  4 
-[INFO] 10:15:58:627 KERNEL/(5294:5294):  42 
-[INFO] 10:15:58:627 KERNEL/(5294:5294): El codigo de la instruccion es: 4 , nombre: COPY 
- cantidad de parametros: 2 parametros: 
-[INFO] 10:15:58:627 KERNEL/(5294:5294):  0 
-[INFO] 10:15:58:627 KERNEL/(5294:5294):  4 
-[INFO] 10:15:58:627 KERNEL/(5294:5294): El codigo de la instruccion es: 5 , nombre: READ 
- cantidad de parametros: 1 parametros: 
-[INFO] 10:15:58:627 KERNEL/(5294:5294):  0 
-[INFO] 10:15:58:627 KERNEL/(5294:5294): El codigo de la instruccion es: 6 , nombre: EXIT 
- cantidad de parametros: 0 parametros: 
-[INFO] 10:16:01:636 KERNEL/(5294:5294): INFORMACION DEL PCB RECIBIDO:
-[INFO] 10:16:01:637 KERNEL/(5294:5294): PID: 7
-[INFO] 10:16:01:637 KERNEL/(5294:5294): TAMANO: 10
-[INFO] 10:16:01:637 KERNEL/(5294:5294): PC: 4
-[INFO] 10:16:01:637 KERNEL/(5294:5294): ESTIMADO_RAFAGA: 10000
-[INFO] 10:16:01:637 KERNEL/(5294:5294): ESTADO: 1
-[INFO] 10:16:01:637 KERNEL/(5294:5294): TIEMPO BLOQUEO: 4000
-[INFO] 10:16:01:637 KERNEL/(5294:5294): -----------TABLA DE PAGINAS----------------
-[INFO] 10:16:01:637 KERNEL/(5294:5294): DESPLAZAMIENTO: 0
-[INFO] 10:16:01:637 KERNEL/(5294:5294): ENTRADA PRIMER NIVEL: 0
-[INFO] 10:16:01:637 KERNEL/(5294:5294): ENTRADA SEGUNDO NIVEL: 0
-[INFO] 10:16:01:637 KERNEL/(5294:5294): INUMERO PAGINA: 0
-[INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 1 , nombre: NO_OP 
- cantidad de parametros: 0 parametros: 
-[INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 1 , nombre: NO_OP 
- cantidad de parametros: 0 parametros: 
-[INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 1 , nombre: NO_OP 
- cantidad de parametros: 0 parametros: 
-[INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 2 , nombre: I/O 
- cantidad de parametros: 1 parametros: 
-[INFO] 10:16:01:637 KERNEL/(5294:5294):  4000 
-[INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 3 , nombre: WRITE 
- cantidad de parametros: 2 parametros: 
-[INFO] 10:16:01:637 KERNEL/(5294:5294):  4 
-[INFO] 10:16:01:637 KERNEL/(5294:5294):  42 
-[INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 4 , nombre: COPY 
- cantidad de parametros: 2 parametros: 
-[INFO] 10:16:01:637 KERNEL/(5294:5294):  0 
-[INFO] 10:16:01:637 KERNEL/(5294:5294):  4 
-[INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 5 , nombre: READ 
- cantidad de parametros: 1 parametros: 
-[INFO] 10:16:01:637 KERNEL/(5294:5294):  0 
-[INFO] 10:16:01:637 KERNEL/(5294:5294): El codigo de la instruccion es: 6 , nombre: EXIT 
- cantidad de parametros: 0 parametros: 
+[INFO] 00:22:49:564 KERNEL/(11695:11695): Conexion establecida con exito
+[INFO] 00:22:49:566 KERNEL/(11695:11695): Creo conexion con la MEMORIA en la IP 127.0.0.1 y puerto 8002 con el descriptor:  7
+[INFO] 00:22:49:567 KERNEL/(11695:11695): Se envia Handshake a la memoria
+[INFO] 00:22:49:567 KERNEL/(11695:11695): Mensaje recibido de la memoria:  42
+[INFO] 00:22:49:567 KERNEL/(11695:11695): Conexion establecida con la memoria
+[INFO] 00:22:49:567 KERNEL/(11695:11695): Conexion establecida con exito
+[INFO] 00:22:49:567 KERNEL/(11695:11695): Creo conexion con la CPU DISPATCH en la IP 127.0.0.1 y puerto 9797 con el descriptor:  8
+[INFO] 00:22:49:567 KERNEL/(11695:11695): Se envia Handshake a CPU dispatch
+[INFO] 00:22:49:567 KERNEL/(11695:11695): Mensaje recibido del CPU:  22
+[INFO] 00:22:49:567 KERNEL/(11695:11695): Conexion establecida con la CPU dispatch
+[INFO] 00:22:49:567 KERNEL/(11695:11695): Conexion establecida con exito
+[INFO] 00:22:49:567 KERNEL/(11695:11695): Creo conexion con la CPU INTERRUPT en la IP 127.0.0.1 y puerto 8005 con el descriptor:  9
+[INFO] 00:22:49:567 KERNEL/(11695:11695): Se envia Handshake a la CPU interrupt
+[INFO] 00:22:49:567 KERNEL/(11695:11695): Mensaje recibido de la CPU interrupt:  24
+[INFO] 00:22:49:567 KERNEL/(11695:11695): Conexion establecida con la CPU interrupt
+[TRACE] 00:22:49:567 KERNEL/(11695:11695): MODO PLANIFICADOR CORTO PLAZO: FIFO
+
+[TRACE] 00:22:49:567 KERNEL/(11695:11695): EJECUTANDO: PLANIFICADOR LARGO PLAZO
+
+[TRACE] 00:22:49:567 KERNEL/(11695:11695): EJECUTANDO: PLANIFICADOR MEDIANO PLAZO
+[TRACE] 00:23:21:335 KERNEL/(11695:11746): se DESBLOQUEO un proceso, ID: 0
+[TRACE] 00:23:44:342 KERNEL/(11695:11757): se DESBLOQUEO un proceso, ID: 1
+[TRACE] 00:24:04:340 KERNEL/(11695:11712): se va a finalizar un proceso
+[TRACE] 00:24:24:351 KERNEL/(11695:11712): se va a finalizar un proceso

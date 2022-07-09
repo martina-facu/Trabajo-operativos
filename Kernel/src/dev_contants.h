@@ -1,1 +1,0 @@
-const int GRADO_MULTIPROGRAMACION = 2;

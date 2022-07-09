@@ -24,6 +24,7 @@
 	#include <logs.h>
 	#include <conexion.h>
 	#include <pthread.h>
+	#include "utils.h"
 
 /*
  * Listado de estructuras
@@ -35,32 +36,23 @@
 	 */
 
 
-	typedef struct
-	{
-
-		int entradasTLB;
-		char* algoritmoReemplazoTLB;
-		int retardoNoOp;
-		char* IPMemoria;
-		char* IPCPU;
-		char* puertoMemoria;
-		char* puertoDispatch;
-		char* puertoInterrupt;
-	}t_config_cpu;
+//	typedef struct
+//	{
+//
+//		int entradasTLB;
+//		char* algoritmoReemplazoTLB;
+//		int retardoNoOp;
+//		char* IPMemoria;
+//		char* IPCPU;
+//		char* puertoMemoria;
+//		char* puertoDispatch;
+//		char* puertoInterrupt;
+//	}t_config_cpu;
 
 /*
  * Listado de variables globales
 */
-	#define ENTRADAS_TLB "ENTRADAS_TLB"
-	#define ALG_TLB "REEMPLAZO_TLB"
-	#define RETARDO_NOOP "RETARDO_NOOP"
-	#define IP_MEMORIA "IP_MEMORIA"
-	#define PUERTO_MEMORIA "PUERTO_MEMORIA"
-	#define PUERTO_DISPATCH "PUERTO_ESCUCHA_DISPATCH"
-	#define PUERTO_INTERRUPT "PUERTO_ESCUCHA_INTERRUPT"
-	#define IP_CPU "IP_CPU"
 
-	t_log* logger;
 	t_config* config;
 	t_config_cpu* configuracion;
 
@@ -69,24 +61,17 @@
 
 	int fdmax = -1;
 	int fdmin = 201669;
-	int connectionsDispatch = 0;
-	int connectionsInterrupt = 0;
-	int acceptedConecctionDispatch;
-	int acceptedConecctionInterrupt;
-
+	int cantidad_clientes_dispatch = 0;
+	int cantidad_clientes_interrupt = 0;
+	int cliente_dispatch;
+	int cliente_interrupt;
 	bool interrupcion = false;
 
 	pthread_attr_t attr;
 	pthread_t threadId;
 	int resThread;
-//	int num_threads_interrupt = 1;
 
-
-//	int client_memory_socket;
-//	int client_dispatch_socket;
-//	int client_interrupt_socket;
-//	int server_dispatch_socket;
-//	int server_interrupt_socket;
+	int idAnteriorPCB = -1;
 
 /*
  * Prototipo de funciones
@@ -96,5 +81,10 @@
 	void aceptoServerInterrupt(int socketAnalizar);
 	void aceptoServerDispatch(int socketAnalizar);
 	void * atencionInterrupt(void * socketInterrupt);
+	void compararLimitesConNuevoDescriptor(int nuevoSocket);
+	int levantarServerDispatch(void);
+	int levantarServerInterrupt(void);
+	void procesarPCB(void);
+	void reciboPCBdesdeKernel(int acceptedConecctionDispatch);
 
 #endif /* CPU_H_ */

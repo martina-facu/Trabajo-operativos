@@ -1,92 +1,518 @@
-[INFO] 10:15:17:866 CPU/(5280:5280): -------------------------
-[INFO] 10:15:17:867 CPU/(5280:5280): Iniciando log Proceso CPU
-[INFO] 10:15:17:867 CPU/(5280:5280): -------------------------
-[INFO] 10:15:17:867 CPU/(5280:5280): Se leyo la variable ENTRADAS_TLB: 4
-[INFO] 10:15:17:867 CPU/(5280:5280): Se leyo la variable REEMPLAZO_TLB: LRU
-[INFO] 10:15:17:867 CPU/(5280:5280): Se leyo la variable RETARDO_NOOP: 1000
-[INFO] 10:15:17:867 CPU/(5280:5280): Se leyo la variable IP_CPU: 192.168.0.233
-[INFO] 10:15:17:867 CPU/(5280:5280): Se leyo la variable IP_MEMORIA: 192.168.0.233
-[INFO] 10:15:17:867 CPU/(5280:5280): Se leyo la variable PUERTO_MEMORIA: 8002
-[INFO] 10:15:17:867 CPU/(5280:5280): Se leyo la variable PUERTO_DISPATCH: 9797
-[INFO] 10:15:17:867 CPU/(5280:5280): Se leyo la variable PUERTO_INTERRUPT: 8005
-[INFO] 10:15:17:867 CPU/(5280:5280): Conexion establecida en la memoria en la IP 192.168.0.233 y puerto 8002 con el descriptor:  5
-[INFO] 10:15:17:867 CPU/(5280:5280): Se envia Handshake a la memoria
-[INFO] 10:15:17:868 CPU/(5280:5280): Mensaje recibido de la memoria:  9
-[INFO] 10:15:17:868 CPU/(5280:5280): Conexion establecida con la memoria
-[INFO] 10:15:17:868 CPU/(5280:5280): Socket en el que se levanta el server SERVER DISPATCH: 6
-[INFO] 10:15:17:868 CPU/(5280:5280): Socket en el que se levanta el server SERVER INTERRUPT: 7
-[INFO] 10:15:36:668 CPU/(5280:5280): Se acepto la conexion del Dispatch en el socket: 8
-[INFO] 10:15:36:668 CPU/(5280:5280): Se agrego al set de descriptores el descriptor: 8
-[INFO] 10:15:36:668 CPU/(5280:5280): Mensaje recibido dispatch: 21
-[INFO] 10:15:58:632 CPU/(5280:5280): INFORMACION DEL PCB RECIBIDO:
-[INFO] 10:15:58:632 CPU/(5280:5280): PID: 7
-[INFO] 10:15:58:632 CPU/(5280:5280): TAMANO: 10
-[INFO] 10:15:58:632 CPU/(5280:5280): PC: 0
-[INFO] 10:15:58:632 CPU/(5280:5280): ESTIMADO_RAFAGA: 10000
-[INFO] 10:15:58:632 CPU/(5280:5280): ESTADO: 0
-[INFO] 10:15:58:632 CPU/(5280:5280): TIEMPO BLOQUEO: 0
-[INFO] 10:15:58:632 CPU/(5280:5280): -----------TABLA DE PAGINAS----------------
-[INFO] 10:15:58:632 CPU/(5280:5280): DESPLAZAMIENTO: 0
-[INFO] 10:15:58:632 CPU/(5280:5280): ENTRADA PRIMER NIVEL: 0
-[INFO] 10:15:58:632 CPU/(5280:5280): ENTRADA SEGUNDO NIVEL: 0
-[INFO] 10:15:58:632 CPU/(5280:5280): INUMERO PAGINA: 0
-[INFO] 10:15:58:632 CPU/(5280:5280): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 00:22:39:936 CPU/(11675:11675): -------------------------
+[INFO] 00:22:39:936 CPU/(11675:11675): Iniciando log Proceso CPU
+[INFO] 00:22:39:936 CPU/(11675:11675): -------------------------
+[INFO] 00:22:39:937 CPU/(11675:11675): Se leyo la variable ENTRADAS_TLB: 4
+[INFO] 00:22:39:937 CPU/(11675:11675): Se leyo la variable REEMPLAZO_TLB: LRU
+[INFO] 00:22:39:937 CPU/(11675:11675): Se leyo la variable RETARDO_NOOP: 1000
+[INFO] 00:22:39:937 CPU/(11675:11675): Se leyo la variable IP_CPU: 127.0.0.1
+[INFO] 00:22:39:937 CPU/(11675:11675): Se leyo la variable IP_MEMORIA: 127.0.0.1
+[INFO] 00:22:39:937 CPU/(11675:11675): Se leyo la variable PUERTO_MEMORIA: 8002
+[INFO] 00:22:39:937 CPU/(11675:11675): Se leyo la variable PUERTO_DISPATCH: 9797
+[INFO] 00:22:39:937 CPU/(11675:11675): Se leyo la variable PUERTO_INTERRUPT: 8005
+[INFO] 00:22:39:938 CPU/(11675:11675): Conexion establecida con exito
+[INFO] 00:22:39:938 CPU/(11675:11675): Se intenta conectarse con la memoria en la IP 127.0.0.1 y puerto 8002 con el descriptor:  5
+[INFO] 00:22:39:938 CPU/(11675:11675): Se envia Handshake a la memoria
+[INFO] 00:22:39:938 CPU/(11675:11675): Mensaje recibido de la memoria:  2
+[INFO] 00:22:39:938 CPU/(11675:11675): Conexion establecida con la memoria
+[INFO] 00:22:39:938 CPU/(11675:11675): Server escuchando
+[INFO] 00:22:39:938 CPU/(11675:11675): Socket en el que se levanta el server SERVER DISPATCH: 6 en la IP: 127.0.0.1 y Puerto: 9797
+[INFO] 00:22:39:938 CPU/(11675:11675): Server escuchando
+[INFO] 00:22:39:939 CPU/(11675:11675): Socket en el que se levanta el server SERVER INTERRUPT: 7 en la IP: 127.0.0.1 y Puerto: 8005
+[INFO] 00:22:49:567 CPU/(11675:11675): Se acepto la conexion del Dispatch en el socket: 8
+[INFO] 00:22:49:567 CPU/(11675:11675): Se agrego al set de descriptores el descriptor: 8
+[INFO] 00:22:49:567 CPU/(11675:11675): Mensaje recibido dispatch: 21
+[INFO] 00:22:49:567 CPU/(11675:11675): Se envia Handshake 21 para dejar establecida la conexion del Dispatch
+[INFO] 00:22:49:567 CPU/(11675:11675): Se quiso conectar alguien al Server Interrupt
+[INFO] 00:22:49:567 CPU/(11675:11675): Se acepto la conexion del Interrupt en el socket: 9
+[INFO] 00:22:49:567 CPU/(11675:11675): Mensaje recibido interrupt: 23
+[INFO] 00:22:49:567 CPU/(11675:11675): Se envia Handshake 23 para dejar establecida la conexion del Dispatch
+[INFO] 00:22:49:567 CPU/(11675:11675): Se genera el Thread del Interrupt con TID: 0
+[INFO] 00:22:49:571 CPU/(11675:11701): Entre al hilo
+[INFO] 00:22:49:573 CPU/(11675:11701): El valor del socket que recibe el thread es: 9
+[INFO] 00:22:58:323 CPU/(11675:11675): Voy a recibir y procesar un PCB del Dispatch
+[INFO] 00:22:58:323 CPU/(11675:11675): Voy a loguear informacion del PCB recibida por el Dispatch
+[INFO] 00:22:58:323 CPU/(11675:11675): INFORMACION PCB:
+[INFO] 00:22:58:323 CPU/(11675:11675): PID: 0
+
+[INFO] 00:22:58:323 CPU/(11675:11675): TAMANO: 10
+
+[INFO] 00:22:58:323 CPU/(11675:11675): PC: 0
+
+[INFO] 00:22:58:323 CPU/(11675:11675): ESTIMADO_RAFAGA: 1
+
+[INFO] 00:22:58:323 CPU/(11675:11675): ESTADO: INICIADO
+
+[INFO] 00:22:58:323 CPU/(11675:11675): TIEMPO BLOQUEO: 0
+
+[INFO] 00:22:58:323 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 10:15:58:632 CPU/(5280:5280): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 00:22:58:323 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 10:15:58:632 CPU/(5280:5280): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 00:22:58:323 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 10:15:58:632 CPU/(5280:5280): El codigo de la instruccion es: 2 , nombre: I/O 
+[INFO] 00:22:58:323 CPU/(11675:11675): El codigo de la instruccion es: 2 , nombre: I/O 
  cantidad de parametros: 1 parametros: 
-[INFO] 10:15:58:632 CPU/(5280:5280):  4000 
-[INFO] 10:15:58:632 CPU/(5280:5280): El codigo de la instruccion es: 3 , nombre: WRITE 
+[INFO] 00:22:58:323 CPU/(11675:11675):  4000 
+[INFO] 00:22:58:323 CPU/(11675:11675): El codigo de la instruccion es: 3 , nombre: WRITE 
  cantidad de parametros: 2 parametros: 
-[INFO] 10:15:58:632 CPU/(5280:5280):  4 
-[INFO] 10:15:58:632 CPU/(5280:5280):  42 
-[INFO] 10:15:58:632 CPU/(5280:5280): El codigo de la instruccion es: 4 , nombre: COPY 
+[INFO] 00:22:58:323 CPU/(11675:11675):  4 
+[INFO] 00:22:58:323 CPU/(11675:11675):  42 
+[INFO] 00:22:58:323 CPU/(11675:11675): El codigo de la instruccion es: 4 , nombre: COPY 
  cantidad de parametros: 2 parametros: 
-[INFO] 10:15:58:632 CPU/(5280:5280):  0 
-[INFO] 10:15:58:632 CPU/(5280:5280):  4 
-[INFO] 10:15:58:632 CPU/(5280:5280): El codigo de la instruccion es: 5 , nombre: READ 
+[INFO] 00:22:58:323 CPU/(11675:11675):  0 
+[INFO] 00:22:58:323 CPU/(11675:11675):  4 
+[INFO] 00:22:58:323 CPU/(11675:11675): El codigo de la instruccion es: 5 , nombre: READ 
  cantidad de parametros: 1 parametros: 
-[INFO] 10:15:58:632 CPU/(5280:5280):  0 
-[INFO] 10:15:58:633 CPU/(5280:5280): El codigo de la instruccion es: 6 , nombre: EXIT 
+[INFO] 00:22:58:323 CPU/(11675:11675):  0 
+[INFO] 00:22:58:323 CPU/(11675:11675): El codigo de la instruccion es: 6 , nombre: EXIT 
  cantidad de parametros: 0 parametros: 
-[INFO] 10:15:58:633 CPU/(5280:5280): Entre a ejecutar instrucciones
-[INFO] 10:15:59:634 CPU/(5280:5280): Entre a ejecutar instrucciones
-[INFO] 10:16:00:635 CPU/(5280:5280): Entre a ejecutar instrucciones
-[INFO] 10:16:01:636 CPU/(5280:5280): Entre a ejecutar instrucciones
-[INFO] 10:16:01:636 CPU/(5280:5280): INFORMACION DEL PCB RECIBIDO:
-[INFO] 10:16:01:636 CPU/(5280:5280): PID: 7
-[INFO] 10:16:01:636 CPU/(5280:5280): TAMANO: 10
-[INFO] 10:16:01:636 CPU/(5280:5280): PC: 4
-[INFO] 10:16:01:636 CPU/(5280:5280): ESTIMADO_RAFAGA: 10000
-[INFO] 10:16:01:636 CPU/(5280:5280): ESTADO: 1
-[INFO] 10:16:01:636 CPU/(5280:5280): TIEMPO BLOQUEO: 4000
-[INFO] 10:16:01:636 CPU/(5280:5280): -----------TABLA DE PAGINAS----------------
-[INFO] 10:16:01:636 CPU/(5280:5280): DESPLAZAMIENTO: 0
-[INFO] 10:16:01:636 CPU/(5280:5280): ENTRADA PRIMER NIVEL: 0
-[INFO] 10:16:01:636 CPU/(5280:5280): ENTRADA SEGUNDO NIVEL: 0
-[INFO] 10:16:01:636 CPU/(5280:5280): INUMERO PAGINA: 0
-[INFO] 10:16:01:636 CPU/(5280:5280): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 00:22:58:323 CPU/(11675:11675): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
+[INFO] 00:22:58:323 CPU/(11675:11675): CPU-EXECUTE Aumento el program counter del PCB a: 1
+[INFO] 00:22:58:323 CPU/(11675:11675): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
+[INFO] 00:22:59:324 CPU/(11675:11675): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 00:23:04:325 CPU/(11675:11675): Valor de devolver PCBt false
+[INFO] 00:23:04:325 CPU/(11675:11675): CPU-EXECUTE Aumento el program counter del PCB a: 2
+[INFO] 00:23:04:325 CPU/(11675:11675): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
+[INFO] 00:23:05:325 CPU/(11675:11675): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 00:23:10:325 CPU/(11675:11675): Valor de devolver PCBt false
+[INFO] 00:23:10:326 CPU/(11675:11675): CPU-EXECUTE Aumento el program counter del PCB a: 3
+[INFO] 00:23:10:326 CPU/(11675:11675): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
+[INFO] 00:23:11:326 CPU/(11675:11675): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 00:23:16:326 CPU/(11675:11675): Valor de devolver PCBt false
+[INFO] 00:23:16:327 CPU/(11675:11675): CPU-EXECUTE Aumento el program counter del PCB a: 4
+[INFO] 00:23:16:327 CPU/(11675:11675): CPU-EXECUTE Proceso una operacion de I/0
+[INFO] 00:23:16:327 CPU/(11675:11675): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 00:23:21:327 CPU/(11675:11675): Valor de devolver PCBt true
+[INFO] 00:23:21:327 CPU/(11675:11675): CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion
+[INFO] 00:23:21:327 CPU/(11675:11675): INFORMACION PCB:
+[INFO] 00:23:21:327 CPU/(11675:11675): PID: 0
+
+[INFO] 00:23:21:328 CPU/(11675:11675): TAMANO: 10
+
+[INFO] 00:23:21:328 CPU/(11675:11675): PC: 4
+
+[INFO] 00:23:21:328 CPU/(11675:11675): ESTIMADO_RAFAGA: 1
+
+[INFO] 00:23:21:328 CPU/(11675:11675): ESTADO: BLOQUEADO
+
+[INFO] 00:23:21:328 CPU/(11675:11675): TIEMPO BLOQUEO: 4000
+
+[INFO] 00:23:21:328 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 10:16:01:636 CPU/(5280:5280): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 00:23:21:328 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 10:16:01:636 CPU/(5280:5280): El codigo de la instruccion es: 1 , nombre: NO_OP 
+[INFO] 00:23:21:328 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
  cantidad de parametros: 0 parametros: 
-[INFO] 10:16:01:636 CPU/(5280:5280): El codigo de la instruccion es: 2 , nombre: I/O 
+[INFO] 00:23:21:328 CPU/(11675:11675): El codigo de la instruccion es: 2 , nombre: I/O 
  cantidad de parametros: 1 parametros: 
-[INFO] 10:16:01:636 CPU/(5280:5280):  4000 
-[INFO] 10:16:01:636 CPU/(5280:5280): El codigo de la instruccion es: 3 , nombre: WRITE 
+[INFO] 00:23:21:328 CPU/(11675:11675):  4000 
+[INFO] 00:23:21:328 CPU/(11675:11675): El codigo de la instruccion es: 3 , nombre: WRITE 
  cantidad de parametros: 2 parametros: 
-[INFO] 10:16:01:636 CPU/(5280:5280):  4 
-[INFO] 10:16:01:636 CPU/(5280:5280):  42 
-[INFO] 10:16:01:636 CPU/(5280:5280): El codigo de la instruccion es: 4 , nombre: COPY 
+[INFO] 00:23:21:328 CPU/(11675:11675):  4 
+[INFO] 00:23:21:328 CPU/(11675:11675):  42 
+[INFO] 00:23:21:328 CPU/(11675:11675): El codigo de la instruccion es: 4 , nombre: COPY 
  cantidad de parametros: 2 parametros: 
-[INFO] 10:16:01:636 CPU/(5280:5280):  0 
-[INFO] 10:16:01:636 CPU/(5280:5280):  4 
-[INFO] 10:16:01:636 CPU/(5280:5280): El codigo de la instruccion es: 5 , nombre: READ 
+[INFO] 00:23:21:328 CPU/(11675:11675):  0 
+[INFO] 00:23:21:328 CPU/(11675:11675):  4 
+[INFO] 00:23:21:328 CPU/(11675:11675): El codigo de la instruccion es: 5 , nombre: READ 
  cantidad de parametros: 1 parametros: 
-[INFO] 10:16:01:636 CPU/(5280:5280):  0 
-[INFO] 10:16:01:636 CPU/(5280:5280): El codigo de la instruccion es: 6 , nombre: EXIT 
+[INFO] 00:23:21:328 CPU/(11675:11675):  0 
+[INFO] 00:23:21:328 CPU/(11675:11675): El codigo de la instruccion es: 6 , nombre: EXIT 
  cantidad de parametros: 0 parametros: 
+[INFO] 00:23:21:328 CPU/(11675:11675): CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel
+[INFO] 00:23:21:328 CPU/(11675:11675): CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel
+[INFO] 00:23:21:329 CPU/(11675:11675): CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel
+[INFO] 00:23:21:329 CPU/(11675:11675): Voy a recibir y procesar un PCB del Dispatch
+[INFO] 00:23:21:329 CPU/(11675:11675): Voy a loguear informacion del PCB recibida por el Dispatch
+[INFO] 00:23:21:329 CPU/(11675:11675): INFORMACION PCB:
+[INFO] 00:23:21:329 CPU/(11675:11675): PID: 1
+
+[INFO] 00:23:21:329 CPU/(11675:11675): TAMANO: 10
+
+[INFO] 00:23:21:329 CPU/(11675:11675): PC: 0
+
+[INFO] 00:23:21:330 CPU/(11675:11675): ESTIMADO_RAFAGA: 1
+
+[INFO] 00:23:21:330 CPU/(11675:11675): ESTADO: INICIADO
+
+[INFO] 00:23:21:330 CPU/(11675:11675): TIEMPO BLOQUEO: 0
+
+[INFO] 00:23:21:330 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:23:21:330 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:23:21:330 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:23:21:330 CPU/(11675:11675): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 00:23:21:330 CPU/(11675:11675):  4000 
+[INFO] 00:23:21:330 CPU/(11675:11675): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 00:23:21:330 CPU/(11675:11675):  4 
+[INFO] 00:23:21:330 CPU/(11675:11675):  42 
+[INFO] 00:23:21:331 CPU/(11675:11675): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 00:23:21:331 CPU/(11675:11675):  0 
+[INFO] 00:23:21:331 CPU/(11675:11675):  4 
+[INFO] 00:23:21:331 CPU/(11675:11675): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 00:23:21:331 CPU/(11675:11675):  0 
+[INFO] 00:23:21:331 CPU/(11675:11675): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:23:21:331 CPU/(11675:11675): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
+[INFO] 00:23:21:331 CPU/(11675:11675): CPU-EXECUTE Aumento el program counter del PCB a: 1
+[INFO] 00:23:21:331 CPU/(11675:11675): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
+[INFO] 00:23:22:331 CPU/(11675:11675): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 00:23:27:332 CPU/(11675:11675): Valor de devolver PCBt false
+[INFO] 00:23:27:332 CPU/(11675:11675): CPU-EXECUTE Aumento el program counter del PCB a: 2
+[INFO] 00:23:27:332 CPU/(11675:11675): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
+[INFO] 00:23:28:332 CPU/(11675:11675): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 00:23:33:332 CPU/(11675:11675): Valor de devolver PCBt false
+[INFO] 00:23:33:333 CPU/(11675:11675): CPU-EXECUTE Aumento el program counter del PCB a: 3
+[INFO] 00:23:33:333 CPU/(11675:11675): CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir 1
+[INFO] 00:23:34:333 CPU/(11675:11675): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 00:23:39:333 CPU/(11675:11675): Valor de devolver PCBt false
+[INFO] 00:23:39:333 CPU/(11675:11675): CPU-EXECUTE Aumento el program counter del PCB a: 4
+[INFO] 00:23:39:333 CPU/(11675:11675): CPU-EXECUTE Proceso una operacion de I/0
+[INFO] 00:23:39:333 CPU/(11675:11675): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 00:23:44:333 CPU/(11675:11675): Valor de devolver PCBt true
+[INFO] 00:23:44:334 CPU/(11675:11675): CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion
+[INFO] 00:23:44:334 CPU/(11675:11675): INFORMACION PCB:
+[INFO] 00:23:44:334 CPU/(11675:11675): PID: 1
+
+[INFO] 00:23:44:334 CPU/(11675:11675): TAMANO: 10
+
+[INFO] 00:23:44:334 CPU/(11675:11675): PC: 4
+
+[INFO] 00:23:44:334 CPU/(11675:11675): ESTIMADO_RAFAGA: 1
+
+[INFO] 00:23:44:334 CPU/(11675:11675): ESTADO: BLOQUEADO
+
+[INFO] 00:23:44:334 CPU/(11675:11675): TIEMPO BLOQUEO: 4000
+
+[INFO] 00:23:44:334 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:23:44:334 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:23:44:334 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:23:44:334 CPU/(11675:11675): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 00:23:44:334 CPU/(11675:11675):  4000 
+[INFO] 00:23:44:334 CPU/(11675:11675): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 00:23:44:334 CPU/(11675:11675):  4 
+[INFO] 00:23:44:334 CPU/(11675:11675):  42 
+[INFO] 00:23:44:334 CPU/(11675:11675): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 00:23:44:334 CPU/(11675:11675):  0 
+[INFO] 00:23:44:334 CPU/(11675:11675):  4 
+[INFO] 00:23:44:335 CPU/(11675:11675): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 00:23:44:335 CPU/(11675:11675):  0 
+[INFO] 00:23:44:335 CPU/(11675:11675): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:23:44:335 CPU/(11675:11675): CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel
+[INFO] 00:23:44:335 CPU/(11675:11675): CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel
+[INFO] 00:23:44:335 CPU/(11675:11675): CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel
+[INFO] 00:23:44:335 CPU/(11675:11675): Voy a recibir y procesar un PCB del Dispatch
+[INFO] 00:23:44:335 CPU/(11675:11675): Voy a loguear informacion del PCB recibida por el Dispatch
+[INFO] 00:23:44:335 CPU/(11675:11675): INFORMACION PCB:
+[INFO] 00:23:44:336 CPU/(11675:11675): PID: 0
+
+[INFO] 00:23:44:336 CPU/(11675:11675): TAMANO: 10
+
+[INFO] 00:23:44:336 CPU/(11675:11675): PC: 4
+
+[INFO] 00:23:44:336 CPU/(11675:11675): ESTIMADO_RAFAGA: 1
+
+[INFO] 00:23:44:336 CPU/(11675:11675): ESTADO: BLOQUEADO
+
+[INFO] 00:23:44:336 CPU/(11675:11675): TIEMPO BLOQUEO: 4000
+
+[INFO] 00:23:44:336 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:23:44:336 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:23:44:336 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:23:44:336 CPU/(11675:11675): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 00:23:44:336 CPU/(11675:11675):  4000 
+[INFO] 00:23:44:336 CPU/(11675:11675): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 00:23:44:336 CPU/(11675:11675):  4 
+[INFO] 00:23:44:336 CPU/(11675:11675):  42 
+[INFO] 00:23:44:336 CPU/(11675:11675): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 00:23:44:336 CPU/(11675:11675):  0 
+[INFO] 00:23:44:336 CPU/(11675:11675):  4 
+[INFO] 00:23:44:336 CPU/(11675:11675): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 00:23:44:336 CPU/(11675:11675):  0 
+[INFO] 00:23:44:336 CPU/(11675:11675): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:23:44:336 CPU/(11675:11675): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
+[INFO] 00:23:44:336 CPU/(11675:11675): CPU-EXECUTE Aumento el program counter del PCB a: 5
+[INFO] 00:23:44:336 CPU/(11675:11675): CPU-EXECUTE Proceso una operacion de WRITE
+[INFO] 00:23:44:336 CPU/(11675:11675): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 00:23:49:336 CPU/(11675:11675): Valor de devolver PCBt false
+[INFO] 00:23:49:337 CPU/(11675:11675): CPU-EXECUTE Aumento el program counter del PCB a: 6
+[INFO] 00:23:49:337 CPU/(11675:11675): Es una INSTRUCCION COPY
+[INFO] 00:23:49:337 CPU/(11675:11675): CPU-EXECUTE Proceso una operacion de COPY
+[INFO] 00:23:49:337 CPU/(11675:11675): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 00:23:54:337 CPU/(11675:11675): Valor de devolver PCBt false
+[INFO] 00:23:54:337 CPU/(11675:11675): CPU-EXECUTE Aumento el program counter del PCB a: 7
+[INFO] 00:23:54:337 CPU/(11675:11675): CPU-EXECUTE Proceso una operacion de READ
+[INFO] 00:23:54:337 CPU/(11675:11675): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 00:23:59:338 CPU/(11675:11675): Valor de devolver PCBt false
+[INFO] 00:23:59:339 CPU/(11675:11675): CPU-EXECUTE Aumento el program counter del PCB a: 8
+[INFO] 00:23:59:339 CPU/(11675:11675): CPU-EXECUTE Proceso una operacion de EXIT
+[INFO] 00:23:59:339 CPU/(11675:11675): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 00:24:04:339 CPU/(11675:11675): Valor de devolver PCBt true
+[INFO] 00:24:04:339 CPU/(11675:11675): CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion
+[INFO] 00:24:04:339 CPU/(11675:11675): INFORMACION PCB:
+[INFO] 00:24:04:339 CPU/(11675:11675): PID: 0
+
+[INFO] 00:24:04:339 CPU/(11675:11675): TAMANO: 10
+
+[INFO] 00:24:04:339 CPU/(11675:11675): PC: 8
+
+[INFO] 00:24:04:339 CPU/(11675:11675): ESTIMADO_RAFAGA: 1
+
+[INFO] 00:24:04:339 CPU/(11675:11675): ESTADO: FINALIZADO
+
+[INFO] 00:24:04:340 CPU/(11675:11675): TIEMPO BLOQUEO: 4000
+
+[INFO] 00:24:04:340 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:24:04:340 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:24:04:340 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:24:04:340 CPU/(11675:11675): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 00:24:04:340 CPU/(11675:11675):  4000 
+[INFO] 00:24:04:340 CPU/(11675:11675): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 00:24:04:340 CPU/(11675:11675):  4 
+[INFO] 00:24:04:340 CPU/(11675:11675):  42 
+[INFO] 00:24:04:340 CPU/(11675:11675): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 00:24:04:340 CPU/(11675:11675):  0 
+[INFO] 00:24:04:340 CPU/(11675:11675):  4 
+[INFO] 00:24:04:340 CPU/(11675:11675): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 00:24:04:340 CPU/(11675:11675):  0 
+[INFO] 00:24:04:340 CPU/(11675:11675): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:24:04:340 CPU/(11675:11675): CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel
+[INFO] 00:24:04:340 CPU/(11675:11675): CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel
+[INFO] 00:24:04:343 CPU/(11675:11675): CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel
+[INFO] 00:24:04:343 CPU/(11675:11675): Voy a recibir y procesar un PCB del Dispatch
+[INFO] 00:24:04:343 CPU/(11675:11675): Voy a loguear informacion del PCB recibida por el Dispatch
+[INFO] 00:24:04:344 CPU/(11675:11675): INFORMACION PCB:
+[INFO] 00:24:04:344 CPU/(11675:11675): PID: 1
+
+[INFO] 00:24:04:344 CPU/(11675:11675): TAMANO: 10
+
+[INFO] 00:24:04:344 CPU/(11675:11675): PC: 4
+
+[INFO] 00:24:04:344 CPU/(11675:11675): ESTIMADO_RAFAGA: 1
+
+[INFO] 00:24:04:344 CPU/(11675:11675): ESTADO: BLOQUEADO
+
+[INFO] 00:24:04:344 CPU/(11675:11675): TIEMPO BLOQUEO: 4000
+
+[INFO] 00:24:04:344 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:24:04:345 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:24:04:346 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:24:04:346 CPU/(11675:11675): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 00:24:04:346 CPU/(11675:11675):  4000 
+[INFO] 00:24:04:346 CPU/(11675:11675): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 00:24:04:346 CPU/(11675:11675):  4 
+[INFO] 00:24:04:346 CPU/(11675:11675):  42 
+[INFO] 00:24:04:346 CPU/(11675:11675): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 00:24:04:346 CPU/(11675:11675):  0 
+[INFO] 00:24:04:346 CPU/(11675:11675):  4 
+[INFO] 00:24:04:346 CPU/(11675:11675): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 00:24:04:346 CPU/(11675:11675):  0 
+[INFO] 00:24:04:346 CPU/(11675:11675): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:24:04:347 CPU/(11675:11675): CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo
+[INFO] 00:24:04:347 CPU/(11675:11675): CPU-EXECUTE Aumento el program counter del PCB a: 5
+[INFO] 00:24:04:347 CPU/(11675:11675): CPU-EXECUTE Proceso una operacion de WRITE
+[INFO] 00:24:04:347 CPU/(11675:11675): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 00:24:09:347 CPU/(11675:11675): Valor de devolver PCBt false
+[INFO] 00:24:09:348 CPU/(11675:11675): CPU-EXECUTE Aumento el program counter del PCB a: 6
+[INFO] 00:24:09:348 CPU/(11675:11675): Es una INSTRUCCION COPY
+[INFO] 00:24:09:348 CPU/(11675:11675): CPU-EXECUTE Proceso una operacion de COPY
+[INFO] 00:24:09:348 CPU/(11675:11675): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 00:24:14:348 CPU/(11675:11675): Valor de devolver PCBt false
+[INFO] 00:24:14:348 CPU/(11675:11675): CPU-EXECUTE Aumento el program counter del PCB a: 7
+[INFO] 00:24:14:348 CPU/(11675:11675): CPU-EXECUTE Proceso una operacion de READ
+[INFO] 00:24:14:348 CPU/(11675:11675): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 00:24:19:348 CPU/(11675:11675): Valor de devolver PCBt false
+[INFO] 00:24:19:349 CPU/(11675:11675): CPU-EXECUTE Aumento el program counter del PCB a: 8
+[INFO] 00:24:19:349 CPU/(11675:11675): CPU-EXECUTE Proceso una operacion de EXIT
+[INFO] 00:24:19:349 CPU/(11675:11675): Duermo 5 segundos antes de la siguiente operacion
+[INFO] 00:24:24:349 CPU/(11675:11675): Valor de devolver PCBt true
+[INFO] 00:24:24:350 CPU/(11675:11675): CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion
+[INFO] 00:24:24:350 CPU/(11675:11675): INFORMACION PCB:
+[INFO] 00:24:24:350 CPU/(11675:11675): PID: 1
+
+[INFO] 00:24:24:350 CPU/(11675:11675): TAMANO: 10
+
+[INFO] 00:24:24:350 CPU/(11675:11675): PC: 8
+
+[INFO] 00:24:24:350 CPU/(11675:11675): ESTIMADO_RAFAGA: 1
+
+[INFO] 00:24:24:350 CPU/(11675:11675): ESTADO: FINALIZADO
+
+[INFO] 00:24:24:350 CPU/(11675:11675): TIEMPO BLOQUEO: 4000
+
+[INFO] 00:24:24:350 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:24:24:350 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:24:24:350 CPU/(11675:11675): El codigo de la instruccion es: 1 , nombre: NO_OP 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:24:24:350 CPU/(11675:11675): El codigo de la instruccion es: 2 , nombre: I/O 
+ cantidad de parametros: 1 parametros: 
+[INFO] 00:24:24:350 CPU/(11675:11675):  4000 
+[INFO] 00:24:24:350 CPU/(11675:11675): El codigo de la instruccion es: 3 , nombre: WRITE 
+ cantidad de parametros: 2 parametros: 
+[INFO] 00:24:24:350 CPU/(11675:11675):  4 
+[INFO] 00:24:24:350 CPU/(11675:11675):  42 
+[INFO] 00:24:24:350 CPU/(11675:11675): El codigo de la instruccion es: 4 , nombre: COPY 
+ cantidad de parametros: 2 parametros: 
+[INFO] 00:24:24:350 CPU/(11675:11675):  0 
+[INFO] 00:24:24:350 CPU/(11675:11675):  4 
+[INFO] 00:24:24:350 CPU/(11675:11675): El codigo de la instruccion es: 5 , nombre: READ 
+ cantidad de parametros: 1 parametros: 
+[INFO] 00:24:24:350 CPU/(11675:11675):  0 
+[INFO] 00:24:24:350 CPU/(11675:11675): El codigo de la instruccion es: 6 , nombre: EXIT 
+ cantidad de parametros: 0 parametros: 
+[INFO] 00:24:24:350 CPU/(11675:11675): CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel
+[INFO] 00:24:24:350 CPU/(11675:11675): CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel
+[INFO] 00:24:24:354 CPU/(11675:11675): CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel
+[INFO] 00:25:07:815 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:816 CPU/(11675:11675): Voy a recibir y procesar un PCB del Dispatch
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:816 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:817 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:818 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:818 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:818 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:818 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:818 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:818 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:818 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:818 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:818 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:818 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:818 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:818 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:818 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:818 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:818 CPU/(11675:11701): Mensaje recibido interrupt: 0
+[INFO] 00:25:07:818 CPU/(11675:11701): Mensaje recibido del interrupt 0 es incorrecto, se desestima el mismo
+[INFO] 00:25:07:819 CPU/(11675:11675): Voy a loguear informacion del PCB recibida por el Dispatch
+[INFO] 00:25:07:819 CPU/(11675:11675): INFORMACION PCB:
+[INFO] 00:25:07:820 CPU/(11675:11675): PID: 1668248176
+
+[INFO] 00:25:07:820 CPU/(11675:11675): TAMANO: 1918989157
+
+[INFO] 00:25:07:820 CPU/(11675:11675): PC: 544109856
+
+[INFO] 00:25:07:820 CPU/(11675:11675): ESTIMADO_RAFAGA: 41
+

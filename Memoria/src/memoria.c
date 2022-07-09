@@ -156,7 +156,7 @@ int levantar_server(char* ipServer, char* portServer, t_log* logger)
 	int socket;
 
 	//	Inicio el servidor en la IP y puertos leidos desde el archivo de configuracion
-	socket = iniciar_servidor(ipServer, portServer);
+	socket = iniciar_servidor(ipServer, portServer, logger);
 	log_info(logger, "Socket en el que se levanta el server de Memoria: %d", socket);
 
 	return socket;
@@ -175,8 +175,8 @@ void aceptoYEvaluoConexion(int socketAnalizar)
 //	uint8_t handshake;
 
 	//	Acepto las conexiones para luego validar que tipo es y si corresponde mantenerla
-	temporalAcceptedConnection = esperar_cliente(socketAnalizar);
-	log_info(logger, "Se acepto temporalmente conexion en el puerto: %d para evaluar la misma", temporalAcceptedConnection);
+	temporalAcceptedConnection = esperar_cliente(socketAnalizar, logger);
+	log_info(logger, "Se acepto temporalmente conexion en el descriptor: %d para evaluar la misma", temporalAcceptedConnection);
 
 	//	Recibo el tipo de mensaja para saber si es Kernel o CPU
 	uint8_t mensaje = 0;
@@ -187,7 +187,7 @@ void aceptoYEvaluoConexion(int socketAnalizar)
 	{
 
 		//	Se recibio mensaje del Kernel
-		case 3:
+		case INICIAR_CONEXION_KERNEL:
 			//	Valido si ya hay un Kernel conectado
 			//	Si el grado de concurrencia admite que se sigan aceptando
 			//	conexiones, la acepto. Sino omito lo recibido.
@@ -197,7 +197,7 @@ void aceptoYEvaluoConexion(int socketAnalizar)
 			}
 		break;
 		//	Se recibio mensaje de la CPU
-		case 8:
+		case INICIAR_CONEXION_CPU:
 			//	Valido si ya hay una CPU conectada
 			//	Si el grado de concurrencia admite que se sigan aceptando
 			//	conexiones, la acepto. Sino omito lo recibido.
@@ -247,7 +247,7 @@ int validoYAceptoConexionKernel(int temporalAcceptedConnection)
 	log_info(logger, "Se agrego al set de descriptores el descriptor: %d", acceptedConecctionKernel);
 
 	//	Devuelvo el handshake predeterminado
-	handshake = 6;
+	handshake = ACEPTAR_CONEXION_KERNEL;
 	send(acceptedConecctionKernel, &handshake, sizeof(uint8_t), 0);
 
 
@@ -290,7 +290,7 @@ int validoYAceptoConexionCPU(int temporalAcceptedConnection)
 	log_info(logger, "Se agrego al set de descriptores el descriptor: %d", acceptedConecctionCPU);
 
 	//	Devuelvo el handshake predeterminado
-	handshake = 9;
+	handshake = ACEPTAR_CONEXION_CPU;
 	send(acceptedConecctionCPU, &handshake, sizeof(uint8_t), 0);
 
 
@@ -327,16 +327,16 @@ int manejo_mensajes_kernel(int acceptedConecctionKernel){
 					finalizar_proceso(acceptedConecctionKernel);
 				break;
 
-				case ACCEDER_TABLA_DE_PAGINAS:
-					//acceder_tabla_de_paginas(acceptedConecctionKernel);
-				break;
-
-				case ACCEDER_ESPACIO_DE_USUARIO:
-					//acceder_espacio_de_usuario(acceptedConecctionKernel);
-				break;
+//				case ACCEDER_TABLA_DE_PAGINAS:
+//					//acceder_tabla_de_paginas(acceptedConecctionKernel);
+//				break;
+//
+//				case ACCEDER_ESPACIO_DE_USUARIO:
+//					//acceder_espacio_de_usuario(acceptedConecctionKernel);
+//				break;
 
 				default:
-					log_info(logger,"El mensaje recibido no corresponde a ninguno de los preestablecidos: %d", mensaje);
+					log_info(logger,"El mensaje recibido no corresponde a ninguno de los preestablecidos para el Kernel: %d", mensaje);
 					log_info(logger,"Procedo a cerrar sesion temporal establecida en el descriptor: %d", acceptedConecctionKernel);
 					close(acceptedConecctionKernel);
 				break;
@@ -354,20 +354,20 @@ int manejo_mensajes_kernel(int acceptedConecctionKernel){
  *  Razon: 	Validar el tipo de mensaje que se recibe del cpu y responder
  */
 
-int manejo_mensajes_cpu(int acceptedConecctionCPU){
-	uint8_t mensaje = 0;
-	recv(acceptedConecctionKernel, &mensaje, sizeof(uint8_t), 0);
-	log_info(logger, "Mensaje recibido en el server Memoria para aceptar conexiones: %d", mensaje);
-
-	switch(mensaje){
-					default:
-						log_info(logger,"El mensaje recibido no corresponde a ninguno de los preestablecidos: %d", mensaje);
-						log_info(logger,"Procedo a cerrar sesion temporal establecida en el descriptor: %d", acceptedConecctionKernel);
-						close(acceptedConecctionKernel);
-					break;
-				}
-
-		return acceptedConecctionCPU; //ESTO ESTA BIEN HERNAN?
+void manejo_mensajes_cpu(int acceptedConecctionCPU){
+//	uint8_t mensaje = 0;
+//	recv(acceptedConecctionKernel, &mensaje, sizeof(uint8_t), 0);
+//	log_info(logger, "Mensaje recibido en el server Memoria para aceptar conexiones: %d", mensaje);
+//
+//	switch(mensaje){
+//					default:
+//						log_info(logger,"El mensaje recibido no corresponde a ninguno de los preestablecidos para la CPU: %d", mensaje);
+//						log_info(logger,"Procedo a cerrar sesion temporal establecida en el descriptor: %d", acceptedConecctionKernel);
+//						close(acceptedConecctionKernel);
+//					break;
+//				}
+//
+//		return acceptedConecctionCPU; //ESTO ESTA BIEN HERNAN?
 }
 
 void liberar_conexion(int socket_cliente){
@@ -474,7 +474,7 @@ void imprimir_bitarray(t_bitarray* marcosOcupadosPpal){
 
 //FINALIZAR MEMORIA
 
-void liberar_memoria(int conexionKernel, int conexionCPU, t_log* logger, t_config* config){
+void liberar_memoria(int conexionKernel, int conexionCPU, t_log* logger, t_config_memoria* config){
 
 	//Por ultimo liberamos conexion, log y config
 	log_info(logger, "Finalizando memoria :(");

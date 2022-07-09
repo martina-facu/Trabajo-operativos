@@ -25,22 +25,6 @@
 #include <netdb.h>
 #include <fcntl.h> //para funciones del swap como open
 
-
-//MENSAJES
-typedef enum
-{
-	MENSAJE_CLIENTE1=0,
-	MENSAJE_CLIENTE2=1,
-	INICIALIZAR_PROCESO=2,
-	SUSPENDER_PROCESO=3,
-	FINALIZAR_PROCESO=4,
-	ACCEDER_TABLA_DE_PAGINAS=5,
-	ACCEDER_ESPACIO_DE_USUARIO=6,
-	OK,
-	FAIL
-}op_code;
-//MENSAJES FIN
-
 #define PUERTO_ESCUCHA "PUERTO_ESCUCHA"
 #define TAM_MEMORIA "TAM_MEMORIA"
 #define TAM_PAGINA "TAM_PAGINA"
@@ -152,7 +136,7 @@ t_tabla* paginas_segundo_nivel; //tabla de paginas ed segundo nivel
 	int validoYAceptoConexionCPU(int temporalAcceptedConnection);
 	void iniciar_comunicacion();
 	int manejo_mensajes_kernel(int socket_cliente);
-	int manejo_mensajes_cpu(int socket_cliente);
+	void manejo_mensajes_cpu(int socket_cliente);
 
 	//MENSAJES
 	void inicializar_proceso(int socket_cliente);
@@ -166,7 +150,7 @@ t_tabla* paginas_segundo_nivel; //tabla de paginas ed segundo nivel
 	void iniciar_tablas_paginas();
 
 	//FINALIZAR MEMORIA
-	void liberar_memoria(int conexionKernel, int conexionCPU, t_log* logger, t_config* config);
+	void liberar_memoria(int conexionKernel, int conexionCPU, t_log* logger, t_config_memoria* config);
 	void liberar_conexion(int socket_cliente);
 
 	//BITARRAY

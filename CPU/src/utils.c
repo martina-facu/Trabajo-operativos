@@ -1,6 +1,6 @@
 #include "utils.h"
 
-Pcb* obtener_pcb(int cliente)
+pcb_t* obtener_pcb(int cliente)
 {
 
 	t_paquete* paquete = malloc(sizeof(t_paquete));
@@ -18,9 +18,11 @@ Pcb* obtener_pcb(int cliente)
 	buffer->stream = malloc(buffer->size);
 	recv(cliente, buffer->stream, buffer->size, 0);
 
-	Pcb* pcb = pcb_deserializar(buffer);
+	pcb_t* pcb = pcb_deserializar(buffer);
 
-	recibiPCB = true;
+
+
+
 
 	return pcb;
 }
@@ -28,11 +30,11 @@ Pcb* obtener_pcb(int cliente)
 
 int levantar_conexion_memoria(char* ipServer, char* portServer, t_log* logger, uint32_t* cantidad_entradas,uint32_t* tamano_pagina)
 {
-	int conexion_memoria = crear_conexion(ipServer, portServer);
-	log_info(logger, "Conexion establecida en la memoria en la IP %s y puerto %s con el descriptor:  %d", ipServer, portServer, conexion_memoria);
+	int conexion_memoria = crear_conexion(ipServer, portServer, logger);
+	log_info(logger, "Se intenta conectarse con la memoria en la IP %s y puerto %s con el descriptor:  %d", ipServer, portServer, conexion_memoria);
 
 
-	uint8_t handshake_memoria = 8;
+	uint8_t handshake_memoria = INICIAR_CONEXION_CPU;
 	send(conexion_memoria, &handshake_memoria, sizeof(uint8_t), 0);
 	log_info(logger, "Se envia Handshake a la memoria");
 
@@ -40,210 +42,148 @@ int levantar_conexion_memoria(char* ipServer, char* portServer, t_log* logger, u
 	recv(conexion_memoria, &respuesta_memoria, sizeof(uint8_t), 0);
 	log_info(logger, "Mensaje recibido de la memoria:  %d", respuesta_memoria);
 
-	log_info(logger, "Conexion establecida con la memoria");
-//	TODO: descomentar estas lineas cuando se implemente la parte de la memoria
-//	recv(conexion_memoria, cantidad_entradas, sizeof(uint32_t), 0);
-//	recv(conexion_memoria, tamano_pagina, sizeof(uint32_t), 0);
+	if(respuesta_memoria == ACEPTAR_CONEXION_CPU)
+		log_info(logger, "Conexion establecida con la memoria");
+	else
+	{
+		log_error(logger, "No se puede establecer conexion con la memoria. El server contactado responde con un mensaje no predeterminado: %d.", respuesta_memoria);
+		exit(EXIT_FAILURE);
+	}
+	//	TODO: descomentar estas lineas cuando se implemente la parte de la memoria
+	//	t_paquete* respuesta = recibir_mensaje_memoria(conexion_memoria);
+	//	void* stream = respuesta->buffer->stream;
+	//
+	//	memcpy(cantidad_entradas, stream, sizeof(uint32_t));
+	//	stream += sizeof(uint32_t);
+	//	memcpy(tamano_pagina, stream, sizeof(uint32_t));
 
 	return conexion_memoria;
 }
 
-//int levantar_conexion_memoria(t_config* config, t_log* logger, uint32_t* cantidad_entradas,uint32_t* tamano_pagina)
-//{
-//	char * ip_memoria = malloc(sizeof(char) * 30);
-//	strcpy(ip_memoria, config_get_string_value(config, "IP_MEMORIA"));
-//	log_info(logger, "Ip de la memoria:  %s", ip_memoria);
-//
-//	char* puerto_memoria = config_get_string_value(config, "PUERTO_MEMORIA");
-//	log_info(logger, "Puerto de la memoria:  %s", puerto_memoria);
-//	int conexion_memoria = crear_conexion(ip_memoria, puerto_memoria);
-//	log_info(logger, "Conexion establecida en la memoria con el descriptor:  %d", conexion_memoria);
-//
-//
-//	uint8_t handshake_memoria = 8;
-//	send(conexion_memoria, &handshake_memoria, sizeof(uint8_t), 0);
-//	log_info(logger, "Se envia Handshake a la memoria");
-//
-//	uint8_t respuesta_memoria = 0;
-//	recv(conexion_memoria, &respuesta_memoria, sizeof(uint8_t), 0);
-//	log_info(logger, "Mensaje recibido de la memoria:  %d", respuesta_memoria);
-//
-//	log_info(logger, "Conexion establecida con la memoria");
-////	TODO: descomentar estas lineas cuando se implemente la parte de la memoria
-////	recv(conexion_memoria, cantidad_entradas, sizeof(uint32_t), 0);
-////	recv(conexion_memoria, tamano_pagina, sizeof(uint32_t), 0);
-//
-//	return conexion_memoria;
-//}
-
-/*
- *  Funcion: thread_dispatch
- *  Entradas: void *fdConsola
- *  Salidas: void
- *  Razon: 	Funcion para la recepcion de la informacion de la consola que se conecto
- *  		y luego informarle a la misma cuando finalizo su proceso.
- *  		¡¡¡¡¡ Hay que tener cuidado cuando se toque la lista de PCB existentes !!!!!
- *  Author: Grupo 99
- */
-
-/* Process to receive client message function */
-//void *thread_dispatch(void *parameter)
-//{
-////	int nbytes;
-//	int *fdServerDispatch;
-////	char *msg;
-//	//	Inicializo en cero el contador de conexiones concurrentes
-//	int connection = 0;
-//
-//	//	Leo los parametros recibidos al momento de creacion del Thread
-//	fdServerDispatch = (int *) parameter;
-//
-//	//	Acepto la conexion del cliente que se conecta
-//	//	ESTO TIENE QUE IR DESPUES EN EL THREAD!!!!!!!!!!!!!!!!!!
-//	fdDispatch = esperar_cliente(*fdServerDispatch);
-//	log_info(logger, "Acepto un Dispatch Kernel en: %d", fdDispatch);
-//
-//	while (true)
-//	{
-//		 // Valido si llegue al limite de concurrencia en el Dispatch
-//		 if (connection < CONCURRENT_CONNECTION)
-//		 {
-//			//	Acepto la conexion del cliente que se conecta
-//			//	ESTO TIENE QUE IR DESPUES EN EL THREAD!!!!!!!!!!!!!!!!!!
-//			fdDispatch = esperar_cliente(*socket);
-//			log_info(logger, "Acepto un nuevo Dispatch Kernel en: %d", fdDispatch);
-//		 }
-//		 else
-//		 {
-//				//	Defino el mensaje a recibir (y lo recibo) del cliente cuando se conecta
-//				uint8_t mensaje = 0;
-//				recv(fdDispatch, &mensaje, sizeof(uint8_t), 0);
-//				log_info("Mensaje recibido dispatch: %d", mensaje);
-//
-//				//	Defino y envio Handshake
-//				uint8_t handshake = 4;
-//				send(fdDispatch, &handshake, sizeof(uint8_t), 0);
-//		 }
-//
-//
-//
-//
-//	}
-//
-//
-//
-//
-//
-//
-//	printf("\nSe muere el thread\n");
-//}
-//
-
-
-
-
-/*
- *  Funcion: levantar_server
- *  Entradas: 	t_config* config		Archivo de configuracion
- *  			int* socket				Socket
- *  			char* sTipo				Tipo de server a levantar
- *  Salidas: int	socket donde se levanto el server
- *  Razon: 	generar un socket server
- *  Autor:
- */
-
-//int levantar_server(t_config* config, int* socket, char* sTipo)
-//{
-//	//	Leo el puerto en el que voy a levantar el server de acuerdo al TIPO
-//	//	de server que indique en la funcion
-//	char* puerto = config_get_string_value(config, sTipo);
-//	log_info(logger, "Puerto escucha %s", puerto);
-//
-//	//	Leo la IP sobre la cual me voy a levantar como server
-//	char* ipCpu = config_get_string_value(config, CPU_IP);
-//	log_info(logger, "La direccion IP del CPU es %s", ipCpu);
-//
-//	//	Inicio el servidor en la IP y puertos leidos desde el archivo de configuracion
-//	*socket = iniciar_servidor(ipCpu, puerto);
-//	log_info(logger, "Socket %d", *socket);
-//
-//
-//
-//	//	Retorno el socket del cliente creado
-//	//	ESTO CAMBIA POR EL SOCKET DEL SERVER CUANDO ENTREN LOS THREADS
-//	return cliente1;
-//}
 
 int levantar_server(char* ipServer, char* portServer, t_log* logger, char* sTipo)
 {
 	int socket;
 
 	//	Inicio el servidor en la IP y puertos leidos desde el archivo de configuracion
-	socket = iniciar_servidor(ipServer, portServer);
-	log_info(logger, "Socket en el que se levanta el server %s: %d",sTipo, socket);
+	socket = iniciar_servidor(ipServer, portServer, logger);
+	log_info(logger, "Socket en el que se levanta el server %s: %d en la IP: %s y Puerto: %s",sTipo, socket, ipServer, portServer);
 
 	return socket;
 }
-//int levantar_server(t_config* config, int* socket, char* sTipo)
-//{
-//	int socket;
-//
-//	//	Leo el puerto en el que voy a levantar el server de acuerdo al TIPO
-//	//	de server que indique en la funcion
-//	char* puerto = config_get_string_value(config, sTipo);
-//	log_info(logger, "Puerto escucha %s", puerto);
-//
-//	//	Leo la IP sobre la cual me voy a levantar como server
-//	char* ipCpu = config_get_string_value(config, CPU_IP);
-//	log_info(logger, "La direccion IP del CPU es %s", ipCpu);
-//
-//	//	Inicio el servidor en la IP y puertos leidos desde el archivo de configuracion
-//	socket = iniciar_servidor(ipCpu, puerto);
-//	log_info(logger, "Socket en el que se levanta el server: %d", socket);
-//
-//	return socket;
-//}
-//{
-//	//	Leo el puerto en el que voy a levantar el server de acuerdo al TIPO
-//	//	de server que indique en la funcion
-//	char* puerto = config_get_string_value(config, sTipo);
-//	log_info(logger, "Puerto escucha %s", puerto);
-//
-//	//	Leo la IP sobre la cual me voy a levantar como server
-//	char* ipCpu = config_get_string_value(config, CPU_IP);
-//	log_info(logger, "La direccion IP del CPU es %s", ipCpu);
-//
-//	//	Inicio el servidor en la IP y puertos leidos desde el archivo de configuracion
-//	*socket = iniciar_servidor(ipCpu, puerto);
-//	log_info(logger, "Socket %d", *socket);
-//
-//	//	Acepto la conexion del cliente que se conecta
-//	//	ESTO TIENE QUE IR DESPUES EN EL THREAD!!!!!!!!!!!!!!!!!!
-//	int cliente1 = esperar_cliente(*socket);
-//	log_info(logger, "Cliente: %d", cliente1);
-//
-//	//	Defino el mensaje a recibir (y lo recibo) del cliente cuando se conecta
-//	uint8_t mensaje = 0;
-//	recv(cliente1, &mensaje, sizeof(uint8_t), 0);
-//	log_info("Mensaje recibido dispatch: %d", mensaje);
-//
-//	//	Defino y envio Handshake
-//	uint8_t handshake = 4;
-//	send(cliente1, &handshake, sizeof(uint8_t), 0);
-//
-//	//	Retorno el socket del cliente creado
-//	//	ESTO CAMBIA POR EL SOCKET DEL SERVER CUANDO ENTREN LOS THREADS
-//	return cliente1;
-//}
 
-//bool execute(Instruccion* instruccion,t_config* config, Pcb* pcb) { // TODO : encapsular la logica de las instrucciones mas complicadas
-bool execute(Instruccion* instruccion,int dormir, Pcb* pcb)
-{ // TODO : encapsular la logica de las instrucciones mas complicadas
+t_paquete* recibir_mensaje_memoria(int conexion_memoria, t_log* logger)
+{
+	t_paquete* paquete = malloc(sizeof(t_paquete));
+
+	paquete->buffer = malloc(sizeof(t_buffer));
+	t_buffer* buffer = paquete->buffer;
+
+	//recibimos el codigo del tipo de mensaje que nos llega
+	recv(conexion_memoria, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
+
+	//recibo el tamaño del paquete
+	recv(conexion_memoria, &(buffer->size), sizeof(uint32_t), 0);
+
+	//recibo el buffer con el pcb
+	buffer->stream = malloc(buffer->size);
+	recv(conexion_memoria, buffer->stream, buffer->size, 0);
+
+	return paquete;
+}
+
+bool validar_codigo(t_paquete* paquete, uint8_t operacion, t_log* logger)
+{
+	if(paquete->codigo_operacion == operacion){
+		printf("\nCodigo de operacion incorrecto, se esperaba %d, se recibio %d",operacion,paquete->codigo_operacion);
+		return true;
+	}else{
+		return false;
+	}
+}
+
+void mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion, t_log* logger)
+{
+	void* stream;
+	int tamano_mensaje = 0;
+
+	if(operacion == 9){
+		tamano_mensaje = sizeof(uint32_t);
+		stream = malloc(tamano_mensaje);
+		memcpy(stream, &direccion, sizeof(uint32_t));
+	}else if(operacion == 11){
+		tamano_mensaje = sizeof(uint32_t)*2;
+		stream = malloc(tamano_mensaje);
+		memcpy(stream, &direccion, sizeof(uint32_t));
+		memcpy(stream + sizeof(uint32_t), valor, sizeof(uint32_t));
+	}
+
+	t_buffer* buffer = armar_buffer(tamano_mensaje, stream);
+	t_paquete* paquete = empaquetar_buffer(buffer,9);
+
+	void* a_enviar = malloc(paquete->size);
+	a_enviar = serializar_paquete(paquete, a_enviar);
+
+	send(conexion, a_enviar, paquete->size, 0);
+}
+
+uint32_t* leer(int direccion_logica, Datos_calculo_direccion* datos, t_log* logger)
+{
+	calcular_datos_direccion(datos, direccion_logica);
+	Pagina_direccion* resultado = traducir_direccion(datos);
+
+	mandar_lecto_escritura(resultado->direccion_fisica, 0, 9, datos->conexion_memoria, logger);
+
+	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria, logger);
+	uint32_t* valor_leido = malloc(sizeof(uint32_t));
+
+	memcpy(valor_leido, respuesta->buffer->stream, sizeof(uint32_t));
+
+	if(validar_codigo(respuesta,10, logger))
+	{
+		printf("El valor leido: %d", *valor_leido);
+		return valor_leido;
+	}else{
+		return (uint32_t*)-1;
+	}
+}
+
+uint32_t* escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calculo_direccion* datos, t_log* logger)
+{
+	calcular_datos_direccion(datos, direccion_logica);
+	Pagina_direccion* resultado = traducir_direccion(datos);
+	printf("El valor de la direccion fisica es: %d", resultado->direccion_fisica);
+
+	mandar_lecto_escritura(resultado->direccion_fisica, valor_a_escribir, 11, datos->conexion_memoria, logger);
+
+	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria, logger);
+	uint32_t* resultado_escritura = malloc(sizeof(uint32_t));
+
+	memcpy(resultado_escritura, respuesta->buffer->stream, sizeof(uint32_t));
+
+	if(validar_codigo(respuesta,10, logger)){
+		printf("El resultado de escribir fue: %d", *resultado_escritura);
+		return resultado_escritura;
+	}else{
+		return (uint32_t*)-1;
+	}
+}
+
+//bool execute(Instruccion* instruccion,t_config* config, pcb_t* pcb, t_log* logger)
+bool execute(Instruccion* instruccion,int dormir, int cantidad_entradas, int conexion_memoria, int tamano_pagina, pcb_t* pcb, t_log* logger)
+{
 	uint8_t id = instruccion->id;
 	t_list* parametros = instruccion->parametros;
 
+	Datos_calculo_direccion* datos = malloc(sizeof(Datos_calculo_direccion));
+	datos->id_tabla_paginas1 = pcb->pid;
+	datos->conexion_memoria = conexion_memoria;
+	datos->entradas_por_tabla = cantidad_entradas;
+	datos->tamano_pagina = tamano_pagina;
+
 	int catidad_parametros = getCantidadParametros(id);
-	int* parametro1,parametro2 = 0;
+	uint32_t* parametro1;
+	uint32_t* parametro2;
 
 	if(catidad_parametros == 1){
 		parametro1 = list_get(parametros,0);
@@ -252,35 +192,139 @@ bool execute(Instruccion* instruccion,int dormir, Pcb* pcb)
 		parametro2 = list_get(parametros,1);
 	}
 
-//	int dormir = config_get_int_value(config,"RETARDO_NOOP");
+	uint32_t* resultado;
+	uint32_t* valor_leido;
 
-	switch (id) {
-	case 1:
-		dormir = dormir/1000;
-		sleep(dormir);
-		return false;
-		break;
-	case 2:
-		pcb->estado = BLOQUEADO;
-		pcb->tiempo_bloqueo = *parametro1;
-		return true;
-		break;
-	case 3: // TODO : Implementar la instruccion WRITE
-		return false;
-		break;
-	case 4: // TODO : Implementar la instruccion COPY
-		return false;
-		break;
-	case 5: // TODO : Implementar la instruccion READ
-		return false;
-		break;
-	case 6:
-		return true;
-		break;
-	default:
-		printf("\nHUBO UN FALLO EN LA EJECUCION DE LAS INSTRUCCIONES");
-		return true;
-		break;
+	switch (id)
+	{
+		case NO_OP:
+			log_info(logger, "CPU-EXECUTE Proceso una operacion de NO_OP me preparo para dormir %d del PID: %d", dormir/1000, pcb->pid);
+			dormir = dormir/1000;
+			sleep(dormir);
+			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
+//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
+			sleep(5);
+			return false;
+			break;
+		case I_O:
+			log_info(logger, "CPU-EXECUTE Proceso una operacion de I/0 PID: %d", pcb->pid);
+			pcb->estado = BLOQUEADO;
+			pcb->tiempo_block = *parametro1;
+			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
+//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
+			sleep(5);
+			return true;
+			break;
+		case WRITE:
+			log_info(logger, "CPU-EXECUTE Proceso una operacion de WRITE PID: %d", pcb->pid);
+//			resultado = escribir(*parametro1, parametro2, datos, logger);
+//			*resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
+	//		free(resultado);
+			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
+//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
+			sleep(5);
+			return false;
+			break;
+		case COPY: // COPY(destino, origen)
+			log_info(logger, "CPU-EXECUTE Proceso una operacion de COPY PID: %d", pcb->pid);
+//			valor_leido = leer(*parametro2,datos, logger);
+//			*parametro2 = *valor_leido;
+	//		free(valor_leido);
+//			resultado = escribir(*parametro1, parametro2, datos, logger);
+//			*resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
+			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
+//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
+			sleep(5);
+			return false;
+			break;
+		case READ:
+			log_info(logger, "CPU-EXECUTE Proceso una operacion de READ PID: %d", pcb->pid);
+//			valor_leido = leer(*parametro1,datos, logger);
+	//		free(valor_leido);
+			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
+//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
+			sleep(5);
+			return false;
+			break;
+		case EXIT:
+			log_info(logger, "CPU-EXECUTE Proceso una operacion de EXIT PID: %d", pcb->pid);
+			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
+			pcb->estado = FINALIZADO;
+//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
+			sleep(5);
+			return true;
+			break;
+		default:
+			printf("\nCPU-EXECUTE HUBO UN FALLO EN LA EJECUCION DE LAS INSTRUCCIONES PID: %d", pcb->pid);
+			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
+//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
+			sleep(5);
+			return true;
+			break;
 	}
+//	//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
+//	log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
+//	sleep(5);
 }
 
+void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoOp, int cantidad_entradas, int conexion_memoria, int tamano_pagina, bool* hubo_interrupcion, t_log* logger)
+{
+	t_list* instrucciones = pcb->instrucciones;
+	uint32_t program_counter = pcb->program_counter;
+
+	//fetch
+	Instruccion* instruccion = list_get(instrucciones,program_counter);
+	program_counter++;
+	pcb->program_counter = program_counter;
+
+	log_info(logger, "CPU-EXECUTE Aumento el program counter del PCB a: %d", pcb->program_counter);
+
+	//decode
+	bool requiere_fetch_operands = false;
+	if (instruccion->id == COPY)
+		requiere_fetch_operands = true;
+
+	//fetch_operands
+	if (requiere_fetch_operands)
+	{
+		// 	TODO: Ir a buscar los fetch operands, seria solo en la instruccion copy.
+		//	Va a ser una llamada a memoria
+//		printf("\nES UNA INSTRUCCION COPY");
+		log_info(logger, "Es una INSTRUCCION COPY");
+//		printf("\n");
+	}
+
+	//	Ejecuto la instruccion
+	*devolver_pcb = execute(instruccion, retardoNoOp, cantidad_entradas, conexion_memoria, tamano_pagina, pcb, logger);
+	log_info(logger, "Valor de devolver PCBt %s", *devolver_pcb?"true":"false");
+	//check interrupt
+	if (*devolver_pcb == false)
+		*devolver_pcb = *hubo_interrupcion;
+}
+
+
+t_config_cpu* cargarConfiguracion(char* configPath)
+{
+
+	t_config* configFile = config_create(configPath);
+	t_config_cpu* configTemp = crearConfigCPU();
+
+	configTemp->entradasTLB = config_get_int_value(configFile, ENTRADAS_TLB);
+		log_info(logger, "Se leyo la variable ENTRADAS_TLB: %d", configTemp->entradasTLB);
+	configTemp->algoritmoReemplazoTLB = config_get_string_value(configFile, ALG_TLB);
+		log_info(logger, "Se leyo la variable REEMPLAZO_TLB: %s", configTemp->algoritmoReemplazoTLB);
+	configTemp->retardoNoOp = config_get_int_value(configFile, RETARDO_NOOP);
+		log_info(logger, "Se leyo la variable RETARDO_NOOP: %d", configTemp->retardoNoOp);
+	configTemp->IPCPU = config_get_string_value(configFile, IP_CPU);
+		log_info(logger, "Se leyo la variable IP_CPU: %s", configTemp->IPCPU);
+	configTemp->IPMemoria = config_get_string_value(configFile, IP_MEMORIA);
+		log_info(logger, "Se leyo la variable IP_MEMORIA: %s", configTemp->IPMemoria);
+	configTemp->puertoMemoria = config_get_string_value(configFile, PUERTO_MEMORIA);
+		log_info(logger, "Se leyo la variable PUERTO_MEMORIA: %s", configTemp->puertoMemoria);
+	configTemp->puertoDispatch = config_get_string_value(configFile, PUERTO_DISPATCH);
+		log_info(logger, "Se leyo la variable PUERTO_DISPATCH: %s", configTemp->puertoDispatch);
+	configTemp->puertoInterrupt = config_get_string_value(configFile, PUERTO_INTERRUPT);
+		log_info(logger, "Se leyo la variable PUERTO_INTERRUPT: %s", configTemp->puertoInterrupt);
+
+	return configTemp;
+}

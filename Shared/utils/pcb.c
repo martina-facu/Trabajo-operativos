@@ -1,79 +1,77 @@
-#include "./pcb.h"
+/*
+ * pcb.c
+ *
+ *  Created on: 24 jun. 2022
+ *      Author: utnso
+ */
 
-Pcb *pcb_create(uint32_t pid, uint32_t tamano, Tabla_paginas *tabla_paginas,
-		uint32_t estimado_rafaga, t_list* instrucciones, ESTADO estado,
-		uint32_t tiempo_bloqueo) {
-	Pcb *pcb = (Pcb *) malloc(sizeof(Pcb));
+
+#include <ctype.h>
+#include <stdlib.h>
+#include <commons/collections/list.h>
+#include <stdio.h>
+#include "pcb.h"
+
+
+pcb_t *pcb_create(uint32_t tamano, t_list* instrucciones,uint32_t pid, double estimacion_inicial,
+		uint32_t tabla_paginas, uint32_t estimado_rafaga)
+{
+	pcb_t *pcb = malloc(sizeof(pcb_t));
 	pcb->pid = pid;
 	pcb->tamano = tamano;
 	pcb->program_counter = 0;
 	pcb->estimado_rafaga = estimado_rafaga;
-	pcb->estado = estado;
-	pcb->tiempo_bloqueo = tiempo_bloqueo;
+//	pcb->estimado_rafaga = estimacion_inicial;
+	pcb->estado = INICIADO;
+	pcb->tiempo_block = 0;
 	pcb->tabla_paginas = tabla_paginas;
+//	pcb->tabla_paginas = 0;
 	pcb->instrucciones = instrucciones;
 	return pcb;
 }
-;
 
-uint32_t pcb_calcular_espacio(Pcb* pcb) {
-	uint32_t tamano_instrucciones = calcular_espacio_instrucciones(
-			pcb->instrucciones);
-	uint32_t tamano_tabla_paginas = sizeof(Tabla_paginas);
-	return tamano_tabla_paginas + tamano_instrucciones + sizeof(uint32_t) * 6; // PDI, TAMANO, PC, ESTIMACION, estado, tiempo_bloqueo
+uint32_t pcb_calcular_espacio(pcb_t* pcb)
+{
+	uint32_t tamano_instrucciones = calcular_espacio_instrucciones(pcb->instrucciones);
+	return  tamano_instrucciones + sizeof(uint32_t) * 7; // PID, TAMANO, PC, ESTIMACION, estado, tiempo_bloqueo, TABLA
 }
-;
 
-void *pcb_armar_stream(Pcb *pcb) {
+void *pcb_armar_stream(pcb_t *pcb)
+{
 	int tamano_pcb = pcb_calcular_espacio(pcb);
 	void* stream = malloc(tamano_pcb);
 
 	int desplazamiento = 0;
 
-	memcpy(stream, &pcb->pid, sizeof(uint32_t));
+	memcpy(stream, &pcb->pid, sizeof(uint32_t)); // PID
 	desplazamiento += sizeof(uint32_t);
 
-	memcpy(stream + desplazamiento, &pcb->tamano, sizeof(uint32_t));
+	memcpy(stream + desplazamiento, &pcb->tamano, sizeof(uint32_t)); // TAMANO
 	desplazamiento += sizeof(uint32_t);
 
-	memcpy(stream + desplazamiento, &pcb->program_counter, sizeof(uint32_t));
+	memcpy(stream + desplazamiento, &pcb->program_counter, sizeof(uint32_t)); // PC
 	desplazamiento += sizeof(uint32_t);
 
-	memcpy(stream + desplazamiento, &pcb->estimado_rafaga, sizeof(uint32_t));
+	memcpy(stream + desplazamiento, &pcb->estimado_rafaga, sizeof(uint32_t)); // ESTIMACION
 	desplazamiento += sizeof(uint32_t);
 
-	memcpy(stream + desplazamiento, &pcb->estado, sizeof(uint32_t));
+	memcpy(stream + desplazamiento, &pcb->estado, sizeof(uint32_t)); // ESTADO
 	desplazamiento += sizeof(uint32_t);
 
-	memcpy(stream + desplazamiento, &pcb->tiempo_bloqueo, sizeof(uint32_t));
+	memcpy(stream + desplazamiento, &pcb->tiempo_block, sizeof(uint32_t)); // TIEMPO BLOCK, COMENTARIO(NACHO): NO SE SI ES NECESARIO PASAR ESTE ATRIBUTO PERO BUENO, NO IMPORTA
 	desplazamiento += sizeof(uint32_t);
 
-	memcpy(stream + desplazamiento, &pcb->tabla_paginas->numero_pagina,
-			sizeof(uint32_t));
+	memcpy(stream + desplazamiento, &pcb->tabla_paginas, sizeof(uint32_t)); // TABLA PAGINA
 	desplazamiento += sizeof(uint32_t);
 
-	memcpy(stream + desplazamiento,
-			&pcb->tabla_paginas->entrada_tabla_primer_nivel, sizeof(uint32_t));
-	desplazamiento += sizeof(uint32_t);
-
-	memcpy(stream + desplazamiento,
-			&pcb->tabla_paginas->entrada_tabla_segundo_nivel, sizeof(uint32_t));
-	desplazamiento += sizeof(uint32_t);
-
-	memcpy(stream + desplazamiento, &pcb->tabla_paginas->desplazamiento,
-			sizeof(uint32_t));
-	desplazamiento += sizeof(uint32_t);
-
-	memcpy(stream + desplazamiento,
-			armar_stream_instruccion(pcb->instrucciones),
-			calcular_espacio_instrucciones(pcb->instrucciones));
+	memcpy(stream + desplazamiento,armar_stream_instruccion(pcb->instrucciones),calcular_espacio_instrucciones(pcb->instrucciones)); // INSTRUCCIONES
 
 	return stream;
 }
-;
 
-void* pcb_serializar(Pcb* pcb, uint32_t* tamano_mensaje,
-		uint32_t codigo_operacion) {
+
+void* pcb_serializar(pcb_t* pcb, uint32_t* tamano_mensaje, uint8_t codigo_operacion)
+{
 	void* stream_pcb = pcb_armar_stream(pcb);
 	uint32_t tamano_pcb = pcb_calcular_espacio(pcb);
 
@@ -88,9 +86,9 @@ void* pcb_serializar(Pcb* pcb, uint32_t* tamano_mensaje,
 	return a_enviar;
 }
 
-Pcb* pcb_deserializar(t_buffer* buffer) {
-	Pcb* pcb = malloc(sizeof(Pcb));
-	Tabla_paginas* pagina = malloc(sizeof(Tabla_paginas));
+pcb_t* pcb_deserializar(t_buffer* buffer)
+{
+	pcb_t* pcb = malloc(sizeof(pcb_t));
 	void* stream = buffer->stream;
 
 	memcpy(&(pcb->pid), stream, sizeof(uint32_t));
@@ -108,47 +106,59 @@ Pcb* pcb_deserializar(t_buffer* buffer) {
 	memcpy(&(pcb->estado), stream, sizeof(uint32_t));
 	stream += sizeof(uint32_t);
 
-	memcpy(&(pcb->tiempo_bloqueo), stream, sizeof(uint32_t));
+	memcpy(&(pcb->tiempo_block), stream, sizeof(uint32_t));
 	stream += sizeof(uint32_t);
 
-	memcpy(&(pagina->numero_pagina), stream, sizeof(uint32_t));
+	memcpy(&(pcb->tabla_paginas), stream, sizeof(uint32_t));
 	stream += sizeof(uint32_t);
 
-	memcpy(&(pagina->entrada_tabla_primer_nivel), stream, sizeof(uint32_t));
-	stream += sizeof(uint32_t);
-
-	memcpy(&(pagina->entrada_tabla_segundo_nivel), stream, sizeof(uint32_t));
-	stream += sizeof(uint32_t);
-
-	memcpy(&(pagina->desplazamiento), stream, sizeof(uint32_t));
-	stream += sizeof(uint32_t);
 
 	buffer->stream = stream;
-	pcb->tabla_paginas = pagina;
 	t_list* instrucciones = list_create();
 	deserializar_instrucciones(buffer, instrucciones);
 	pcb->instrucciones = instrucciones;
 	return pcb;
 }
-;
 
-void pcb_mostrar(Pcb* pcb, t_log* logger)
+
+void pcb_mostrar(pcb_t* pcb, t_log* logger)
 {
+	char* estados[5]={"INICIADO", "BLOQUEADO", "FINALIZADO","SUSPENDIDO","INTERRUMPIDO"};
 	printf("\n\nINFORMACION PCB:\n");
-	log_info(logger, "INFORMACION DEL PCB RECIBIDO:");
+	log_info(logger, "INFORMACION PCB:");
 	printf("PID: %d\n", pcb->pid);
-	log_info(logger, "PID: %d", pcb->pid);
+	log_info(logger, "PID: %d\n", pcb->pid);
 	printf("TAMANO: %d\n", pcb->tamano);
-	log_info(logger, "TAMANO: %d", pcb->tamano);
+	log_info(logger, "TAMANO: %d\n", pcb->tamano);
 	printf("PC: %d\n", pcb->program_counter);
-	log_info(logger, "PC: %d", pcb->program_counter);
+	log_info(logger, "PC: %d\n", pcb->program_counter);
 	printf("ESTIMADO_RAFAGA: %d\n", pcb->estimado_rafaga);
-	log_info(logger, "ESTIMADO_RAFAGA: %d", pcb->estimado_rafaga);
-	printf("ESTADO: %d\n", pcb->estado);
-	log_info(logger, "ESTADO: %d", pcb->estado);
-	printf("TIEMPO BLOQUEO: %d\n", pcb->tiempo_bloqueo);
-	log_info(logger, "TIEMPO BLOQUEO: %d", pcb->tiempo_bloqueo);
-	tabla_paginas_mostrar(pcb->tabla_paginas, logger);
+	log_info(logger, "ESTIMADO_RAFAGA: %d\n", pcb->estimado_rafaga);
+	printf("ESTADO: %s\n", estados[pcb->estado]);
+	log_info(logger, "ESTADO: %s\n", estados[pcb->estado]);
+	printf("TIEMPO BLOQUEO: %d\n", pcb->tiempo_block);
+	log_info(logger, "TIEMPO BLOQUEO: %d\n", pcb->tiempo_block);
 	mostrar_instrucciones(pcb->instrucciones, logger);
 }
-;
+
+pcb_t* recibirPCB(int socket)
+{
+
+	t_paquete* paquete = malloc(sizeof(t_paquete));
+
+	paquete->buffer = malloc(sizeof(t_buffer));
+	t_buffer* buffer = paquete->buffer;
+	//recibimos el codigo del tipo de mensaje que nos llega
+	recv(socket, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
+
+	//recibo el tamaño del paquete
+	recv(socket, &(buffer->size), sizeof(uint32_t), 0);
+
+	//recibo el buffer con el pcb
+	buffer->stream = malloc(buffer->size);
+	recv(socket, buffer->stream, buffer->size, 0);
+
+	pcb_t* pcb = pcb_deserializar(buffer);
+
+	return pcb;
+}
