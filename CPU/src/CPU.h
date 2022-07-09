@@ -67,8 +67,9 @@
 	int cliente_interrupt;
 	bool interrupcion = false;
 
-	pthread_attr_t attr;
+	pthread_attr_t attr; // atributos de un hilo
 	pthread_t threadId;
+
 	int resThread;
 
 	int idAnteriorPCB = -1;

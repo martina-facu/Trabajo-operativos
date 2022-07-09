@@ -2,10 +2,6 @@
 #include "CPU.h"
 
 
-
-
-
-
 t_config_cpu* crearConfigCPU(void)
 {
 	t_config_cpu* config = malloc(sizeof(t_config_cpu));
@@ -26,7 +22,7 @@ void aceptoServerDispatch(int socketAnalizar)
 	if (FD_ISSET(socketAnalizar, &read_fd_set))
 	{
 		//	Si el grado de concurrencia admite que se sigan aceptando
-		//	conexiones, la acepto. Sino omito lo recibido.
+		// conexiones, la acepto. Sino omito lo recibido.
 		if(cantidad_clientes_dispatch < CONCURRENT_CONNECTION)
 		{
 			//	Acepto la conexion del cliente que se conecta
@@ -35,16 +31,7 @@ void aceptoServerDispatch(int socketAnalizar)
 			log_info(logger, "Se acepto la conexion del Dispatch en el socket: %d", cliente_dispatch);
 
 			//	Valido si tengo que cambiar el maximo o el minimo
-			//	Maximo
-			if (cliente_dispatch > fdmax)
-			{
-				fdmax = cliente_dispatch;
-			}
-			//	Minimo
-			if (cliente_dispatch < fdmin)
-			{
-				fdmin = cliente_dispatch;
-			}
+			compararLimitesConNuevoDescriptor(cliente_dispatch);
 			log_info(logger, "Se agrego al set de descriptores el descriptor: %d", cliente_dispatch);
 
 
@@ -155,7 +142,7 @@ int main(void)
 	FD_ZERO(&master_fd_set);
 
 //	Iniciar conexiones
-	int conexion_memoria = levantar_conexion_memoria(configuracion->IPMemoria, configuracion->puertoMemoria, logger, &cantidad_entradas,&tamano_pagina);
+	int conexion_memoria = levantar_conexion_memoria(configuracion->IPMemoria, configuracion->puertoMemoria, &cantidad_entradas,&tamano_pagina);
 	//	Marco el descriptor en donde me conecte al server de memoria como limite maximo y minimo del select
 	fdmax = conexion_memoria;
 	fdmin = conexion_memoria;
@@ -285,7 +272,7 @@ void procesarPCB(void)
 {
 	log_info(logger, "CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo");
 	while (devolver_pcb == false)
-		ejecutar_ciclo_instrucciones(pcb, &devolver_pcb, configuracion->retardoNoOp, configuracion->entradasTLB, cliente_dispatch, 0, &interrupcion, logger);
+		ejecutar_ciclo_instrucciones(pcb, &devolver_pcb, configuracion->retardoNoOp, configuracion->entradasTLB, cliente_dispatch, 0, &interrupcion);
 //		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
 
 
@@ -318,7 +305,7 @@ void procesarPCB(void)
 int levantarServerDispatch()
 {
 	//	Levanto el server para el DISPATCH
-	int kernel_dispatch = levantar_server(configuracion->IPCPU, configuracion->puertoDispatch, logger, SERVER_DISPATCH);
+	int kernel_dispatch = levantar_server(configuracion->IPCPU, configuracion->puertoDispatch, SERVER_DISPATCH);
 	//	Verifico si el descriptor es mayor o menor al maximo o al minimo del select
 	compararLimitesConNuevoDescriptor(kernel_dispatch);
 	//	Agrego el descriptor del server de DISPATCH al maestro del select
@@ -335,7 +322,7 @@ int levantarServerDispatch()
  */
 int levantarServerInterrupt(void)
 {
-	int kernel_interrupt = levantar_server(configuracion->IPCPU, configuracion->puertoInterrupt, logger, SERVER_INTERRUPT);
+	int kernel_interrupt = levantar_server(configuracion->IPCPU, configuracion->puertoInterrupt, SERVER_INTERRUPT);
 	//	Verifico si el descriptor es mayor o menor al maximo o al minimo del select
 	compararLimitesConNuevoDescriptor(kernel_interrupt);
 	//	Agrego el descriptor del server de DISPATCH al maestro del select
@@ -382,9 +369,6 @@ void * atencionInterrupt(void * socketInterrupt)
 
 
 	}
-
-
-    return NULL;
 }
 
 /*
