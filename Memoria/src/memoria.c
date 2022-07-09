@@ -327,13 +327,13 @@ int manejo_mensajes_kernel(int acceptedConecctionKernel){
 					finalizar_proceso(acceptedConecctionKernel);
 				break;
 
-				case ACCEDER_TABLA_DE_PAGINAS:
-					//acceder_tabla_de_paginas(acceptedConecctionKernel);
-				break;
-
-				case ACCEDER_ESPACIO_DE_USUARIO:
-					//acceder_espacio_de_usuario(acceptedConecctionKernel);
-				break;
+//				case ACCEDER_TABLA_DE_PAGINAS:
+//					//acceder_tabla_de_paginas(acceptedConecctionKernel);
+//				break;
+//
+//				case ACCEDER_ESPACIO_DE_USUARIO:
+//					//acceder_espacio_de_usuario(acceptedConecctionKernel);
+//				break;
 
 				default:
 					log_info(logger,"El mensaje recibido no corresponde a ninguno de los preestablecidos para el Kernel: %d", mensaje);

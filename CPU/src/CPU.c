@@ -142,7 +142,7 @@ int main(void)
 	FD_ZERO(&master_fd_set);
 
 //	Iniciar conexiones
-	int conexion_memoria = levantar_conexion_memoria(configuracion->IPMemoria, configuracion->puertoMemoria, logger, &cantidad_entradas,&tamano_pagina);
+	int conexion_memoria = levantar_conexion_memoria(configuracion->IPMemoria, configuracion->puertoMemoria, &cantidad_entradas,&tamano_pagina);
 	//	Marco el descriptor en donde me conecte al server de memoria como limite maximo y minimo del select
 	fdmax = conexion_memoria;
 	fdmin = conexion_memoria;
@@ -251,6 +251,12 @@ void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
 		recibiPCB = true;
 		log_info(logger, "Voy a loguear informacion del PCB recibida por el Dispatch");
 		pcb_mostrar(pcb, logger);
+
+		if(idAnteriorPCB != pcb->pid)
+		{
+			log_info(logger, "Borro el contenido de la TLB ya que no es el mismo proceso que el anterior");
+			//	Falta implementar aca la funcion que hace el borrado
+		}
 	}
 
 }
@@ -266,7 +272,7 @@ void procesarPCB(void)
 {
 	log_info(logger, "CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo");
 	while (devolver_pcb == false)
-		ejecutar_ciclo_instrucciones(pcb, &devolver_pcb, configuracion->retardoNoOp, configuracion->entradasTLB, cliente_dispatch, 0, &interrupcion, logger);
+		ejecutar_ciclo_instrucciones(pcb, &devolver_pcb, configuracion->retardoNoOp, configuracion->entradasTLB, cliente_dispatch, 0, &interrupcion);
 //		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
 
 
@@ -281,6 +287,7 @@ void procesarPCB(void)
 	log_info(logger, "CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel");
 	devolver_pcb = false;
 	recibiPCB = false;
+	idAnteriorPCB = pcb->pid;
 	log_info(logger, "CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel");
 
 }
@@ -298,7 +305,7 @@ void procesarPCB(void)
 int levantarServerDispatch()
 {
 	//	Levanto el server para el DISPATCH
-	int kernel_dispatch = levantar_server(configuracion->IPCPU, configuracion->puertoDispatch, logger, SERVER_DISPATCH);
+	int kernel_dispatch = levantar_server(configuracion->IPCPU, configuracion->puertoDispatch, SERVER_DISPATCH);
 	//	Verifico si el descriptor es mayor o menor al maximo o al minimo del select
 	compararLimitesConNuevoDescriptor(kernel_dispatch);
 	//	Agrego el descriptor del server de DISPATCH al maestro del select
@@ -315,7 +322,7 @@ int levantarServerDispatch()
  */
 int levantarServerInterrupt(void)
 {
-	int kernel_interrupt = levantar_server(configuracion->IPCPU, configuracion->puertoInterrupt, logger, SERVER_INTERRUPT);
+	int kernel_interrupt = levantar_server(configuracion->IPCPU, configuracion->puertoInterrupt, SERVER_INTERRUPT);
 	//	Verifico si el descriptor es mayor o menor al maximo o al minimo del select
 	compararLimitesConNuevoDescriptor(kernel_interrupt);
 	//	Agrego el descriptor del server de DISPATCH al maestro del select

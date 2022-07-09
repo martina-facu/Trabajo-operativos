@@ -69,15 +69,10 @@
 
 	pthread_attr_t attr; // atributos de un hilo
 	pthread_t threadId;
-	int resThread; // codigo de respuesta del hilo
-//	int num_threads_interrupt = 1;
 
+	int resThread;
 
-//	int client_memory_socket;
-//	int client_dispatch_socket;
-//	int client_interrupt_socket;
-//	int server_dispatch_socket;
-//	int server_interrupt_socket;
+	int idAnteriorPCB = -1;
 
 /*
  * Prototipo de funciones

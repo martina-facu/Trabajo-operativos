@@ -1,123 +1,235 @@
-==5088== Memcheck, a memory error detector
-==5088== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
-==5088== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
-==5088== Command: Consola
-==5088== Parent PID: 5086
-==5088== 
---5088-- 
---5088-- Valgrind options:
---5088--    --leak-check=full
---5088--    --show-leak-kinds=all
---5088--    --track-origins=yes
---5088--    --log-file=/home/utnso/tp-2022-1c-9-12/valgrind/consola_valgrind.log
---5088--    -v
---5088-- Contents of /proc/version:
---5088--   Linux version 4.4.0-116-generic (buildd@lgw01-amd64-023) (gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.9) ) #140-Ubuntu SMP Mon Feb 12 21:22:43 UTC 2018
---5088-- 
---5088-- Arch and hwcaps: X86, LittleEndian, x86-mmxext-sse1-sse2-sse3-lzcnt
---5088-- Page sizes: currently 4096, max supported 4096
---5088-- Valgrind library directory: /usr/lib/valgrind
---5088-- Reading syms from /lib/i386-linux-gnu/ld-2.23.so
---5088--   Considering /lib/i386-linux-gnu/ld-2.23.so ..
---5088--   .. CRC mismatch (computed 596cb2b8 wanted 417b32cc)
---5088--   Considering /usr/lib/debug/lib/i386-linux-gnu/ld-2.23.so ..
---5088--   .. CRC is valid
---5088-- Reading syms from /home/utnso/tp-2022-1c-9-12/Consola/Debug/Consola
---5088-- Reading syms from /usr/lib/valgrind/memcheck-x86-linux
---5088--   Considering /usr/lib/valgrind/memcheck-x86-linux ..
---5088--   .. CRC mismatch (computed 6036da3f wanted 652e483f)
---5088--    object doesn't have a symbol table
---5088--    object doesn't have a dynamic symbol table
---5088-- Scheduler: using generic scheduler lock implementation.
---5088-- Reading suppressions file: /usr/lib/valgrind/default.supp
-==5088== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-5088-by-utnso-on-???
-==5088== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-5088-by-utnso-on-???
-==5088== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-5088-by-utnso-on-???
-==5088== 
-==5088== TO CONTROL THIS PROCESS USING vgdb (which you probably
-==5088== don't want to do, unless you know exactly what you're doing,
-==5088== or are doing some strange experiment):
-==5088==   /usr/lib/valgrind/../../bin/vgdb --pid=5088 ...command...
-==5088== 
-==5088== TO DEBUG THIS PROCESS USING GDB: start GDB like this
-==5088==   /path/to/gdb Consola
-==5088== and then give GDB the following command
-==5088==   target remote | /usr/lib/valgrind/../../bin/vgdb --pid=5088
-==5088== --pid is optional if only one valgrind process is running
-==5088== 
---5088-- REDIR: 0x4018eb0 (ld-linux.so.2:strlen) redirected to 0x380490f2 (???)
---5088-- REDIR: 0x4018c70 (ld-linux.so.2:index) redirected to 0x380490cd (???)
---5088-- Reading syms from /usr/lib/valgrind/vgpreload_core-x86-linux.so
---5088--   Considering /usr/lib/valgrind/vgpreload_core-x86-linux.so ..
---5088--   .. CRC mismatch (computed 5b95c0c4 wanted 39e79efa)
---5088--    object doesn't have a symbol table
---5088-- Reading syms from /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so
---5088--   Considering /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so ..
---5088--   .. CRC mismatch (computed 4d5a1526 wanted 33571d5b)
---5088--    object doesn't have a symbol table
-==5088== WARNING: new redirection conflicts with existing -- ignoring it
---5088--     old: 0x04018eb0 (strlen              ) R-> (0000.0) 0x380490f2 ???
---5088--     new: 0x04018eb0 (strlen              ) R-> (2007.0) 0x0402f410 strlen
---5088-- Reading syms from /usr/lib/libcommons.so
---5088-- Reading syms from /lib/i386-linux-gnu/libpthread-2.23.so
---5088--   Considering /usr/lib/debug/.build-id/12/78da59ecc0791dce5c44d8b8756a0480be3a5b.debug ..
---5088--   .. build-id is valid
---5088-- Reading syms from /home/utnso/tp-2022-1c-9-12/Shared/Debug/libShared.so
---5088-- Reading syms from /lib/i386-linux-gnu/libc-2.23.so
---5088--   Considering /lib/i386-linux-gnu/libc-2.23.so ..
---5088--   .. CRC mismatch (computed af9c0474 wanted a5de3f2a)
---5088--   Considering /usr/lib/debug/lib/i386-linux-gnu/libc-2.23.so ..
---5088--   .. CRC is valid
---5088-- REDIR: 0x40f64b0 (libc.so.6:strncasecmp) redirected to 0x4026560 (_vgnU_ifunc_wrapper)
---5088-- REDIR: 0x40fd140 (libc.so.6:memrchr) redirected to 0x4026560 (_vgnU_ifunc_wrapper)
---5088-- REDIR: 0x410fb20 (libc.so.6:wcslen) redirected to 0x4026560 (_vgnU_ifunc_wrapper)
---5088-- REDIR: 0x40f5350 (libc.so.6:strstr) redirected to 0x4033700 (strstr)
---5088-- REDIR: 0x40f47e0 (libc.so.6:__GI_strrchr) redirected to 0x402ee00 (__GI_strrchr)
---5088-- REDIR: 0x40eff00 (libc.so.6:malloc) redirected to 0x402c110 (malloc)
-==5088== Syscall param open(filename) points to unaddressable byte(s)
-==5088==    at 0x4154713: __open_nocancel (syscall-template.S:84)
-==5088==    by 0x40E8ACF: _IO_file_open (fileops.c:221)
-==5088==    by 0x40E8C50: _IO_file_fopen@@GLIBC_2.1 (fileops.c:328)
-==5088==    by 0x40DD3B0: __fopen_internal (iofopen.c:86)
-==5088==    by 0x40DD41D: fopen@@GLIBC_2.1 (iofopen.c:97)
-==5088==    by 0x8049102: main (Consola.c:81)
-==5088==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
-==5088== 
---5088-- REDIR: 0x40f0470 (libc.so.6:free) redirected to 0x402d2f0 (free)
---5088-- REDIR: 0x40f45c0 (libc.so.6:__GI_strlen) redirected to 0x402f390 (__GI_strlen)
---5088-- REDIR: 0x40f6680 (libc.so.6:__GI_memcpy) redirected to 0x4030fb0 (__GI_memcpy)
---5088-- REDIR: 0x40f62e0 (libc.so.6:__GI_stpcpy) redirected to 0x4032290 (__GI_stpcpy)
---5088-- REDIR: 0x40f60d0 (libc.so.6:__GI_mempcpy) redirected to 0x40332c0 (__GI_mempcpy)
---5088-- REDIR: 0x40f8280 (libc.so.6:strchrnul) redirected to 0x40330b0 (strchrnul)
-==5088== 
-==5088== HEAP SUMMARY:
-==5088==     in use at exit: 4 bytes in 1 blocks
-==5088==   total heap usage: 4 allocs, 3 frees, 1,716 bytes allocated
-==5088== 
-==5088== Searching for pointers to 1 not-freed blocks
-==5088== Checked 74,940 bytes
-==5088== 
-==5088== 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
-==5088==    at 0x402C17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
-==5088==    by 0x80490D1: main (Consola.c:78)
-==5088== 
-==5088== LEAK SUMMARY:
-==5088==    definitely lost: 4 bytes in 1 blocks
-==5088==    indirectly lost: 0 bytes in 0 blocks
-==5088==      possibly lost: 0 bytes in 0 blocks
-==5088==    still reachable: 0 bytes in 0 blocks
-==5088==         suppressed: 0 bytes in 0 blocks
-==5088== 
-==5088== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
-==5088== 
-==5088== 1 errors in context 1 of 2:
-==5088== Syscall param open(filename) points to unaddressable byte(s)
-==5088==    at 0x4154713: __open_nocancel (syscall-template.S:84)
-==5088==    by 0x40E8ACF: _IO_file_open (fileops.c:221)
-==5088==    by 0x40E8C50: _IO_file_fopen@@GLIBC_2.1 (fileops.c:328)
-==5088==    by 0x40DD3B0: __fopen_internal (iofopen.c:86)
-==5088==    by 0x40DD41D: fopen@@GLIBC_2.1 (iofopen.c:97)
-==5088==    by 0x8049102: main (Consola.c:81)
-==5088==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
-==5088== 
-==5088== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+==20233== Memcheck, a memory error detector
+==20233== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==20233== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==20233== Command: Consola
+==20233== Parent PID: 20231
+==20233== 
+--20233-- 
+--20233-- Valgrind options:
+--20233--    --leak-check=full
+--20233--    --show-leak-kinds=all
+--20233--    --track-origins=yes
+--20233--    --log-file=/home/utnso/tp-2022-1c-9-12/valgrind/consola_valgrind.log
+--20233--    -v
+--20233-- Contents of /proc/version:
+--20233--   Linux version 4.4.0-116-generic (buildd@lgw01-amd64-023) (gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.9) ) #140-Ubuntu SMP Mon Feb 12 21:22:43 UTC 2018
+--20233-- 
+--20233-- Arch and hwcaps: X86, LittleEndian, x86-mmxext-sse1-sse2-sse3-lzcnt
+--20233-- Page sizes: currently 4096, max supported 4096
+--20233-- Valgrind library directory: /usr/lib/valgrind
+--20233-- Reading syms from /lib/i386-linux-gnu/ld-2.23.so
+--20233--   Considering /lib/i386-linux-gnu/ld-2.23.so ..
+--20233--   .. CRC mismatch (computed 596cb2b8 wanted 417b32cc)
+--20233--   Considering /usr/lib/debug/lib/i386-linux-gnu/ld-2.23.so ..
+--20233--   .. CRC is valid
+--20233-- Reading syms from /home/utnso/tp-2022-1c-9-12/Consola/Debug/Consola
+--20233-- Reading syms from /usr/lib/valgrind/memcheck-x86-linux
+--20233--   Considering /usr/lib/valgrind/memcheck-x86-linux ..
+--20233--   .. CRC mismatch (computed 6036da3f wanted 652e483f)
+--20233--    object doesn't have a symbol table
+--20233--    object doesn't have a dynamic symbol table
+--20233-- Scheduler: using generic scheduler lock implementation.
+--20233-- Reading suppressions file: /usr/lib/valgrind/default.supp
+==20233== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-20233-by-utnso-on-???
+==20233== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-20233-by-utnso-on-???
+==20233== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-20233-by-utnso-on-???
+==20233== 
+==20233== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==20233== don't want to do, unless you know exactly what you're doing,
+==20233== or are doing some strange experiment):
+==20233==   /usr/lib/valgrind/../../bin/vgdb --pid=20233 ...command...
+==20233== 
+==20233== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==20233==   /path/to/gdb Consola
+==20233== and then give GDB the following command
+==20233==   target remote | /usr/lib/valgrind/../../bin/vgdb --pid=20233
+==20233== --pid is optional if only one valgrind process is running
+==20233== 
+--20233-- REDIR: 0x4018eb0 (ld-linux.so.2:strlen) redirected to 0x380490f2 (???)
+--20233-- REDIR: 0x4018c70 (ld-linux.so.2:index) redirected to 0x380490cd (???)
+--20233-- Reading syms from /usr/lib/valgrind/vgpreload_core-x86-linux.so
+--20233--   Considering /usr/lib/valgrind/vgpreload_core-x86-linux.so ..
+--20233--   .. CRC mismatch (computed 5b95c0c4 wanted 39e79efa)
+--20233--    object doesn't have a symbol table
+--20233-- Reading syms from /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so
+--20233--   Considering /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so ..
+--20233--   .. CRC mismatch (computed 4d5a1526 wanted 33571d5b)
+--20233--    object doesn't have a symbol table
+==20233== WARNING: new redirection conflicts with existing -- ignoring it
+--20233--     old: 0x04018eb0 (strlen              ) R-> (0000.0) 0x380490f2 ???
+--20233--     new: 0x04018eb0 (strlen              ) R-> (2007.0) 0x0402f410 strlen
+--20233-- Reading syms from /usr/lib/libcommons.so
+--20233-- Reading syms from /lib/i386-linux-gnu/libpthread-2.23.so
+--20233--   Considering /usr/lib/debug/.build-id/12/78da59ecc0791dce5c44d8b8756a0480be3a5b.debug ..
+--20233--   .. build-id is valid
+--20233-- Reading syms from /home/utnso/tp-2022-1c-9-12/Shared/Debug/libShared.so
+--20233-- Reading syms from /lib/i386-linux-gnu/libc-2.23.so
+--20233--   Considering /lib/i386-linux-gnu/libc-2.23.so ..
+--20233--   .. CRC mismatch (computed af9c0474 wanted a5de3f2a)
+--20233--   Considering /usr/lib/debug/lib/i386-linux-gnu/libc-2.23.so ..
+--20233--   .. CRC is valid
+--20233-- REDIR: 0x40f84b0 (libc.so.6:strncasecmp) redirected to 0x4026560 (_vgnU_ifunc_wrapper)
+--20233-- REDIR: 0x40ff140 (libc.so.6:memrchr) redirected to 0x4026560 (_vgnU_ifunc_wrapper)
+--20233-- REDIR: 0x4111b20 (libc.so.6:wcslen) redirected to 0x4026560 (_vgnU_ifunc_wrapper)
+--20233-- REDIR: 0x40f7350 (libc.so.6:strstr) redirected to 0x4033700 (strstr)
+--20233-- REDIR: 0x40f67e0 (libc.so.6:__GI_strrchr) redirected to 0x402ee00 (__GI_strrchr)
+--20233-- REDIR: 0x40f1f00 (libc.so.6:malloc) redirected to 0x402c110 (malloc)
+--20233-- REDIR: 0x40f65c0 (libc.so.6:__GI_strlen) redirected to 0x402f390 (__GI_strlen)
+--20233-- REDIR: 0x40f8680 (libc.so.6:__GI_memcpy) redirected to 0x4030fb0 (__GI_memcpy)
+--20233-- REDIR: 0x40fa280 (libc.so.6:strchrnul) redirected to 0x40330b0 (strchrnul)
+--20233-- REDIR: 0x40f80d0 (libc.so.6:__GI_mempcpy) redirected to 0x40332c0 (__GI_mempcpy)
+--20233-- REDIR: 0x40f6580 (libc.so.6:strlen) redirected to 0x4026560 (_vgnU_ifunc_wrapper)
+--20233-- REDIR: 0x40ff440 (libc.so.6:__strlen_sse2_bsf) redirected to 0x402f370 (strlen)
+--20233-- REDIR: 0x40f2520 (libc.so.6:realloc) redirected to 0x402e250 (realloc)
+--20233-- REDIR: 0x40f5ae0 (libc.so.6:strcat) redirected to 0x4026560 (_vgnU_ifunc_wrapper)
+--20233-- REDIR: 0x410ab30 (libc.so.6:__strcat_ssse3) redirected to 0x402f030 (strcat)
+--20233-- REDIR: 0x40f2470 (libc.so.6:free) redirected to 0x402d2f0 (free)
+--20233-- REDIR: 0x40f8610 (libc.so.6:memcpy) redirected to 0x4026560 (_vgnU_ifunc_wrapper)
+--20233-- REDIR: 0x41a8b70 (libc.so.6:__memcpy_ssse3) redirected to 0x4030cc0 (memcpy)
+--20233-- REDIR: 0x40f7c10 (libc.so.6:__GI_memcmp) redirected to 0x4031ef0 (__GI_memcmp)
+--20233-- REDIR: 0x40fa1b0 (libc.so.6:__GI___rawmemchr) redirected to 0x4033110 (__GI___rawmemchr)
+--20233-- REDIR: 0x40f2810 (libc.so.6:calloc) redirected to 0x402e010 (calloc)
+--20233-- REDIR: 0x40f6750 (libc.so.6:strncpy) redirected to 0x4026560 (_vgnU_ifunc_wrapper)
+--20233-- REDIR: 0x4100dc0 (libc.so.6:__strncpy_ssse3) redirected to 0x402f5f0 (strncpy)
+--20233-- REDIR: 0x40f6700 (libc.so.6:strncmp) redirected to 0x4026560 (_vgnU_ifunc_wrapper)
+--20233-- REDIR: 0x41b65c0 (libc.so.6:__strncmp_ssse3) redirected to 0x402fab0 (strncmp)
+==20233== Syscall param open(filename) points to unaddressable byte(s)
+==20233==    at 0x4156713: __open_nocancel (syscall-template.S:84)
+==20233==    by 0x40EAACF: _IO_file_open (fileops.c:221)
+==20233==    by 0x40EAC50: _IO_file_fopen@@GLIBC_2.1 (fileops.c:328)
+==20233==    by 0x40DF3B0: __fopen_internal (iofopen.c:86)
+==20233==    by 0x40DF41D: fopen@@GLIBC_2.1 (iofopen.c:97)
+==20233==    by 0x8048E06: main (Consola.c:29)
+==20233==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==20233== 
+--20233-- REDIR: 0x40f82e0 (libc.so.6:__GI_stpcpy) redirected to 0x4032290 (__GI_stpcpy)
+==20233== 
+==20233== HEAP SUMMARY:
+==20233==     in use at exit: 942 bytes in 17 blocks
+==20233==   total heap usage: 169 allocs, 152 frees, 21,379 bytes allocated
+==20233== 
+==20233== Searching for pointers to 17 not-freed blocks
+==20233== Checked 75,508 bytes
+==20233== 
+==20233== 4 bytes in 1 blocks are still reachable in loss record 1 of 14
+==20233==    at 0x402C17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+==20233==    by 0x8048D51: main (Consola.c:17)
+==20233== 
+==20233== 8 bytes in 1 blocks are still reachable in loss record 2 of 14
+==20233==    at 0x402C17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+==20233==    by 0x40F62C5: strdup (strdup.c:42)
+==20233==    by 0x40544A7: string_duplicate (string.c:42)
+==20233==    by 0x4054049: log_create (log.c:77)
+==20233==    by 0x407B301: initLogger (logs.c:48)
+==20233==    by 0x8048D22: main (Consola.c:10)
+==20233== 
+==20233== 8 bytes in 1 blocks are still reachable in loss record 3 of 14
+==20233==    at 0x402C17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+==20233==    by 0x40572AE: config_create (config.c:36)
+==20233==    by 0x8048D98: main (Consola.c:22)
+==20233== 
+==20233== 8 bytes in 1 blocks are indirectly lost in loss record 4 of 14
+==20233==    at 0x402C17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+==20233==    by 0x40F62C5: strdup (strdup.c:42)
+==20233==    by 0x40544A7: string_duplicate (string.c:42)
+==20233==    by 0x4054049: log_create (log.c:77)
+==20233==    by 0x407B2CA: initLogger (logs.c:40)
+==20233==    by 0x8048D22: main (Consola.c:10)
+==20233== 
+==20233== 15 bytes in 1 blocks are still reachable in loss record 5 of 14
+==20233==    at 0x402C17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+==20233==    by 0x40F62C5: strdup (strdup.c:42)
+==20233==    by 0x40572C2: config_create (config.c:38)
+==20233==    by 0x8048D98: main (Consola.c:22)
+==20233== 
+==20233== 16 bytes in 1 blocks are still reachable in loss record 6 of 14
+==20233==    at 0x402C17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+==20233==    by 0x40568FD: dictionary_create (dictionary.c:38)
+==20233==    by 0x40572D1: config_create (config.c:39)
+==20233==    by 0x8048D98: main (Consola.c:22)
+==20233== 
+==20233== 19 bytes in 2 blocks are still reachable in loss record 7 of 14
+==20233==    at 0x402C17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+==20233==    by 0x40F62C5: strdup (strdup.c:42)
+==20233==    by 0x40544A7: string_duplicate (string.c:42)
+==20233==    by 0x4055172: _string_split (string.c:309)
+==20233==    by 0x4054A9E: string_n_split (string.c:157)
+==20233==    by 0x40571CB: add_cofiguration.2925 (config.c:55)
+==20233==    by 0x4054C4C: string_iterate_lines (string.c:191)
+==20233==    by 0x405735F: config_create (config.c:61)
+==20233==    by 0x8048D98: main (Consola.c:22)
+==20233== 
+==20233== 20 bytes in 1 blocks are still reachable in loss record 8 of 14
+==20233==    at 0x402C17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+==20233==    by 0x4053FA3: log_create (log.c:54)
+==20233==    by 0x407B301: initLogger (logs.c:48)
+==20233==    by 0x8048D22: main (Consola.c:10)
+==20233== 
+==20233== 24 bytes in 2 blocks are still reachable in loss record 9 of 14
+==20233==    at 0x402C17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+==20233==    by 0x40F62C5: strdup (strdup.c:42)
+==20233==    by 0x4056A33: dictionary_put (dictionary.c:73)
+==20233==    by 0x40571EE: add_cofiguration.2925 (config.c:56)
+==20233==    by 0x4054C4C: string_iterate_lines (string.c:191)
+==20233==    by 0x405735F: config_create (config.c:61)
+==20233==    by 0x8048D98: main (Consola.c:22)
+==20233== 
+==20233== 28 (20 direct, 8 indirect) bytes in 1 blocks are definitely lost in loss record 10 of 14
+==20233==    at 0x402C17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+==20233==    by 0x4053FA3: log_create (log.c:54)
+==20233==    by 0x407B2CA: initLogger (logs.c:40)
+==20233==    by 0x8048D22: main (Consola.c:10)
+==20233== 
+==20233== 32 bytes in 2 blocks are still reachable in loss record 11 of 14
+==20233==    at 0x402C17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+==20233==    by 0x4056F0A: dictionary_create_element (dictionary.c:231)
+==20233==    by 0x4056A45: dictionary_put (dictionary.c:73)
+==20233==    by 0x40571EE: add_cofiguration.2925 (config.c:56)
+==20233==    by 0x4054C4C: string_iterate_lines (string.c:191)
+==20233==    by 0x405735F: config_create (config.c:61)
+==20233==    by 0x8048D98: main (Consola.c:22)
+==20233== 
+==20233== 80 bytes in 1 blocks are still reachable in loss record 12 of 14
+==20233==    at 0x402E0B8: calloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+==20233==    by 0x405691E: dictionary_create (dictionary.c:40)
+==20233==    by 0x40572D1: config_create (config.c:39)
+==20233==    by 0x8048D98: main (Consola.c:22)
+==20233== 
+==20233== 344 bytes in 1 blocks are still reachable in loss record 13 of 14
+==20233==    at 0x402C17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+==20233==    by 0x40DF359: __fopen_internal (iofopen.c:69)
+==20233==    by 0x40DF41D: fopen@@GLIBC_2.1 (iofopen.c:97)
+==20233==    by 0x4053EDA: txt_open_for_append (txt.c:23)
+==20233==    by 0x4053FE3: log_create (log.c:64)
+==20233==    by 0x407B2CA: initLogger (logs.c:40)
+==20233==    by 0x8048D22: main (Consola.c:10)
+==20233== 
+==20233== 344 bytes in 1 blocks are still reachable in loss record 14 of 14
+==20233==    at 0x402C17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+==20233==    by 0x40DF359: __fopen_internal (iofopen.c:69)
+==20233==    by 0x40DF41D: fopen@@GLIBC_2.1 (iofopen.c:97)
+==20233==    by 0x4053EDA: txt_open_for_append (txt.c:23)
+==20233==    by 0x4053FE3: log_create (log.c:64)
+==20233==    by 0x407B301: initLogger (logs.c:48)
+==20233==    by 0x8048D22: main (Consola.c:10)
+==20233== 
+==20233== LEAK SUMMARY:
+==20233==    definitely lost: 20 bytes in 1 blocks
+==20233==    indirectly lost: 8 bytes in 1 blocks
+==20233==      possibly lost: 0 bytes in 0 blocks
+==20233==    still reachable: 914 bytes in 15 blocks
+==20233==         suppressed: 0 bytes in 0 blocks
+==20233== 
+==20233== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+==20233== 
+==20233== 1 errors in context 1 of 2:
+==20233== Syscall param open(filename) points to unaddressable byte(s)
+==20233==    at 0x4156713: __open_nocancel (syscall-template.S:84)
+==20233==    by 0x40EAACF: _IO_file_open (fileops.c:221)
+==20233==    by 0x40EAC50: _IO_file_fopen@@GLIBC_2.1 (fileops.c:328)
+==20233==    by 0x40DF3B0: __fopen_internal (iofopen.c:86)
+==20233==    by 0x40DF41D: fopen@@GLIBC_2.1 (iofopen.c:97)
+==20233==    by 0x8048E06: main (Consola.c:29)
+==20233==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==20233== 
+==20233== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)

@@ -25,22 +25,6 @@
 #include <netdb.h>
 #include <fcntl.h> //para funciones del swap como open
 
-
-//MENSAJES
-typedef enum
-{
-	MENSAJE_CLIENTE1=0,
-	MENSAJE_CLIENTE2=1,
-	INICIALIZAR_PROCESO=2,
-	SUSPENDER_PROCESO=3,
-	FINALIZAR_PROCESO=4,
-	ACCEDER_TABLA_DE_PAGINAS=5,
-	ACCEDER_ESPACIO_DE_USUARIO=6,
-	OK,
-	FAIL
-}op_code;
-//MENSAJES FIN
-
 #define PUERTO_ESCUCHA "PUERTO_ESCUCHA"
 #define TAM_MEMORIA "TAM_MEMORIA"
 #define TAM_PAGINA "TAM_PAGINA"
