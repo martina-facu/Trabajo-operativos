@@ -20,7 +20,6 @@ typedef struct{
 
 typedef struct
 {
-
 	int grado_multiprogramacion;
 	double TIEMPO_BLOCK_MAX;
 	char* algoritmo;
@@ -46,8 +45,9 @@ typedef struct
 	t_log* PLP;
 	//int grado_multiprogramacion;
 	//double estimacion_inicial;
-	//double alpha;
-	//double TIEMPO_BLOCK_MAX;
+	double alpha;
+	int proceso_ejecutando;
+	double TIEMPO_BLOCK_MAX;
 	//char* algoritmo;
 	int server_fd;
 	//int socket_cpu_cliente;

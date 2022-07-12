@@ -52,10 +52,10 @@ void mostrar_parametros(t_list* list, t_log* logger)
 
 	for(int i=0;i<aux;i++){
 		int* parametro= list_get(list,i);
-		printf(" %d ", *parametro);
-		log_info(logger, " %d ", *parametro);
+//		printf(" %d ", *parametro);
+		log_trace(logger, "Parametro: %d\tValor: %d ",i, *parametro);
 	}
-	printf("\n");
+//	printf("\n");
 }
 void mostrar_instrucciones(t_list* list, t_log* logger)
 {
@@ -67,8 +67,8 @@ void mostrar_instrucciones(t_list* list, t_log* logger)
 
 	for(int i=0;i<aux;i++){
 		instruccion= list_get(list,i);
-		printf("\nEl codigo de la instruccion es: %d , nombre: %s \n cantidad de parametros: %d parametros: ", instruccion->id, nombre[(instruccion->id)-1], getCantidadParametros(instruccion->id));
-		log_info(logger, "El codigo de la instruccion es: %d , nombre: %s \n cantidad de parametros: %d parametros: ", instruccion->id, nombre[(instruccion->id)-1], getCantidadParametros(instruccion->id));
+//		printf("\nEl codigo de la instruccion es: %d , nombre: %s \n cantidad de parametros: %d parametros: ", instruccion->id, nombre[(instruccion->id)-1], getCantidadParametros(instruccion->id));
+		log_trace(logger, "El codigo de la instruccion es: %d , nombre: %s \n cantidad de parametros: %d parametros: ", instruccion->id, nombre[(instruccion->id)-1], getCantidadParametros(instruccion->id));
 		mostrar_parametros(instruccion->parametros, logger);
 	}
 
@@ -176,7 +176,8 @@ t_list* deserializar_paquete_instrucciones(int cliente, uint32_t* tamano_proceso
 
 	//recibo el tamaño del paquete
 	recv(cliente, &(buffer->size), sizeof(uint32_t), 0);
-	printf("\nTamaño del buffer: %d\tTamaño del uint32_t: %d\n",buffer->size,sizeof(uint32_t));
+//	printf("\nTamaño del buffer: %d\tTamaño del uint32_t: %d\n",buffer->size,sizeof(uint32_t));
+	log_trace(logger, "Tamaño del buffer: %d\tTamaño del uint32_t: %d",buffer->size,sizeof(uint32_t));
 	//recibo el buffer con las instrucciones
 	buffer->stream = malloc(buffer->size);
 	recv(cliente, buffer->stream, buffer->size, 0);
@@ -186,7 +187,7 @@ t_list* deserializar_paquete_instrucciones(int cliente, uint32_t* tamano_proceso
 
 	recv(cliente, tamano_proceso, sizeof(uint32_t), 0);
 
-	log_info(logger, "Tamaño de las instrucciones a recibir: %d", *tamano_proceso);
+	log_trace(logger, "Tamaño de las instrucciones a recibir: %d", *tamano_proceso);
 
 	return instrucciones;
 }

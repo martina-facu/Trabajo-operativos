@@ -35,6 +35,7 @@
 	t_list* exit_l;
 	t_list* interrumpidos_l;
 	t_list* comunicaciones_l;
+	t_list* execute_l;
 
 
 #endif /* LISTAS_H_ */

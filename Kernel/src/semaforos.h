@@ -35,6 +35,8 @@
 	pthread_mutex_t mx_susp_block_buffer_l;
 	pthread_mutex_t mx_interrumpidos_l;
 	pthread_mutex_t mx_comunicaciones_l;
+	pthread_mutex_t mx_execute_l;
+	pthread_mutex_t mx_proceso_ejecutando;
 
 	sem_t s_proceso_ready;
 	sem_t s_proceso_susp;
@@ -44,6 +46,7 @@
 	sem_t s_grado_multiprogramacion;
 	sem_t s_proceso_susp_ready;
 	sem_t s_interrupcion;
+	sem_t s_interrupcion_atendida;
 	sem_t s_proceso_ejecutando;
 	sem_t s_susp;
 

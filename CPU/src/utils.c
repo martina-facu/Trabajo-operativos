@@ -27,22 +27,22 @@ pcb_t* obtener_pcb(int cliente)
 int levantar_conexion_memoria(char* ipServer, char* portServer, uint32_t* cantidad_entradas,uint32_t* tamano_pagina)
 {
 	int conexion_memoria = crear_conexion(ipServer, portServer, logger);
-	log_info(logger, "Se intenta conectarse con la memoria en la IP %s y puerto %s con el descriptor:  %d", ipServer, portServer, conexion_memoria);
+	log_trace(logger, "CPU-COMUNICACION-MEMORIA Se intenta conectarse con la memoria en la IP %s y puerto %s con el descriptor:  %d", ipServer, portServer, conexion_memoria);
 
 
 	uint8_t handshake_memoria = INICIAR_CONEXION_CPU;
 	send(conexion_memoria, &handshake_memoria, sizeof(uint8_t), 0);
-	log_info(logger, "Se envia Handshake a la memoria");
+	log_trace(logger, "CPU-COMUNICACION-MEMORIA Se envia Handshake a la memoria");
 
 	uint8_t respuesta_memoria = 0;
 	recv(conexion_memoria, &respuesta_memoria, sizeof(uint8_t), 0);
-	log_info(logger, "Mensaje recibido de la memoria:  %d", respuesta_memoria);
+	log_trace(logger, "CPU-COMUNICACION-MEMORIA Mensaje recibido de la memoria:  %d", respuesta_memoria);
 
 	if(respuesta_memoria == ACEPTAR_CONEXION_CPU)
-		log_info(logger, "Conexion establecida con la memoria");
+		log_trace(logger, "CPU-COMUNICACION-MEMORIA Conexion establecida con la memoria");
 	else
 	{
-		log_error(logger, "No se puede establecer conexion con la memoria. El server contactado responde con un mensaje no predeterminado: %d.", respuesta_memoria);
+		log_error(logger, "CPU-COMUNICACION-MEMORIA No se puede establecer conexion con la memoria. El server contactado responde con un mensaje no predeterminado: %d.", respuesta_memoria);
 		exit(EXIT_FAILURE);
 	}
 	//	TODO: descomentar estas lineas cuando se implemente la parte de la memoria
@@ -63,7 +63,7 @@ int levantar_server(char* ipServer, char* portServer, char* sTipo)
 
 	//	Inicio el servidor en la IP y puertos leidos desde el archivo de configuracion
 	socket = iniciar_servidor(ipServer, portServer, logger);
-	log_info(logger, "Socket en el que se levanta el server %s: %d en la IP: %s y Puerto: %s",sTipo, socket, ipServer, portServer);
+	log_trace(logger, "CPU-COMUNICACION-KERNEL Socket en el que se levanta el server %s: %d en la IP: %s y Puerto: %s",sTipo, socket, ipServer, portServer);
 
 	return socket;
 }
@@ -90,8 +90,11 @@ t_paquete* recibir_mensaje_memoria(int conexion_memoria)
 
 bool validar_codigo(t_paquete* paquete, uint8_t operacion)
 {
-	if(paquete->codigo_operacion == operacion){
-		printf("\nCodigo de operacion incorrecto, se esperaba %d, se recibio %d",operacion,paquete->codigo_operacion);
+	if(paquete->codigo_operacion == operacion)
+	{
+		log_trace(logger, "CPU-EXECUTE Codigo de operacion incorrecto, se esperaba %d, se recibio %d",operacion,paquete->codigo_operacion);
+
+//		printf("\nCodigo de operacion incorrecto, se esperaba %d, se recibio %d",operacion,paquete->codigo_operacion);
 		return true;
 	}else{
 		return false;
@@ -139,9 +142,9 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
 	if(validar_codigo(respuesta,10))
 	{
 		valor_leido_respuesta = *valor_leido;
-		log_info(logger, "El valor leido fue: %d", *valor_leido);
+		log_info(logger, "CPU-MEMORIA El valor leido fue: %d", *valor_leido);
 	}else{
-		log_info(logger, "HUBO UN ERROR EN LA LECTURA DE LA DIRECCION");
+		log_error(logger, "CPU-MEMORIA HUBO UN ERROR EN LA LECTURA DE LA DIRECCION");
 	}
 
 	free(valor_leido);
@@ -152,7 +155,8 @@ uint32_t* escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calcu
 {
 	calcular_datos_direccion(datos, direccion_logica);
 	Pagina_direccion* resultado = traducir_direccion(datos);
-	printf("El valor de la direccion fisica es: %d", resultado->direccion_fisica);
+//	printf("El valor de la direccion fisica es: %d", resultado->direccion_fisica);
+	log_info(logger, "CPU-MEMORIA El valor de la direccion fisica es: %d", resultado->direccion_fisica);
 
 	mandar_lecto_escritura(resultado->direccion_fisica, valor_a_escribir, 11, datos->conexion_memoria);
 
@@ -161,8 +165,10 @@ uint32_t* escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calcu
 
 	memcpy(resultado_escritura, respuesta->buffer->stream, sizeof(uint32_t));
 
-	if(validar_codigo(respuesta,10)){
-		printf("El resultado de escribir fue: %d", *resultado_escritura);
+	if(validar_codigo(respuesta,10))
+	{
+		log_info(logger, "CPU-MEMORIA El resultado de escribir fue: %d", *resultado_escritura);
+//		printf("El resultado de escribir fue: %d", *resultado_escritura);
 		return resultado_escritura;
 	}else{
 		return (uint32_t*)-1;
@@ -249,7 +255,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			return true;
 			break;
 		default:
-			printf("\nCPU-EXECUTE HUBO UN FALLO EN LA EJECUCION DE LAS INSTRUCCIONES PID: %d", pcb->pid);
+			log_info(logger, "CPU-EXECUTE HUBO UN FALLO EN LA EJECUCION DE LAS INSTRUCCIONES PID: %d", pcb->pid);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
 			sleep(5);
@@ -290,10 +296,12 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 
 	//	Ejecuto la instruccion
 	*devolver_pcb = execute(instruccion, retardoNoOp, datos, pcb);
-	log_info(logger, "Valor de devolver PCBt %s", *devolver_pcb?"true":"false");
+	log_trace(logger, "CPU-EXECUTE Valor de devolver PCBt %s", *devolver_pcb?"true":"false");
 	//check interrupt
 	if (!*devolver_pcb){
-		if(*hubo_interrupcion){
+		if(*hubo_interrupcion)
+		{
+			log_info(logger, "CPU-EXECUTE Hubo una interrupcion se cambia el estado del PCB a INTERRUMPIDO");
 			pcb->estado = INTERRUMPIDO;
 		}
 		*devolver_pcb = *hubo_interrupcion;
@@ -308,21 +316,21 @@ t_config_cpu* cargarConfiguracion(char* configPath)
 	t_config_cpu* configTemp = crearConfigCPU();
 
 	configTemp->entradasTLB = config_get_int_value(configFile, ENTRADAS_TLB);
-		log_info(logger, "Se leyo la variable ENTRADAS_TLB: %d", configTemp->entradasTLB);
+		log_trace(logger, "CPU-CONFIGURACION Se leyo la variable ENTRADAS_TLB: %d", configTemp->entradasTLB);
 	configTemp->algoritmoReemplazoTLB = config_get_string_value(configFile, ALG_TLB);
-		log_info(logger, "Se leyo la variable REEMPLAZO_TLB: %s", configTemp->algoritmoReemplazoTLB);
+		log_trace(logger, "CPU-CONFIGURACION Se leyo la variable REEMPLAZO_TLB: %s", configTemp->algoritmoReemplazoTLB);
 	configTemp->retardoNoOp = config_get_int_value(configFile, RETARDO_NOOP);
-		log_info(logger, "Se leyo la variable RETARDO_NOOP: %d", configTemp->retardoNoOp);
+		log_trace(logger, "CPU-CONFIGURACION Se leyo la variable RETARDO_NOOP: %d", configTemp->retardoNoOp);
 	configTemp->IPCPU = config_get_string_value(configFile, IP_CPU);
-		log_info(logger, "Se leyo la variable IP_CPU: %s", configTemp->IPCPU);
+		log_trace(logger, "CPU-CONFIGURACION Se leyo la variable IP_CPU: %s", configTemp->IPCPU);
 	configTemp->IPMemoria = config_get_string_value(configFile, IP_MEMORIA);
-		log_info(logger, "Se leyo la variable IP_MEMORIA: %s", configTemp->IPMemoria);
+		log_trace(logger, "CPU-CONFIGURACION Se leyo la variable IP_MEMORIA: %s", configTemp->IPMemoria);
 	configTemp->puertoMemoria = config_get_string_value(configFile, PUERTO_MEMORIA);
-		log_info(logger, "Se leyo la variable PUERTO_MEMORIA: %s", configTemp->puertoMemoria);
+		log_trace(logger, "CPU-CONFIGURACION Se leyo la variable PUERTO_MEMORIA: %s", configTemp->puertoMemoria);
 	configTemp->puertoDispatch = config_get_string_value(configFile, PUERTO_DISPATCH);
-		log_info(logger, "Se leyo la variable PUERTO_DISPATCH: %s", configTemp->puertoDispatch);
+		log_trace(logger, "CPU-CONFIGURACION Se leyo la variable PUERTO_DISPATCH: %s", configTemp->puertoDispatch);
 	configTemp->puertoInterrupt = config_get_string_value(configFile, PUERTO_INTERRUPT);
-		log_info(logger, "Se leyo la variable PUERTO_INTERRUPT: %s", configTemp->puertoInterrupt);
+		log_trace(logger, "CPU-CONFIGURACION Se leyo la variable PUERTO_INTERRUPT: %s", configTemp->puertoInterrupt);
 
 	return configTemp;
 }

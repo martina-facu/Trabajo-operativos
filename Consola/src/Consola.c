@@ -12,18 +12,18 @@ int main(int argc, char *argv[]) {
 	//	Seteo el primer argumento como la ruta al archivo de instruccion del programa a ejecutar.
 	char* filename = argv[1];
 
-	log_info(logger, "El archivo de instrucciones para esta consola es: %s", filename);
+	log_trace(logger, "El archivo de instrucciones para esta consola es: %s", filename);
 	//	Leo el segundo arguento y lo guardo como uint32_t. El mismo posee el tamaño del proceso.
 	uint32_t* tamano_proceso = malloc(sizeof(uint32_t));
 	*tamano_proceso = atoi(argv[2]);
-	log_info(logger, "El tamaño del proceso para esta consola es: %d", *tamano_proceso);
+	log_trace(logger, "El tamaño del proceso para esta consola es: %d", *tamano_proceso);
 
 	//	Levamto y leo del archivo de configuracion los valores de conexion al Kernel
 	t_config* config = config_create("consola.config");
 	char* ip = config_get_string_value(config, "IP_KERNEL");
-	log_info(logger, "La IP de conexion al Kernel es: %s", ip);
+	log_trace(logger, "La IP de conexion al Kernel es: %s", ip);
 	char* puerto = config_get_string_value(config, "PUERTO_KERNEL");
-	log_info(logger, "El puerto de conexion al Kernel es: %s", puerto);
+	log_trace(logger, "El puerto de conexion al Kernel es: %s", puerto);
 
 	//	Abro el archivo donde estan las instrucciones del programa
 	FILE* input_file = fopen(filename, "r");
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 
 	//	Proceso el archivo del programa y obtengo una lista de instrucciones
 	t_list* instrucciones = obtener_intrucciones(input_file);
-
+	log_trace(logger, "Proceso el archivo de instrucciones y lo cargo en una lista");
 	//	Muestro las instrucciones obtenidas tanto en pantalla como en log.
 	mostrar_instrucciones(instrucciones, logger);
 
@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
 	//	Serializo el mensaje a enviar al Kernel
 	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
 	void* a_enviar = serializar_mensaje(instrucciones,tamano_proceso,tamano_mensaje);
-
+	log_trace(logger, "Serializo el mensaje a enviar");
 
 	// ---------------------------------------------------------------------------- CONEXION ----------------------------------------------------------------------------------------//
 	//	Levanto conexion con el Kernel
@@ -53,17 +53,20 @@ int main(int argc, char *argv[]) {
 
 	//	Envio mensaje al Kernel con el PCB
 	send(conexion, a_enviar,*tamano_mensaje, 0);
-	log_info(logger, "Se envio el mensaje %s al KERNEL de tamaño %d", (char*)a_enviar,*tamano_mensaje);
+	log_trace(logger, "Se envio el mensaje %s al KERNEL de tamaño %d", (char*)a_enviar,*tamano_mensaje);
 
 	//	Espero respuesta del Kernel que se termino de procesar
 	uint8_t respuesta = 0;
 	recv(conexion, &respuesta, sizeof(uint8_t), 0);
-	log_info(logger, "Se recibio la respuesta %d del KERNEL", respuesta);
+	log_trace(logger, "Se recibio la respuesta %d del KERNEL", respuesta);
 
 	if (respuesta == PROCESO_FINALIZADO)
-		log_info(logger, "Se recibio la respuesta de finalizacion exitosa del KERNEL: %d", respuesta);
+	{
+		recv(conexion, &respuesta, sizeof(uint8_t), 0);
+		log_info(logger, "Se recibio la respuesta de finalizacion exitosa del KERNEL para el PROCESO ID: %d", respuesta);
+	}
 	else
-		log_info(logger, "No pudo finalizarse en forma exitosa el proceso");
+		log_error(logger, "No pudo finalizarse en forma exitosa el proceso");
 
 	close(conexion);
 	return EXIT_SUCCESS;
@@ -84,27 +87,27 @@ int levantarConexionKernel(char* ip, char* puerto, t_log* logger)
 	int conexion = crear_conexion(ip, puerto, logger);
 	if (conexion < 0)
 	{
-		log_info(logger, "No pude conectarme al Kernel");
+		log_error(logger, "No pude conectarme al Kernel");
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
-		log_info(logger, "Se establece una conexion voy a comenzar con el envio de Handshake para validar la misma");
+		log_trace(logger, "Se establece una conexion voy a comenzar con el envio de Handshake para validar la misma");
 
 		//	Seteo el valor del Handshake para el inicio de Consola hacia Kernel
 		uint8_t handshake = INICIAR_CONEXION_CONSOLA;
 		//	Envio Handshake
 		send(conexion, &handshake, sizeof(uint8_t), 0);
-		log_info(logger, "Se envia Handshake al Kernel");
+		log_trace(logger, "Se envia Handshake al Kernel");
 
 		//	Recibo la respuesta del Kernel
 		uint8_t respuesta_kernel = 0;
 		recv(conexion, &respuesta_kernel, sizeof(uint8_t), 0);
-		log_info(logger, "Mensaje recibido del Kernel:  %d", respuesta_kernel);
+		log_trace(logger, "Mensaje recibido del Kernel:  %d", respuesta_kernel);
 
 		if(respuesta_kernel == ACEPTAR_CONEXION_CONSOLA)
 		{
-			log_info(logger, "Conexion establecida con el Kernel");
+			log_trace(logger, "Conexion establecida con el Kernel");
 			return conexion;
 		}
 		else
@@ -114,7 +117,7 @@ int levantarConexionKernel(char* ip, char* puerto, t_log* logger)
 		}
 
 	}
-	log_info(logger, "Me conecte al KERNEL en el descriptor: %d", conexion);
+	log_trace(logger, "Me conecte al KERNEL en el descriptor: %d", conexion);
 
 
 }

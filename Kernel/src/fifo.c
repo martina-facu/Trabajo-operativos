@@ -34,8 +34,8 @@ void mostrar_lista_ready(t_list* lista){
 	pcb_t* pcb= malloc(sizeof(pcb_t));
 	for(i=0;i<lista_size;i++){
 		pcb= list_get(lista,i);
-		log_trace(PCP,"PCB = %d, prioridad= %d \n", pcb->pid,i);
-		printf("PCB = %d, prioridad= %d \n", pcb->pid,i);
+		log_trace(PCP,"KERNEL-CPU-PCB  PCB = %d, prioridad= %d \n", pcb->pid,i);
+//		printf("PCB = %d, prioridad= %d \n", pcb->pid,i);
 	}
 }
 
@@ -67,7 +67,7 @@ void* agregar_a_ready(){ // REVISAR(no estoy seguro que sea un problema): SI SE 
 			pcb= list_remove(newM_l,0);
 			pthread_mutex_unlock(&mx_newM_l);
 		}
-		log_trace(PCP,"se esta pasando un pcb a ready");
+		log_info(PCP,"KERNEL Se esta pasando un pcb a ready");
 		// LO AGREGO
 		pthread_mutex_lock(&mx_ready_l);
 		list_add(ready_l,pcb);
@@ -128,7 +128,7 @@ void* bloquear_proceso(void* pcb_){
 	// EVALUO SI HAY QUE SUSPENDER
 	if(pcb->tiempo_block > configuracion->TIEMPO_BLOCK_MAX)
 	{ // CONDICION DE SUSPENSION
-		log_trace(PCP,"se va a suspender un proceso por %d, ID: %d", pcb->tiempo_block,pcb->pid);
+		log_info(PCP,"KERNEL-CPU-PCB Se va a suspender un proceso por %d, ID: %d", pcb->tiempo_block,pcb->pid);
 		// LO SACO DE LISTAS DE BLOQUEADOS
 		pthread_mutex_lock(&mx_block_l);
 		remover_de_lista(block_l,pcb);
@@ -147,7 +147,7 @@ void* bloquear_proceso(void* pcb_){
 		usleep(pcb->tiempo_block);
 
 		// SE DESPERTO Y LO SACO DE SUSP BLOQUEADO
-		log_trace(PCP,"se DESBLOQUEO un proceso suspendido, ID:  %d", pcb->pid);
+		log_info(PCP,"KERNEL-CPU-PCB  Se DESBLOQUEO un proceso suspendido, ID:  %d", pcb->pid);
 		pthread_mutex_lock(&mx_susp_block_l);
 		remover_de_lista(susp_block_l,pcb);
 		pthread_mutex_unlock(&mx_susp_block_l);
@@ -162,11 +162,11 @@ void* bloquear_proceso(void* pcb_){
 		sem_post(&s_proceso_susp_ready);
 	}
 	else{
-		log_trace(PCP,"se va a bloquear un proceso por ID: %d", pcb->pid);
+		log_info(PCP,"KERNEL-CPU-PCB Se va a bloquear un proceso por ID: %d", pcb->pid);
 		//DUERMO EL PROCESO POR N MILISEGUNDOS
 		usleep(pcb->tiempo_block);
 
-		log_trace(logP,"se DESBLOQUEO un proceso, ID: %d", pcb->pid);
+		log_info(logP,"Se DESBLOQUEO un proceso, ID: %d", pcb->pid);
 
 		// SE DESPERTO Y LO SACO DE LA LISTA DE BLOQUEADOS
 		pthread_mutex_lock(&mx_block_l);
@@ -196,7 +196,7 @@ pcb_t* recibir_paquete_pcb()
 	recv(socket_cpu_dispatch,buffer->stream,buffer->size,0);
 	pcb_t* pcb = pcb_deserializar(buffer);
 	pcb_mostrar(pcb, PCP);
-	log_trace(PCP,"recibi un proceso ID: %d ",pcb->pid);
+	log_info(PCP,"KERNEL-CPU-PCB Recibi un proceso ID: %d ",pcb->pid);
 	return pcb;
 }
 
@@ -212,14 +212,14 @@ void* recibir_proceso_de_cpu(){
 	while(1)
 	{
 		pcb_t* pcb = recibir_paquete_pcb();
-		log_trace(PCP,"KERNEL-CPU-PCB Recibi PCB desde la CPU");
+		log_info(PCP,"KERNEL-CPU-PCB Recibi PCB desde la CPU");
 		if(pcb->estado == FINALIZADO){ // SE PODRIA MODELAR CON UN SWITCH
 			// AGREGARLO A FINALIZADO QUE ES UN BUFFER ENTRE PLP Y PCP
 			pthread_mutex_lock(&mx_finalizado_l);
 			list_add(finalizado_l,pcb);
 			pthread_mutex_unlock(&mx_finalizado_l);
 			// AVISAR QUE HAY UN PROCESO FINALIZADO
-			log_trace(PCP,"KERNEL-CPU-PCB Libero semaforo para finalizar proceso con ID: %d ",pcb->pid);
+			log_info(PCP,"KERNEL-CPU-PCB Libero semaforo para finalizar proceso con ID: %d ",pcb->pid);
 			sem_post(&s_proceso_finalizado);
 
 		}
@@ -235,8 +235,8 @@ void* recibir_proceso_de_cpu(){
 			pthread_detach(hilo_bloqueante);
 		}
 		else{
-			log_trace(PCP,"error null");
-			log_trace(PCP,"ocurrio un error al recibir al proceso: funcion: recibir_proceso_de_cpu, estado: %d", pcb->estado);
+			log_error(PCP,"KERNEL-CPU-PCB Error el estado del proceso es desconocido");
+//			printf("ocurrio un error al recibir al proceso: funcion: recibir_proceso_de_cpu \n");
 			return NULL;
 		}
 		// AVISAR QUE NO HAY NINGUN PROCESO EJECUTANDO

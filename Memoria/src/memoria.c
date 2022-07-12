@@ -496,6 +496,9 @@ void liberar_memoria(int conexionKernel, int conexionCPU, t_log* logger, t_confi
 	if (config != NULL)
 		config_destroy(config);
 
+	free(logger);
+	free(config);
+
 	liberar_conexion(conexionKernel);
 	liberar_conexion(conexionCPU);
 }

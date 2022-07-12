@@ -26,26 +26,25 @@ void aceptoServerDispatch(int socketAnalizar)
 		if(cantidad_clientes_dispatch < CONCURRENT_CONNECTION)
 		{
 			//	Acepto la conexion del cliente que se conecta
-			//	ESTO TIENE QUE IR DESPUES EN EL THREAD!!!!!!!!!!!!!!!!!!
 			cliente_dispatch = esperar_cliente(socketAnalizar, logger);
-			log_info(logger, "Se acepto la conexion del Dispatch en el socket: %d", cliente_dispatch);
+			log_trace(logger, "CPU-COMUNICACION-KERNEL Se acepto la conexion del Dispatch en el socket: %d", cliente_dispatch);
 
 			//	Valido si tengo que cambiar el maximo o el minimo
 			compararLimitesConNuevoDescriptor(cliente_dispatch);
-			log_info(logger, "Se agrego al set de descriptores el descriptor: %d", cliente_dispatch);
+			log_trace(logger, "CPU-COMUNICACION-KERNEL Se agrego al set de descriptores el descriptor: %d", cliente_dispatch);
 
 
 			//	Defino el mensaje a recibir (y lo recibo) del cliente cuando se conecta
 			uint8_t mensaje = 0;
 			recv(cliente_dispatch, &mensaje, sizeof(uint8_t), 0);
-			log_info(logger, "Mensaje recibido dispatch: %d", mensaje);
+			log_trace(logger, "CPU-COMUNICACION-KERNEL Mensaje recibido dispatch: %d", mensaje);
 
 			if(mensaje == INICIAR_CONEXION_DISPATCH)
 			{
 				//	Defino y envio Handshake
 				uint8_t handshake = ACEPTAR_CONEXION_DISPATCH;
 				send(cliente_dispatch, &handshake, sizeof(uint8_t), 0);
-				log_info(logger, "Se envia Handshake %d para dejar establecida la conexion del Dispatch", mensaje);
+				log_trace(logger, "CPU-COMUNICACION-KERNEL Se envia Handshake %d para dejar establecida la conexion del Dispatch", mensaje);
 				//	Agrego el descrilptor al maestro
 				FD_SET(cliente_dispatch, &master_fd_set);
 				//	Incremento el grado de concurrencia
@@ -54,7 +53,7 @@ void aceptoServerDispatch(int socketAnalizar)
 			else
 			{
 				//	Como el mensaje es incorrecto desestimo el mensaje recibido.
-				log_info(logger, "Mensaje recibido del Dispatch es incorrecto, se desestima el mismo");
+				log_trace(logger, "CPU-COMUNICACION-KERNEL Mensaje recibido del Dispatch es incorrecto, se desestima el mismo");
 				close(cliente_dispatch);
 			}
 		}
@@ -72,19 +71,19 @@ void aceptoServerInterrupt(int socketAnalizar)
 	//	Verifico si se recibio informacion en este descriptor
 	if (FD_ISSET(socketAnalizar, &read_fd_set))
 	{
-		log_info(logger, "Se quiso conectar alguien al Server Interrupt");
+		log_trace(logger, "CPU-COMUNICACION-KERNEL Se quiso conectar alguien al Server Interrupt");
 		//	Si el grado de concurrencia admite que se sigan aceptando
 		//	conexiones, la acepto. Sino omito lo recibido.
 		if(cantidad_clientes_interrupt < CONCURRENT_CONNECTION)
 		{
 			//	Acepto la conexion del cliente que se conecta
 			cliente_interrupt = esperar_cliente(socketAnalizar, logger);
-			log_info(logger, "Se acepto la conexion del Interrupt en el socket: %d", cliente_interrupt);
+			log_trace(logger, "CPU-COMUNICACION-KERNEL Se acepto la conexion del Interrupt en el socket: %d", cliente_interrupt);
 
 			//	Defino el mensaje a recibir (y lo recibo) del cliente cuando se conecta
 			uint8_t mensaje = 0;
 			recv(cliente_interrupt, &mensaje, sizeof(uint8_t), 0);
-			log_info(logger,"Mensaje recibido interrupt: %d", mensaje);
+			log_trace(logger,"CPU-COMUNICACION-KERNEL Mensaje recibido interrupt: %d", mensaje);
 
 			if(mensaje == INICIAR_CONEXION_INTERRUPT)
 			{
@@ -92,26 +91,24 @@ void aceptoServerInterrupt(int socketAnalizar)
 				//	Defino para finalizar la aceptacion de la conexion
 				uint8_t handshake = ACEPTAR_CONEXION_INTERRUPT;
 				//	Envio el mensaje
-//				printf("\nEstoy por enviar el handshake pero para evaluar voy a dormir 15 segundos\n");
-//				sleep(15);
 				send(cliente_interrupt, &handshake, sizeof(uint8_t), 0);
 				//	Levanto el nivel de concurrencia activa de Interrupt
-				log_info(logger, "Se envia Handshake %d para dejar establecida la conexion del Dispatch", mensaje);
+				log_trace(logger, "CPU-COMUNICACION-KERNEL Se envia Handshake %d para dejar establecida la conexion del Dispatch", mensaje);
 				cantidad_clientes_interrupt++;
 
 				//	Inicializo los atributos del thread a crear.
 				resThread = pthread_attr_init(&attr);
 				if (resThread != 0)
-					log_info(logger,"Error al inicializar pthread_attr_init");
+					log_error(logger,"CPU-COMUNICACION-KERNEL Error al inicializar pthread_attr_init");
 					//handle_error_en(resThread, "Error al inicializar pthread_attr_init");
 //			   struct thread_info *tinfo = calloc(num_threads_interrupt, sizeof(*tinfo));
 //			   if (tinfo == NULL)
 //				   handle_error("Error al alocar la memoria para la informacion de los thread de interrupt");
 				resThread = pthread_create(&threadId, &attr, &atencionInterrupt, (void *) cliente_interrupt);
 				if (resThread != 0)
-					log_info(logger,"Error al crear el Thread");
+					log_error(logger,"Error al crear el Thread");
 				else
-					log_info(logger, "Se genera el Thread del Interrupt con TID: %d", resThread);
+					log_trace(logger, "CPU-COMUNICACION-KERNEL Se genera el Thread del Interrupt con TID: %d", resThread);
 				pthread_detach(resThread);
 
 			}
@@ -179,9 +176,9 @@ int main(void)
 		if (select(fdmax+1, &read_fd_set, NULL, NULL, &tiempoSelect) < 0)
 		{
 			strerror(errno);
-			log_error(logger, "Error ejecutar el select %d", errno);
+			log_error(logger, "CPU-COMUNICACION-SELECT Error ejecutar el select %d", errno);
+			break;
 			//	Validar si la falla hace que tenga que matar la CPU
-			//	return(EXIT_FAILURE);
 		}
 		//	De no haber errores las proceso
 		else
@@ -217,7 +214,7 @@ int main(void)
 		//	Vuelvo a iniciar el proceso del While
 	}
 
-	log_info(logger, "Sali del while infinito y voy a cerrar las conexiones generadas");
+	log_trace(logger, "CPU-COMUNICACION-SELECT Sali del while infinito y voy a cerrar las conexiones generadas");
 
 //	Cierro conexiones
 	close(conexion_memoria);
@@ -242,19 +239,19 @@ void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
 
 	if((cantidad_clientes_dispatch > 0) && (cantidad_clientes_interrupt > 0) )
 	{
-		log_info(logger, "Voy a recibir y procesar un PCB del Dispatch");
+		log_trace(logger, "CPU-KERNEL-PCB Voy a recibir y procesar un PCB del Dispatch");
 		//	Recibir pcb del kernel
 		//	REVISAR EL PRIMER PARAMETRO PORQUE NO SE USA Y NO SERIA NECESARIO
 //							pcb = obtener_pcb(cliente_dispatch);
 
 		pcb = recibirPCB(acceptedConnectionDispatch);
 		recibiPCB = true;
-		log_info(logger, "Voy a loguear informacion del PCB recibida por el Dispatch");
+		log_trace(logger, "CPU-KERNEL-PCB Voy a loguear informacion del PCB recibida por el Dispatch");
 		pcb_mostrar(pcb, logger);
 
 		if(idAnteriorPCB != pcb->pid)
 		{
-			log_info(logger, "Borro el contenido de la TLB ya que no es el mismo proceso que el anterior");
+			log_info(logger, "CPU-TLB Borro el contenido de la TLB ya que no es el mismo proceso que el anterior");
 			//	Falta implementar aca la funcion que hace el borrado
 		}
 	}
@@ -276,7 +273,7 @@ void procesarPCB(void)
 //		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
 
 
-	log_info(logger, "CPU-STATUS-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion");
+	log_info(logger, "CPU-KERNEL-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion");
 	pcb_mostrar(pcb, logger);
 
 	//	DEVOLVER PCB AL KERNEL
@@ -344,10 +341,10 @@ int levantarServerInterrupt(void)
 
 void * atencionInterrupt(void * socketInterrupt)
 {
-	log_info(logger,"Entre al hilo");
+	log_trace(logger,"CPU-KERNEL-INTERRUPT Entre al hilo");
 	int iSocketInterrupt = (int) socketInterrupt;
 
-	log_info(logger,"El valor del socket que recibe el thread es: %d", iSocketInterrupt);
+	log_trace(logger,"CPU-KERNEL-INTERRUPT El valor del socket que recibe el thread es: %d", iSocketInterrupt);
 	cantidad_clientes_interrupt++;
 
 	while(1)
@@ -355,16 +352,18 @@ void * atencionInterrupt(void * socketInterrupt)
 		//	Defino el mensaje a recibir del Kernel Interrupt
 		uint8_t mensaje = 0;
 		recv(iSocketInterrupt, &mensaje, sizeof(uint8_t), 0);
-		log_info(logger,"Mensaje recibido interrupt: %d", mensaje);
-		if(mensaje == 25)
+		log_trace(logger,"CPU-KERNEL-INTERRUPT Mensaje recibido interrupt: %d", mensaje);
+		if(mensaje == SOLICITAR_INTERRUPCION)
 		{
 			//	Como el mensaje es correcto seteo la variable para que el CPU devuelva el PCB
+			log_info(logger,"CPU-EXECUTE Se recibio una interrupcion del Kernel para reprogramar");
 			interrupcion = true;
+
 		}
 		else
 		{
 			//	Como el mensaje es incorrecto desestimo el mensaje recibido.
-			log_info(logger,"Mensaje recibido del interrupt %d es incorrecto, se desestima el mismo", mensaje);
+			log_trace(logger,"CPU-KERNEL-INTERRUPT Mensaje recibido del interrupt %d es incorrecto, se desestima el mismo", mensaje);
 		}
 
 

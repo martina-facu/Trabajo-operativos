@@ -40,7 +40,7 @@
 		if((logger = log_create(fileName, processName, 1, log_level)) == NULL)
 		{
 
-			printf("NO se pudo crear el archivo de log del CPU!!!!!\n");
+			printf("\nERROR NO se pudo crear el archivo de log del CPU!!!!!\n");
 			exit(EXIT_FAILURE);
 
 		}

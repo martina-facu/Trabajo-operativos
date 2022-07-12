@@ -44,7 +44,7 @@
 
 
 	pcb_t *pcb_create(uint32_t tamano, t_list* instrucciones,uint32_t pid, double estimacion_inicial,
-			uint32_t tabla_paginas, uint32_t estimado_rafaga);
+			uint32_t tabla_paginas);
 	void *pcb_armar_stream(pcb_t *pcb);
 	pcb_t *pcb_deserializar(t_buffer* buffer);
 	void pcb_mostrar(pcb_t* pcb, t_log* logger);

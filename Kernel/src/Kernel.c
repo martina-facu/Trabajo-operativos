@@ -11,21 +11,27 @@ int main(void)
 	inicializar_loggers();
 
 	//	Se establece la conexion con la Memoria
+	log_trace(logP, "KERNEL Comienzo conexion con MEMORIA");
 	levantar_conexion_memoria(configuracion->IP_MEMORIA,configuracion->PUERTO_MEMORIA, logP);
 
 	//	Se establece conexion con el Dispatch de la CPU
+	log_trace(logP, "KERNEL Comienzo conexion con DISPATCH");
 	levantar_conexion_cpu_dispatch(configuracion->IP_CPU, configuracion->PUERTO_CPU_DISPATCH , logP);
 
 	//	Se establece conexion con el Interrupt de la CPU
+	log_trace(logP, "KERNEL Comienzo conexion con INTERRUPT");
 	levantar_conexion_cpu_interrupt(configuracion->IP_CPU, configuracion->PUERTO_CPU_INTERRUPT , logP);
 
 	//	Me levanto como server y establesco todas las conexiones como cliente
 	//	Inicio el servidor Kernel para atencion de consolas
+	log_trace(logP, "KERNEL Levanto server de conexion con CONSOLAS");
 	server_fd = iniciar_servidor(configuracion->IP_KERNEL,configuracion->PUERTO_ESCUCHA, PLP);
 
 	//	Inicializo las listas de los planificadores
+	log_trace(logP, "KERNEL Inicializo Listas");
 	inicializar_listas();
 	//	Inicializo los semaros usados por los planificadores
+	log_trace(logP, "KERNEL Inicializo Semaforos");
 	inicializar_semaforos();
 
 	//	Defino las variables de identificacion de los threads de cada planificador
@@ -36,20 +42,24 @@ int main(void)
 
 	if(strcmp(configuracion->algoritmo,"FIFO")==0)
 	{
-		log_trace(logP,"MODO PLANIFICADOR CORTO PLAZO: FIFO\n");
+		log_trace(logP,"KERNEL MODO PLANIFICADOR CORTO PLAZO: FIFO\n");
 		pthread_create(&planificador_corto_plazo,NULL,fifo,NULL);
 	}
-	else if(strcmp(configuracion->algoritmo,"SJF\n")==0)
+	else if(strcmp(configuracion->algoritmo,"SRT")==0)
 	{
-		log_trace(logP,"MODO PLANIFICADOR CORTO PLAZO: SJF");
+		log_trace(logP,"KERNEL MODO PLANIFICADOR CORTO PLAZO: SRT");
+		pthread_create(&planificador_corto_plazo,NULL,sjf,NULL);
 	}
-	else{
-		printf("error en el algoritmo, finalizando kernel\n");
-		return -1;
+	else
+	{
+		log_error(logP,"KERNEL Error en el algoritmo ingresado se finaliza el Kernel: %s", configuracion->algoritmo);
+//		printf("error en el algoritmo, finalizando kernel\n");
+		exit(EXIT_FAILURE);
 	}
-	log_trace(logP,"EJECUTANDO: PLANIFICADOR LARGO PLAZO\n");
+
+	log_info(logP,"KERNEL EJECUTANDO: PLANIFICADOR LARGO PLAZO\n");
 	pthread_create(&planificador_largo_plazo,NULL,administrador_largo_plazo,NULL);
-	log_trace(logP,"EJECUTANDO: PLANIFICADOR MEDIANO PLAZO");
+	log_info(logP,"KERNEL EJECUTANDO: PLANIFICADOR MEDIANO PLAZO");
 	pthread_create(&planificador_mediano_plazo,NULL,administrador_mediano_plazo,NULL);
 
 
@@ -89,7 +99,8 @@ void establecer_configuracion()
 
 
 
-void inicializar_listas(){
+void inicializar_listas()
+{
 	comunicaciones_l= 		list_create();
 	ready_l= 				list_create();
 	new_l= 					list_create();
@@ -103,6 +114,7 @@ void inicializar_listas(){
 	susp_block_buffer_l=    list_create();
 	newM_l=					list_create();
 	susp_readyM_l=			list_create();
+	execute_l=				list_create();
 }
 
 void inicializar_semaforos(){
@@ -115,6 +127,7 @@ void inicializar_semaforos(){
 	sem_init(&s_proceso_susp,0,0);
 	sem_init(&s_interrupcion,0,0);
 	sem_init(&s_susp,0,0);
+	sem_init(&s_interrupcion_atendida,0,0);
 }
 
 

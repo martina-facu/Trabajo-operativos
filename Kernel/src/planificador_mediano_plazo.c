@@ -34,6 +34,7 @@ void* suspender_proceso(){
 		pcb->estado= SUSPENDIDO;
 
 		//TODO LIBERAR MEMORIA
+//		log_info(PMP,"KERNEL-MEMORIA Solicito liberar la memoria porque se suspendio el PID: %d", pcb->pid);
 
 		sem_post(&s_grado_multiprogramacion);
 		sem_post(&s_susp);
@@ -50,6 +51,7 @@ void* avisar_proceso_susp_ready(){
 		pcb= list_remove(susp_ready_l,0);
 		pthread_mutex_unlock(&mx_susp_ready_l);
 		//TODO PEDIR MEMORIA
+//		log_info(PMP,"KERNEL-MEMORIA Solicito cargar el PID: %d en memoria porque termino su I/O", pcb->pid);
 		pthread_mutex_lock(&mx_susp_readyM_l);
 		list_add(susp_readyM_l,pcb);
 		pthread_mutex_unlock(&mx_susp_readyM_l);
