@@ -32,13 +32,15 @@ char* obtener_nombre_archivo(int pid){
 
 int existe_archivo(char* path){
 
+
 	int ret = 0;
 
 	int f = open(path, O_RDONLY);
 
 	if (f != -1){ //si f no es -1, el archivo existe
-		ret = 1;
 		close(f);
+		ret = 1;
+
 	}
 
 	return ret;
@@ -46,7 +48,7 @@ int existe_archivo(char* path){
 
 
 
-void crear_archivo_swap(int pid, int tamanioProceso){ //archivo del tamanio del proceso
+void crear_archivo_swap(int pid, int tamanioProceso){
 
 
 	char* pathSwap = config->path_swap;
@@ -71,20 +73,22 @@ void crear_archivo_swap(int pid, int tamanioProceso){ //archivo del tamanio del 
 
 	if(!existe_archivo(path)){
 
-		int archivo = open(path, O_CREAT | O_RDWR);
+		int archivo = open(path, O_CREAT | O_RDWR | O_TRUNC, 0777);
+
 		log_info(logger, "SWAP: Se crea el archivo con el nombre %s", nombreArchivo);
 
-		write(archivo,"'\'", tamanioProceso);
+		write(archivo, "'\0'", tamanioProceso);
 
 		close(archivo);
 
 		log_info(logger, "SWAP: Se creo el archivo %s del proceso %d", nombreArchivo, pid);
-	}
-	else
-		log_info(logger, "SWAP: El archivo existe, no se realiza ninguna accion");
 
-	free(path);
-	free(nombreArchivo);
+	}
+	else{
+
+		log_info(logger, "SWAP: El archivo ya existia, no se realiza ninguna accion");
+	}
+
 }
 
 
