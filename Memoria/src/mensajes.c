@@ -140,30 +140,28 @@ void devolver_escritura (int socket_cliente){
 
 }
 
-//KERNEL
 void inicializar_proceso(int socket_cliente){
 
 	log_info(logger, "MEMORIA: Voy a recibir pcb");
 	pcb_t* pcb = recibirPCB(socket_cliente);
-//	log_info(logger, "MEMORIA-KERNEL: Se recibio un pcb");
+	log_info(logger, "MEMORIA-KERNEL: Se recibio un pcb");
 
-	log_info(logger, "MEMORIA-KERNEL: mostre pcb ");
 	iniciar_proceso(pcb);
 
 	uint32_t espacio;
-	// ENVIO EL PROCESO MODIFICADO
 
+	//TODO ver si esta bien mandar el pcb o necesitan un pid
 	log_trace(logger, "MEMORIA: Se envia PCB con el numero de tabla de pagina");
-//	void* a_enviar= pcb_serializar(pcb,&espacio,0);
-//	send(socket_cliente,a_enviar,espacio,0);
+	void* a_enviar= pcb_serializar(pcb,&espacio,0);
+	send(socket_cliente,a_enviar,espacio,0);
 }
 
 void iniciar_proceso(pcb_t* pcb){
-	log_info(logger, "MEMORIA: Se hace un malloc del proceso");
+
 	t_proceso* proceso = malloc(sizeof(t_proceso));
 
 	t_list* tabla_paginas_primer_nivel_proceso;
-	log_info(logger, "MEMORIA: Proceso pid");
+	//TODO: chequear si el pid recibido es correcto
 	proceso->pid = pcb->pid;
 	proceso->tamanoProceso = pcb->tamano;
 
@@ -171,10 +169,11 @@ void iniciar_proceso(pcb_t* pcb){
 	//proceso->entrada_tabla_primer_nivel = inicializo_tabla_primer_nivel_proceso(tabla_paginas_primer_nivel_proceso, proceso);
 
 	indice_tabla_primer_nivel++;
-	log_info(logger, "MEMORIA: Se crea el archivo en swap");
 
-	//crear_archivo_swap(proceso->pid);
-
+	log_info(logger, "MEMORIA: Se accede a swap..");
+	crear_archivo_swap(proceso->pid);
+	log_info(logger, "SWAP: Se vuelve a memoria..");
+	retardo_memoria();
 
 	log_info(logger, "MEMORIA: Se agrega proceso a la lista de procesos");
 	list_add(procesos, proceso);
