@@ -40,25 +40,30 @@ t_config_memoria* cargarConfiguracion(char* configPath)
 	t_config_memoria* configTemp = crearConfigMemoria();
 
 	configTemp->listen_port = config_get_string_value(configFile, PUERTO_ESCUCHA);
-		//log_info(logger, "PUERTO_ESCUCHA: %s", configTemp->listen_port);
+		log_trace(logger, "PUERTO_ESCUCHA: %s", configTemp->listen_port);
 	configTemp->memory_size = config_get_int_value(configFile, TAM_MEMORIA);
-		//log_info(logger, "TAM_MEMORIA: %d", configTemp->memory_size);
+		log_trace(logger, "TAM_MEMORIA: %d", configTemp->memory_size);
 	configTemp->page_size = config_get_int_value(configFile, TAM_PAGINA);
-		//log_info(logger, "TAM_PAGINA: %d", configTemp->page_size);
+		log_trace(logger, "TAM_PAGINA: %d", configTemp->page_size);
 	configTemp->table_input = config_get_int_value(configFile, ENTRADAS_POR_TABLA);
-		//log_info(logger, "ENTRADAS_POR_TABLA: %d", configTemp->table_input);
+		log_trace(logger, "ENTRADAS_POR_TABLA: %d", configTemp->table_input);
 	configTemp->memory_time_delay = config_get_int_value(configFile, RETARDO_MEMORIA);
-		//log_info(logger, "RETARDO_MEMORIA: %d", configTemp->memory_time_delay);
+		log_trace(logger, "RETARDO_MEMORIA: %d", configTemp->memory_time_delay);
 	configTemp->quantity_frames_process= config_get_int_value(configFile, MARCOS_POR_PROCESO);
-		//log_info(logger, "MARCOS_POR_PROCESO: %d", configTemp->quantity_frames_process);
+		log_trace(logger, "MARCOS_POR_PROCESO: %d", configTemp->quantity_frames_process);
 	configTemp->swap_time_delay = config_get_int_value(configFile, RETARDO_MEMORIA);
-		//log_info(logger, "RETARDO_MEMORIA: %d", configTemp->swap_time_delay);
+		log_trace(logger, "RETARDO_MEMORIA: %d", configTemp->swap_time_delay);
 	configTemp->path_swap = config_get_string_value(configFile, PATH_SWAP);
-		log_info(logger, "PATH_SWAP: %s", configTemp->path_swap);
+		log_trace(logger, "PATH_SWAP: %s", configTemp->path_swap);
 	configTemp->replacement_algorithm = config_get_string_value(configFile, ALGORITMO_REEMPLAZO);
-		//log_info(logger, "ALGORITMO_REEMPLAZO: %s", configTemp->replacement_algorithm);
+		log_trace(logger, "ALGORITMO_REEMPLAZO: %s", configTemp->replacement_algorithm);
 	configTemp->memoryIP = config_get_string_value(configFile, IP_MEMORIA);
-		//log_info(logger, "IP_MEMORIA: %s", configTemp->memoryIP);
+	if(configTemp->memoryIP == NULL)
+	{
+		configTemp->memoryIP = malloc(10*sizeof(char));
+		strcpy(configTemp->memoryIP,"127.0.0.1");
+	}
+	log_trace(logger, "IP_MEMORIA: %s", configTemp->memoryIP);
 
 	return configTemp;
 }

@@ -204,7 +204,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(5);
+			sleep(2);
 			return false;
 			break;
 		case I_O:
@@ -214,7 +214,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(5);
+			sleep(2);
 			return true;
 			break;
 		case WRITE:
@@ -225,7 +225,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(5);
+			sleep(2);
 			return false;
 			break;
 		case COPY: // COPY(destino, origen)
@@ -234,7 +234,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 //			*resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 
-			sleep(5);
+			sleep(2);
 			return false;
 			break;
 		case READ:
@@ -243,7 +243,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 	//		free(valor_leido);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(5);
+			sleep(2);
 			return false;
 			break;
 		case EXIT:
@@ -251,14 +251,14 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 			pcb->estado = FINALIZADO;
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(5);
+			sleep(2);
 			return true;
 			break;
 		default:
 			log_info(logger, "CPU-EXECUTE HUBO UN FALLO EN LA EJECUCION DE LAS INSTRUCCIONES PID: %d", pcb->pid);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(5);
+			sleep(2);
 			return true;
 			break;
 	}
@@ -321,8 +321,6 @@ t_config_cpu* cargarConfiguracion(char* configPath)
 		log_trace(logger, "CPU-CONFIGURACION Se leyo la variable REEMPLAZO_TLB: %s", configTemp->algoritmoReemplazoTLB);
 	configTemp->retardoNoOp = config_get_int_value(configFile, RETARDO_NOOP);
 		log_trace(logger, "CPU-CONFIGURACION Se leyo la variable RETARDO_NOOP: %d", configTemp->retardoNoOp);
-	configTemp->IPCPU = config_get_string_value(configFile, IP_CPU);
-		log_trace(logger, "CPU-CONFIGURACION Se leyo la variable IP_CPU: %s", configTemp->IPCPU);
 	configTemp->IPMemoria = config_get_string_value(configFile, IP_MEMORIA);
 		log_trace(logger, "CPU-CONFIGURACION Se leyo la variable IP_MEMORIA: %s", configTemp->IPMemoria);
 	configTemp->puertoMemoria = config_get_string_value(configFile, PUERTO_MEMORIA);
@@ -331,6 +329,13 @@ t_config_cpu* cargarConfiguracion(char* configPath)
 		log_trace(logger, "CPU-CONFIGURACION Se leyo la variable PUERTO_DISPATCH: %s", configTemp->puertoDispatch);
 	configTemp->puertoInterrupt = config_get_string_value(configFile, PUERTO_INTERRUPT);
 		log_trace(logger, "CPU-CONFIGURACION Se leyo la variable PUERTO_INTERRUPT: %s", configTemp->puertoInterrupt);
+	configTemp->IPCPU = config_get_string_value(configFile, IP_CPU);
+	if(configTemp->IPCPU == NULL)
+	{
+		configTemp->IPCPU = malloc(10*sizeof(char));
+		strcpy(configTemp->IPCPU,"127.0.0.1");
+	}
+	log_trace(logger, "CPU-CONFIGURACION Se leyo la variable IP_CPU: %s", configTemp->IPCPU);
 
 	return configTemp;
 }

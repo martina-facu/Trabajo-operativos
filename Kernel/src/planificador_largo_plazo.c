@@ -177,14 +177,14 @@ void* pasar_a_ready(){
 
 		// 	TODO PEDIR MEMORIA
 		
-		log_info(PLP,"KERNEL-CPU-PCB Se pasa un proceso a ready, ID: %d",pcb->pid);
-		log_info(PLP, "KERNEL-MEMORIA-PCB Se envia un pcb perro");
-		uint8_t mensaje = INICIALIZAR_PROCESO;
-		send(socket_memoria, &mensaje, sizeof(uint32_t), 0);
-
-		uint32_t espacio;
-		void* a_enviar= pcb_serializar(pcb,&espacio,0);
-		send(socket_memoria,a_enviar,espacio,0);
+//		log_info(PLP,"KERNEL-CPU-PCB Se pasa un proceso a ready, ID: %d",pcb->pid);
+//		log_info(PLP, "KERNEL-MEMORIA-PCB Se envia un pcb perro");
+//		uint8_t mensaje = INICIALIZAR_PROCESO;
+//		send(socket_memoria, &mensaje, sizeof(uint32_t), 0);
+//
+//		uint32_t espacio;
+//		void* a_enviar= pcb_serializar(pcb,&espacio,0);
+//		send(socket_memoria,a_enviar,espacio,0);
 
 		//	LO AGREGO A UN BUFFER ENTRE PLP Y PCP, PARA QUE EL PCP LO SAQUE
 		//	DEL BUFFER Y NO DE LA LISTA DE NEW

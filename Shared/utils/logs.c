@@ -45,7 +45,7 @@
 
 		}
 		else{
-			logger = log_create(fileName, processName, 1, LOG_LEVEL_INFO);
+			logger = log_create(fileName, processName, 1, LOG_LEVEL_TRACE);
 			log_info(logger, "-------------------------");
 			log_info(logger, "Iniciando log Proceso %s", processName);
 			log_info(logger, "-------------------------");

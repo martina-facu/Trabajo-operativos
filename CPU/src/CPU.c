@@ -130,7 +130,7 @@ int main(void)
 	recibiPCB = false;
 
 
-	logger = initLogger("cpu.log", "CPU", LOG_LEVEL_INFO);
+	logger = initLogger("cpu.log", "CPU", LOG_LEVEL_TRACE);
 	//	Cargo archivo de config
 	configuracion = cargarConfiguracion("cpu.config");
 	//	Seteo en 0 a los set de descriptores a revisar por el select
@@ -278,10 +278,10 @@ void procesarPCB(void)
 
 	//	DEVOLVER PCB AL KERNEL
 	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
-	log_info(logger, "CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB al Kernel");
+	log_info(logger, "CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB %d al Kernel", pcb->pid);
 	void* a_enviar = pcb_serializar(pcb,tamano_mensaje,1);
 	send(cliente_dispatch, a_enviar, *tamano_mensaje, 0);
-	log_info(logger, "CPU-COMUNICACION-KERNEL Se devuelve el PCB al Kernel");
+	log_info(logger, "CPU-COMUNICACION-KERNEL Se devuelve el PCB %d al Kernel", pcb->pid);
 	devolver_pcb = false;
 	recibiPCB = false;
 	idAnteriorPCB = pcb->pid;
@@ -347,10 +347,10 @@ void * atencionInterrupt(void * socketInterrupt)
 	log_trace(logger,"CPU-KERNEL-INTERRUPT El valor del socket que recibe el thread es: %d", iSocketInterrupt);
 	cantidad_clientes_interrupt++;
 
+	//	Defino el mensaje a recibir del Kernel Interrupt
+	uint8_t mensaje = 0;
 	while(1)
 	{
-		//	Defino el mensaje a recibir del Kernel Interrupt
-		uint8_t mensaje = 0;
 		recv(iSocketInterrupt, &mensaje, sizeof(uint8_t), 0);
 		log_trace(logger,"CPU-KERNEL-INTERRUPT Mensaje recibido interrupt: %d", mensaje);
 		if(mensaje == SOLICITAR_INTERRUPCION)
@@ -358,7 +358,6 @@ void * atencionInterrupt(void * socketInterrupt)
 			//	Como el mensaje es correcto seteo la variable para que el CPU devuelva el PCB
 			log_info(logger,"CPU-EXECUTE Se recibio una interrupcion del Kernel para reprogramar");
 			interrupcion = true;
-
 		}
 		else
 		{
