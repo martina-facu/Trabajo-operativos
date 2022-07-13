@@ -11,7 +11,7 @@
 int main(void)
 {
 	//	iniciar log
-	logger = initLogger("memoria.log", "MEMORIA", LOG_LEVEL_INFO);
+	logger = initLogger("memoria.log", "MEMORIA", LOG_LEVEL_TRACE);
 
 	//	cargar archivo de config
 	config = cargarConfiguracion("memoria.config");
