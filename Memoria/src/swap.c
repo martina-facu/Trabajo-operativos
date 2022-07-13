@@ -10,9 +10,11 @@ void retardo_swap(){
 char* obtener_nombre_archivo(int pid){
 
 	char archivo[1024];
-	memset(&archivo, '\0',1024);
+	memset(archivo, '\0',1024);
 
-	sprintf(archivo, "%d.swap", pid);
+
+
+	//strcpy(archivo, ".swap");
 
 	return  archivo;
 }
@@ -57,23 +59,25 @@ void crear_archivo_swap(int pid, int tamanioProceso){
 	retardo_swap();
 
 	if (stat(pathSwap, &st) == -1) {
-		log_info(logger, "SWAP: Se crea el archivo de swap en %s", pathSwap);
+		log_info(logger, "SWAP: Se crea el directorio de swap en %s", pathSwap);
 	    mkdir(pathSwap, 0700);
 	}
 	else
 		log_info(logger, "SWAP: El directorio swap ya existe.");
 
-	//nombreArchivo = obtener_nombre_archivo(pid);
-	strcpy(nombreArchivo, obtener_nombre_archivo(pid));
+	sprintf(nombreArchivo, "%d.swap", pid);
 
+	//log_info(logger, "SWAP: %s",nombreArchivo);
 
-	log_info(logger, "SWAP: %s",nombreArchivo);
+	//sprintf(path, "%s/%s", pathSwap, nombreArchivo);
+	strcpy(path, pathSwap);
+	strcpy(path, "/");
+	strcpy(path, nombreArchivo);
 
-	sprintf(path, "%s/%s", pathSwap, nombreArchivo);
 
 	if(!existe_archivo(path)){
 
-		int archivo = open(path, O_CREAT | O_RDWR , 0777);
+		int archivo = open(path, O_CREAT | O_RDWR , 0770);
 
 		log_info(logger, "SWAP: Se crea el archivo con el nombre %s", nombreArchivo);
 
