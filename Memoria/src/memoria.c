@@ -26,7 +26,7 @@ int main(void)
 
 	//Finalizamos todo (revisar por si falta finalizar algo)
 
-	//liberar_memoria(acceptedConecctionKernel, acceptedConecctionCPU, logger, config);
+	liberar_memoria(acceptedConecctionKernel, acceptedConecctionCPU, logger, config);
 
 	return EXIT_SUCCESS;
 }
@@ -40,30 +40,25 @@ t_config_memoria* cargarConfiguracion(char* configPath)
 	t_config_memoria* configTemp = crearConfigMemoria();
 
 	configTemp->listen_port = config_get_string_value(configFile, PUERTO_ESCUCHA);
-		log_trace(logger, "PUERTO_ESCUCHA: %s", configTemp->listen_port);
+		//log_info(logger, "PUERTO_ESCUCHA: %s", configTemp->listen_port);
 	configTemp->memory_size = config_get_int_value(configFile, TAM_MEMORIA);
-		log_trace(logger, "TAM_MEMORIA: %d", configTemp->memory_size);
+		//log_info(logger, "TAM_MEMORIA: %d", configTemp->memory_size);
 	configTemp->page_size = config_get_int_value(configFile, TAM_PAGINA);
-		log_trace(logger, "TAM_PAGINA: %d", configTemp->page_size);
+		//log_info(logger, "TAM_PAGINA: %d", configTemp->page_size);
 	configTemp->table_input = config_get_int_value(configFile, ENTRADAS_POR_TABLA);
-		log_trace(logger, "ENTRADAS_POR_TABLA: %d", configTemp->table_input);
+		//log_info(logger, "ENTRADAS_POR_TABLA: %d", configTemp->table_input);
 	configTemp->memory_time_delay = config_get_int_value(configFile, RETARDO_MEMORIA);
-		log_trace(logger, "RETARDO_MEMORIA: %d", configTemp->memory_time_delay);
+		//log_info(logger, "RETARDO_MEMORIA: %d", configTemp->memory_time_delay);
 	configTemp->quantity_frames_process= config_get_int_value(configFile, MARCOS_POR_PROCESO);
-		log_trace(logger, "MARCOS_POR_PROCESO: %d", configTemp->quantity_frames_process);
+		//log_info(logger, "MARCOS_POR_PROCESO: %d", configTemp->quantity_frames_process);
 	configTemp->swap_time_delay = config_get_int_value(configFile, RETARDO_MEMORIA);
-		log_trace(logger, "RETARDO_MEMORIA: %d", configTemp->swap_time_delay);
+		//log_info(logger, "RETARDO_MEMORIA: %d", configTemp->swap_time_delay);
 	configTemp->path_swap = config_get_string_value(configFile, PATH_SWAP);
-		log_trace(logger, "PATH_SWAP: %s", configTemp->path_swap);
+		log_info(logger, "PATH_SWAP: %s", configTemp->path_swap);
 	configTemp->replacement_algorithm = config_get_string_value(configFile, ALGORITMO_REEMPLAZO);
-		log_trace(logger, "ALGORITMO_REEMPLAZO: %s", configTemp->replacement_algorithm);
+		//log_info(logger, "ALGORITMO_REEMPLAZO: %s", configTemp->replacement_algorithm);
 	configTemp->memoryIP = config_get_string_value(configFile, IP_MEMORIA);
-	if(configTemp->memoryIP == NULL)
-	{
-		configTemp->memoryIP = malloc(10*sizeof(char));
-		strcpy(configTemp->memoryIP,"127.0.0.1");
-	}
-	log_trace(logger, "IP_MEMORIA: %s", configTemp->memoryIP);
+		//log_info(logger, "IP_MEMORIA: %s", configTemp->memoryIP);
 
 	return configTemp;
 }
@@ -83,12 +78,13 @@ t_config_memoria* crearConfigMemoria(void)
 
 int iniciar_memoria(){
 
+	log_info(logger, "MEMORIA: Se inicia la memoria");
+	log_info(logger, "SWAP: Se inicia el swap");
+
 	log_info(logger, "MEMORIA: Reservando memoria");
 
-	//Reservo memoria segun el archivo de config
 	memoriaPrincipal = malloc(config->memory_size);
 
-	//Verifico si el malloc reservo memoria correctamente
 	if (memoriaPrincipal == NULL){
 		perror("El malloc fallo\n");
 		return 0;
@@ -97,11 +93,9 @@ int iniciar_memoria(){
 	//Seteo en toda la memoria \0 TODO
 	//memset(&data,'\0',config->memory_size);
 
-	//log_info(logger, "MEMORIA: Tamano memoria: %d", config->memory_size);
+	log_info(logger, "MEMORIA: Tamano memoria: %d", config->memory_size);
 
-	//Obtengo cantidad de marcos
 	int cantMarcosPpal = config->memory_size / config->page_size;
-	//log_info(logger, "MEMORIA: Cantidad de marcos: %d", cantMarcosPpal);
 
 	//Asigno cantidad de memoria a data
 	data = asignarMemoriaBits(cantMarcosPpal);
@@ -115,14 +109,10 @@ int iniciar_memoria(){
 
 	memset(data,'\0',cantMarcosDiv8);
 
-	//Inicializo el array de memoria para pagincaion en 0
 	marcosOcupadosPpal = bitarray_create_with_mode(data, cantMarcosDiv8, MSB_FIRST);
 
 	framesLibres = cantMarcosDiv8;
 
-	//log_info(logger, "MEMORIA: Cantidad de marcos por proceso: %d", config->quantity_frames_process);
-
-	//Genero la lista de procesos
 	procesos = list_create();
 
 	if (procesos == NULL){
@@ -139,15 +129,7 @@ int iniciar_memoria(){
 
 	//indice_tabla_primer_nivel_proceso = 0;
 
-	//inicializo_tabla_global_primer_nivel();
-	//inicializo_tabla_global_segundo_nivel();
-
-	//mostrar_tabla_primer_nivel_global(tabla_paginas_primer_nivel);
-	//mostrar_tabla_segundo_nivel_global(tabla_paginas_segundo_nivel);
-
 	//imprimir_bitarray(marcosOcupadosPpal);
-
-	//iniciarSwap();
 
 	return 1;
 }
@@ -197,7 +179,8 @@ void imprimir_bitarray(t_bitarray* marcosOcupadosPpal){
 void liberar_memoria(int conexionKernel, int conexionCPU, t_log* logger, t_config* config){
 
 	//Por ultimo liberamos conexion, log y config
-	log_info(logger, "MEMORIA: Finalizando memoria :(");
+	log_info(logger, "MEMORIA: Finalizando memoria");
+	log_info(logger, "SWAP: Finalizando SWAP");
 
 	//Libero memoria paginacion
 	liberar_memoria_paginacion();
@@ -226,45 +209,6 @@ void retardo_memoria(){
 	sleep(config->memory_time_delay/1000);
 }
 
-
-void inicializo_tabla_global_primer_nivel(){
-
-	//Calculo la cantidad de procesos que puede haber
-	//Si tengo el tamaño de memoria y el tamaño del marco/pagina
-	//Obtengo la cantidad de entradas de la memoria principal
-	//Y si cada entrada tiene un tamaño fijo -> saco la cantidad de procesos
-
-	int cantidadDeMarcos = config->memory_size / config->page_size;
-	//int cantidadDeProcesos = cantidadDeMarcos / config->quantity_frames_process;
-
-	for(int i = 0; i < cantidadDeMarcos; i++){
-		//Agrego a la lista global las tablas asignadas
-		list_add(tabla_paginas_primer_nivel_global, &indice_tabla_primer_nivel);
-
-		//Aumento el indice para el proximo indice de la tabla
-		indice_tabla_primer_nivel++;
-	}
-}
-
-void inicializo_tabla_global_segundo_nivel(){
-
-	int cantidadDeMarcos = config->memory_size / config->page_size;
-
-		for(int i = 0; i < cantidadDeMarcos * config->quantity_frames_process; i++){
-
-			t_tabla_paginas_segundo_nivel* entrada_tabla_segundo_nivel = malloc(sizeof(t_tabla_paginas_segundo_nivel));
-
-			entrada_tabla_segundo_nivel->bMod = 0;
-			entrada_tabla_segundo_nivel->bPres = 0;
-			entrada_tabla_segundo_nivel->bUso = 0;
-			entrada_tabla_segundo_nivel->nroFrame = i; //se pone en -1 pq no tiene ningun frame asignado todavía
-
-			list_add(tabla_paginas_segundo_nivel_global, entrada_tabla_segundo_nivel);
-
-		}
-}
-
-
 void mostrar_tabla_primer_nivel_global(t_list* lista){
 
 	printf("\nNro de tabla de primer nivel\n");
@@ -284,7 +228,7 @@ void mostrar_tabla_primer_nivel_global(t_list* lista){
 void mostrar_tabla_segundo_nivel_global(t_list* lista){
 
 	printf("\nTabla de paginas de segundo nivel\n");
-	printf("\n|\tMarco\t|\tP\t|\tU\t|\tM|");
+	printf("\n|Nro Pagina|\tMarco\t|\tP\t|\tU\t|\tM|");
 
 	for (int i = 0; i < list_size(lista); i++){
 
@@ -292,12 +236,31 @@ void mostrar_tabla_segundo_nivel_global(t_list* lista){
 
 		entrada_tabla_segundo_nivel = list_get(tabla_paginas_segundo_nivel_global, i);
 
-		printf("\n|\t%d \t|\t%d \t|\t%d \t|\t%d|", entrada_tabla_segundo_nivel->nroFrame, entrada_tabla_segundo_nivel->bPres, entrada_tabla_segundo_nivel->bUso, entrada_tabla_segundo_nivel->bMod);
+		printf("\n|%d\t|\t%d \t|\t%d \t|\t%d \t|\t%d|",i, entrada_tabla_segundo_nivel->nroFrame, entrada_tabla_segundo_nivel->bPres, entrada_tabla_segundo_nivel->bUso, entrada_tabla_segundo_nivel->bMod);
 	}
 
 }
 
-int cantidad_de_paginas_que_ocupa(int tamanio){
+int cantidad_de_entrada_primer_nivel(int tamanioProceso){
 
-	return floor(tamanio / config->page_size);
+	int cantidadPaginas = ceil(tamanioProceso / config->page_size);
+
+	int cantidadEntradas = ceil(cantidadPaginas / config->table_input);
+
+	return cantidadEntradas;
+
+}
+
+void mostrar_lista_procesos(t_list* lista){
+
+	t_proceso* proceso = malloc(sizeof(t_proceso));
+
+	for (int i = 0; i < list_size(lista); i++){
+		proceso = list_get(lista, i);
+		printf("\nLista de procesos\n");
+		printf("|Nro Proceso\t|Tamano Proceso\t|Nro Tabla primer nivel|\n");
+		printf("|%d\t|%d\t\t\t|%lu\t|",proceso->pid, proceso->tamanoProceso,(unsigned long)proceso->entrada_tabla_primer_nivel);
+	}
+
+	free(proceso);
 }
