@@ -46,7 +46,7 @@ int existe_archivo(char* path){
 
 
 
-void crear_archivo_swap(int pid){ //archivo del tamanio del proceso
+void crear_archivo_swap(int pid, int tamanioProceso){ //archivo del tamanio del proceso
 
 
 	char* pathSwap = config->path_swap;
@@ -71,12 +71,10 @@ void crear_archivo_swap(int pid){ //archivo del tamanio del proceso
 
 	if(!existe_archivo(path)){
 
-		int tamanioArchivo = config->table_input * config->page_size;
-
 		int archivo = open(path, O_CREAT | O_RDWR);
 		log_info(logger, "SWAP: Se crea el archivo con el nombre %s", nombreArchivo);
 
-		write(archivo,"'\'", tamanioArchivo);
+		write(archivo,"'\'", tamanioProceso);
 
 		close(archivo);
 
