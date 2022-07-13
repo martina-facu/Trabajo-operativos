@@ -292,7 +292,7 @@ void limpiar_posiciones(t_bitarray* marcosOcupados, t_proceso* proceso){
 
 }
 
-void iniciar_eliminacion_proceso(int pid){
+void iniciar_eliminacion_proceso(int32_t pid){
 
 	t_proceso* proceso = malloc(sizeof(t_proceso));
 
@@ -313,7 +313,7 @@ void iniciar_eliminacion_proceso(int pid){
 			//limpiar_posiciones(marcosOcupadosPpal, proceso);
 			log_info(logger, "MEMORIA: Se liberan los marcos ocupados del proceso");
 
-			list_remove_and_destroy_element(procesos, i, free);
+			//list_remove_and_destroy_element(procesos, i, free);
 			log_info(logger, "MEMORIA: Se elimina el proceso %d", pid);
 
 			log_info(logger, "MEMORIA: Ingresando a SWAP..");
@@ -323,8 +323,9 @@ void iniciar_eliminacion_proceso(int pid){
 			log_info(logger, "MEMORIA: Se elimina el archivo del proceso %d", pid);
 			b = 1;
 		}
-	}
 
+	}
+	free(proceso);
 }
 
 
@@ -399,5 +400,3 @@ void liberar_memoria_paginacion(){
 	list_destroy(tabla_paginas_segundo_nivel_global);
 	list_destroy(procesos);
 }
-
-

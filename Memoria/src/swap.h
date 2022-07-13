@@ -46,7 +46,6 @@
 	void eliminar_archivo_swap(int pid);
 	char* obtener_nombre_archivo(int pid);
 	void guardar_archivo_en_swap(int pid, int tamanoProceso);
-	int cerrar_archivo(char* pid, int tamanoProceso);
 	void retardo_swap();
 
 

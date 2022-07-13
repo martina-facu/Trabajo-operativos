@@ -102,45 +102,33 @@ void crear_archivo_swap(int pid, int tamanioProceso){
  *  Para eso valido si existe, si es así lo borro, de lo contrario no hago nada.
  */
 
-void eliminar_archivo_swap(int pidRecibido){
+void eliminar_archivo_swap(int32_t pidRecibido){
 
+	log_trace(logger, "SWAP: Estoy en SWAP");
 	t_proceso* proceso = malloc(sizeof(t_proceso));
 	int tamanoProceso;
-	//int cantidadDeProcesos = list_size(procesos);
-	char* pathArchivo = malloc(sizeof(char));
-	char* nombreArchivo = malloc(sizeof(char));
+	char pathArchivo[1024];
+	char nombreArchivo[1024];
 	char* pathSwap = config->path_swap;
-	int b = 0, i = 0;
 
 	retardo_swap();
+	log_trace(logger, "LA PUTA QUE TE PARIO");
+	tamanoProceso = proceso->tamanoProceso;
 
-	while(b == 0){
+	log_trace(logger, "LA PUTA QUE TE PARIO2");
+	sprintf(nombreArchivo, "%d.swap", pidRecibido);
+	sprintf(pathArchivo, "%s/%s", pathSwap, nombreArchivo);
+	log_trace(logger, "LA PUTA QUE TE PARIO3");
+	if(existe_archivo(pathArchivo)){
+		log_trace(logger, "LA PUTA QUE TE PARIO5");
+		if(cerrar_archivo(nombreArchivo, tamanoProceso))
+			log_trace(logger, "SWAP: Se eliminó el archivo %s", nombreArchivo);
 
-
-		proceso = list_get(procesos, i);
-		i++;
-		if (proceso->pid == pidRecibido){
-
-			tamanoProceso = proceso->tamanoProceso;
-
-			nombreArchivo = obtener_nombre_archivo(pidRecibido);
-
-			sprintf(pathArchivo, "%s/%s", pathSwap, nombreArchivo);
-
-			if(existe_archivo(pathArchivo)){
-				if(cerrar_archivo(nombreArchivo, tamanoProceso)){
-						log_info(logger, "SWAP: Se eliminó el archivo %s", nombreArchivo);
-						b = 1;
-			}
-				else
-						log_info(logger, "SWAP: Ocurrio un error al eliminar el archivo %s", nombreArchivo);
-				}
-
-				else
-					log_info(logger, "SWAP: No se encontro el archivo %s", nombreArchivo);
-			}
-
-		}
+		else
+			log_trace(logger, "SWAP: Ocurrio un error al eliminar el archivo %s", nombreArchivo);
+	}
+	else
+		log_trace(logger, "SWAP: No se encontro el archivo %s", nombreArchivo);
 }
 
 
