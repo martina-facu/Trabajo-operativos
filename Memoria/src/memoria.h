@@ -70,7 +70,7 @@ uint32_t bMod; // bit de modificado
 
 typedef struct{
 
-	int pid; //Numero de proceso
+	uint32_t pid; //Numero de proceso
 	int tamanoProceso; //Tamanio de proceso o de instrucciones
 	uint32_t* entrada_tabla_primer_nivel; //tabla_paginas_primer_nivel; //entrada a la tabla de paginas de primer nivel
 	t_list* paginasDelProceso;
@@ -95,8 +95,9 @@ typedef struct{
 	t_bitarray* marcosOcupadosPpal;
 	int framesLibres;
 
-
-	//paginacion -> Las tablas de paginas deben ser globales para todos los procesos
+	//SERVER
+	int acceptedConecctionKernel;
+	int acceptedConecctionCPU;
 
 	t_list* tabla_paginas_primer_nivel_global;
 	t_list* tabla_paginas_segundo_nivel_global;
@@ -126,7 +127,8 @@ typedef struct{
 	void mostrar_tabla_primer_nivel_global(t_list* lista);
 	void mostrar_tabla_segundo_nivel_global(t_list* lista);
 	void iniciar_comunicacion();
-
+	void mostrar_lista_procesos(t_list* lista);
+	int cantidad_de_entrada_primer_nivel(int tamanioProceso);
 	//FINALIZAR MEMORIA
 	void liberar_memoria(int conexionKernel, int conexionCPU, t_log* logger, t_config* config);
 	void liberar_conexion(int socket_cliente);
@@ -144,5 +146,7 @@ typedef struct{
 	int inicializo_tabla_primer_nivel_proceso(t_list* lista, t_proceso* proceso);
 	int inicializo_tabla_segundo_nivel_proceso();
 	void liberar_memoria_paginacion();
+
+	void mostrar_vector(uint32_t* vector_primer_nivel);
 
 #endif /* MEMORIA_H_ */
