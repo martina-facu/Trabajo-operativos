@@ -15,18 +15,11 @@ void retardo_swap(){
 
 char* obtener_nombre_archivo(int pid){
 
-	log_info(logger, "SWAP: proceso %d", pid);
-	//para guardar el pid
-	char buffer[5];
+	char* archivo = malloc(sizeof(char));
 
-	//lo paso a entero
-	sprintf(buffer, "%d",pid);
-	log_info(logger, "SWAP: Voy a agregarle .swap al pid");
-	//hago la concatenación
-	char* nombreArchivo = strcpy(buffer, ".swap");
-	log_info(logger, "SWAP: Nombre: %s", nombreArchivo);
+	sprintf(archivo, "%d.swap", pid);
 
-	return nombreArchivo;
+	return  archivo;
 }
 
 
@@ -54,13 +47,13 @@ int existe_archivo(char* path){
 
 
 void crear_archivo_swap(int pid){ //archivo del tamanio del proceso
-	log_info(logger, "%d", pid);
-	char* pathSwap = config->path_swap;
-	char* path = "";
 
+
+	char* pathSwap = config->path_swap;
+	char* path = malloc(sizeof(char));
+	char* nombreArchivo = malloc(sizeof(char));
 	struct stat st = {0};
 
-	log_info(logger, "MEMORIA: Se accede a swap..");
 	retardo_swap();
 
 	if (stat(pathSwap, &st) == -1) {
@@ -70,30 +63,30 @@ void crear_archivo_swap(int pid){ //archivo del tamanio del proceso
 	else
 		log_info(logger, "SWAP: El directorio swap ya existe.");
 
-	log_info(logger, "SWAP: Se obtiene el nombre del archivo");
-	char* nombreArchivo = obtener_nombre_archivo(pid);
+	nombreArchivo = obtener_nombre_archivo(pid);
 
-	strcpy(path, pathSwap);
-	strcpy(path, "/");
-	strcpy(path, nombreArchivo);
+	log_info(logger, "SWAP: %s",nombreArchivo);
 
-	log_info(logger, "MEMORIA path: %s", path);
+	sprintf(path, "%s/%s", pathSwap, nombreArchivo);
 
-
-	log_info(logger, "MEMORIA: Verifico si existe el archivo");
 	if(!existe_archivo(path)){
 
-		//FILE* archivo = fopen(nombreArchivo, "wt"); borrar si funciona lo de abajo
-		log_info(logger, "Se crea el archivo con el nombre %s", nombreArchivo);
-		int archivo = open(nombreArchivo, O_RDWR);
-
 		int tamanioArchivo = config->table_input * config->page_size;
-		log_info(logger, "Se setea con \0");
-		memset(&archivo,'\0', tamanioArchivo);
 
-		log_info(logger, "SWAP: Se creo el archivo %s", nombreArchivo);
-		log_info(logger, " del proceso %d", pid);
+		int archivo = open(path, O_CREAT | O_RDWR);
+		log_info(logger, "SWAP: Se crea el archivo con el nombre %s", nombreArchivo);
+
+		write(archivo,"'\'", tamanioArchivo);
+
+		close(archivo);
+
+		log_info(logger, "SWAP: Se creo el archivo %s del proceso %d", nombreArchivo, pid);
 	}
+	else
+		log_info(logger, "SWAP: El archivo existe, no se realiza ninguna accion");
+
+	free(path);
+	free(nombreArchivo);
 }
 
 
