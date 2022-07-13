@@ -42,7 +42,7 @@
 	//SWAP
 	void iniciarSwap();
 	int existe_archivo(char* path);
-	void crear_archivo_swap(int pid);
+	void crear_archivo_swap(int pid, int tamanioProceso);
 	void eliminar_archivo_swap(int pid);
 	char* obtener_nombre_archivo(int pid);
 	void guardar_archivo_en_swap(int pid, int tamanoProceso);
