@@ -171,7 +171,9 @@ void iniciar_proceso(pcb_t* pcb){
 	indice_tabla_primer_nivel++;
 
 	log_info(logger, "MEMORIA: Se accede a swap..");
-	crear_archivo_swap(proceso->pid);
+
+	crear_archivo_swap(proceso->pid, proceso->tamanoProceso);
+
 	log_info(logger, "SWAP: Se vuelve a memoria..");
 	retardo_memoria();
 
