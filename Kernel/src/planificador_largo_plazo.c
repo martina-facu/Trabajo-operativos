@@ -177,14 +177,13 @@ void* pasar_a_ready(){
 
 		// 	TODO PEDIR MEMORIA
 		
-//		log_info(PLP,"KERNEL-CPU-PCB Se pasa un proceso a ready, ID: %d",pcb->pid);
-//		log_info(PLP, "KERNEL-MEMORIA-PCB Se envia un pcb perro");
-//		uint8_t mensaje = INICIALIZAR_PROCESO;
-//		send(socket_memoria, &mensaje, sizeof(uint32_t), 0);
-//
-//		uint32_t espacio;
-//		void* a_enviar= pcb_serializar(pcb,&espacio,0);
-//		send(socket_memoria,a_enviar,espacio,0);
+		log_info(PLP, "KERNEL-MEMORIA-PCB Se envia un pcb");
+		uint32_t mensaje = INICIALIZAR_PROCESO;
+		send(socket_memoria, &mensaje, sizeof(uint32_t), 0);
+
+		uint32_t espacio;
+		void* a_enviar= pcb_serializar(pcb,&espacio,0);
+		send(socket_memoria,a_enviar,espacio,0);
 
 		//	LO AGREGO A UN BUFFER ENTRE PLP Y PCP, PARA QUE EL PCP LO SAQUE
 		//	DEL BUFFER Y NO DE LA LISTA DE NEW
@@ -240,7 +239,14 @@ void* finalizar_procesos(){
 
 
 //		 TODO avisar a memoria que libere la memoria
-
+	//	Envio mensaje de Finalizacion a Memoria
+		uint32_t mensaje = FINALIZAR_PROCESO;
+		send(socket_memoria, &mensaje, sizeof(uint32_t), 0);
+		//	Envio el PID del proceso a suspender
+		mensaje = pcb_finalizado->pid;
+		log_info(PLP, "KERNEL-MEMORIA: Se va a enviar el pid %d", mensaje);
+		send(socket_memoria,&mensaje, sizeof(uint32_t),0);
+		
 		comunicacion_t* comunicacion =buscar_comunicacion(pcb_finalizado);
 		log_trace(PLP,"KERNEL-CPU-PCB Se encontro el socket por el cual debo informarle a la consola la finalizacion del proceso");
 
