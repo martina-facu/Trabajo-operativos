@@ -69,11 +69,9 @@ void crear_archivo_swap(int pid, int tamanioProceso){
 
 	//log_info(logger, "SWAP: %s",nombreArchivo);
 
-	//sprintf(path, "%s/%s", pathSwap, nombreArchivo);
-	strcpy(path, pathSwap);
-	strcpy(path, "/");
-	strcpy(path, nombreArchivo);
+	sprintf(path, "%s/%s", pathSwap, nombreArchivo);
 
+	log_info(logger, "path");
 
 	if(!existe_archivo(path)){
 
