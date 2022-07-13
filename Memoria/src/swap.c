@@ -2,12 +2,6 @@
 
 //-----------------------------SWAP-----------------------------
 
-void iniciarSwap(){
-
- //TODO: Ver si tengo que iniciarlo
-
-}
-
 void retardo_swap(){
 
 	sleep(config->swap_time_delay/1000);
@@ -15,7 +9,8 @@ void retardo_swap(){
 
 char* obtener_nombre_archivo(int pid){
 
-	char* archivo = malloc(sizeof(char));
+	char archivo[1024];
+	memset(&archivo, '\0',1024);
 
 	sprintf(archivo, "%d.swap", pid);
 
@@ -52,8 +47,11 @@ void crear_archivo_swap(int pid, int tamanioProceso){
 
 
 	char* pathSwap = config->path_swap;
-	char* path = malloc(sizeof(char));
-	char* nombreArchivo = malloc(sizeof(char));
+	char path[1024];
+	char nombreArchivo[1024];
+
+	memset(&path, '\0',1024);
+	memset(&nombreArchivo, '\0',1024);
 	struct stat st = {0};
 
 	retardo_swap();
@@ -65,7 +63,9 @@ void crear_archivo_swap(int pid, int tamanioProceso){
 	else
 		log_info(logger, "SWAP: El directorio swap ya existe.");
 
-	nombreArchivo = obtener_nombre_archivo(pid);
+	//nombreArchivo = obtener_nombre_archivo(pid);
+	strcpy(nombreArchivo, obtener_nombre_archivo(pid));
+
 
 	log_info(logger, "SWAP: %s",nombreArchivo);
 
@@ -73,11 +73,11 @@ void crear_archivo_swap(int pid, int tamanioProceso){
 
 	if(!existe_archivo(path)){
 
-		int archivo = open(path, O_CREAT | O_RDWR | O_TRUNC, 0777);
+		int archivo = open(path, O_CREAT | O_RDWR , 0777);
 
 		log_info(logger, "SWAP: Se crea el archivo con el nombre %s", nombreArchivo);
 
-		write(archivo, "'\0'", tamanioProceso);
+		truncate(path, tamanioProceso);
 
 		close(archivo);
 
@@ -105,7 +105,10 @@ void eliminar_archivo_swap(int pidRecibido){
 
 	t_proceso* proceso = malloc(sizeof(t_proceso));
 	int tamanoProceso;
-	int cantidadDeProcesos = list_size(procesos);
+	//int cantidadDeProcesos = list_size(procesos);
+	char* pathArchivo = malloc(sizeof(char));
+	char* nombreArchivo = malloc(sizeof(char));
+	char* pathSwap = config->path_swap;
 	int b = 0, i = 0;
 
 	retardo_swap();
@@ -119,8 +122,9 @@ void eliminar_archivo_swap(int pidRecibido){
 
 			tamanoProceso = proceso->tamanoProceso;
 
-			char* nombreArchivo = obtener_nombre_archivo(pidRecibido);
-			char* pathArchivo = strcpy(config->path_swap, strcpy("/", nombreArchivo));
+			nombreArchivo = obtener_nombre_archivo(pidRecibido);
+
+			sprintf(pathArchivo, "%s/%s", pathSwap, nombreArchivo);
 
 			if(existe_archivo(pathArchivo)){
 				if(cerrar_archivo(nombreArchivo, tamanoProceso)){
@@ -182,7 +186,7 @@ int cerrar_archivo(char* nombreArchivo, int tamanoProceso){
 
     munmap(nombreArchivo, tamanoProceso);
 
-    close(nombreArchivo);
+//    close(nombreArchivo);
 
 	return 1;
 }
