@@ -67,11 +67,10 @@ void crear_archivo_swap(int pid, int tamanioProceso){
 
 	sprintf(nombreArchivo, "%d.swap", pid);
 
-	//log_info(logger, "SWAP: %s",nombreArchivo);
+	log_info(logger, "SWAP: %s",nombreArchivo);
 
 	sprintf(path, "%s/%s", pathSwap, nombreArchivo);
 
-	log_info(logger, "path");
 
 	if(!existe_archivo(path)){
 
