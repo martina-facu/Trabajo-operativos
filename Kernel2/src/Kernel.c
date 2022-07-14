@@ -95,6 +95,11 @@ void establecer_configuracion()
 	configuracion->PUERTO_CPU_DISPATCH		= 	config_get_string_value(kernel_config,"PUERTO_CPU_DISPATCH");
 	configuracion->PUERTO_CPU_INTERRUPT	=	config_get_string_value(kernel_config,"PUERTO_CPU_INTERRUPT");
 	configuracion->IP_KERNEL	=	config_get_string_value(kernel_config,"IP_KERNEL");
+	if(configuracion->IP_KERNEL == NULL)
+	{
+		configuracion->IP_KERNEL = malloc(10*sizeof(char));
+		strcpy(configuracion->IP_KERNEL,"127.0.0.1");
+	}
 }
 
 

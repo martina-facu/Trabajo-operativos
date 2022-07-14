@@ -173,10 +173,11 @@ void* pasar_a_ready(){
 		pthread_mutex_lock(&mx_new_l);
 		pcb_t* pcb= list_remove(new_l,0);
 		pthread_mutex_unlock(&mx_new_l);
-
 		log_info(PLP,"KERNEL-CPU-PCB Se pasa un proceso a ready, ID: %d",pcb->pid);
-		log_info(PLP, "KERNEL-MEMORIA-PCB Se envia un pcb");
 
+		// 	TODO PEDIR MEMORIA
+		
+		log_info(PLP, "KERNEL-MEMORIA-PCB Se envia un pcb");
 		uint8_t mensaje = INICIALIZAR_PROCESO;
 		send(socket_memoria, &mensaje, sizeof(uint8_t), 0);
 
@@ -238,15 +239,17 @@ void* finalizar_procesos(){
 
 
 //		 TODO avisar a memoria que libere la memoria
-		//	Envio mensaje de Finalizacion a Memoria
+	//	Envio mensaje de Finalizacion a Memoria
+		log_info(PLP, "KERNEL-MEMORIA: Voy a finalizra proceso");
 		uint8_t mensaje = FINALIZAR_PROCESO;
+		log_info(PLP, "KERNEL-MEMORIA: ENVIO MENSAJE");
 		send(socket_memoria, &mensaje, sizeof(uint8_t), 0);
-
+		uint8_t pidF = 0;
 		//	Envio el PID del proceso a suspender
-		uint32_t pidf = pcb_finalizado->pid;
-		log_info(PLP, "KERNEL-MEMORIA: Se va a enviar el pid %d", pidf);
-		send(socket_memoria,&pidf, sizeof(uint32_t),0);
-
+		pidF = pcb_finalizado->pid;
+		log_info(PLP, "KERNEL-MEMORIA: Se va a enviar el pid %d", pidF);
+		send(socket_memoria,&pidF, sizeof(uint8_t),0);
+		
 		comunicacion_t* comunicacion =buscar_comunicacion(pcb_finalizado);
 		log_trace(PLP,"KERNEL-CPU-PCB Se encontro el socket por el cual debo informarle a la consola la finalizacion del proceso");
 
