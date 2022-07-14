@@ -279,9 +279,11 @@ void procesarPCB(void)
 	//	DEVOLVER PCB AL KERNEL
 	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
 	log_info(logger, "CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB %d al Kernel", pcb->pid);
+	log_trace(logger,"--------------------------------------------------------------------ESTADO: %d", pcb->estado);
 	void* a_enviar = pcb_serializar(pcb,tamano_mensaje,1);
 	send(cliente_dispatch, a_enviar, *tamano_mensaje, 0);
 	log_info(logger, "CPU-COMUNICACION-KERNEL Se devuelve el PCB %d al Kernel", pcb->pid);
+	interrupcion=false;
 	devolver_pcb = false;
 	recibiPCB = false;
 	idAnteriorPCB = pcb->pid;
@@ -345,19 +347,20 @@ void * atencionInterrupt(void * socketInterrupt)
 	int iSocketInterrupt = (int) socketInterrupt;
 
 	log_trace(logger,"CPU-KERNEL-INTERRUPT El valor del socket que recibe el thread es: %d", iSocketInterrupt);
-	cantidad_clientes_interrupt++;
+//	cantidad_clientes_interrupt++;
 
 	//	Defino el mensaje a recibir del Kernel Interrupt
 	uint8_t mensaje = 0;
 	while(1)
 	{
 		recv(iSocketInterrupt, &mensaje, sizeof(uint8_t), 0);
-		log_trace(logger,"CPU-KERNEL-INTERRUPT Mensaje recibido interrupt: %d", mensaje);
+//		log_trace(logger,"CPU-KERNEL-INTERRUPT Mensaje recibido interrupt: %d", mensaje);
 		if(mensaje == SOLICITAR_INTERRUPCION)
 		{
 			//	Como el mensaje es correcto seteo la variable para que el CPU devuelva el PCB
-			log_info(logger,"CPU-EXECUTE Se recibio una interrupcion del Kernel para reprogramar");
+//			log_info(logger,"CPU-EXECUTE Se recibio una interrupcion del Kernel para reprogramar");
 			interrupcion = true;
+//			pcb->estado=INTERRUMPIDO;
 		}
 		else
 		{

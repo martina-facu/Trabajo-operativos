@@ -214,7 +214,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(2);
+			sleep(5);
 			return true;
 			break;
 		case WRITE:
@@ -225,7 +225,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(2);
+			sleep(5);
 			return false;
 			break;
 		case COPY: // COPY(destino, origen)
@@ -234,7 +234,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 //			*resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 
-			sleep(2);
+			sleep(5);
 			return false;
 			break;
 		case READ:
@@ -243,7 +243,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 	//		free(valor_leido);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(2);
+			sleep(5);
 			return false;
 			break;
 		case EXIT:
@@ -251,14 +251,14 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 			pcb->estado = FINALIZADO;
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(2);
+			sleep(5);
 			return true;
 			break;
 		default:
 			log_info(logger, "CPU-EXECUTE HUBO UN FALLO EN LA EJECUCION DE LAS INSTRUCCIONES PID: %d", pcb->pid);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(2);
+			sleep(5);
 			return true;
 			break;
 	}
@@ -280,7 +280,7 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 	program_counter++;
 	pcb->program_counter = program_counter;
 
-	log_info(logger, "CPU-EXECUTE Aumento el program counter del PCB a: %d", pcb->program_counter);
+	log_info(logger, "CPU-EXECUTE Aumento el program counter del PCB con PID %d a instruccion: %d", pcb->pid, pcb->program_counter);
 
 	//decode
 	bool requiere_fetch_operands = false;

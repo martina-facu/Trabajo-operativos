@@ -39,11 +39,8 @@
 #define ACEPTAR_CONEXION_CONSOLA 62
 #define PROCESO_FINALIZADO 63
 
-
-
 int crear_conexion(char *ip, char* puerto, t_log* logger);
 int iniciar_servidor(char *ip, char* puerto_escucha, t_log* logger);
 int esperar_cliente(int socket_servidor, t_log* logger);
-
 
 #endif

@@ -62,13 +62,12 @@ int sacar_con_clock(int pid){
 	log_info(logger, "ALGORITMO DE REEMPLAZO: CLOCK");
 
 	int posicionAReemplazar = 0;
-	t_tabla_paginas_segundo_nivel* puntero;
+	t_entradas_segundo_nivel* puntero;
 
 	t_proceso* proceso = malloc(sizeof(t_proceso));
 	proceso = buscar_tabla(pid);
 
 	int cantidadDePaginasDelProceso = list_size((t_list*)proceso->paginasDelProceso);
-
 
 		for(posicionAReemplazar = buscar_utlima_posicion_sacada(pid); posicionAReemplazar - buscar_utlima_posicion_sacada(pid) < cantidadDePaginasDelProceso; posicionAReemplazar++){
 
@@ -114,7 +113,7 @@ int sacar_con_clock_modificado(int pid){
 	log_info(logger, "ALGORITMO DE REEMPLAZO: CLOCK-M");
 
 	int posicionAReemplazar = 0;
-	t_tabla_paginas_segundo_nivel* puntero;
+	t_entradas_segundo_nivel* puntero;
 	t_proceso* proceso = malloc(sizeof(t_proceso));
 	proceso = buscar_tabla(pid);
 
@@ -226,7 +225,7 @@ int cantidad_de_paginas_del_proceso_en_memoria(int pid){
 
 		for (i = 0; i < config->table_input; i++){
 
-			t_tabla_paginas_segundo_nivel* unaPagina;
+			t_entradas_segundo_nivel* unaPagina;
 			unaPagina = list_get(tabla_paginas_segundo_nivel_global, nroEntradaPrimerN[j]);
 
 			if(unaPagina[i].bPres == 1)

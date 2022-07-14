@@ -240,12 +240,13 @@ void* finalizar_procesos(){
 
 //		 TODO avisar a memoria que libere la memoria
 	//	Envio mensaje de Finalizacion a Memoria
-		uint32_t mensaje = FINALIZAR_PROCESO;
-		send(socket_memoria, &mensaje, sizeof(uint32_t), 0);
+		//	Envio mensaje de Finalizacion a Memoria
+		uint8_t mensaje = FINALIZAR_PROCESO;
+		send(socket_memoria, &mensaje, sizeof(uint8_t), 0);
 		//	Envio el PID del proceso a suspender
-		mensaje = pcb_finalizado->pid;
-		log_info(PLP, "KERNEL-MEMORIA: Se va a enviar el pid %d", mensaje);
-		send(socket_memoria,&mensaje, sizeof(uint32_t),0);
+		uint32_t pidf = pcb_finalizado->pid;
+		log_info(PLP, "KERNEL-MEMORIA: Se va a enviar el pid %d", pidf);
+		send(socket_memoria,&pidf, sizeof(uint32_t),0);
 		
 		comunicacion_t* comunicacion =buscar_comunicacion(pcb_finalizado);
 		log_trace(PLP,"KERNEL-CPU-PCB Se encontro el socket por el cual debo informarle a la consola la finalizacion del proceso");

@@ -146,13 +146,14 @@ void* bloquear_proceso_sjf(void* pcb_){
 		sem_post(&s_proceso_susp);
 
 		sem_wait(&s_susp);
-		
+
+
 		//	Envio mensaje de suspencion a Memoria
-		uint32_t mensaje = SUSPENDER_PROCESO  ;
-		send(socket_memoria, &mensaje, sizeof(uint32_t), 0);
-		//	Envio el PID del proceso a suspender
-		mensaje = pcb->pid;
-		send(socket_memoria,&mensaje, sizeof(uint32_t),0);
+//		uint8_t mensaje = SUSPENDER_PROCESO  ;
+//		send(socket_memoria, &mensaje, sizeof(uint32_t), 0);
+//		//	Envio el PID del proceso a suspender
+//		mensaje = pcb->pid;
+//		send(socket_memoria,&mensaje, sizeof(uint32_t),0);
 
 		usleep(pcb->tiempo_block);
 

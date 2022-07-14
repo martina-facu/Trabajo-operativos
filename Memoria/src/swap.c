@@ -4,21 +4,8 @@
 
 void retardo_swap(){
 
-	sleep(config->swap_time_delay/1000);
+	sleep(swapDelay/1000);
 }
-
-char* obtener_nombre_archivo(int pid){
-
-	char archivo[1024];
-	memset(archivo, '\0',1024);
-
-
-
-	//strcpy(archivo, ".swap");
-
-	return  archivo;
-}
-
 
 /*
  *  Funcion: existe_archivo
@@ -48,19 +35,20 @@ int existe_archivo(char* path){
 void crear_archivo_swap(int pid, int tamanioProceso){
 
 
-	char* pathSwap = config->path_swap;
+	char* pathSwap = pSwap; //TODO CAMBIAR EN MEMORIA.C
 	char path[1024];
 	char nombreArchivo[1024];
 
 	memset(&path, '\0',1024);
 	memset(&nombreArchivo, '\0',1024);
+
 	struct stat st = {0};
 
 	retardo_swap();
 
 	if (stat(pathSwap, &st) == -1) {
 		log_info(logger, "SWAP: Se crea el directorio de swap en %s", pathSwap);
-	    mkdir(pathSwap, 0700);
+	    mkdir(pathSwap, 0770);
 	}
 	else
 		log_info(logger, "SWAP: El directorio swap ya existe.");
@@ -71,14 +59,13 @@ void crear_archivo_swap(int pid, int tamanioProceso){
 
 	sprintf(path, "%s/%s", pathSwap, nombreArchivo);
 
-
 	if(!existe_archivo(path)){
 
 		int archivo = open(path, O_CREAT | O_RDWR , 0770);
 
 		log_info(logger, "SWAP: Se crea el archivo con el nombre %s", nombreArchivo);
 
-		truncate(path, tamanioProceso);
+		//truncate(path, tamanioProceso / tamanoPagina ); TODO: Truncar al tamano de paginas
 
 		close(archivo);
 
@@ -102,35 +89,27 @@ void crear_archivo_swap(int pid, int tamanioProceso){
  *  Para eso valido si existe, si es así lo borro, de lo contrario no hago nada.
  */
 
-void eliminar_archivo_swap(int32_t pidRecibido){
+void eliminar_archivo_swap(int pidRecibido){
 
-	log_trace(logger, "SWAP: Estoy en SWAP");
-	t_proceso* proceso = malloc(sizeof(t_proceso));
-	int tamanoProceso;
+	log_info(logger, "SWAP: Estoy en SWAP");
+
 	char pathArchivo[1024];
 	char nombreArchivo[1024];
-	char* pathSwap = config->path_swap;
+	char* pathSwap = pSwap;
 
 	retardo_swap();
-	log_trace(logger, "LA PUTA QUE TE PARIO");
-	tamanoProceso = proceso->tamanoProceso;
 
-	log_trace(logger, "LA PUTA QUE TE PARIO2");
 	sprintf(nombreArchivo, "%d.swap", pidRecibido);
 	sprintf(pathArchivo, "%s/%s", pathSwap, nombreArchivo);
-	log_trace(logger, "LA PUTA QUE TE PARIO3");
-	if(existe_archivo(pathArchivo)){
-		log_trace(logger, "LA PUTA QUE TE PARIO5");
-		if(cerrar_archivo(nombreArchivo, tamanoProceso))
-			log_trace(logger, "SWAP: Se eliminó el archivo %s", nombreArchivo);
 
-		else
-			log_trace(logger, "SWAP: Ocurrio un error al eliminar el archivo %s", nombreArchivo);
+	if(existe_archivo(pathArchivo)){
+		remove(pathArchivo);
+		log_info(logger, "SWAP: Se eliminó el archivo %s", nombreArchivo);
 	}
 	else
-		log_trace(logger, "SWAP: No se encontro el archivo %s", nombreArchivo);
-}
+		log_info(logger, "SWAP: No se encontro el archivo %s", nombreArchivo);
 
+}
 
 /*
  *  Funcion: crear_archivo_swap
@@ -144,7 +123,7 @@ void guardar_archivo_en_swap(int pid, int tamanoProceso){
 
 	retardo_swap();
 
-	char* nombreArchivo = obtener_nombre_archivo(pid);
+	char* nombreArchivo; //= obtener_nombre_archivo(pid);
 
 	int fd = open(nombreArchivo, O_RDWR);
 
@@ -167,15 +146,4 @@ void guardar_archivo_en_swap(int pid, int tamanoProceso){
 	}
 
 	close(fd);
-}
-
-int cerrar_archivo(char* nombreArchivo, int tamanoProceso){
-
-	retardo_swap();
-
-    munmap(nombreArchivo, tamanoProceso);
-
-//    close(nombreArchivo);
-
-	return 1;
 }
