@@ -71,14 +71,14 @@ uint32_t bMod; // bit de modificado
 typedef struct{
 
 	uint32_t pid; //Numero de proceso
-	int tamanoProceso; //Tamanio de proceso o de instrucciones
+	uint32_t tamanoProceso; //Tamanio de proceso o de instrucciones
 	uint32_t* entrada_tabla_primer_nivel; //tabla_paginas_primer_nivel; //entrada a la tabla de paginas de primer nivel
 	t_list* paginasDelProceso;
 }t_proceso;
 
 typedef struct{
-	int pid;
-	int posicion;
+	uint32_t pid;
+	uint32_t posicion;
 }ultimaSacada_t;
 
 

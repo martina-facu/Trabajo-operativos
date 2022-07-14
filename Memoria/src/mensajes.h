@@ -48,7 +48,7 @@
 	void suspender_proceso(int socket_cliente);
 
 	void finalizar_proceso(int socket_cliente);
-	void iniciar_eliminacion_proceso(int pid);
+	void iniciar_eliminacion_proceso(uint32_t pid);
 	void acceder_tabla_de_paginas(int socket_cliente);
 	void acceder_espacio_de_usuario(int socket_cliente);
 
@@ -61,7 +61,8 @@
 	void devolver_escritura(int socket_cliente);
 
 	
-	void iniciar_proceso(pcb_t* pcb);
+	uint32_t iniciar_proceso(pcb_t* pcb);
+
 //TODO VER SI BORRAR ESTA
 	uint32_t obtener_numero_frame(int nroIndiceTablaSegundoNivel);
 

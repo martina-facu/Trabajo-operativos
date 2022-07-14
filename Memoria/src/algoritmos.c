@@ -69,7 +69,6 @@ int sacar_con_clock(int pid){
 
 	int cantidadDePaginasDelProceso = list_size((t_list*)proceso->paginasDelProceso);
 
-
 		for(posicionAReemplazar = buscar_utlima_posicion_sacada(pid); posicionAReemplazar - buscar_utlima_posicion_sacada(pid) < cantidadDePaginasDelProceso; posicionAReemplazar++){
 
 		puntero = list_get((t_list*)proceso->paginasDelProceso ,posicionAReemplazar % cantidadDePaginasDelProceso);

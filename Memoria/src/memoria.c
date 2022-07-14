@@ -10,10 +10,8 @@
 
 int main(void)
 {
-	//	iniciar log
 	logger = initLogger("memoria.log", "MEMORIA", LOG_LEVEL_TRACE);
 
-	//	cargar archivo de config
 	config = cargarConfiguracion("memoria.config");
 
 	log_info(logger, "MEMORIA: Estoy por comenzar el inicio del server Memoria");
@@ -25,6 +23,10 @@ int main(void)
 	iniciar_comunicacion();
 
 	//Finalizamos todo (revisar por si falta finalizar algo)
+
+	mostrar_lista_procesos(procesos);
+	mostrar_tabla_primer_nivel_global(tabla_paginas_primer_nivel_global);
+	mostrar_tabla_segundo_nivel_global(tabla_paginas_segundo_nivel_global);
 
 	liberar_memoria(acceptedConecctionKernel, acceptedConecctionCPU, logger, config);
 

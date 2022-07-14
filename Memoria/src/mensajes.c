@@ -110,7 +110,6 @@ void devolver_numero_marco_asociado(int socket_cliente){
 }
 
 
-
 void devolver_lectura(int socket_cliente){
 
 	t_paquete* respuesta = recibir_mensaje_cpu(socket_cliente, logger);
@@ -146,44 +145,39 @@ void inicializar_proceso(int socket_cliente){
 	pcb_t* pcb = recibirPCB(socket_cliente);
 	log_info(logger, "MEMORIA-KERNEL: Se recibio un pcb");
 
-	iniciar_proceso(pcb);
+	log_trace(logger, "MEMORIA: Se envia el numero de tabla de pagina");
+	uint32_t mensaje = iniciar_proceso(pcb);
 
-	uint32_t espacio;
-	//TODO ver si esta bien mandar el pcb o necesitan un pid
-	log_trace(logger, "MEMORIA: Se envia PCB con el numero de tabla de pagina");
-	void* a_enviar= pcb_serializar(pcb,&espacio,0);
-	send(socket_cliente,a_enviar,espacio,0);
+	send(socket_cliente, &mensaje, sizeof(uint32_t), 0);
 }
 
-void iniciar_proceso(pcb_t* pcb){
+uint32_t iniciar_proceso(pcb_t* pcb){
 
 	t_proceso* proceso = malloc(sizeof(t_proceso));
+	t_list* tabla_paginas_primer_nivel_proceso = list_create();
+	uint32_t entrada = 0;
 
-	t_list* tabla_paginas_primer_nivel_proceso;
-	//TODO: chequear si el pid recibido es correcto
 	proceso->pid = pcb->pid;
-
-	proceso->tamanoProceso = 2000;//pcb->tamano;
+	proceso->tamanoProceso = pcb->tamano;
 
 	log_info(logger, "MEMORIA: Se inicializa la tabla de primer nivel del proceso %d", proceso->pid);
-	//proceso->entrada_tabla_primer_nivel = inicializo_tabla_primer_nivel_proceso(tabla_paginas_primer_nivel_proceso, proceso);
-
+	proceso->entrada_tabla_primer_nivel = inicializo_tabla_primer_nivel_proceso(tabla_paginas_primer_nivel_proceso, proceso);
 	indice_tabla_primer_nivel++;
 
 	log_info(logger, "MEMORIA: Se accede a swap..");
 	crear_archivo_swap(proceso->pid, proceso->tamanoProceso);
 	log_info(logger, "SWAP: Se vuelve a memoria..");
-
 	retardo_memoria();
 
 	log_info(logger, "MEMORIA: Se agrega proceso %d a la lista de procesos", proceso->pid);
 	list_add(procesos, proceso);
 
-	//pcb_mostrar(pcb, logger);
 	mostrar_lista_procesos(procesos);
 	mostrar_tabla_primer_nivel_global(tabla_paginas_primer_nivel_global);
 	mostrar_tabla_segundo_nivel_global(tabla_paginas_segundo_nivel_global);
+	entrada = proceso->entrada_tabla_primer_nivel;
 
+	return entrada; //TODO: devolver tabla de pagina primer nivel
 
 }
 
@@ -197,15 +191,14 @@ int inicializo_tabla_primer_nivel_proceso(t_list* tabla_paginas_primer_nivel_pro
 	uint32_t *vector_primer_nivel = (uint32_t*)calloc(cantidadDeEntradas, sizeof(uint32_t));
 
 	for(int i = 0; i < cantidad_de_entrada_primer_nivel(proceso->tamanoProceso); i++){
+
 		vector_primer_nivel[i] = inicializo_tabla_segundo_nivel_proceso(proceso);
-		printf("%d", vector_primer_nivel[i]);
+		//printf("%d", vector_primer_nivel[i]);
 		indice_tabla_segundo_nivel++;
+
 	}
 
-
-
 	list_add(tabla_paginas_primer_nivel_global, vector_primer_nivel);
-
 
 	return indice_tabla_primer_nivel;
 
@@ -234,15 +227,16 @@ int inicializo_tabla_segundo_nivel_proceso(t_proceso* proceso){
 	t_tabla_paginas_segundo_nivel* unaTabla = malloc(sizeof(t_tabla_paginas_segundo_nivel));
 
 	//Algoritmos, ver si funca TODO
-	ultimaSacada_t* entrada = malloc(sizeof(ultimaSacada_t));
+	//ultimaSacada_t* entrada = malloc(sizeof(ultimaSacada_t));
 	log_info(logger, "MEMORIA: Inicia otro ciclo");
 
-	for (int j = 0; j < cantidad_de_entrada_primer_nivel(proceso->tamanoProceso); j++){
-	log_info(logger, "Inicializo los valores de la tabla de segundo nivel");
-	unaTabla->bMod = 0;
-	unaTabla->bPres = 0;
-	unaTabla->bUso = 0;
-	unaTabla->nroFrame = -1;
+	for (int j = 0; j < config->table_input; j++){
+
+		log_info(logger, "Inicializo los valores de la tabla de segundo nivel");
+		unaTabla->bMod = 0;
+		unaTabla->bPres = 0;
+		unaTabla->bUso = 0;
+		unaTabla->nroFrame = -1;
 
 	log_info(logger, "Inicializo los valores de las entradas (para algoritmos)");
 
@@ -258,7 +252,7 @@ int inicializo_tabla_segundo_nivel_proceso(t_proceso* proceso){
 	list_add(proceso->paginasDelProceso, unaTabla);
 	}
 
-	free(entrada);
+	//free(entrada);
 	return indice_tabla_segundo_nivel;
 
 }
@@ -266,12 +260,9 @@ int inicializo_tabla_segundo_nivel_proceso(t_proceso* proceso){
 
 void finalizar_proceso(int socket_cliente){
 
-	log_info(logger, "MEMORIA-KERNEL: Se recibe un pid");
-	uint32_t mensaje = 0;
-	recv(socket_cliente, &mensaje, sizeof(uint32_t), 0);
-
-	uint32_t pid = mensaje;
-
+	uint32_t pid = 0;
+	recv(socket_cliente, &pid, sizeof(uint32_t), 0);
+	log_info(logger, "MEMORIA-KERNEL: Se recibe un pid %d", pid);
 	iniciar_eliminacion_proceso(pid);
 }
 
@@ -292,27 +283,24 @@ void limpiar_posiciones(t_bitarray* marcosOcupados, t_proceso* proceso){
 
 }
 
-void iniciar_eliminacion_proceso(int32_t pid){
+void iniciar_eliminacion_proceso(uint32_t pid){
 
 	t_proceso* proceso = malloc(sizeof(t_proceso));
-
 	int b = 0, i = 0;
 
-	log_info(logger, "MEMORIA: Entro al ciclo");
-
 	while(b == 0){
+
 		log_info(logger, "MEMORIA: voy a buscar el proceso en la lista de procesos");
 		log_info(logger, "MEMORIA: pid %d", pid);
 		proceso = list_get(procesos, i);
+		log_info(logger, "%d", proceso->pid);
 		i++;
 
 		if (proceso->pid == pid){
 			log_info(logger, "MEMORIA: Encontre el proceso %d", pid);
-
 			//REVISAR ESTA FUNCION TODO
 			//limpiar_posiciones(marcosOcupadosPpal, proceso);
 			log_info(logger, "MEMORIA: Se liberan los marcos ocupados del proceso");
-
 			//list_remove_and_destroy_element(procesos, i, free);
 			log_info(logger, "MEMORIA: Se elimina el proceso %d", pid);
 
@@ -325,7 +313,8 @@ void iniciar_eliminacion_proceso(int32_t pid){
 		}
 
 	}
-	free(proceso);
+
+	//free(proceso);
 }
 
 
@@ -357,7 +346,7 @@ void suspender_proceso(int socket_cliente){
 
 		for (int i = 0; i < cantidadDeProcesos; i++){
 
-			proceso = list_get(procesos, i);
+			//proceso = list_get(procesos, i);
 
 			if (proceso->pid == pidRecibido){
 
@@ -368,13 +357,13 @@ void suspender_proceso(int socket_cliente){
 				if (tabla_segundo_nivel->bMod == 1){
 
 					//falta guardar el numero de pag y contenido
-					guardar_archivo_en_swap(proceso->pid, proceso->tamanoProceso);
+					//guardar_archivo_en_swap(proceso->pid, proceso->tamanoProceso);
 					log_info(logger, "MEMORIA-KERNEL:Archivo del proceso %d guardado en swap", proceso->pid);
 					//tabla->tabla_segundo_nivel->bMod = 0;
 					tabla_segundo_nivel->bMod = 0;
 
 					//agregar el indice de la tabla de segundo nivel
-					liberar_memoria_suspension(proceso);
+					//liberar_memoria_suspension(proceso);
 					log_info(logger, "MEMORIA-KERNEL: Se libera memoria del proceso %d en memoria principal", proceso->pid);
 				}
 			}

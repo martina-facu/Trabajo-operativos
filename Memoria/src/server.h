@@ -41,9 +41,6 @@ DESCOMENTAR SI ROMPE
 	int fdmin = 201669;
 	int memorySocketServer;
 
-	int acceptedConecctionKernel;
-	int acceptedConecctionCPU;
-
 
 	int connectionsKernel = 0;
 	int connectionsCPU = 0;
@@ -61,10 +58,6 @@ DESCOMENTAR SI ROMPE
 	pcb_t* recibir_paquete_pcb_kernel();
 	t_paquete* recibir_mensaje_cpu(int socket_cliente, t_log* logger);
 	void mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion);
-	//PARA CAMBIAR DESP A SHARED
-	char* recv_con_criterio_ws(int cliente, int msgSize, int msgCriterio);
-	char* recv_waitall_ws(int cliente, int msgSize);
-	int deserializar_int(int* destino, char* fuente);
-	int charToInt(char* cadena);
+
 
 #endif /* SERVER_H_ */
