@@ -61,18 +61,26 @@ typedef struct
 
 typedef struct{
 
-uint32_t nroFrame;
-uint32_t bPres; //bit de presencia
-uint32_t bUso; //bit de uso
-uint32_t bMod; // bit de modificado
+
+t_list* tabla;
 
 } t_tabla_paginas_segundo_nivel;
+
+
+typedef struct {
+
+	int nroFrame;
+	uint32_t bPres; //bit de presencia
+	uint32_t bUso; //bit de uso
+	uint32_t bMod; // bit de modificado
+
+}t_entradas_segundo_nivel;
 
 typedef struct{
 
 	uint32_t pid; //Numero de proceso
 	uint32_t tamanoProceso; //Tamanio de proceso o de instrucciones
-	uint32_t* entrada_tabla_primer_nivel; //tabla_paginas_primer_nivel; //entrada a la tabla de paginas de primer nivel
+	uint32_t entrada_tabla_primer_nivel;  //entrada a la tabla de paginas de primer nivel
 	t_list* paginasDelProceso;
 }t_proceso;
 
@@ -95,6 +103,7 @@ typedef struct{
 	t_bitarray* marcosOcupadosPpal;
 	int framesLibres;
 
+
 	//SERVER
 	int acceptedConecctionKernel;
 	int acceptedConecctionCPU;
@@ -107,6 +116,14 @@ typedef struct{
 	uint32_t indice_tabla_primer_nivel;
 	uint32_t indice_tabla_primer_nivel_proceso;
 	uint32_t indice_tabla_segundo_nivel;
+
+	//CONFIG
+	int tamanoPagina;
+	int entradasPorTabla;
+	char* pSwap;
+	int tamanoMemoria;
+	int swapDelay;
+	int memoryDelay;
 
 	//Lista de procesos
 	t_list* procesos;
@@ -143,7 +160,7 @@ typedef struct{
 	//PAGINACION
 	int obtener_y_ocupar_frame();
 	void mostrar_tabla_primer_nivel(t_list* lista);
-	int inicializo_tabla_primer_nivel_proceso(t_list* lista, t_proceso* proceso);
+	uint32_t inicializo_tabla_primer_nivel_proceso(int tamanoProceso);
 	int inicializo_tabla_segundo_nivel_proceso();
 	void liberar_memoria_paginacion();
 

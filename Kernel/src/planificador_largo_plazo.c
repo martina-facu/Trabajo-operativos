@@ -176,8 +176,9 @@ void* pasar_a_ready(){
 
 		log_info(PLP,"KERNEL-CPU-PCB Se pasa un proceso a ready, ID: %d",pcb->pid);
 		log_info(PLP, "KERNEL-MEMORIA-PCB Se envia un pcb");
-		uint32_t mensaje = INICIALIZAR_PROCESO;
-		send(socket_memoria, &mensaje, sizeof(uint32_t), 0);
+
+		uint8_t mensaje = INICIALIZAR_PROCESO;
+		send(socket_memoria, &mensaje, sizeof(uint8_t), 0);
 
 		uint32_t espacio;
 		void* a_enviar= pcb_serializar(pcb,&espacio,0);
@@ -240,6 +241,7 @@ void* finalizar_procesos(){
 		//	Envio mensaje de Finalizacion a Memoria
 		uint8_t mensaje = FINALIZAR_PROCESO;
 		send(socket_memoria, &mensaje, sizeof(uint8_t), 0);
+
 		//	Envio el PID del proceso a suspender
 		uint32_t pidf = pcb_finalizado->pid;
 		log_info(PLP, "KERNEL-MEMORIA: Se va a enviar el pid %d", pidf);

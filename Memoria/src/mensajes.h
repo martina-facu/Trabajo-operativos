@@ -59,7 +59,6 @@
 	void devolver_numero_marco_asociado(int socket_cliente);
 	void devolver_lectura(int socket_cliente);
 	void devolver_escritura(int socket_cliente);
-
 	
 	uint32_t iniciar_proceso(pcb_t* pcb);
 

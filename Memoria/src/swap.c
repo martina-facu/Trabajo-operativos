@@ -4,7 +4,7 @@
 
 void retardo_swap(){
 
-	sleep(config->swap_time_delay/1000);
+	sleep(swapDelay/1000);
 }
 
 /*
@@ -35,12 +35,13 @@ int existe_archivo(char* path){
 void crear_archivo_swap(int pid, int tamanioProceso){
 
 
-	char* pathSwap = config->path_swap;
+	char* pathSwap = pSwap; //TODO CAMBIAR EN MEMORIA.C
 	char path[1024];
 	char nombreArchivo[1024];
 
 	memset(&path, '\0',1024);
 	memset(&nombreArchivo, '\0',1024);
+
 	struct stat st = {0};
 
 	retardo_swap();
@@ -58,14 +59,13 @@ void crear_archivo_swap(int pid, int tamanioProceso){
 
 	sprintf(path, "%s/%s", pathSwap, nombreArchivo);
 
-
 	if(!existe_archivo(path)){
 
 		int archivo = open(path, O_CREAT | O_RDWR , 0770);
 
 		log_info(logger, "SWAP: Se crea el archivo con el nombre %s", nombreArchivo);
-		//TODO falta sumar estructuras y mmap
-		truncate(path, tamanioProceso);
+
+		//truncate(path, tamanioProceso / tamanoPagina ); TODO: Truncar al tamano de paginas
 
 		close(archivo);
 
@@ -95,7 +95,7 @@ void eliminar_archivo_swap(int pidRecibido){
 
 	char pathArchivo[1024];
 	char nombreArchivo[1024];
-	char* pathSwap = config->path_swap;
+	char* pathSwap = pSwap;
 
 	retardo_swap();
 
