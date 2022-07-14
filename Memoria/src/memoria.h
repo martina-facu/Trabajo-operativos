@@ -82,12 +82,30 @@ typedef struct{
 	uint32_t tamanoProceso; //Tamanio de proceso o de instrucciones
 	uint32_t entrada_tabla_primer_nivel;  //entrada a la tabla de paginas de primer nivel
 	t_list* paginasDelProceso;
+	uint32_t punteroAlgoritmo;
+
 }t_proceso;
 
 typedef struct{
 	uint32_t pid;
 	uint32_t posicion;
 }ultimaSacada_t;
+
+
+typedef struct{
+
+	uint32_t pid;
+	uint32_t indice_tabla_primer_nivel;
+
+} Coordenada_tabla_cpu;
+
+
+typedef struct{
+
+	uint32_t nroMarco;
+	uint32_t offset;
+	int tipoDeOperacion; //LECTURA 0 O ESCRITURA 1
+} EstructuraDeOperacion;
 
 
 /*
@@ -108,6 +126,9 @@ typedef struct{
 	int acceptedConecctionKernel;
 	int acceptedConecctionCPU;
 
+	//Para responder el marco en el segundo mensaje a CPU
+	uint32_t valorMarco;
+
 	t_list* tabla_paginas_primer_nivel_global;
 	t_list* tabla_paginas_segundo_nivel_global;
 
@@ -124,6 +145,7 @@ typedef struct{
 	int tamanoMemoria;
 	int swapDelay;
 	int memoryDelay;
+	int marcosPorProceso;
 
 	//Lista de procesos
 	t_list* procesos;
@@ -163,6 +185,9 @@ typedef struct{
 	uint32_t inicializo_tabla_primer_nivel_proceso(int tamanoProceso);
 	int inicializo_tabla_segundo_nivel_proceso();
 	void liberar_memoria_paginacion();
+	bool esta_en_memoria(t_tabla_paginas_segundo_nivel* tabla, uint32_t indice_tabla_segundo_nivel);
+	bool ordenar(void* entrada1, void* entrada2);
+	void page_fault(t_tabla_paginas_segundo_nivel* tabla, uint32_t indice_tabla_segundo_nivel, 	t_proceso* proceso);
 
 	void mostrar_vector(uint32_t* vector_primer_nivel);
 

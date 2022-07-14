@@ -35,7 +35,6 @@ int existe_archivo(char* path){
 void crear_archivo_swap(int pid, int tamanioProceso){
 
 
-	char* pathSwap = pSwap; //TODO CAMBIAR EN MEMORIA.C
 	char path[1024];
 	char nombreArchivo[1024];
 
@@ -46,9 +45,9 @@ void crear_archivo_swap(int pid, int tamanioProceso){
 
 	retardo_swap();
 
-	if (stat(pathSwap, &st) == -1) {
-		log_info(logger, "SWAP: Se crea el directorio de swap en %s", pathSwap);
-	    mkdir(pathSwap, 0770);
+	if (stat(pSwap, &st) == -1) {
+		log_info(logger, "SWAP: Se crea el directorio de swap en %s", pSwap);
+	    mkdir(pSwap, 0770);
 	}
 	else
 		log_info(logger, "SWAP: El directorio swap ya existe.");
@@ -57,7 +56,7 @@ void crear_archivo_swap(int pid, int tamanioProceso){
 
 	log_info(logger, "SWAP: %s",nombreArchivo);
 
-	sprintf(path, "%s/%s", pathSwap, nombreArchivo);
+	sprintf(path, "%s/%s", pSwap, nombreArchivo);
 
 	if(!existe_archivo(path)){
 
@@ -65,7 +64,7 @@ void crear_archivo_swap(int pid, int tamanioProceso){
 
 		log_info(logger, "SWAP: Se crea el archivo con el nombre %s", nombreArchivo);
 
-		//truncate(path, tamanioProceso / tamanoPagina ); TODO: Truncar al tamano de paginas
+		//truncate(path, cantidadpaginas * tamanoPagina ); TODO: Truncar al tamano de paginas
 
 		close(archivo);
 
@@ -95,12 +94,11 @@ void eliminar_archivo_swap(int pidRecibido){
 
 	char pathArchivo[1024];
 	char nombreArchivo[1024];
-	char* pathSwap = pSwap;
 
 	retardo_swap();
 
 	sprintf(nombreArchivo, "%d.swap", pidRecibido);
-	sprintf(pathArchivo, "%s/%s", pathSwap, nombreArchivo);
+	sprintf(pathArchivo, "%s/%s", pSwap, nombreArchivo);
 
 	if(existe_archivo(pathArchivo)){
 		remove(pathArchivo);
@@ -119,11 +117,14 @@ void eliminar_archivo_swap(int pidRecibido){
  *  de espera, con esta función lo emulamos.
  */
 
-void guardar_archivo_en_swap(int pid, int tamanoProceso){
+void guardar_archivo_en_swap(int pid, int tamanoProceso,int nroFrame){
 
 	retardo_swap();
 
-	char* nombreArchivo; //= obtener_nombre_archivo(pid);
+	char nombreArchivo[1024]; //LO CAMBIO O LO DEJO ASI?
+
+	sprintf(nombreArchivo, "%d.swap", pid);
+	sprintf(nombreArchivo, "%s/%s", pSwap, nombreArchivo);
 
 	int fd = open(nombreArchivo, O_RDWR);
 
@@ -137,8 +138,10 @@ void guardar_archivo_en_swap(int pid, int tamanoProceso){
 		log_error(logger, "SWAP: Ocurrió un error al escribir en swap.");
 		exit(1);
 	}
+	//TODO: tamano de paginas que ocupa
+	void* archivo = mmap((void*) 0, tamanoProceso, PROT_WRITE, MAP_PRIVATE, fd, 0);
 
-	fd = mmap((void*) 0, tamanoProceso, PROT_WRITE, MAP_PRIVATE, fd, 0);
+	memcpy(archivo, memoriaPrincipal +tamanoPagina*nroFrame, tamanoPagina);
 
 	if (fd == MAP_FAILED){
 		log_error(logger, "SWAP: Ocurrio un error en el memory map.");

@@ -44,7 +44,7 @@
 	int existe_archivo(char* path);
 	void crear_archivo_swap(int pid, int tamanioProceso);
 	void eliminar_archivo_swap(int pid);
-	void guardar_archivo_en_swap(int pid, int tamanoProceso);
+	void guardar_archivo_en_swap(int pid, int tamanoProceso, int nroFrame);
 	void retardo_swap();
 
 

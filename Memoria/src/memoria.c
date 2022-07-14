@@ -56,6 +56,7 @@ t_config_memoria* cargarConfiguracion(char* configPath)
 	memoryDelay = configTemp->memory_time_delay;
 		//log_info(logger, "RETARDO_MEMORIA: %d", configTemp->memory_time_delay);
 	configTemp->quantity_frames_process= config_get_int_value(configFile, MARCOS_POR_PROCESO);
+	marcosPorProceso = configTemp->quantity_frames_process;
 		//log_info(logger, "MARCOS_POR_PROCESO: %d", configTemp->quantity_frames_process);
 	configTemp->swap_time_delay = config_get_int_value(configFile, RETARDO_MEMORIA);
 	swapDelay  = configTemp->swap_time_delay;
@@ -240,9 +241,9 @@ void mostrar_tabla_segundo_nivel_global(t_list* lista){
 
 	for (int i = 0; i < list_size(lista); i++){
 
-		t_entradas_segundo_nivel* entrada_tabla_segundo_nivel = malloc(sizeof(t_entradas_segundo_nivel));
+		t_entradas_segundo_nivel* entrada_tabla_segundo_nivel;// = malloc(sizeof(t_entradas_segundo_nivel));
 
-		entrada_tabla_segundo_nivel = list_get(tabla_paginas_segundo_nivel_global, i);
+		entrada_tabla_segundo_nivel = list_get(lista, i);
 
 		printf("\n|%d\t|\t%d \t|\t%d \t|\t%d \t|\t%d|",i, entrada_tabla_segundo_nivel->nroFrame, entrada_tabla_segundo_nivel->bPres, entrada_tabla_segundo_nivel->bUso, entrada_tabla_segundo_nivel->bMod);
 	}
