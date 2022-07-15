@@ -246,14 +246,15 @@ int manejo_mensajes_kernel(int acceptedConecctionKernel){
 
 				case INICIALIZAR_PROCESO: //KERNEL
 					log_info(logger, "MEMORIA-KERNEL Voy a iniciar proceso");
-					inicializar_proceso(acceptedConecctionKernel);
+					inicializar_proceso(acceptedConecctionKernel, config);
+				break;
+
+				case SUSPENDER_PROCESO: //KERNEL
+					suspender_proceso(acceptedConecctionKernel, config, memoriaPrincipal);
 				break;
 
 				case FINALIZAR_PROCESO: //KERNEL
 					finalizar_proceso(acceptedConecctionKernel);
-				break;
-				case SUSPENDER_PROCESO: //KERNEL
-					suspender_proceso(acceptedConecctionKernel);
 				break;
 				default:
 					log_info(logger,"MEMORIA-KERNEL: El mensaje recibido no corresponde a ninguno de los preestablecidos: %d", mensaje);
@@ -397,16 +398,6 @@ pcb_t* recibirPCB(int socket)
 
 //MENSAJES CPU COORDENADA
 
-
-/*
- * coordenada.c
- *
- *  Created on: 4 jul. 2022
- *      Author: utnso
- */
-
-
-#include "coordenada.h"
 /*
 void enviar_coordenada(Coordenada_tabla_cpu* coordenada, uint32_t* valor_buscado, int conexion,uint8_t codigo_operacion){
 	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));

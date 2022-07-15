@@ -43,9 +43,9 @@
 
 
 	//MENSAJES
-	void inicializar_proceso(int socket_cliente);
+	void inicializar_proceso(int socket_cliente, t_config_memoria* config);
 	t_list* buscar_frames_sin_ocupar();
-	void suspender_proceso(int socket_cliente);
+	void suspender_proceso(int socket_cliente, t_config_memoria* tconfig, char* memoriaPrincipal);
 	void iniciar_suspension_proceso(uint32_t pidRecibido);
 
 	void finalizar_proceso(int socket_cliente);

@@ -184,6 +184,9 @@ void* pasar_a_ready(){
 		void* a_enviar= pcb_serializar(pcb,&espacio,0);
 		send(socket_memoria,a_enviar,espacio,0);
 
+		uint32_t indice_tabla = 0;
+		recv(socket_memoria, &indice_tabla, sizeof(uint32_t), 0);
+
 		//	LO AGREGO A UN BUFFER ENTRE PLP Y PCP, PARA QUE EL PCP LO SAQUE
 		//	DEL BUFFER Y NO DE LA LISTA DE NEW
 		pthread_mutex_lock(&mx_newM_l);

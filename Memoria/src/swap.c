@@ -32,7 +32,7 @@ int existe_archivo(char* path){
 
 
 
-void crear_archivo_swap(int pid, int tamanioProceso){
+void crear_archivo_swap(int pid, int cantidadPaginas){
 
 
 	char path[1024];
@@ -64,7 +64,7 @@ void crear_archivo_swap(int pid, int tamanioProceso){
 
 		log_info(logger, "SWAP: Se crea el archivo con el nombre %s", nombreArchivo);
 
-		//truncate(path, cantidadpaginas * tamanoPagina ); TODO: Truncar al tamano de paginas
+		truncate(path, cantidadPaginas);
 
 		close(archivo);
 
@@ -117,16 +117,21 @@ void eliminar_archivo_swap(int pidRecibido){
  *  de espera, con esta función lo emulamos.
  */
 
-void guardar_archivo_en_swap(int pid, int tamanoProceso,int nroFrame){
+void guardar_archivo_en_swap(int pid, int tamanoProceso,int nroFrame,int cantPag,int tamanoPagina, char* memoriaP){
+
+	log_info(logger, "MEMORIA: Ingresando a SWAP..(SUSPENSION)");
 
 	retardo_swap();
 
-	char nombreArchivo[1024]; //LO CAMBIO O LO DEJO ASI?
+
+	char nombreArchivo[1024];
+	char pathArchivo[1024];
 
 	sprintf(nombreArchivo, "%d.swap", pid);
-	sprintf(nombreArchivo, "%s/%s", pSwap, nombreArchivo);
+	sprintf(pathArchivo, "%s/%s", pSwap, nombreArchivo);
 
-	int fd = open(nombreArchivo, O_RDWR);
+	log_info(logger, "%s", pathArchivo);
+	int fd = open(pathArchivo, O_RDWR);
 
 	if (fd == -1){
 
@@ -138,15 +143,17 @@ void guardar_archivo_en_swap(int pid, int tamanoProceso,int nroFrame){
 		log_error(logger, "SWAP: Ocurrió un error al escribir en swap.");
 		exit(1);
 	}
-	//TODO: tamano de paginas que ocupa
-	void* archivo = mmap((void*) 0, tamanoProceso, PROT_WRITE, MAP_PRIVATE, fd, 0);
 
-	memcpy(archivo, memoriaPrincipal +tamanoPagina*nroFrame, tamanoPagina);
 
-	if (fd == MAP_FAILED){
-		log_error(logger, "SWAP: Ocurrio un error en el memory map.");
-		exit(1);
-	}
+	void* archivo = mmap((void*) 0, cantPag, PROT_WRITE, MAP_PRIVATE, fd, 0);
 
 	close(fd);
+
+	memcpy(&archivo, (memoriaP + (tamanoPagina*nroFrame)), cantPag);
+
+	msync(archivo, cantPag, MS_SYNC);
+
+	munmap(archivo, cantPag);
+
+	log_info(logger, "SWAP: Ingresando a memoria..");
 }
