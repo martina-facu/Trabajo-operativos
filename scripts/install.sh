@@ -1,10 +1,10 @@
 #	Declaro variables de entorno
 export TPHOME=$HOME/tp-2022-1c-9-12
 export SHARED=$TPHOME/Shared
-export CONSOLA=$TPHOME/Consola/src
-export KERNEL=$TPHOME/Kernel/src
-export CPU=$TPHOME/CPU/src
-export MEMORIA=$TPHOME/Memoria/src
+export CONSOLA=$TPHOME/Consola/compilar
+export KERNEL=$TPHOME/Kernel/compilar
+export CPU=$TPHOME/CPU/compilar
+export MEMORIA=$TPHOME/Memoria/compilar
 
 #	Me posiciono sobre el home del usuario
 cd
@@ -14,8 +14,18 @@ git clone https://github.com/sisoputnfrba/so-commons-library.git
 cd so-commons-library
 make
 make install
-#	Me posiciono en la shared library de nuestro TP
-cd
+#	Me posiciono en la shared library de nuestro TP y compilo
 cd $SHARED
 make
-make install
+#	Me posiciono en la Consola de nuestro TP y compilo
+cd $CONSOLA
+make
+#	Me posiciono en el Kernel de nuestro TP y compilo
+cd $KERNEL
+make
+#	Me posiciono en la CPU de nuestro TP y compilo
+cd $CPU
+make
+#	Me posiciono en la Memoria de nuestro TP y compilo
+cd $MEMORIA
+make
