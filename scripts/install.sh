@@ -1,3 +1,4 @@
+set -o vi
 #	Declaro variables de entorno
 export TPHOME=$HOME/tp-2022-1c-9-12
 export SHARED=$TPHOME/Shared
@@ -29,11 +30,11 @@ mv Consola $CONSOLA/Consola
 cd $KERNELCOMPILAR
 make
 mv Kernel $KERNEL/Kernel
-#	Me posiciono en la Memoria de nuestro TP y compilo
-cd $MEMORIACOMPILAR
-make
-mv Memoria $MEMORIA/Memoria
 #	Me posiciono en la CPU de nuestro TP y compilo
 cd $CPUCOMPILAR
 make
 mv CPU $CPU/CPU
+#	Me posiciono en la Memoria de nuestro TP y compilo
+cd $MEMORIACOMPILAR
+make
+mv Memoria $MEMORIA/Memoria
