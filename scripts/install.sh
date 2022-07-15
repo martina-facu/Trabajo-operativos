@@ -1,1 +1,4 @@
-git clone https://github.com/sisoputnfrba/tp-2022-1c-9-12.git
+git clone https://github.com/sisoputnfrba/so-commons-library.git
+cd so-commons-library
+make
+make install
