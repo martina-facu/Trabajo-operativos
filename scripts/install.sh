@@ -29,11 +29,11 @@ mv Consola $CONSOLA/Consola
 cd $KERNELCOMPILAR
 make
 mv Kernel $KERNEL/Kernel
-#	Me posiciono en la CPU de nuestro TP y compilo
-cd $CPUCOMPILAR
-make
-mv CPU $CPU/CPU
 #	Me posiciono en la Memoria de nuestro TP y compilo
 cd $MEMORIACOMPILAR
 make
 mv Memoria $MEMORIA/Memoria
+#	Me posiciono en la CPU de nuestro TP y compilo
+cd $CPUCOMPILAR
+make
+mv CPU $CPU/CPU
