@@ -43,9 +43,10 @@
 
 
 	//MENSAJES
-	void inicializar_proceso(int socket_cliente);
+	void inicializar_proceso(int socket_cliente, t_config_memoria* config);
 	t_list* buscar_frames_sin_ocupar();
-	void suspender_proceso(int socket_cliente);
+	void suspender_proceso(int socket_cliente, t_config_memoria* tconfig, char* memoriaPrincipal);
+	void iniciar_suspension_proceso(uint32_t pidRecibido);
 
 	void finalizar_proceso(int socket_cliente);
 	void iniciar_eliminacion_proceso(uint32_t pid);
@@ -62,7 +63,7 @@
 	
 	uint32_t iniciar_proceso(pcb_t* pcb);
 
-//TODO VER SI BORRAR ESTA
+	//TODO VER SI BORRAR ESTA
 	uint32_t obtener_numero_frame(int nroIndiceTablaSegundoNivel);
 
 	uint32_t cargar_pagina_en_algun_marco(t_tabla_paginas_segundo_nivel* nroTablaSegundoNivel);

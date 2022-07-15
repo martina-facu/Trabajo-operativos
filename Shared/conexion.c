@@ -42,8 +42,8 @@ int iniciar_servidor(char *ip, char* puerto_escucha, t_log* logger)
 	// Creamos el socket de escucha del servidor
 	int socketserv=socket(servinfo->ai_family,servinfo->ai_socktype,servinfo->ai_protocol);
 	//	Marcamos el socket como reutilizable
-	if (setsockopt(socketserv, SOL_SOCKET, SO_REUSEADDR, &(int){1}, sizeof(int)) < 0)
-	    perror("setsockopt(SO_REUSEADDR) failed");
+		if (setsockopt(socketserv, SOL_SOCKET, SO_REUSEADDR, &(int){1}, sizeof(int)) < 0)
+		    perror("setsockopt(SO_REUSEADDR) failed");
 	// Asociamos el socket a un puerto
 	if(bind(socketserv,servinfo->ai_addr,servinfo->ai_addrlen)!=0){
 		log_error(logger, "Fallo el bind al generar server");

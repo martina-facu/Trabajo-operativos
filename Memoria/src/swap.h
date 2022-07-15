@@ -8,6 +8,7 @@
 #ifndef SWAP_H_
 #define SWAP_H_
 
+#include "memoria.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,9 +43,9 @@
 	//SWAP
 	void iniciarSwap();
 	int existe_archivo(char* path);
-	void crear_archivo_swap(int pid, int tamanioProceso);
+	void crear_archivo_swap(int pid, int cantidadPaginas);
 	void eliminar_archivo_swap(int pid);
-	void guardar_archivo_en_swap(int pid, int tamanoProceso);
+	void guardar_archivo_en_swap(int pid, int tamanoProceso,int nroFrame, int cantPaginas, int tamanoPagina, char* memoriaPrincipal);
 	void retardo_swap();
 
 
