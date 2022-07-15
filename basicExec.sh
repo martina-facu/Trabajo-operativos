@@ -6,13 +6,13 @@ export CPUPATH=$WORKSPACEPATH/CPU
 export KERNELPATH=$WORKSPACEPATH/Kernel
 export CONSOLEPATH=$WORKSPACEPATH/Consola
 export CONFPATH=$WORKSPACEPATH/confPruebas
-export LD_LIBRARY_PATH=$WORKSPACEPATH/Shared/Debug
+export LD_LIBRARY_PATH=$WORKSPACEPATH/Shared
 
 #	Copio los archivos de configuracion BASE
-cp $CONFPATH/memoria.config.base $MEMORYPATH/Debug/memoria.config
-cp $CONFPATH/cpu.config.base $CPUPATH/Debug/cpu.config
-cp $CONFPATH/kernel.config.base $KERNELPATH/Debug/kernel.config
-cp $CONFPATH/consola.config.base $CONSOLEPATH/Debug/consola.config
+cp $CONFPATH/memoria.config.base $MEMORYPATH/memoria.config
+cp $CONFPATH/cpu.config.base $CPUPATH/cpu.config
+cp $CONFPATH/kernel.config.base $KERNELPATH/kernel.config
+cp $CONFPATH/consola.config.base $CONSOLEPATH/consola.config
 
 #	Ejecuto primero memoria
 cd $MEMORYPATH/Debug
