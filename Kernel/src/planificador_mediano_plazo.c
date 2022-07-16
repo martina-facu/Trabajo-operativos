@@ -20,8 +20,11 @@
 #include "planificador_mediano_plazo.h"
 
 void* suspender_proceso(){
+	log_trace(PMP, "FORRO");
+
 	while(1){
 		sem_wait(&s_proceso_susp);
+		log_trace(PMP, "FORRO23");
 		pthread_mutex_lock(&mx_susp_block_buffer_l);
 		pcb_t* pcb= list_remove(susp_block_buffer_l,0);
 		pthread_mutex_unlock(&mx_susp_block_buffer_l);
@@ -34,6 +37,14 @@ void* suspender_proceso(){
 		pcb->estado= SUSPENDIDO;
 
 		//TODO LIBERAR MEMORIA
+		log_info(PMP,"KERNEL-MEMORIA Solicito liberar la memoria porque se suspendio el PID: %d", pcb->pid);
+
+		uint8_t mensaje = SUSPENDER_PROCESO;
+		send(socket_memoria, &mensaje, sizeof(uint8_t), 0);
+
+		//	Envio el PID del proceso a suspender
+		uint32_t pid = pcb->pid;
+		send(socket_memoria,&pid, sizeof(uint32_t),0);
 
 		sem_post(&s_grado_multiprogramacion);
 		sem_post(&s_susp);
@@ -50,6 +61,7 @@ void* avisar_proceso_susp_ready(){
 		pcb= list_remove(susp_ready_l,0);
 		pthread_mutex_unlock(&mx_susp_ready_l);
 		//TODO PEDIR MEMORIA
+//		log_info(PMP,"KERNEL-MEMORIA Solicito cargar el PID: %d en memoria porque termino su I/O", pcb->pid);
 		pthread_mutex_lock(&mx_susp_readyM_l);
 		list_add(susp_readyM_l,pcb);
 		pthread_mutex_unlock(&mx_susp_readyM_l);
@@ -64,6 +76,7 @@ void* avisar_proceso_susp_ready(){
 void* administrador_mediano_plazo(){
 	pthread_t hilo1;
 	pthread_t hilo2;
+
 
 
 	pthread_create(&hilo1,NULL,suspender_proceso,NULL);

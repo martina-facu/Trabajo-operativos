@@ -20,6 +20,7 @@
 #include <commons/config.h>
 #include <time.h>
 #include "coordenada.h"
+#include "../conexion.h"
 
 /*
  * Estructuras
@@ -56,12 +57,13 @@
 	Datos_calculo_direccion* datos;
 	t_config* config_cpu;
 	t_list* tlb_proceso;
+	t_log* logger;
 
 /*
  * Prototipo de funciones
 */
 
-	void inicializar_mmu(t_config* config, t_list* tlb);
+	void inicializar_mmu(t_config* config, t_list* tlb, t_log* logger_cpu);
 	void mostrar_datos(Datos_calculo_direccion* datos);
 	void cargar_entrada(Entrada_TLB* entrada);
 	uint32_t buscar_marco(uint32_t pagina);
@@ -79,5 +81,6 @@
 	void mostrar_datos(Datos_calculo_direccion* datos);
 	void mostrar_entradas(t_list* list);
 	void crear_tabla_prueba();
+	void limpiar_tlb(t_list* tlb);
 
 #endif /* UTILS_MMU_H_ */

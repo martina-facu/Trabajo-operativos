@@ -18,10 +18,15 @@
 
 #define INICIAR_CONEXION_CPU 1
 #define ACEPTAR_CONEXION_CPU 2
+#define SOLICITAR_ENTRADA_Y_TAMANO 3
 #define ENTRADAS_Y_TAMANIO_DE_PAGINA 4
+#define SOLICITAR_VALOR_ENTRADA1 5
 #define ID_TABLA_SEGUNDO_NIVEL 6
+#define SOLICITAR_VALOR_ENTRADA2 7
 #define MARCO_DE_LA_ENTRADA 8
+#define SOLICITAR_LECTURA 9
 #define RESULTADO_LECTURA 10
+#define SOLICITAR_ESCRITURA 11
 #define RESULTADO_ESCRITURA 12
 #define INICIAR_CONEXION_DISPATCH 21
 #define ACEPTAR_CONEXION_DISPATCH 22
@@ -39,11 +44,8 @@
 #define ACEPTAR_CONEXION_CONSOLA 62
 #define PROCESO_FINALIZADO 63
 
-
-
 int crear_conexion(char *ip, char* puerto, t_log* logger);
 int iniciar_servidor(char *ip, char* puerto_escucha, t_log* logger);
 int esperar_cliente(int socket_servidor, t_log* logger);
-
 
 #endif

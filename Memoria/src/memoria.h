@@ -15,6 +15,7 @@
 #include <commons/log.h>
 #include <commons/config.h>
 #include <commons/collections/list.h>
+#include <commons/collections/queue.h>
 #include <commons/string.h>
 #include <commons/bitarray.h>
 #include <errno.h>
@@ -24,6 +25,9 @@
 #include <unistd.h>
 #include <netdb.h>
 #include <fcntl.h> //para funciones del swap como open
+#include <pcb.h>
+
+
 
 #define PUERTO_ESCUCHA "PUERTO_ESCUCHA"
 #define TAM_MEMORIA "TAM_MEMORIA"
@@ -36,11 +40,11 @@
 #define IP_MEMORIA "IP_MEMORIA"
 
 #define CONCURRENT_CONNECTION 1
+
 /*
  * Listado de estructuras
 */
 
-//CONFIG
 typedef struct
 {
 	char* listen_port;
@@ -55,39 +59,52 @@ typedef struct
 	char* memoryIP;
 }t_config_memoria;
 
-//POSIBLE para paginacion(segun ejemplo del tp)
 typedef struct{
-uint32_t nroFrame;
-uint32_t bPres; //bit de presencia
-uint32_t bUso; //bit de uso
-uint32_t bMod; // bit de modificado
-} t_elementos_tabla;
 
-//Represento una pagina como un entero
+
+t_list* tabla;
+
+} t_tabla_paginas_segundo_nivel;
+
 
 typedef struct {
-int32_t idPagina;
-} t_pagina;
 
-//Represento un marco como un entero
-typedef struct{
-int32_t idFrame;
-} t_frame;
+	int nroFrame;
+	uint32_t bPres; //bit de presencia
+	uint32_t bUso; //bit de uso
+	uint32_t bMod; // bit de modificado
 
-//Lo utilizo para armar una lista y poder usar las funciones de las commons
-typedef struct{
-t_link_element *head;
-t_elementos_tabla elements_count;
-} t_tabla;
+}t_entradas_segundo_nivel;
 
 typedef struct{
 
-int pid; //Numero de proceso
-int tamanioInstrucciones; //Tamanio de proceso o de instrucciones
-int dlPcb; //Direccion logica del pcb
-t_list* paginas_primer_nivel; //tabla de paginas primer nivel (solo el numero de pagina)
-t_tabla* paginas_segundo_nivel; //tabla de paginas ed segundo nivel
-}t_tabla_pagina;
+	uint32_t pid; //Numero de proceso
+	uint32_t tamanoProceso; //Tamanio de proceso o de instrucciones
+	uint32_t entrada_tabla_primer_nivel;  //entrada a la tabla de paginas de primer nivel
+	t_list* paginasDelProceso;
+	uint32_t punteroAlgoritmo;
+	uint32_t contador;
+}t_proceso;
+
+typedef struct{
+	uint32_t pid;
+	uint32_t posicion;
+}ultimaSacada_t;
+
+
+typedef struct{
+
+	uint32_t pid;
+	uint32_t indice_tabla_primer_nivel;
+
+} Coordenada_tabla_cpu;
+
+
+typedef struct{
+
+	uint32_t direccionFisica;
+	int tipoDeOperacion; //LECTURA 0 O ESCRITURA 1
+} EstructuraDeOperacion;
 
 
 /*
@@ -96,32 +113,43 @@ t_tabla* paginas_segundo_nivel; //tabla de paginas ed segundo nivel
 
 	t_log* logger;
 	t_config_memoria* config;
-	fd_set  read_fd_set;
-	fd_set  master_fd_set;
-	int memorySocketServer;
-	struct timeval 	tiempoSelect;
 
-	int fdmax = -1;
-	int fdmin = 201669;
-	int memorySocketServer;
+	//MEMORIA
+	void* memoriaPrincipal;
+	void* data;
+	t_bitarray* marcosOcupadosPpal;
+	int framesLibres;
 
+
+	//SERVER
 	int acceptedConecctionKernel;
 	int acceptedConecctionCPU;
 
+	//Para responder el marco en el segundo mensaje a CPU
+	uint32_t valorMarco;
 
-	int connectionsKernel = 0;
-	int connectionsCPU = 0;
+	t_list* tabla_paginas_primer_nivel_global;
+	t_list* tabla_paginas_segundo_nivel_global;
 
-	//MEMORIA
-	char* memoriaPrincipal;
-	int mem; //esto creo que vuela
-	char* data;
-	t_bitarray* marcosOcupadosPpal;
+	t_list* listaUltimaSacada; //algoritmos
 
+	uint32_t indice_tabla_primer_nivel;
+	uint32_t indice_tabla_primer_nivel_proceso;
+	uint32_t indice_tabla_segundo_nivel;
 
-	//paginacion -> TP = TABLA DE PAGINA
-	t_list* tp_procesos; //creo la tabla de paginas
-	int cantidadDePaginasPorProceso;
+	//CONFIG
+	int tamanoPagina;
+	int entradasPorTabla;
+	char* pSwap;
+	int tamanoMemoria;
+	int swapDelay;
+	int memoryDelay;
+	int marcosPorProceso;
+	char* algorithm;
+
+	//Lista de procesos
+	t_list* procesos;
+
 /*
  * Prototipos de funciones
 */
@@ -129,28 +157,21 @@ t_tabla* paginas_segundo_nivel; //tabla de paginas ed segundo nivel
 	t_config_memoria* cargarConfiguracion(char* configPath);
 	t_config_memoria* crearConfigMemoria(void);
 
-	//SERVIDOR
-	int levantar_server(char* ipServer, char* portServer, t_log* logger);
-	void aceptoYEvaluoConexion(int socketAnalizar);
-	int validoYAceptoConexionKernel(int temporalAcceptedConnection);
-	int validoYAceptoConexionCPU(int temporalAcceptedConnection);
-	void iniciar_comunicacion();
-	int manejo_mensajes_kernel(int socket_cliente);
-	void manejo_mensajes_cpu(int socket_cliente);
-
-	//MENSAJES
-	void inicializar_proceso(int socket_cliente);
-	void suspender_proceso(int socket_cliente);
-	void finalizar_proceso(int socket_cliente);
-	void acceder_tabla_de_paginas(int socket_cliente);
-	void acceder_espacio_de_usuario(int socket_cliente);
-
 	//INICIAR MEMORIA
 	int iniciar_memoria();
 	void iniciar_tablas_paginas();
+	void retardo_memoria();
+	void inicializo_tabla_global_primer_nivel();
+	void inicializo_tabla_global_segundo_nivel();
+	void mostrar_tabla_primer_nivel_global(t_list* lista);
+	void mostrar_tabla_segundo_nivel_global(t_list* lista);
+	void iniciar_comunicacion();
+	void mostrar_lista_procesos(t_list* lista);
+	int cantidad_de_entrada_primer_nivel(int tamanoProceso, int entradasPorTabla, int tamanoPagina);
+	int cantidad_de_paginas_del_proceso(int tamanioProceso, int tamanoPagina);
 
 	//FINALIZAR MEMORIA
-	void liberar_memoria(int conexionKernel, int conexionCPU, t_log* logger, t_config_memoria* config);
+	void liberar_memoria(int conexionKernel, int conexionCPU, t_log* logger, t_config* config);
 	void liberar_conexion(int socket_cliente);
 
 	//BITARRAY
@@ -158,15 +179,16 @@ t_tabla* paginas_segundo_nivel; //tabla de paginas ed segundo nivel
 	char* asignarMemoriaBits(int bits);
 	char* asignarMemoriaBytes(int bytes);
 	void imprimir_bitarray(t_bitarray* marcosOcupadosPpal);
-
-	//SWAP
-	void iniciarSwap();
-	int existe_archivo(char* path);
-	void crear_archivo_swap(int pid);
-	void eliminar_archivo_swap(int pid);
-	int retardo_swap();
+	void limpiar_posiciones(t_bitarray* marcosOcupados, t_proceso* proceso);
 
 	//PAGINACION
-
+	int obtener_y_ocupar_frame();
+	void mostrar_tabla_primer_nivel(t_list* lista);
+	uint32_t inicializo_tabla_primer_nivel_proceso(t_proceso* proceso, int cantEntradas, int cantPag);
+	int inicializo_tabla_segundo_nivel_proceso(t_proceso* proceso, int entradasPorTabla);
+	void liberar_memoria_paginacion();
+	bool esta_en_memoria(t_tabla_paginas_segundo_nivel* tabla, uint32_t indice_tabla_segundo_nivel);
+	bool ordenar(void* entrada1, void* entrada2);
+	void mostrar_vector(uint32_t* vector_primer_nivel);
 
 #endif /* MEMORIA_H_ */

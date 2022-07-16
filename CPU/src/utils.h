@@ -55,6 +55,7 @@
 */
 	t_log* logger;
 	int fdDispatch;
+	t_list* tlb;
 	// thread identifier
 	pthread_t thread_id;
 	struct timeval 	tiempoSelect;
@@ -64,6 +65,7 @@
 	bool devolver_pcb;			//	Si es True significa que recibi una interrupcion
 	bool recibiPCB;				//	Si es FALSE significa que todavia no recibi ningun PCB si es TRUE ya recibi PCB a procesar desde el Kernel
 	//	bool* hubo_interrupcion;
+	t_list* tlb;
 
 
 /*
@@ -78,7 +80,7 @@
 	void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoOp, int cantidad_entradas, int conexion_memoria, int tamano_pagina, bool* hubo_interrupcion);
 	bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos, pcb_t* pcb);
 	uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos);
-	uint32_t* escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calculo_direccion* datos);
+	uint32_t escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calculo_direccion* datos);
 	bool validar_codigo(t_paquete* paquete, uint8_t operacion);
 	void mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion);
 

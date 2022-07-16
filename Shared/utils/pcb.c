@@ -12,15 +12,16 @@
 #include <stdio.h>
 #include "pcb.h"
 
-
+//pcb_t *pcb_create(uint32_t tamano, t_list* instrucciones,uint32_t pid, double estimacion_inicial,
+//		uint32_t tabla_paginas, uint32_t estimado_rafaga)
 pcb_t *pcb_create(uint32_t tamano, t_list* instrucciones,uint32_t pid, double estimacion_inicial,
-		uint32_t tabla_paginas, uint32_t estimado_rafaga)
+		uint32_t tabla_paginas)
 {
 	pcb_t *pcb = malloc(sizeof(pcb_t));
 	pcb->pid = pid;
 	pcb->tamano = tamano;
 	pcb->program_counter = 0;
-	pcb->estimado_rafaga = estimado_rafaga;
+	pcb->estimado_rafaga = estimacion_inicial;
 //	pcb->estimado_rafaga = estimacion_inicial;
 	pcb->estado = INICIADO;
 	pcb->tiempo_block = 0;
@@ -124,20 +125,20 @@ pcb_t* pcb_deserializar(t_buffer* buffer)
 void pcb_mostrar(pcb_t* pcb, t_log* logger)
 {
 	char* estados[5]={"INICIADO", "BLOQUEADO", "FINALIZADO","SUSPENDIDO","INTERRUMPIDO"};
-	printf("\n\nINFORMACION PCB:\n");
-	log_info(logger, "INFORMACION PCB:");
-	printf("PID: %d\n", pcb->pid);
-	log_info(logger, "PID: %d\n", pcb->pid);
-	printf("TAMANO: %d\n", pcb->tamano);
-	log_info(logger, "TAMANO: %d\n", pcb->tamano);
-	printf("PC: %d\n", pcb->program_counter);
-	log_info(logger, "PC: %d\n", pcb->program_counter);
-	printf("ESTIMADO_RAFAGA: %d\n", pcb->estimado_rafaga);
-	log_info(logger, "ESTIMADO_RAFAGA: %d\n", pcb->estimado_rafaga);
-	printf("ESTADO: %s\n", estados[pcb->estado]);
-	log_info(logger, "ESTADO: %s\n", estados[pcb->estado]);
-	printf("TIEMPO BLOQUEO: %d\n", pcb->tiempo_block);
-	log_info(logger, "TIEMPO BLOQUEO: %d\n", pcb->tiempo_block);
+//	printf("\n\nINFORMACION PCB:\n");
+	log_trace(logger, "INFORMACION PCB:");
+//	printf("PID: %d\n", pcb->pid);
+	log_trace(logger, "PID: %d\n", pcb->pid);
+//	printf("TAMANO: %d\n", pcb->tamano);
+	log_trace(logger, "TAMANO: %d\n", pcb->tamano);
+//	printf("PC: %d\n", pcb->program_counter);
+	log_trace(logger, "PC: %d\n", pcb->program_counter);
+//	printf("ESTIMADO_RAFAGA: %d\n", pcb->estimado_rafaga);
+	log_trace(logger, "ESTIMADO_RAFAGA: %d\n", pcb->estimado_rafaga);
+//	printf("ESTADO: %s\n", estados[pcb->estado]);
+	log_trace(logger, "ESTADO: %s\n", estados[pcb->estado]);
+//	printf("TIEMPO BLOQUEO: %d\n", pcb->tiempo_block);
+	log_trace(logger, "TIEMPO BLOQUEO: %d\n", pcb->tiempo_block);
 	mostrar_instrucciones(pcb->instrucciones, logger);
 }
 
