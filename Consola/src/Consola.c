@@ -75,6 +75,8 @@ int main(int argc, char *argv[]) {
 	free(buffer);
 	free(paquete);
 	free(a_enviar);
+	log_destroy(logger);
+	free(logger);
 
 	return EXIT_SUCCESS;
 }

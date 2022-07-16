@@ -1,3 +1,4 @@
+set -x
 #	Cargo la LD_LIBRARY_PATH de manera que no de error de compilacion
 export LD_LIBRARY_PATH=/home/utnso/tp-2022-1c-9-12/Shared/Debug
 
@@ -11,7 +12,7 @@ cd /home/utnso/tp-2022-1c-9-12/Consola/Debug
 cp /home/utnso/tp-2022-1c-9-12/Consola/consola.config ./
 
 #	Ejecuto el proceso con valgrind con todos los parametros que fui obteniendo de sucesivas ejecuciones
-valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=/home/utnso/tp-2022-1c-9-12/valgrind/consola_valgrind.log -v Consola
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=/home/utnso/tp-2022-1c-9-12/valgrind/consola_valgrind.log -v ./Consola
 
 #	Luego del valgrind ejecuto un more del archivo de log para poder hacer la revision de la ejecucion.
 more /home/utnso/tp-2022-1c-9-12/valgrind/consola_valgrind.log
