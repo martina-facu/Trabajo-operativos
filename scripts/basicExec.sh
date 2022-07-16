@@ -17,28 +17,28 @@ cp $CONFPATH/consola.config.base $CONSOLEPATH/consola.config
 
 #	Ejecuto primero memoria
 cd $MEMORYPATH
-$MEMORYPATH/Memoria &
+# $MEMORYPATH/Memoria &
 
 #	Ejecuto segundo la CPU
 cd $CPUPATH
-sleep 1
-$CPUPATH/CPU &
+sleep 2
+# $CPUPATH/CPU &
 
 #	Ejecuto tercero el Kernel
 cd $KERNELPATH
-sleep 1
-$KERNELPATH/Kernel &
+sleep 2
+# $KERNELPATH/Kernel &
 
 #	Levanto la primera consola
 cd $CONSOLEPATH
 sleep 1
-($CONSOLEPATH/Consola $CONFPATH/BASE_1 1024)  &
+# ($CONSOLEPATH/Consola $CONFPATH/BASE_1 1024)  &
 
 #	Levanto la segunda consola
 sleep 1
-($CONSOLEPATH/Consola $CONFPATH/BASE_2 1024)  &
+# ($CONSOLEPATH/Consola $CONFPATH/BASE_2 1024)  &
 
 #	Levanto la tercera consola
 sleep 1
-($CONSOLEPATH/Consola $CONFPATH/BASE_2 1024)  &
+# ($CONSOLEPATH/Consola $CONFPATH/BASE_2 1024)  &
 
