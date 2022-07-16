@@ -53,19 +53,18 @@ int levantar_conexion_memoria(char* ipServer, char* portServer, uint32_t* cantid
 		recv(conexion_memoria, &Ncantidad_entradas, sizeof(uint32_t), 0);
 		recv(conexion_memoria, &Ntamano_pagina, sizeof(uint32_t), 0);
 
-		log_info(logger, "cant entradas %d", cantidad_entradas);
-		log_info(logger, "tamano_pagina %d", tamano_pagina);
+		log_trace(logger, "cant entradas %d", cantidad_entradas);
+		log_trace(logger, "tamano_pagina %d", tamano_pagina);
 
 		//TODO: Esta bien poner todos los mensajes aca?
 
 		recv(conexion_memoria, &Nentrada_tabla_segundo_nivel, sizeof(uint32_t), 0);
 
-		log_info(logger, "ENTRADA TABLA SEGUNDO NIVEL: %d", Nentrada_tabla_segundo_nivel);
+		log_trace(logger, "ENTRADA TABLA SEGUNDO NIVEL: %d", Nentrada_tabla_segundo_nivel);
 
 		recv(conexion_memoria, &Nmarco, sizeof(uint32_t), 0);
 
-		log_info(logger, "NUMERO DE MARCO: %d", Nmarco);
-		log_info(logger, "AHHHHHHHH :(");
+		log_trace(logger, "NUMERO DE MARCO: %d", Nmarco);
 
 	return conexion_memoria;
 }
@@ -151,24 +150,24 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos,t_log* l
 	log_trace(logger, "Direccion logica %d", direccion_logica);
 	calcular_datos_direccion(datos, direccion_logica, logger);
 	log_trace(logger, "Calcule datos");
-	Pagina_direccion* resultado = traducir_direccion(datos);
-
-	mandar_lecto_escritura(resultado->direccion_fisica, 0, SOLICITAR_LECTURA, datos->conexion_memoria);
-
-	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
-	uint32_t* valor_leido = malloc(sizeof(uint32_t));
-
-	memcpy(valor_leido, respuesta->buffer->stream, sizeof(uint32_t));
-
-	if(validar_codigo(respuesta,RESULTADO_LECTURA))
-	{
-		valor_leido_respuesta = *valor_leido;
-		log_info(logger, "CPU-MEMORIA El valor leido fue: %d", *valor_leido);
-	}else{
-		log_error(logger, "CPU-MEMORIA HUBO UN ERROR EN LA LECTURA DE LA DIRECCION");
-	}
-
-	free(valor_leido);
+//	Pagina_direccion* resultado = traducir_direccion(datos);
+//
+//	mandar_lecto_escritura(resultado->direccion_fisica, 0, SOLICITAR_LECTURA, datos->conexion_memoria);
+//
+//	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
+//	uint32_t* valor_leido = malloc(sizeof(uint32_t));
+//
+//	memcpy(valor_leido, respuesta->buffer->stream, sizeof(uint32_t));
+//
+//	if(validar_codigo(respuesta,RESULTADO_LECTURA))
+//	{
+//		valor_leido_respuesta = *valor_leido;
+//		log_info(logger, "CPU-MEMORIA El valor leido fue: %d", *valor_leido);
+//	}else{
+//		log_error(logger, "CPU-MEMORIA HUBO UN ERROR EN LA LECTURA DE LA DIRECCION");
+//	}
+//
+//	free(valor_leido);
 	return valor_leido_respuesta;
 }
 
