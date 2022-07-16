@@ -122,24 +122,18 @@ void mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operaci
 	void* stream;
 	int tamano_mensaje = 0;
 
-	if(operacion == 9){
-		tamano_mensaje = sizeof(uint32_t);
-		stream = malloc(tamano_mensaje);
-		memcpy(stream, &direccion, sizeof(uint32_t));
-	}else if(operacion == 11){
-		tamano_mensaje = sizeof(uint32_t)*2;
-		stream = malloc(tamano_mensaje);
-		memcpy(stream, &direccion, sizeof(uint32_t));
-		memcpy(stream + sizeof(uint32_t), valor, sizeof(uint32_t));
+	uint8_t lectura = 9;
+	uint8_t escritura =11;
+
+
+	if(operacion == lectura){
+		send(conexion,&lectura,sizeof(uint8_t),0);
+		send(conexion, &direccion, sizeof(uint32_t),0);
+	}else if(operacion == escritura){
+		send(conexion,&escritura,sizeof(uint8_t),0);
+		send(conexion, &direccion, sizeof(uint32_t),0);
+		send(conexion,valor, sizeof(uint32_t),0);
 	}
-
-	t_buffer* buffer = armar_buffer(tamano_mensaje, stream);
-	t_paquete* paquete = empaquetar_buffer(buffer,9);
-
-	void* a_enviar = malloc(paquete->size);
-	a_enviar = serializar_paquete(paquete, a_enviar);
-
-	send(conexion, a_enviar, paquete->size, 0);
 }
 
 uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos,t_log* logger)
@@ -150,15 +144,17 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos,t_log* l
 	log_trace(logger, "Direccion logica %d", direccion_logica);
 	calcular_datos_direccion(datos, direccion_logica, logger);
 	log_trace(logger, "Calcule datos");
-//	Pagina_direccion* resultado = traducir_direccion(datos);
-//
-//	mandar_lecto_escritura(resultado->direccion_fisica, 0, SOLICITAR_LECTURA, datos->conexion_memoria);
-//
+	Pagina_direccion* resultado = traducir_direccion(datos);
+
+	mandar_lecto_escritura(resultado->direccion_fisica, 0, SOLICITAR_LECTURA, datos->conexion_memoria);
+
 //	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
-//	uint32_t* valor_leido = malloc(sizeof(uint32_t));
-//
-//	memcpy(valor_leido, respuesta->buffer->stream, sizeof(uint32_t));
-//
+	void * buffer = malloc(sizeof(uint32_t));
+	recv(datos->conexion_memoria,buffer,sizeof(uint32_t),0);
+	uint32_t* valor_leido = malloc(sizeof(uint32_t));
+
+	memcpy(valor_leido, buffer ,sizeof(uint32_t));
+
 //	if(validar_codigo(respuesta,RESULTADO_LECTURA))
 //	{
 //		valor_leido_respuesta = *valor_leido;
@@ -166,9 +162,10 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos,t_log* l
 //	}else{
 //		log_error(logger, "CPU-MEMORIA HUBO UN ERROR EN LA LECTURA DE LA DIRECCION");
 //	}
-//
-//	free(valor_leido);
-//	return valor_leido_respuesta;
+	log_info(logger, "CPU-MEMORIA El valor leido fue: %d", *valor_leido);
+	valor_leido_respuesta = *valor_leido;
+	free(valor_leido);
+	return valor_leido_respuesta;
 }
 
 uint32_t* escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calculo_direccion* datos)
@@ -180,18 +177,21 @@ uint32_t* escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calcu
 
 	mandar_lecto_escritura(resultado->direccion_fisica, valor_a_escribir, SOLICITAR_ESCRITURA, datos->conexion_memoria);
 
-	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
-	uint32_t* resultado_escritura = malloc(sizeof(uint32_t));
+//	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
+//	uint32_t* resultado_escritura = malloc(sizeof(uint32_t));
+//
+//	memcpy(resultado_escritura, respuesta->buffer->stream, sizeof(uint32_t));
 
-	memcpy(resultado_escritura, respuesta->buffer->stream, sizeof(uint32_t));
+	uint8_t ok;
+	recv(datos->conexion_memoria,&ok,sizeof(uint8_t),0);
 
-	if(validar_codigo(respuesta,RESULTADO_ESCRITURA))
+	if(ok)
 	{
-		log_info(logger, "CPU-MEMORIA El resultado de escribir fue: %d", *resultado_escritura);
+		log_info(logger, "CPU-MEMORIA El resultado de escribir fue exitoso, %d", *valor_a_escribir);
 //		printf("El resultado de escribir fue: %d", *resultado_escritura);
-		return resultado_escritura;
+		return valor_a_escribir;
 	}else{
-		return (uint32_t*)-1;
+		return NULL;
 	}
 }
 
@@ -234,7 +234,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(5);
+			sleep(2);
 			return true;
 			break;
 		case WRITE:
@@ -245,7 +245,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(5);
+			sleep(2);
 			return false;
 			break;
 		case COPY: // COPY(destino, origen)
@@ -254,7 +254,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 //			*resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 
-			sleep(5);
+			sleep(2);
 			return false;
 			break;
 		case READ:
@@ -271,14 +271,14 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 			pcb->estado = FINALIZADO;
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(5);
+			sleep(2);
 			return true;
 			break;
 		default:
 			log_info(logger, "CPU-EXECUTE HUBO UN FALLO EN LA EJECUCION DE LAS INSTRUCCIONES PID: %d", pcb->pid);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(5);
+			sleep(2);
 			return true;
 			break;
 	}
@@ -300,7 +300,7 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 	program_counter++;
 	pcb->program_counter = program_counter;
 
-	log_info(logger, "CPU-EXECUTE Aumento el program counter del PCB con PID %d a instruccion: %d", pcb->pid, pcb->program_counter);
+	log_info(logger, "CPU-EXECUTE Aumento el program counter del PCB a: %d", pcb->program_counter);
 
 	//decode
 	bool requiere_fetch_operands = false;

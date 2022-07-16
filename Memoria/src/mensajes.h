@@ -60,7 +60,7 @@
 	void devolver_numero_marco_asociado(int socket_cliente, uint8_t codOp);
 	void devolver_lectura(int socket_cliente, uint8_t codOp);
 	void devolver_escritura(int socket_cliente, uint8_t codOp);
-	
+	void page_fault(t_tabla_paginas_segundo_nivel* tabla, uint32_t indice_tabla_segundo_nivel,t_proceso* proceso,int socket_cliente);
 	uint32_t iniciar_proceso(pcb_t* pcb);
 
 	//TODO VER SI BORRAR ESTA

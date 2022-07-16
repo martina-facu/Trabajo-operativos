@@ -37,40 +37,64 @@ void devolver_numero_tabla_segundo_nivel(int socket_cliente, uint8_t codOp){
 
 	proceso = list_get(procesos, coordenada->id_tabla);
 
-	uint32_t indice = proceso->entrada_tabla_primer_nivel;
+//	uint32_t indice = proceso->entrada_tabla_primer_nivel;
 
-	uint32_t* tabla_primer_nivel = list_get(tabla_paginas_primer_nivel_global, indice);
+	uint32_t* tabla_primer_nivel = list_get(tabla_paginas_primer_nivel_global, coordenada->id_tabla);
 
-	uint32_t valor = *(tabla_primer_nivel + coordenada->numero_entrada);
+	uint32_t valorr = *(tabla_primer_nivel + coordenada->numero_entrada);
 
 	log_info(logger, "MEMORIA-CPU: Se envia el nro de tabla de segundo nivel");
 
-	send(socket_cliente, &valor, sizeof(uint32_t), 0);
+	send(socket_cliente, &valorr, sizeof(uint32_t), 0);
 
 	uint32_t entrada_tabla_segundo_nivel;
 
 	recv(socket_cliente, &entrada_tabla_segundo_nivel, sizeof(uint32_t), 0);
 
-	//TODO: NACHO ESTO ESTA BIEN?? EL PRIMERO ES EL QUE ARMAMOS AYER
-	t_tabla_paginas_segundo_nivel* tabla_segundo_nivel = list_get(tabla_paginas_segundo_nivel_global, valor);
+	t_tabla_paginas_segundo_nivel* tabla_segundo_nivel = list_get(tabla_paginas_segundo_nivel_global, valorr);
 
-	//t_entradas_segundo_nivel entrada = list_get(tabla_segundo_nivel->tabla, valor);
+	t_entradas_segundo_nivel* entrada_segundo_nivel = list_get(tabla_segundo_nivel->tabla, entrada_tabla_segundo_nivel);
 
-	//if(esta_en_memoria(entrada, entrada_tabla_segundo_nivel)){
+	if(esta_en_memoria(entrada_segundo_nivel, entrada_tabla_segundo_nivel)){
 
 		//me robo el marco en una variable
-		//send(socket_cliente, entrada->nroFrame, sizeof(uint32_t), 0);
+		send(socket_cliente, entrada_segundo_nivel->nroFrame, sizeof(uint32_t), 0);
 
-	/*}
+	}
 	else{
 		log_info(logger, "asdasd");
-		//EJECUTAR un PF
+		page_fault( tabla_segundo_nivel, valorr, proceso,socket_cliente);
 		//SI HAY
 	}
-*/
 	//recv estructura de operacion
 
-	EstructuraDeOperacion* estructuraDeOperacion;
+	EstructuraDeOperacion* operacion = malloc(sizeof(EstructuraDeOperacion));
+
+	recv(socket_cliente,&(operacion->tipoDeOperacion),sizeof(uint8_t),0);
+
+	uint32_t tamano;
+	uint32_t direccion;
+	uint32_t valor =0;
+	void* buffer;
+
+	if(operacion->tipoDeOperacion == 9){
+		recv(socket_cliente,&direccion,sizeof(uint32_t),0);
+		entrada_segundo_nivel->bUso=1;
+		buffer = malloc(sizeof(uint32_t));
+		memcpy(buffer,memoriaPrincipal + direccion, sizeof(uint32_t));
+		send(socket_cliente,buffer,sizeof(uint32_t),0);
+
+	}
+	else if(operacion->tipoDeOperacion == 9){
+		recv(socket_cliente,&direccion,sizeof(uint32_t),0);
+		recv(socket_cliente,&valor,sizeof(uint32_t),0);
+		memcpy(memoriaPrincipal + direccion,&valor, sizeof(uint32_t));
+		entrada_segundo_nivel->bUso=1;
+		entrada_segundo_nivel->bMod=1;
+		uint8_t ok = 1;
+		send(socket_cliente,&ok,sizeof(uint8_t),0);
+
+	}
 
 	//if( estructuraDeOperacion->tipoDeOperacion == 1){
 
@@ -80,8 +104,7 @@ void devolver_numero_tabla_segundo_nivel(int socket_cliente, uint8_t codOp){
 		//poenr bit de uso en 1 y modificado
 		//nro marco * tamaño pagina + desp
 		//memcpy en el offset
-		//memcpy(memPrincipal + marco*tamanoPagina + offset, mensaje a escribir, tamano mensaje);
-}
+		//memcpy(memPrincipal + marco*tamanoPagina + offset, mensaje a escribir, tamano mensaje);}
 
 	//else if ( estructuraDeOperacion->tipoDeOperacion == 0){
 
@@ -93,6 +116,7 @@ void devolver_numero_tabla_segundo_nivel(int socket_cliente, uint8_t codOp){
 		//send buffer
 
 	//}
+}
 
 
 bool esta_en_memoria(t_tabla_paginas_segundo_nivel* tabla, uint32_t indice_tabla_segundo_nivel){
@@ -113,8 +137,11 @@ bool ordenar(void* entrada1, void* entrada2){
 	return entrada->nroFrame < aux->nroFrame;
 
 }
+// TODO CUANDO INICIALIZAMOS EL PROCESO HAY QUE INICIALIZAR EL PUNTERO EN 0
 
-void page_fault(t_tabla_paginas_segundo_nivel* tabla, uint32_t indice_tabla_segundo_nivel, 	t_proceso* proceso){
+void page_fault(t_tabla_paginas_segundo_nivel* tabla, uint32_t indice_tabla_segundo_nivel, 	t_proceso* proceso,int socket_cliente)
+{
+
 
 
 	if( list_size(proceso->paginasDelProceso) == marcosPorProceso){
@@ -136,7 +163,9 @@ void page_fault(t_tabla_paginas_segundo_nivel* tabla, uint32_t indice_tabla_segu
 
 		list_add_sorted(proceso->paginasDelProceso, entrada, ordenar);
 
-		//send a cpu nro marco
+		send(socket_cliente,&frame,sizeof(uint8_t),0);
+		proceso->contador++;
+		proceso->punteroAlgoritmo= proceso->contador % marcosPorProceso;
 
 	}
 }
@@ -440,7 +469,6 @@ void suspender_proceso(int socket_cliente, t_config_memoria* tconfig, void* memo
 	uint32_t pid = 0;
 	recv(socket_cliente, &pid, sizeof(uint32_t), 0);
 	log_info(logger, "MEMORIA-KERNEL: Se recibe un pid %d para suspender", pid);
-
 	int ePorTabla = tconfig->table_input;
 	int tamPagina = tconfig->page_size;
 
@@ -448,38 +476,30 @@ void suspender_proceso(int socket_cliente, t_config_memoria* tconfig, void* memo
 
 	proceso = list_get(procesos, pid);
 
-	int cantPag = cantidad_de_paginas_del_proceso(proceso->tamanoProceso, tamPagina);
 
-	t_list* paginas = proceso->paginasDelProceso;
-	log_info(logger, "%d", list_size(paginas));
+	while(!list_is_empty(proceso->paginasDelProceso)){
+		int frame;
+		t_entradas_segundo_nivel* entrada_segundo_nivel=list_get(proceso->paginasDelProceso,0);
+		if (entrada_segundo_nivel->bMod == 1){
+				log_info(logger, "MEMORIA: Voy a guardar la memoria en swap.");
+//				guardar_archivo_en_swap(proceso->pid, proceso->tamanoProceso,entrada_segundo_nivel->nroFrame, cantPag, tamPagina, memoriaPrincipal);
+				guardar_pagina_swap(pid, entrada_segundo_nivel->nroFrame,tamPagina, memoriaPrincipal);
+				log_info(logger, "MEMORIA-KERNEL: Archivo del proceso %d guardado en swap", proceso->pid);
+				entrada_segundo_nivel->bMod = 0;
+				log_info(logger, "MEMORIA-KERNEL: Se libera memoria del proceso %d en memoria principal", proceso->pid);
+				bitarray_clean_bit(marcosOcupadosPpal, entrada_segundo_nivel->nroFrame);
+				imprimir_bitarray(marcosOcupadosPpal);
+				framesLibres++;
 
-	log_info(logger, "Ingreso a suspender todas las paginas del proceso %d", proceso->pid);
-
-	for(int i = 0; i < list_size(paginas); i++){
-
-		t_entradas_segundo_nivel* tabla;
-
-		tabla = list_get(paginas, i);
-
-		if (tabla->bMod == 1){
-			log_info(logger, "MEMORIA: Voy a guardar la memoria en swap.");
-			log_info(logger, "pagina %d suspendida", i);
-			guardar_archivo_en_swap(proceso->pid, proceso->tamanoProceso,tabla->nroFrame, cantPag, tamPagina, memoriaPrincipal);
-			log_info(logger, "MEMORIA-KERNEL: Archivo del proceso %d guardado en swap", proceso->pid);
-			tabla->bMod = 0;
-			log_info(logger, "MEMORIA-KERNEL: Se libera memoria del proceso %d en memoria principal", proceso->pid);
+				memset(memoriaPrincipal + entrada_segundo_nivel->nroFrame*tamanoPagina, '\0', tamanoPagina);
 		}
 
-		tabla->bPres = 0;
+		entrada_segundo_nivel->bPres = 0;
 
-	}
-	//imprimir_bitarray(marcosOcupadosPpal);
-	limpiar_posiciones(marcosOcupadosPpal, proceso);
-	//imprimir_bitarray(marcosOcupadosPpal);
+		}
 
-	list_clean(proceso->paginasDelProceso);
-	list_destroy(proceso->paginasDelProceso); //HAY MEMORY LEACKS
-
+//	list_clean(proceso->paginasDelProceso);
+//	list_destroy(proceso->paginasDelProceso); //HAY MEMORY LEACKS
 
 }
 
@@ -491,19 +511,13 @@ void liberar_memoria_paginacion(){
 	//LIMPIO LA LISTA
 
 	list_clean(tabla_paginas_primer_nivel_global);
-	log_trace(logger, "MEMORIA Limpio la lista de tabla de paginas de primer nivel global");
 	list_clean(tabla_paginas_segundo_nivel_global);
-	log_trace(logger, "MEMORIA Limpio la lista de tabla de paginas de segundo nivel global");
 	list_clean(procesos);
-	log_trace(logger, "MEMORIA Limpio la lista de procesos");
 
 	//LA DESTRUYO
 	list_destroy(tabla_paginas_primer_nivel_global);
-	log_trace(logger, "MEMORIA Libero la lista de tabla de paginas de primer nivel global");
 	list_destroy(tabla_paginas_segundo_nivel_global);
-	log_trace(logger, "MEMORIA Libero la lista de tabla de paginas de segundo nivel global");
 	list_destroy(procesos);
-	log_trace(logger, "MEMORIA Libero la lista de procesos");
 }
 
 int cantidad_de_paginas_del_proceso(int tamanioProceso,  int tamanoPagina){

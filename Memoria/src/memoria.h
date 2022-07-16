@@ -83,7 +83,7 @@ typedef struct{
 	uint32_t entrada_tabla_primer_nivel;  //entrada a la tabla de paginas de primer nivel
 	t_list* paginasDelProceso;
 	uint32_t punteroAlgoritmo;
-
+	uint32_t contador;
 }t_proceso;
 
 typedef struct{
@@ -102,8 +102,7 @@ typedef struct{
 
 typedef struct{
 
-	uint32_t nroMarco;
-	uint32_t offset;
+	uint32_t direccionFisica;
 	int tipoDeOperacion; //LECTURA 0 O ESCRITURA 1
 } EstructuraDeOperacion;
 
@@ -190,8 +189,6 @@ typedef struct{
 	void liberar_memoria_paginacion();
 	bool esta_en_memoria(t_tabla_paginas_segundo_nivel* tabla, uint32_t indice_tabla_segundo_nivel);
 	bool ordenar(void* entrada1, void* entrada2);
-	void page_fault(t_tabla_paginas_segundo_nivel* tabla, uint32_t indice_tabla_segundo_nivel, 	t_proceso* proceso);
-
 	void mostrar_vector(uint32_t* vector_primer_nivel);
 
 #endif /* MEMORIA_H_ */

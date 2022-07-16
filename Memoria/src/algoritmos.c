@@ -54,6 +54,25 @@ t_proceso* buscar_tabla (int pid){
 	return NULL; //No existe, avisa que hay que agregarla para reservar pagina
 }
 
+int sacar_con_clock_(t_proceso* proceso){
+	t_entradas_segundo_nivel* entrada;
+	while(1){
+		entrada = list_get(proceso->paginasDelProceso,proceso->punteroAlgoritmo);
+		if(entrada->bUso==0){
+			entrada->bPres=0;
+			// TODO SACAR PAGINA Y SWAPEAR DE SER NECESARIO (bMod =1) y traer pagina a memoria
+		}
+		else{
+			entrada->bUso=0;
+			proceso->contador++;
+			proceso->punteroAlgoritmo= proceso->contador % marcosPorProceso;
+		}
+	}
+
+
+}
+
+
 
 
 //TODO: Testear

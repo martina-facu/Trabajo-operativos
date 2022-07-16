@@ -116,7 +116,41 @@ void eliminar_archivo_swap(int pidRecibido){
  *  Razon: 	Cuando se hacen operaciones entre memoria y el swap suele haber un tiempo
  *  de espera, con esta función lo emulamos.
  */
+guardar_pagina_swap(int pid,int frame,int tamanoPagina,void* memoriaPrincipal){
+	log_info(logger, "MEMORIA: Ingresando a SWAP..(SUSPENSION)");
 
+	retardo_swap();
+
+
+	char nombreArchivo[1024];
+	char pathArchivo[1024];
+
+	sprintf(nombreArchivo, "%d.swap", pid);
+	sprintf(pathArchivo, "%s/%s", pSwap, nombreArchivo);
+	log_info(logger, "%s", pathArchivo);
+	int fd = open(pathArchivo, O_RDWR);
+
+	if (fd == -1){
+
+		log_error(logger, "SWAP: El archivo no existe.");
+		exit(1);
+	}
+
+	t_proceso* proceso = list_get(procesos,pid);
+
+
+	void* archivo = mmap((void*) 0, cantidad_de_paginas_del_proceso(proceso->tamanoProceso,tamanoPagina)*tamanoPagina, PROT_WRITE, MAP_PRIVATE, fd, 0);
+
+	memcpy(&archivo, (memoriaPrincipal + (tamanoPagina*frame)), tamanoPagina);
+
+	msync(archivo, cantidad_de_paginas_del_proceso(proceso->tamanoProceso,tamanoPagina)*tamanoPagina, MS_SYNC);
+
+	munmap(archivo, cantidad_de_paginas_del_proceso(proceso->tamanoProceso,tamanoPagina)*tamanoPagina);
+
+	log_info(logger, "SWAP: Ingresando a memoria..");
+	close(fd);
+
+}
 void guardar_archivo_en_swap(int pid, int tamanoProceso,int nroFrame,int cantPag,int tamanoPagina, char* memoriaP){
 
 	log_info(logger, "MEMORIA: Ingresando a SWAP..(SUSPENSION)");
@@ -147,7 +181,6 @@ void guardar_archivo_en_swap(int pid, int tamanoProceso,int nroFrame,int cantPag
 
 	void* archivo = mmap((void*) 0, cantPag, PROT_WRITE, MAP_PRIVATE, fd, 0);
 
-	close(fd);
 
 	memcpy(&archivo, (memoriaP + (tamanoPagina*nroFrame)), cantPag);
 
@@ -156,4 +189,5 @@ void guardar_archivo_en_swap(int pid, int tamanoProceso,int nroFrame,int cantPag
 	munmap(archivo, cantPag);
 
 	log_info(logger, "SWAP: Ingresando a memoria..");
+	close(fd);
 }
