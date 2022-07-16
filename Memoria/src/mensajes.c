@@ -421,7 +421,7 @@ void iniciar_eliminacion_proceso(uint32_t pid){
 			limpiar_posiciones(marcosOcupadosPpal, proceso);
 			log_info(logger, "MEMORIA: Se liberan los marcos ocupados del proceso");
 
-			list_remove_and_destroy_element(procesos, i, free);
+//			list_remove_and_destroy_element(procesos, i, free);
 			log_info(logger, "MEMORIA: Se elimina el proceso %d", pid);
 
 			log_info(logger, "MEMORIA: Ingresando a SWAP..");
@@ -440,7 +440,7 @@ void suspender_proceso(int socket_cliente, t_config_memoria* tconfig, void* memo
 	uint32_t pid = 0;
 	recv(socket_cliente, &pid, sizeof(uint32_t), 0);
 	log_info(logger, "MEMORIA-KERNEL: Se recibe un pid %d para suspender", pid);
-/*
+
 	int ePorTabla = tconfig->table_input;
 	int tamPagina = tconfig->page_size;
 
@@ -480,7 +480,7 @@ void suspender_proceso(int socket_cliente, t_config_memoria* tconfig, void* memo
 	list_clean(proceso->paginasDelProceso);
 	list_destroy(proceso->paginasDelProceso); //HAY MEMORY LEACKS
 
-*/
+
 }
 
 //-----------------------------PAGINACION-----------------------------
@@ -491,13 +491,19 @@ void liberar_memoria_paginacion(){
 	//LIMPIO LA LISTA
 
 	list_clean(tabla_paginas_primer_nivel_global);
+	log_trace(logger, "MEMORIA Limpio la lista de tabla de paginas de primer nivel global");
 	list_clean(tabla_paginas_segundo_nivel_global);
+	log_trace(logger, "MEMORIA Limpio la lista de tabla de paginas de segundo nivel global");
 	list_clean(procesos);
+	log_trace(logger, "MEMORIA Limpio la lista de procesos");
 
 	//LA DESTRUYO
 	list_destroy(tabla_paginas_primer_nivel_global);
+	log_trace(logger, "MEMORIA Libero la lista de tabla de paginas de primer nivel global");
 	list_destroy(tabla_paginas_segundo_nivel_global);
+	log_trace(logger, "MEMORIA Libero la lista de tabla de paginas de segundo nivel global");
 	list_destroy(procesos);
+	log_trace(logger, "MEMORIA Libero la lista de procesos");
 }
 
 int cantidad_de_paginas_del_proceso(int tamanioProceso,  int tamanoPagina){
