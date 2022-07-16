@@ -125,7 +125,7 @@ void aceptoServerInterrupt(int socketAnalizar)
 int main(void)
 {
 	config = config_create("cpu.config");
-	uint32_t cantidad_entradas, tamano_pagina = 0;
+
 	devolver_pcb = false;
 	recibiPCB = false;
 
@@ -139,7 +139,7 @@ int main(void)
 	FD_ZERO(&master_fd_set);
 
 //	Iniciar conexiones
-	int conexion_memoria = levantar_conexion_memoria(configuracion->IPMemoria, configuracion->puertoMemoria, &cantidad_entradas,&tamano_pagina);
+	int conexion_memoria = levantar_conexion_memoria(configuracion->IPMemoria, configuracion->puertoMemoria, 0,0);
 	//	Marco el descriptor en donde me conecte al server de memoria como limite maximo y minimo del select
 	fdmax = conexion_memoria;
 	fdmin = conexion_memoria;
@@ -236,6 +236,15 @@ int main(void)
  */
 void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
 {
+	if(idAnteriorPCB == -1){
+		log_info(logger, "Inicializo la tlb");
+		tlb = list_create();
+	}
+	else if(pcb->pid != idAnteriorPCB){
+		log_info(logger, "Borro el contenido de la TLB ya que no es el mismo proceso que el anterior");
+		limpiar_tlb(tlb);
+	}
+
 
 	if((cantidad_clientes_dispatch > 0) && (cantidad_clientes_interrupt > 0) )
 	{

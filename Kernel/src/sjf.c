@@ -131,31 +131,39 @@ void actualizar_estimacion(pcb_t* pcb){
 void* bloquear_proceso_sjf(void* pcb_){
 	pcb_t* pcb= pcb_;
 
-	if(pcb->tiempo_block>TIEMPO_BLOCK_MAX){ // CONDICION DE SUSPENSION
+	//if(pcb->tiempo_block>TIEMPO_BLOCK_MAX){ // CONDICION DE SUSPENSION
+	if(pcb->tiempo_block > configuracion->TIEMPO_BLOCK_MAX){
 		log_trace(PCP,"KERNEL Se va a suspender un proceso por %d, ID: %d", pcb->tiempo_block,pcb->pid);
 
 		pthread_mutex_lock(&mx_block_l);
 		remover_de_lista_sjf(block_l,pcb);
 		pthread_mutex_unlock(&mx_block_l);
 
+		log_trace(PCP, "LA PUTA MADREE");
 		pthread_mutex_lock(&mx_susp_block_buffer_l);
 		list_add(susp_block_buffer_l,pcb);
 		pthread_mutex_unlock(&mx_susp_block_buffer_l);
 
+		log_trace(PCP, "LA PUTA MADREE2");
+		log_trace(PCP,"KERNEL SEN 1");
 
 		sem_post(&s_proceso_susp);
 
+		log_trace(PCP,"KERNEL SEN 2");
+
 		sem_wait(&s_susp);
+		log_trace(PCP,"SALI");
 
 
+/*
 		//	Envio mensaje de suspencion a Memoria
-		uint8_t mensaje = SUSPENDER_PROCESO  ;
+		uint8_t mensaje = SUSPENDER_PROCESO;
 		send(socket_memoria, &mensaje, sizeof(uint8_t), 0);
 
 		//	Envio el PID del proceso a suspender
 		uint32_t pid = pcb->pid;
 		send(socket_memoria,&pid, sizeof(uint32_t),0);
-
+*/
 		usleep(pcb->tiempo_block);
 
 

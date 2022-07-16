@@ -267,7 +267,6 @@ int manejo_mensajes_kernel(int acceptedConecctionKernel){
 
 }
 
-
 /*
  *  Funcion: validoYAceptoConexionCPU
  *  Entradas: 	int acceptedConnectionCPU	Socket aceptado del cpu
@@ -276,30 +275,29 @@ int manejo_mensajes_kernel(int acceptedConecctionKernel){
  */
 
 int manejo_mensajes_cpu(int acceptedConecctionCPU){
-	uint8_t mensaje = 0;
-	recv(acceptedConecctionCPU, &mensaje, sizeof(uint8_t), 0);
-	log_info(logger, "MEMORIA-CPU: Mensaje recibido en el server Memoria para aceptar conexiones: %d", mensaje);
+	uint8_t codOp = 0;
+	recv(acceptedConecctionCPU, &codOp, sizeof(uint8_t), 0);
+	log_info(logger, "MEMORIA-CPU: Codigo de operacion recibido en el server Memoria para aceptar conexiones: %d", codOp);
 
-	switch(mensaje){
-					case ENTRADAS_Y_TAMANIO_DE_PAGINA:
-						entradas_y_tamanio_de_pagina(acceptedConecctionCPU);
-						break;
+	switch(codOp){
+					case SOLICITAR_ENTRADA_Y_TAMANO:
+						entradas_y_tamanio_de_pagina(acceptedConecctionCPU, config, codOp);
+					break;
 
+					case SOLICITAR_VALOR_ENTRADA1:
+						devolver_numero_tabla_segundo_nivel(acceptedConecctionCPU, codOp);
 					break;
-					case ID_TABLA_SEGUNDO_NIVEL:
-						devolver_numero_tabla_segundo_nivel(acceptedConecctionCPU);
+					case SOLICITAR_VALOR_ENTRADA2:
+						devolver_numero_marco_asociado(acceptedConecctionCPU, codOp);
 					break;
-					case MARCO_DE_LA_ENTRADA:
-						devolver_numero_marco_asociado(acceptedConecctionCPU);
+					case SOLICITAR_LECTURA:
+						devolver_lectura(acceptedConecctionCPU, codOp);
 					break;
-					case RESULTADO_LECTURA:
-						devolver_lectura(acceptedConecctionCPU);
-					break;
-					case RESULTADO_ESCRITURA:
-						devolver_escritura(acceptedConecctionCPU);
+					case SOLICITAR_ESCRITURA:
+						devolver_escritura(acceptedConecctionCPU, codOp);
 					break;
 					default:
-						log_info(logger,"MEMORIA-CPU: El mensaje recibido no corresponde a ninguno de los preestablecidos: %d", mensaje);
+						log_info(logger,"MEMORIA-CPU: El codigo de operacion recibido no corresponde a ninguno de los preestablecidos: %d", codOp);
 						log_info(logger,"MEMORIA-CPU: Procedo a cerrar sesion temporal establecida en el descriptor: %d", acceptedConecctionKernel);
 						close(acceptedConecctionKernel);
 					break;

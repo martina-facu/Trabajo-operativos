@@ -8,9 +8,12 @@
 
 #include "mmu.h"
 
-void inicializar_mmu(t_config* config, t_list* tlb){
+
+
+void inicializar_mmu(t_config* config, t_list* tlb, t_log* logger_cpu){
 	config_cpu = config;
 	tlb_proceso = tlb;
+	logger = logger_cpu;
 }
 
 uint32_t buscar_marco(uint32_t pagina){
@@ -92,8 +95,15 @@ void reemplazar_entrada_LRU(Entrada_TLB* entrada){
 	list_add(tlb_proceso, entrada);
 }
 
-void set_numero_pagina(Datos_calculo_direccion* datos, uint32_t direccion_logica){
-	datos->numero_pagina = direccion_logica/datos->tamano_pagina;
+void set_numero_pagina(Datos_calculo_direccion* datos, uint32_t direccion_logica, t_log* logger){
+
+
+	if (datos->tamano_pagina != 0){
+		log_info(logger, "Tam%d", datos->tamano_pagina);
+		datos->numero_pagina = direccion_logica/datos->tamano_pagina;
+	}
+	else
+		log_info(logger, "CPU: SE DIVIDE POR 0 :O");
 }
 
 void set_entrada_tabla_1er_nivel (Datos_calculo_direccion* datos){
@@ -108,11 +118,16 @@ void set_desplazamiento (Datos_calculo_direccion* datos, uint32_t direccion_logi
 	datos->desplazamiento = direccion_logica - (datos->numero_pagina * datos->tamano_pagina);
 }
 
-void calcular_datos_direccion(Datos_calculo_direccion* datos, uint32_t direccion_logica){
-	set_numero_pagina(datos,direccion_logica);
+void calcular_datos_direccion(Datos_calculo_direccion* datos, uint32_t direccion_logica, t_log* logger){
+	log_trace(logger, "SET NUMERO PAGINA");
+	set_numero_pagina(datos,direccion_logica, logger);
+	log_trace(logger,"SET ENTRADA PRIMER NIVEL");
 	set_entrada_tabla_1er_nivel(datos);
+	log_trace(logger,"SET ENTRADA SEGUNDO NIVEL");
 	set_entrada_tabla_2do_nivel(datos);
+	log_trace(logger,"SET DESPLAZAMIENTO");
 	set_desplazamiento(datos,direccion_logica);
+	log_trace(logger,"MOSTRAR DATOS");
 	mostrar_datos(datos);
 }
 
@@ -152,13 +167,13 @@ uint32_t get_marco_memoria(Datos_calculo_direccion* datos){
 	coordenada->id_tabla = datos->id_tabla_paginas1;
 	coordenada->numero_entrada = datos->entrada_tabla_primer_nivel;
 
-	enviar_coordenada(coordenada, id_tabla_paginas2, datos->conexion_memoria,5);
+	enviar_coordenada(coordenada, id_tabla_paginas2, datos->conexion_memoria,SOLICITAR_VALOR_ENTRADA1);
 
 	coordenada->id_tabla = *id_tabla_paginas2;
 	coordenada->numero_entrada = datos->entrada_tabla_segundo_nivel;
 
 	uint32_t* marco = malloc(sizeof(uint32_t));
-	enviar_coordenada(coordenada, marco, datos->conexion_memoria,7);
+	enviar_coordenada(coordenada, marco, datos->conexion_memoria,SOLICITAR_VALOR_ENTRADA2);
 
 	return *marco;
 }
@@ -222,4 +237,13 @@ void crear_tabla_prueba(){
 	sleep(1);
 	cargar_entrada(entrada3);
 	cargar_entrada(entrada4);
+}
+
+void limpiar_tlb(t_list* tlb)
+{
+	void destruir_entradas(void* entrada){
+		free(entrada);
+	}
+
+	list_clean_and_destroy_elements(tlb,destruir_entradas);
 }

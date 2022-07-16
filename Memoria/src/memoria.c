@@ -86,7 +86,7 @@ int iniciar_memoria(){
 	log_info(logger, "MEMORIA: Reservando memoria");
 
 	memoriaPrincipal = malloc(tamanoMemoria);
-	log_info(logger, "MEMORIA PRINCIPAL: %d ", memoriaPrincipal);
+	//log_info(logger, "MEMORIA PRINCIPAL: %d ", memoriaPrincipal);
 
 	if (memoriaPrincipal == NULL){
 		perror("El malloc fallo\n");
@@ -242,7 +242,7 @@ void mostrar_tabla_segundo_nivel_global(t_list* lista){
 		unaTabla = list_get(lista, i);
 		entrada = list_get(unaTabla->tabla, i);
 
-		printf("\n|%d\t|\t%d|\t%d\t|\t%d\t|\t%d\t|\n",i, entrada->nroFrame, entrada->bPres, entrada->bUso, entrada->bMod);
+		printf("\n|%d\t|\t%d|\t\t%d\t|\t%d\t|\t%d\t|\n",i, entrada->nroFrame, entrada->bPres, entrada->bUso, entrada->bMod);
 	}
 
 }

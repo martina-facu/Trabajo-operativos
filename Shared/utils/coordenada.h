@@ -24,6 +24,7 @@
 		uint32_t numero_entrada;
 	} Coordenada_tabla;
 
+	t_log* logger;
 /*
  *	Prototipo de Funciones
 */

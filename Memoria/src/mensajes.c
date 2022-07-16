@@ -3,66 +3,76 @@
 //-----------------------------MENSAJES-----------------------------
 
 //CPU
-void entradas_y_tamanio_de_pagina(int socket_cliente){
+void entradas_y_tamanio_de_pagina(int socket_cliente, t_config_memoria* tconfig, uint8_t codOp){
+
+	log_info(logger, "MEMORIA-CPU: Se recibe codigo de operacion %d", codOp);
 
 	retardo_memoria();
 
-	char* tamanio_pagina = malloc(tamanoPagina);
-	char* entradas = malloc(entradasPorTabla);
+	uint32_t cEntradas = tconfig->table_input;
+	uint32_t pSize = tconfig->page_size;
 
-	send(socket_cliente, entradas, sizeof(entradasPorTabla),0);
-	send(socket_cliente, tamanio_pagina, sizeof(tamanoPagina),0);
+	log_info(logger, "cEntradas: %d", cEntradas);
+	log_info(logger, "paginas size: %d", pSize);
+	log_info(logger, "MEMORIA-CPU: se envia mensaje entradas y tamano");
+	send(socket_cliente, &cEntradas, sizeof(uint32_t),0);
+	send(socket_cliente, &pSize, sizeof(uint32_t),0);
 
-	free(tamanio_pagina);
-	free(entradas);
 }
 
-void devolver_numero_tabla_segundo_nivel(int socket_cliente){
+void devolver_numero_tabla_segundo_nivel(int socket_cliente, uint8_t codOp){
 
-	uint32_t numeroEntradaSegundoNivel;
+	log_info(logger, "MEMORIA-CPU: Se recibe codigo de operacion %d", codOp);
+	//uint32_t numeroEntradaSegundoNivel;
 
-	Coordenada_tabla_cpu* coordenada = malloc(sizeof(Coordenada_tabla_cpu));
+	Coordenada_tabla* coordenada = malloc(sizeof(Coordenada_tabla));
 
 	t_proceso* proceso;
 
 	//TODO: REHACER FUNCION COORDENADA
 	coordenada = recibir_coordenada(socket_cliente);
-
+	log_info(logger, "MEMORIA-CPU: Recibo mensaje de cpu");
+	log_info(logger, "MEMORIA-CPU: Coordenada %d %d", coordenada->id_tabla, coordenada->numero_entrada);
 	retardo_memoria();
 
-	proceso = list_get(procesos, coordenada->pid);
+	proceso = list_get(procesos, coordenada->id_tabla);
 
 	uint32_t indice = proceso->entrada_tabla_primer_nivel;
 
 	uint32_t* tabla_primer_nivel = list_get(tabla_paginas_primer_nivel_global, indice);
 
-	uint32_t valor = *(tabla_primer_nivel + coordenada->indice_tabla_primer_nivel);
+	uint32_t valor = *(tabla_primer_nivel + coordenada->numero_entrada);
 
+	log_info(logger, "MEMORIA-CPU: Se envia el nro de tabla de segundo nivel");
 
-	enviar_coordenada(coordenada, &numeroEntradaSegundoNivel , socket_cliente, ID_TABLA_SEGUNDO_NIVEL);
+	send(socket_cliente, &valor, sizeof(uint32_t), 0);
 
-	uint32_t entrada_tabla_segundo_nivel; //recibe de cpu
+	uint32_t entrada_tabla_segundo_nivel;
 
-	//TODO:recv(entrada_tabla_segundo_nivel
+	recv(socket_cliente, &entrada_tabla_segundo_nivel, sizeof(uint32_t), 0);
 
-	t_tabla_paginas_segundo_nivel* tabla2 = list_get(tabla_paginas_segundo_nivel_global, valor);
+	//TODO: NACHO ESTO ESTA BIEN?? EL PRIMERO ES EL QUE ARMAMOS AYER
+	t_tabla_paginas_segundo_nivel* tabla_segundo_nivel = list_get(tabla_paginas_segundo_nivel_global, valor);
 
-	if(esta_en_memoria(tabla2, entrada_tabla_segundo_nivel)){
+	//t_entradas_segundo_nivel entrada = list_get(tabla_segundo_nivel->tabla, valor);
+
+	//if(esta_en_memoria(entrada, entrada_tabla_segundo_nivel)){
 
 		//me robo el marco en una variable
-		//send(cpu del nro de marco)
-	}
-	else{
+		//send(socket_cliente, entrada->nroFrame, sizeof(uint32_t), 0);
 
+	/*}
+	else{
+		log_info(logger, "asdasd");
 		//EJECUTAR un PF
 		//SI HAY
 	}
-
+*/
 	//recv estructura de operacion
 
 	EstructuraDeOperacion* estructuraDeOperacion;
 
-	if( estructuraDeOperacion->tipoDeOperacion == 1){
+	//if( estructuraDeOperacion->tipoDeOperacion == 1){
 
 
 		//variable marco
@@ -71,10 +81,9 @@ void devolver_numero_tabla_segundo_nivel(int socket_cliente){
 		//nro marco * tamaño pagina + desp
 		//memcpy en el offset
 		//memcpy(memPrincipal + marco*tamanoPagina + offset, mensaje a escribir, tamano mensaje);
+}
 
-	}
-
-	else if ( estructuraDeOperacion->tipoDeOperacion == 0){
+	//else if ( estructuraDeOperacion->tipoDeOperacion == 0){
 
 		//variable marco
 		//void* buffer = malloc(tamanoMensaje);
@@ -83,10 +92,8 @@ void devolver_numero_tabla_segundo_nivel(int socket_cliente){
 
 		//send buffer
 
-	}
+	//}
 
-
-}
 
 bool esta_en_memoria(t_tabla_paginas_segundo_nivel* tabla, uint32_t indice_tabla_segundo_nivel){
 
@@ -184,8 +191,9 @@ int obtener_y_ocupar_frame(){
 }
 
 
-void devolver_numero_marco_asociado(int socket_cliente){
-
+void devolver_numero_marco_asociado(int socket_cliente, uint8_t codOp){
+	/*
+	log_info(logger, "MEMORIA-CPU: Se recibe codigo de operacion %d", codOp);
 	t_entradas_segundo_nivel* nroTablaSegundoNivel = malloc(sizeof(t_entradas_segundo_nivel));;
 	uint32_t* numeroDeMarco = malloc(sizeof(uint32_t));
 
@@ -206,12 +214,13 @@ void devolver_numero_marco_asociado(int socket_cliente){
 		//numeroDeMarco = cargar_pagina_en_algun_marco(nroTablaSegundoNivel);
 
 	enviar_coordenada(coordenada, numeroDeMarco, socket_cliente, MARCO_DE_LA_ENTRADA);
-
+*/
 }
 
 
-void devolver_lectura(int socket_cliente){
-
+void devolver_lectura(int socket_cliente, uint8_t codOp){
+/*
+ * 	log_info(logger, "MEMORIA-CPU: Se recibe codigo de operacion %d", codOp);
 	t_paquete* respuesta = recibir_mensaje_cpu(socket_cliente, logger);
 	uint32_t* direccion = malloc(sizeof(uint32_t));
 	uint32_t tamanioMarco;// = respuesta->buffer->stream * config->page_size;
@@ -223,11 +232,12 @@ void devolver_lectura(int socket_cliente){
 	memcpy(direccion, respuesta->buffer->stream, sizeof(uint32_t));
 
 	mandar_lecto_escritura(direccion,respuesta->buffer->stream,RESULTADO_LECTURA, socket_cliente);
-
+*/
 }
 
-void devolver_escritura (int socket_cliente){
-
+void devolver_escritura (int socket_cliente, uint8_t codOp){
+/*
+	log_info(logger, "MEMORIA-CPU: Se recibe codigo de operacion %d", codOp);
 	t_paquete* respuesta = recibir_mensaje_cpu(socket_cliente, logger);
 	uint32_t* valorAEscribir = malloc(sizeof(uint32_t));
 
@@ -239,8 +249,9 @@ void devolver_escritura (int socket_cliente){
 
 	char* respuesta_escritura = "OK";
 	send(socket_cliente, respuesta_escritura, sizeof(respuesta), 0);
-
+*/
 }
+
 
 
 void inicializar_proceso(int socket_cliente, t_config_memoria* tconfig){
@@ -424,12 +435,12 @@ void iniciar_eliminacion_proceso(uint32_t pid){
 
 }
 
-void suspender_proceso(int socket_cliente, t_config_memoria* tconfig, char* memoriaPrincipal){
+void suspender_proceso(int socket_cliente, t_config_memoria* tconfig, void* memoriaPrincipal){
 
 	uint32_t pid = 0;
 	recv(socket_cliente, &pid, sizeof(uint32_t), 0);
 	log_info(logger, "MEMORIA-KERNEL: Se recibe un pid %d para suspender", pid);
-
+/*
 	int ePorTabla = tconfig->table_input;
 	int tamPagina = tconfig->page_size;
 
@@ -469,6 +480,7 @@ void suspender_proceso(int socket_cliente, t_config_memoria* tconfig, char* memo
 	list_clean(proceso->paginasDelProceso);
 	list_destroy(proceso->paginasDelProceso); //HAY MEMORY LEACKS
 
+*/
 }
 
 //-----------------------------PAGINACION-----------------------------
