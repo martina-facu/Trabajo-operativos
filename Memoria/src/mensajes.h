@@ -45,7 +45,7 @@
 	//MENSAJES
 	void inicializar_proceso(int socket_cliente, t_config_memoria* config);
 	t_list* buscar_frames_sin_ocupar();
-	void suspender_proceso(int socket_cliente, t_config_memoria* tconfig, char* memoriaPrincipal);
+	void suspender_proceso(int socket_cliente, t_config_memoria* tconfig, void* memoriaPrincipal);
 	void iniciar_suspension_proceso(uint32_t pidRecibido);
 
 	void finalizar_proceso(int socket_cliente);
@@ -53,13 +53,13 @@
 	void acceder_tabla_de_paginas(int socket_cliente);
 	void acceder_espacio_de_usuario(int socket_cliente);
 
-	void entradas_y_tamanio_de_pagina(int socket_cliente);
+	void entradas_y_tamanio_de_pagina(int socket_cliente, t_config_memoria* config, uint8_t codOp);
 	void liberar_memoria_suspencion(t_proceso* proceso);
 
-	void devolver_numero_tabla_segundo_nivel(int socket_cliente);
-	void devolver_numero_marco_asociado(int socket_cliente);
-	void devolver_lectura(int socket_cliente);
-	void devolver_escritura(int socket_cliente);
+	void devolver_numero_tabla_segundo_nivel(int socket_cliente, uint8_t codOp);
+	void devolver_numero_marco_asociado(int socket_cliente, uint8_t codOp);
+	void devolver_lectura(int socket_cliente, uint8_t codOp);
+	void devolver_escritura(int socket_cliente, uint8_t codOp);
 	
 	uint32_t iniciar_proceso(pcb_t* pcb);
 

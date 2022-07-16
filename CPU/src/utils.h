@@ -64,7 +64,7 @@
 	bool devolver_pcb;			//	Si es True significa que recibi una interrupcion
 	bool recibiPCB;				//	Si es FALSE significa que todavia no recibi ningun PCB si es TRUE ya recibi PCB a procesar desde el Kernel
 	//	bool* hubo_interrupcion;
-
+	t_list* tlb;
 
 /*
  * Prototipo de funciones

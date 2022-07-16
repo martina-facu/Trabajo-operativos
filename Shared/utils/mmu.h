@@ -20,6 +20,7 @@
 #include <commons/config.h>
 #include <time.h>
 #include "coordenada.h"
+#include "../conexion.h"
 
 /*
  * Estructuras
@@ -79,5 +80,6 @@
 	void mostrar_datos(Datos_calculo_direccion* datos);
 	void mostrar_entradas(t_list* list);
 	void crear_tabla_prueba();
+	void limpiar_tlb(t_list* tlb);
 
 #endif /* UTILS_MMU_H_ */

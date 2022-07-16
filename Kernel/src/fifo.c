@@ -143,12 +143,14 @@ void* bloquear_proceso(void* pcb_){
 		// ESPERO QUE LO HAYA PUESO BLOQUEADO SUSPENDIDO
 		sem_wait(&s_susp);
 
-		uint8_t mensaje = SUSPENDER_PROCESO  ;
+		/*uint8_t mensaje = SUSPENDER_PROCESO  ;
 		send(socket_memoria, &mensaje, sizeof(uint8_t), 0);
 
 		//	Envio el PID del proceso a suspender
 		uint32_t pid = pcb->pid;
 		send(socket_memoria,&pid, sizeof(uint32_t),0);
+
+		 */
 
 		// LO SUSPENDO POR N MILISEGUNDOS
 		usleep(pcb->tiempo_block);

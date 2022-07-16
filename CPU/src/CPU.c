@@ -236,6 +236,15 @@ int main(void)
  */
 void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
 {
+	if(idAnteriorPCB == -1){
+		log_info(logger, "Inicializo la tlb");
+		tlb = list_create();
+	}
+	else if(pcb->pid != idAnteriorPCB){
+		log_info(logger, "Borro el contenido de la TLB ya que no es el mismo proceso que el anterior");
+		limpiar_tlb(tlb);
+	}
+
 
 	if((cantidad_clientes_dispatch > 0) && (cantidad_clientes_interrupt > 0) )
 	{

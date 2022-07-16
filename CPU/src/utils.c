@@ -46,12 +46,17 @@ int levantar_conexion_memoria(char* ipServer, char* portServer, uint32_t* cantid
 		exit(EXIT_FAILURE);
 	}
 	//	TODO: descomentar estas lineas cuando se implemente la parte de la memoria
-	//	t_paquete* respuesta = recibir_mensaje_memoria(conexion_memoria);
-	//	void* stream = respuesta->buffer->stream;
-	//
-	//	memcpy(cantidad_entradas, stream, sizeof(uint32_t));
-	//	stream += sizeof(uint32_t);
-	//	memcpy(tamano_pagina, stream, sizeof(uint32_t));
+
+		uint8_t mensaje = SOLICITAR_ENTRADA_Y_TAMANO;
+		send(conexion_memoria, &mensaje, sizeof(uint8_t), 0);
+
+		t_paquete* respuesta = recibir_mensaje_memoria(conexion_memoria);
+		void* stream = respuesta->buffer->stream;
+
+		log_info(logger, "ENTRADAS RECIBIDAS%d", stream);
+		memcpy(cantidad_entradas, stream, sizeof(uint32_t));
+		stream += sizeof(uint32_t);
+		memcpy(tamano_pagina, stream, sizeof(uint32_t));
 
 	return conexion_memoria;
 }
@@ -68,8 +73,11 @@ int levantar_server(char* ipServer, char* portServer, char* sTipo)
 	return socket;
 }
 
+
+
 t_paquete* recibir_mensaje_memoria(int conexion_memoria)
 {
+
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 
 	paquete->buffer = malloc(sizeof(t_buffer));
@@ -132,14 +140,14 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
 	calcular_datos_direccion(datos, direccion_logica);
 	Pagina_direccion* resultado = traducir_direccion(datos);
 
-	mandar_lecto_escritura(resultado->direccion_fisica, 0, 9, datos->conexion_memoria);
+	mandar_lecto_escritura(resultado->direccion_fisica, 0, SOLICITAR_LECTURA, datos->conexion_memoria);
 
 	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
 	uint32_t* valor_leido = malloc(sizeof(uint32_t));
 
 	memcpy(valor_leido, respuesta->buffer->stream, sizeof(uint32_t));
 
-	if(validar_codigo(respuesta,10))
+	if(validar_codigo(respuesta,RESULTADO_LECTURA))
 	{
 		valor_leido_respuesta = *valor_leido;
 		log_info(logger, "CPU-MEMORIA El valor leido fue: %d", *valor_leido);
@@ -158,14 +166,14 @@ uint32_t* escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calcu
 //	printf("El valor de la direccion fisica es: %d", resultado->direccion_fisica);
 	log_info(logger, "CPU-MEMORIA El valor de la direccion fisica es: %d", resultado->direccion_fisica);
 
-	mandar_lecto_escritura(resultado->direccion_fisica, valor_a_escribir, 11, datos->conexion_memoria);
+	mandar_lecto_escritura(resultado->direccion_fisica, valor_a_escribir, SOLICITAR_ESCRITURA, datos->conexion_memoria);
 
 	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
 	uint32_t* resultado_escritura = malloc(sizeof(uint32_t));
 
 	memcpy(resultado_escritura, respuesta->buffer->stream, sizeof(uint32_t));
 
-	if(validar_codigo(respuesta,10))
+	if(validar_codigo(respuesta,RESULTADO_ESCRITURA))
 	{
 		log_info(logger, "CPU-MEMORIA El resultado de escribir fue: %d", *resultado_escritura);
 //		printf("El resultado de escribir fue: %d", *resultado_escritura);

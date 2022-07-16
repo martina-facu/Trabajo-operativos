@@ -152,13 +152,13 @@ uint32_t get_marco_memoria(Datos_calculo_direccion* datos){
 	coordenada->id_tabla = datos->id_tabla_paginas1;
 	coordenada->numero_entrada = datos->entrada_tabla_primer_nivel;
 
-	enviar_coordenada(coordenada, id_tabla_paginas2, datos->conexion_memoria,5);
+	enviar_coordenada(coordenada, id_tabla_paginas2, datos->conexion_memoria,SOLICITAR_VALOR_ENTRADA1);
 
 	coordenada->id_tabla = *id_tabla_paginas2;
 	coordenada->numero_entrada = datos->entrada_tabla_segundo_nivel;
 
 	uint32_t* marco = malloc(sizeof(uint32_t));
-	enviar_coordenada(coordenada, marco, datos->conexion_memoria,7);
+	enviar_coordenada(coordenada, marco, datos->conexion_memoria,SOLICITAR_VALOR_ENTRADA2);
 
 	return *marco;
 }
@@ -222,4 +222,13 @@ void crear_tabla_prueba(){
 	sleep(1);
 	cargar_entrada(entrada3);
 	cargar_entrada(entrada4);
+}
+
+void limpiar_tlb(t_list* tlb)
+{
+	void destruir_entradas(void* entrada){
+		free(entrada);
+	}
+
+	list_clean_and_destroy_elements(tlb,destruir_entradas);
 }

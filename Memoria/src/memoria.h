@@ -116,8 +116,8 @@ typedef struct{
 	t_config_memoria* config;
 
 	//MEMORIA
-	char* memoriaPrincipal;
-	char* data;
+	void* memoriaPrincipal;
+	void* data;
 	t_bitarray* marcosOcupadosPpal;
 	int framesLibres;
 
