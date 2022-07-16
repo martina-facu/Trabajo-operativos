@@ -25,6 +25,7 @@
 	#include <conexion.h>
 	#include <pthread.h>
 	#include "utils.h"
+	#include <conexion.h>
 
 /*
  * Listado de estructuras
@@ -55,6 +56,7 @@
 
 	t_config* config;
 	t_config_cpu* configuracion;
+	t_log* logger;
 
 	int socket_dispatch = 0;
 	int socket_interrupt = 0;
@@ -73,6 +75,8 @@
 	int resThread;
 
 	int idAnteriorPCB = -1;
+
+
 
 /*
  * Prototipo de funciones

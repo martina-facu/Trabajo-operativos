@@ -50,13 +50,22 @@ int levantar_conexion_memoria(char* ipServer, char* portServer, uint32_t* cantid
 		uint8_t mensaje = SOLICITAR_ENTRADA_Y_TAMANO;
 		send(conexion_memoria, &mensaje, sizeof(uint8_t), 0);
 
-		t_paquete* respuesta = recibir_mensaje_memoria(conexion_memoria);
-		void* stream = respuesta->buffer->stream;
+		recv(conexion_memoria, &Ncantidad_entradas, sizeof(uint32_t), 0);
+		recv(conexion_memoria, &Ntamano_pagina, sizeof(uint32_t), 0);
 
-		log_info(logger, "ENTRADAS RECIBIDAS%d", stream);
-		memcpy(cantidad_entradas, stream, sizeof(uint32_t));
-		stream += sizeof(uint32_t);
-		memcpy(tamano_pagina, stream, sizeof(uint32_t));
+		log_info(logger, "cant entradas %d", cantidad_entradas);
+		log_info(logger, "tamano_pagina %d", tamano_pagina);
+
+		//TODO: Esta bien poner todos los mensajes aca?
+
+		recv(conexion_memoria, &Nentrada_tabla_segundo_nivel, sizeof(uint32_t), 0);
+
+		log_info(logger, "ENTRADA TABLA SEGUNDO NIVEL: %d", Nentrada_tabla_segundo_nivel);
+
+		recv(conexion_memoria, &Nmarco, sizeof(uint32_t), 0);
+
+		log_info(logger, "NUMERO DE MARCO: %d", Nmarco);
+		log_info(logger, "AHHHHHHHH :(");
 
 	return conexion_memoria;
 }
@@ -134,10 +143,14 @@ void mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operaci
 	send(conexion, a_enviar, paquete->size, 0);
 }
 
-uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
+uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos,t_log* logger)
 {
+	log_trace(logger, "LEER FUNCION");
 	uint32_t valor_leido_respuesta;
-	calcular_datos_direccion(datos, direccion_logica);
+	log_trace(logger, "VOY A CALCULAR DATOS");
+	log_trace(logger, "Direccion logica %d", direccion_logica);
+	calcular_datos_direccion(datos, direccion_logica, logger);
+	log_trace(logger, "Calcule datos");
 	Pagina_direccion* resultado = traducir_direccion(datos);
 
 	mandar_lecto_escritura(resultado->direccion_fisica, 0, SOLICITAR_LECTURA, datos->conexion_memoria);
@@ -161,7 +174,7 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
 
 uint32_t* escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calculo_direccion* datos)
 {
-	calcular_datos_direccion(datos, direccion_logica);
+	calcular_datos_direccion(datos, direccion_logica, logger);
 	Pagina_direccion* resultado = traducir_direccion(datos);
 //	printf("El valor de la direccion fisica es: %d", resultado->direccion_fisica);
 	log_info(logger, "CPU-MEMORIA El valor de la direccion fisica es: %d", resultado->direccion_fisica);
@@ -246,11 +259,11 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			return false;
 			break;
 		case READ:
-			log_info(logger, "CPU-EXECUTE Proceso una operacion de READ PID: %d", pcb->pid);
-//			valor_leido = leer(*parametro1,datos, logger);
-	//		free(valor_leido);
+			log_info(logger, "NACHOOOOOOOOCPU-EXECUTE Proceso una operacion de READ PID: %d", pcb->pid);
+			valor_leido = leer(*parametro1,datos, logger);
+			//free(valor_leido);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
-//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
+			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
 			sleep(2);
 			return false;
 			break;
@@ -280,8 +293,8 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 	Datos_calculo_direccion* datos = malloc(sizeof(Datos_calculo_direccion));
 	datos->id_tabla_paginas1 = pcb->pid;
 	datos->conexion_memoria = conexion_memoria;
-	datos->entradas_por_tabla = cantidad_entradas;
-	datos->tamano_pagina = tamano_pagina;
+	datos->entradas_por_tabla = Ncantidad_entradas;
+	datos->tamano_pagina = Ntamano_pagina;
 
 	//fetch
 	Instruccion* instruccion = list_get(instrucciones,program_counter);

@@ -4,13 +4,16 @@
 
 //CPU
 void entradas_y_tamanio_de_pagina(int socket_cliente, t_config_memoria* tconfig, uint8_t codOp){
+
 	log_info(logger, "MEMORIA-CPU: Se recibe codigo de operacion %d", codOp);
-	//TODO: Ver si falta el config->
+
 	retardo_memoria();
 
-	int cEntradas = tconfig->table_input;
-	int pSize = tconfig->page_size;
+	uint32_t cEntradas = tconfig->table_input;
+	uint32_t pSize = tconfig->page_size;
 
+	log_info(logger, "cEntradas: %d", cEntradas);
+	log_info(logger, "paginas size: %d", pSize);
 	log_info(logger, "MEMORIA-CPU: se envia mensaje entradas y tamano");
 	send(socket_cliente, &cEntradas, sizeof(uint32_t),0);
 	send(socket_cliente, &pSize, sizeof(uint32_t),0);
@@ -20,7 +23,7 @@ void entradas_y_tamanio_de_pagina(int socket_cliente, t_config_memoria* tconfig,
 void devolver_numero_tabla_segundo_nivel(int socket_cliente, uint8_t codOp){
 
 	log_info(logger, "MEMORIA-CPU: Se recibe codigo de operacion %d", codOp);
-	uint32_t numeroEntradaSegundoNivel;
+	//uint32_t numeroEntradaSegundoNivel;
 
 	Coordenada_tabla* coordenada = malloc(sizeof(Coordenada_tabla));
 
@@ -42,30 +45,34 @@ void devolver_numero_tabla_segundo_nivel(int socket_cliente, uint8_t codOp){
 
 	log_info(logger, "MEMORIA-CPU: Se envia el nro de tabla de segundo nivel");
 
-	enviar_coordenada(coordenada, &valor , socket_cliente, ID_TABLA_SEGUNDO_NIVEL);
+	send(socket_cliente, &valor, sizeof(uint32_t), 0);
 
-	/*uint32_t entrada_tabla_segundo_nivel; //recibe de cpu
+	uint32_t entrada_tabla_segundo_nivel;
 
-	//TODO:recv(entrada_tabla_segundo_nivel
+	recv(socket_cliente, &entrada_tabla_segundo_nivel, sizeof(uint32_t), 0);
 
-	t_tabla_paginas_segundo_nivel* tabla2 = list_get(tabla_paginas_segundo_nivel_global, valor);
+	//TODO: NACHO ESTO ESTA BIEN?? EL PRIMERO ES EL QUE ARMAMOS AYER
+	t_tabla_paginas_segundo_nivel* tabla_segundo_nivel = list_get(tabla_paginas_segundo_nivel_global, valor);
 
-	if(esta_en_memoria(tabla2, entrada_tabla_segundo_nivel)){
+	//t_entradas_segundo_nivel entrada = list_get(tabla_segundo_nivel->tabla, valor);
+
+	//if(esta_en_memoria(entrada, entrada_tabla_segundo_nivel)){
 
 		//me robo el marco en una variable
-		//send(cpu del nro de marco)
-	}
-	else{
+		//send(socket_cliente, entrada->nroFrame, sizeof(uint32_t), 0);
 
+	/*}
+	else{
+		log_info(logger, "asdasd");
 		//EJECUTAR un PF
 		//SI HAY
 	}
-
+*/
 	//recv estructura de operacion
 
 	EstructuraDeOperacion* estructuraDeOperacion;
 
-	if( estructuraDeOperacion->tipoDeOperacion == 1){
+	//if( estructuraDeOperacion->tipoDeOperacion == 1){
 
 
 		//variable marco
@@ -74,10 +81,9 @@ void devolver_numero_tabla_segundo_nivel(int socket_cliente, uint8_t codOp){
 		//nro marco * tamaño pagina + desp
 		//memcpy en el offset
 		//memcpy(memPrincipal + marco*tamanoPagina + offset, mensaje a escribir, tamano mensaje);
+}
 
-	}
-
-	else if ( estructuraDeOperacion->tipoDeOperacion == 0){
+	//else if ( estructuraDeOperacion->tipoDeOperacion == 0){
 
 		//variable marco
 		//void* buffer = malloc(tamanoMensaje);
@@ -86,12 +92,8 @@ void devolver_numero_tabla_segundo_nivel(int socket_cliente, uint8_t codOp){
 
 		//send buffer
 
-	}
+	//}
 
-	*/
-
-
-}
 
 bool esta_en_memoria(t_tabla_paginas_segundo_nivel* tabla, uint32_t indice_tabla_segundo_nivel){
 

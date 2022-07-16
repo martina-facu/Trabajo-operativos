@@ -125,7 +125,7 @@ void aceptoServerInterrupt(int socketAnalizar)
 int main(void)
 {
 	config = config_create("cpu.config");
-	uint32_t cantidad_entradas, tamano_pagina = 0;
+
 	devolver_pcb = false;
 	recibiPCB = false;
 
@@ -139,7 +139,7 @@ int main(void)
 	FD_ZERO(&master_fd_set);
 
 //	Iniciar conexiones
-	int conexion_memoria = levantar_conexion_memoria(configuracion->IPMemoria, configuracion->puertoMemoria, &cantidad_entradas,&tamano_pagina);
+	int conexion_memoria = levantar_conexion_memoria(configuracion->IPMemoria, configuracion->puertoMemoria, 0,0);
 	//	Marco el descriptor en donde me conecte al server de memoria como limite maximo y minimo del select
 	fdmax = conexion_memoria;
 	fdmin = conexion_memoria;

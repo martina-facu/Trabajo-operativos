@@ -8,9 +8,12 @@
 
 #include "mmu.h"
 
-void inicializar_mmu(t_config* config, t_list* tlb){
+
+
+void inicializar_mmu(t_config* config, t_list* tlb, t_log* logger_cpu){
 	config_cpu = config;
 	tlb_proceso = tlb;
+	logger = logger_cpu;
 }
 
 uint32_t buscar_marco(uint32_t pagina){
@@ -92,8 +95,15 @@ void reemplazar_entrada_LRU(Entrada_TLB* entrada){
 	list_add(tlb_proceso, entrada);
 }
 
-void set_numero_pagina(Datos_calculo_direccion* datos, uint32_t direccion_logica){
-	datos->numero_pagina = direccion_logica/datos->tamano_pagina;
+void set_numero_pagina(Datos_calculo_direccion* datos, uint32_t direccion_logica, t_log* logger){
+
+
+	if (datos->tamano_pagina != 0){
+		log_info(logger, "Tam%d", datos->tamano_pagina);
+		datos->numero_pagina = direccion_logica/datos->tamano_pagina;
+	}
+	else
+		log_info(logger, "CPU: SE DIVIDE POR 0 :O");
 }
 
 void set_entrada_tabla_1er_nivel (Datos_calculo_direccion* datos){
@@ -108,11 +118,16 @@ void set_desplazamiento (Datos_calculo_direccion* datos, uint32_t direccion_logi
 	datos->desplazamiento = direccion_logica - (datos->numero_pagina * datos->tamano_pagina);
 }
 
-void calcular_datos_direccion(Datos_calculo_direccion* datos, uint32_t direccion_logica){
-	set_numero_pagina(datos,direccion_logica);
+void calcular_datos_direccion(Datos_calculo_direccion* datos, uint32_t direccion_logica, t_log* logger){
+	log_trace(logger, "SET NUMERO PAGINA");
+	set_numero_pagina(datos,direccion_logica, logger);
+	log_trace(logger,"SET ENTRADA PRIMER NIVEL");
 	set_entrada_tabla_1er_nivel(datos);
+	log_trace(logger,"SET ENTRADA SEGUNDO NIVEL");
 	set_entrada_tabla_2do_nivel(datos);
+	log_trace(logger,"SET DESPLAZAMIENTO");
 	set_desplazamiento(datos,direccion_logica);
+	log_trace(logger,"MOSTRAR DATOS");
 	mostrar_datos(datos);
 }
 
