@@ -53,18 +53,18 @@ int levantar_conexion_memoria(char* ipServer, char* portServer, uint32_t* cantid
 		recv(conexion_memoria, &Ncantidad_entradas, sizeof(uint32_t), 0);
 		recv(conexion_memoria, &Ntamano_pagina, sizeof(uint32_t), 0);
 
-		log_trace(logger, "cant entradas %d", cantidad_entradas);
-		log_trace(logger, "tamano_pagina %d", tamano_pagina);
+		log_trace(logger, "cant entradas %d", Ncantidad_entradas);
+		log_trace(logger, "tamano_pagina %d", Ntamano_pagina);
 
 		//TODO: Esta bien poner todos los mensajes aca?
 
-		recv(conexion_memoria, &Nentrada_tabla_segundo_nivel, sizeof(uint32_t), 0);
-
-		log_trace(logger, "ENTRADA TABLA SEGUNDO NIVEL: %d", Nentrada_tabla_segundo_nivel);
-
-		recv(conexion_memoria, &Nmarco, sizeof(uint32_t), 0);
-
-		log_trace(logger, "NUMERO DE MARCO: %d", Nmarco);
+//		recv(conexion_memoria, &Nentrada_tabla_segundo_nivel, sizeof(uint32_t), 0);
+//
+//		log_trace(logger, "ENTRADA TABLA SEGUNDO NIVEL: %d", Nentrada_tabla_segundo_nivel);
+//
+//		recv(conexion_memoria, &Nmarco, sizeof(uint32_t), 0);
+//
+//		log_trace(logger, "NUMERO DE MARCO: %d", Nmarco);
 
 	return conexion_memoria;
 }
@@ -168,7 +168,7 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos,t_log* l
 //	}
 //
 //	free(valor_leido);
-	return valor_leido_respuesta;
+//	return valor_leido_respuesta;
 }
 
 uint32_t* escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calculo_direccion* datos)
