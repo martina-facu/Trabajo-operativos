@@ -1,5 +1,6 @@
 set -x
 #	Cargo las variables de entorno que voy a utilizar
+cd ..
 export WORKSPACEPATH=$PWD
 export MEMORYPATH=$WORKSPACEPATH/Memoria
 export CPUPATH=$WORKSPACEPATH/CPU
