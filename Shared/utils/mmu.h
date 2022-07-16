@@ -67,11 +67,11 @@
 	void mostrar_datos(Datos_calculo_direccion* datos);
 	void cargar_entrada(Entrada_TLB* entrada);
 	uint32_t buscar_marco(uint32_t pagina);
-	void set_numero_pagina(Datos_calculo_direccion* datos, uint32_t direccion_logica, t_log* logger);
+	void set_numero_pagina(Datos_calculo_direccion* datos, uint32_t direccion_logica);
 	void set_entrada_tabla_1er_nivel(Datos_calculo_direccion* datos);
 	void set_entrada_tabla_2do_nivel(Datos_calculo_direccion* datos);
 	void set_desplazamiento(Datos_calculo_direccion* datos, uint32_t direccion_logica);
-	void calcular_datos_direccion(Datos_calculo_direccion* datos, uint32_t direccion_logica, t_log* logger);
+	void calcular_datos_direccion(Datos_calculo_direccion* datos, uint32_t direccion_logica);
 	void reemplazar_entrada(Entrada_TLB* entrada);
 	void reemplazar_entrada_FIFO(Entrada_TLB* entrada);
 	void reemplazar_entrada_LRU(Entrada_TLB* entrada);

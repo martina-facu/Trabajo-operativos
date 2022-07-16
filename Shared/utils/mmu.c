@@ -8,8 +8,6 @@
 
 #include "mmu.h"
 
-
-
 void inicializar_mmu(t_config* config, t_list* tlb, t_log* logger_cpu){
 	config_cpu = config;
 	tlb_proceso = tlb;
@@ -31,19 +29,21 @@ uint32_t buscar_marco(uint32_t pagina){
 	}
 }
 
-void cargar_entrada(Entrada_TLB* entrada){
-	uint32_t* entradas_maximas = malloc(sizeof(uint32_t));
+void cargar_entrada(Entrada_TLB* entrada)
+{
 	entrada->tiempo_carga = time(NULL);
 	entrada->ultima_referencia = 0;
 
-	*entradas_maximas = config_get_int_value(config_cpu,"ENTRADAS_TLB");
+	uint32_t entradas_maximas = config_get_int_value(config_cpu,"ENTRADAS_TLB");
 
 	int tamano_lista = list_size(tlb_proceso);
-	if(tamano_lista < *entradas_maximas){
+	if(tamano_lista < entradas_maximas){
 		list_add(tlb_proceso, entrada);
 	}else{
 		reemplazar_entrada(entrada);
 	}
+
+	log_info(logger, "CPU-TLB Se cargo una entrada a la tlb");
 }
 
 void reemplazar_entrada(Entrada_TLB* entrada){
@@ -69,7 +69,8 @@ void reemplazar_entrada_FIFO(Entrada_TLB* entrada){
 	list_sort(tlb_proceso, _funcion_comparacion);
 	mostrar_entradas(tlb_proceso);
 	Entrada_TLB* removido = (Entrada_TLB*)list_remove(tlb_proceso, 0);
-	printf("\nPagina removida: %d",removido->numero_pagina);
+
+	log_info(logger, "CPU-MMU Pagina removida: %d",removido->numero_pagina);
 
 	list_add(tlb_proceso, entrada);
 }
@@ -90,12 +91,12 @@ void reemplazar_entrada_LRU(Entrada_TLB* entrada){
 	list_sort(tlb_proceso, _funcion_comparacion);
 	mostrar_entradas(tlb_proceso);
 	Entrada_TLB* removido = (Entrada_TLB*)list_remove(tlb_proceso, 0);
-	printf("\nPagina removida: %d",removido->numero_pagina);
+	log_info(logger, "CPU-MMU Pagina removida: %d",removido->numero_pagina);
 
 	list_add(tlb_proceso, entrada);
 }
 
-void set_numero_pagina(Datos_calculo_direccion* datos, uint32_t direccion_logica, t_log* logger){
+void set_numero_pagina(Datos_calculo_direccion* datos, uint32_t direccion_logica){
 
 
 	if (datos->tamano_pagina != 0){
@@ -118,21 +119,16 @@ void set_desplazamiento (Datos_calculo_direccion* datos, uint32_t direccion_logi
 	datos->desplazamiento = direccion_logica - (datos->numero_pagina * datos->tamano_pagina);
 }
 
-void calcular_datos_direccion(Datos_calculo_direccion* datos, uint32_t direccion_logica, t_log* logger){
-	log_trace(logger, "SET NUMERO PAGINA");
-	set_numero_pagina(datos,direccion_logica, logger);
-	log_trace(logger,"SET ENTRADA PRIMER NIVEL");
+void calcular_datos_direccion(Datos_calculo_direccion* datos, uint32_t direccion_logica){
+	set_numero_pagina(datos,direccion_logica);
 	set_entrada_tabla_1er_nivel(datos);
-	log_trace(logger,"SET ENTRADA SEGUNDO NIVEL");
 	set_entrada_tabla_2do_nivel(datos);
-	log_trace(logger,"SET DESPLAZAMIENTO");
 	set_desplazamiento(datos,direccion_logica);
-	log_trace(logger,"MOSTRAR DATOS");
 	mostrar_datos(datos);
 }
 
 Pagina_direccion* traducir_direccion(Datos_calculo_direccion* datos){
-
+	log_info(logger, "CPU-MMU Inicio la traduccion");
 	Pagina_direccion* resultado = malloc(sizeof(Pagina_direccion));
 	resultado->marco = get_marco(datos);
 	resultado->numero_pagina = datos->numero_pagina;
@@ -141,21 +137,21 @@ Pagina_direccion* traducir_direccion(Datos_calculo_direccion* datos){
 }
 
 uint32_t get_marco(Datos_calculo_direccion* datos){
+	log_info(logger, "CPU-MMU Empiezo a buscar el marco de la pagina", datos->numero_pagina);
 
-	uint32_t* marco = malloc(sizeof(uint32_t));
-	*marco = buscar_marco(datos->numero_pagina);
+	uint32_t marco = buscar_marco(datos->numero_pagina);
 
-	if(*marco != -1){
-		return *marco;
+	if(marco != -1){
+		return marco;
 	}else{
-		*marco = get_marco_memoria(datos);
+		marco = get_marco_memoria(datos);
 		Entrada_TLB* nueva_entrada = malloc(sizeof(Entrada_TLB));
 		nueva_entrada->numero_pagina = datos->numero_pagina;
-		nueva_entrada->marco = *marco;
+		nueva_entrada->marco = marco;
 
 		cargar_entrada(nueva_entrada);
 
-		return *marco;
+		return marco;
 	}
 }
 
@@ -175,16 +171,29 @@ uint32_t get_marco_memoria(Datos_calculo_direccion* datos){
 	uint32_t* marco = malloc(sizeof(uint32_t));
 	enviar_coordenada(coordenada, marco, datos->conexion_memoria,SOLICITAR_VALOR_ENTRADA2);
 
-	return *marco;
+	uint32_t aux = *marco;
+
+	free(marco);
+	free(id_tabla_paginas2);
+	return aux;
+}
+
+void limpiar_tlb(t_list* tlb)
+{
+	void destruir_entradas(void* entrada){
+		free(entrada);
+	}
+
+	list_clean_and_destroy_elements(tlb,destruir_entradas);
 }
 
 void mostrar_entradas(t_list* list){
 	int aux = list_size(list);
-	Entrada_TLB* entrada = malloc(sizeof(Entrada_TLB));
+	Entrada_TLB* entrada;
 
 	for(int i=0;i<aux;i++){
 		entrada= list_get(list,i);
-		printf("\nNumero de pagina: %d Marco: %d Tiempo de carga: %d Ultima referencia: %d",
+		log_info(logger,"\nNumero de pagina: %d Marco: %d Tiempo de carga: %d Ultima referencia: %d",
 				entrada->numero_pagina,
 				entrada->marco,
 				entrada->tiempo_carga,
@@ -195,15 +204,15 @@ void mostrar_entradas(t_list* list){
 }
 
 void mostrar_datos(Datos_calculo_direccion* datos) {
-	printf("\n-----------DATOS PARA EL CALCULO DE DIRECCIONES----------------\n");
-	printf("CONEXION MEMORIA: %d\n", datos->conexion_memoria);
-	printf("ID TABLA PRIMER NIVEL: %d\n", datos->id_tabla_paginas1);
-	printf("DESPLAZAMIENTO: %d\n", datos->desplazamiento);
-	printf("ENTRADA PRIMER NIVEL: %d\n", datos->entrada_tabla_primer_nivel);
-	printf("ENTRADA SEGUNDO NIVEL: %d\n", datos->entrada_tabla_segundo_nivel);
-	printf("NUMERO PAGINA: %d\n", datos->numero_pagina);
-	printf("ENTRADAS POR TABLA: %d\n", datos->entradas_por_tabla);
-	printf("TAMAÑO PAGINA: %d\n", datos->tamano_pagina);
+	log_info(logger,"\n-----------DATOS PARA EL CALCULO DE DIRECCIONES----------------\n");
+	log_info(logger,"CONEXION MEMORIA: %d\n", datos->conexion_memoria);
+	log_info(logger,"ID TABLA PRIMER NIVEL: %d\n", datos->id_tabla_paginas1);
+	log_info(logger,"DESPLAZAMIENTO: %d\n", datos->desplazamiento);
+	log_info(logger,"ENTRADA PRIMER NIVEL: %d\n", datos->entrada_tabla_primer_nivel);
+	log_info(logger,"ENTRADA SEGUNDO NIVEL: %d\n", datos->entrada_tabla_segundo_nivel);
+	log_info(logger,"NUMERO PAGINA: %d\n", datos->numero_pagina);
+	log_info(logger,"ENTRADAS POR TABLA: %d\n", datos->entradas_por_tabla);
+	log_info(logger,"TAMAÑO PAGINA: %d\n", datos->tamano_pagina);
 }
 
 void crear_tabla_prueba(){
@@ -237,13 +246,4 @@ void crear_tabla_prueba(){
 	sleep(1);
 	cargar_entrada(entrada3);
 	cargar_entrada(entrada4);
-}
-
-void limpiar_tlb(t_list* tlb)
-{
-	void destruir_entradas(void* entrada){
-		free(entrada);
-	}
-
-	list_clean_and_destroy_elements(tlb,destruir_entradas);
 }

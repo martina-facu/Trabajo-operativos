@@ -125,7 +125,7 @@ void aceptoServerInterrupt(int socketAnalizar)
 int main(void)
 {
 	config = config_create("cpu.config");
-
+	uint32_t cantidad_entradas, tamano_pagina = 0;
 	devolver_pcb = false;
 	recibiPCB = false;
 
@@ -139,7 +139,7 @@ int main(void)
 	FD_ZERO(&master_fd_set);
 
 //	Iniciar conexiones
-	int conexion_memoria = levantar_conexion_memoria(configuracion->IPMemoria, configuracion->puertoMemoria, 0,0);
+	int conexion_memoria = levantar_conexion_memoria(configuracion->IPMemoria, configuracion->puertoMemoria, &cantidad_entradas,&tamano_pagina);
 	//	Marco el descriptor en donde me conecte al server de memoria como limite maximo y minimo del select
 	fdmax = conexion_memoria;
 	fdmin = conexion_memoria;
@@ -236,7 +236,8 @@ int main(void)
  */
 void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
 {
-	if(idAnteriorPCB == -1){
+	if(idAnteriorPCB == -1)
+	{
 		log_info(logger, "Inicializo la tlb");
 		tlb = list_create();
 	}
@@ -258,10 +259,16 @@ void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
 		log_trace(logger, "CPU-KERNEL-PCB Voy a loguear informacion del PCB recibida por el Dispatch");
 		pcb_mostrar(pcb, logger);
 
-		if(idAnteriorPCB != pcb->pid)
-		{
-			log_info(logger, "CPU-TLB Borro el contenido de la TLB ya que no es el mismo proceso que el anterior");
-			//	Falta implementar aca la funcion que hace el borrado
+		log_info(logger, "CPU-EXECUTE ID DEL PROCESO ANTERIOR %d",idAnteriorPCB);
+
+		if(idAnteriorPCB == -1){
+			log_info(logger, "Inicializo la tlb");
+			tlb = list_create();
+			inicializar_mmu(config,tlb,logger);
+		} else if(pcb->pid != idAnteriorPCB){
+			mostrar_entradas(tlb);
+			log_info(logger, "Borro el contenido de la TLB ya que no es el mismo proceso que el anterior");
+			limpiar_tlb(tlb);
 		}
 	}
 
@@ -278,7 +285,7 @@ void procesarPCB(void)
 {
 	log_info(logger, "CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo");
 	while (devolver_pcb == false)
-		ejecutar_ciclo_instrucciones(pcb, &devolver_pcb, configuracion->retardoNoOp, configuracion->entradasTLB, cliente_dispatch, 0, &interrupcion);
+		ejecutar_ciclo_instrucciones(pcb, &devolver_pcb, configuracion->retardoNoOp, configuracion->entradasTLB, cliente_dispatch, 1, &interrupcion);
 //		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
 
 
@@ -369,8 +376,7 @@ void * atencionInterrupt(void * socketInterrupt)
 			//	Como el mensaje es correcto seteo la variable para que el CPU devuelva el PCB
 //			log_info(logger,"CPU-EXECUTE Se recibio una interrupcion del Kernel para reprogramar");
 			interrupcion = true;
-//			pcb->estado=INTERRUMPIDO;
-		}
+	}
 		else
 		{
 			//	Como el mensaje es incorrecto desestimo el mensaje recibido.
