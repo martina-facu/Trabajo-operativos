@@ -10,10 +10,10 @@ export CONFPATH=$WORKSPACEPATH/confPruebas
 export LD_LIBRARY_PATH=$WORKSPACEPATH/Shared
 
 #	Copio los archivos de configuracion BASE
-cp $CONFPATH/memoria.config.base $MEMORYPATH/memoria.config
-cp $CONFPATH/cpu.config.base $CPUPATH/cpu.config
-cp $CONFPATH/kernel.config.base $KERNELPATH/kernel.config
-cp $CONFPATH/consola.config.base $CONSOLEPATH/consola.config
+cp $CONFPATH/memoria.config.mtlblru $MEMORYPATH/memoria.config
+cp $CONFPATH/cpu.config.mtlblru $CPUPATH/cpu.config
+cp $CONFPATH/kernel.config.mtlblru $KERNELPATH/kernel.config
+cp $CONFPATH/consola.config.mtlblru $CONSOLEPATH/consola.config
 
 #	Ejecuto primero memoria
 cd $MEMORYPATH
@@ -32,11 +32,7 @@ $KERNELPATH/Kernel &
 #	Levanto la primera consola
 cd $CONSOLEPATH
 sleep 1
-($CONSOLEPATH/Consola $CONFPATH/BASE_1 1024)  &
+($CONSOLEPATH/Consola $CONFPATH/TLB_1   2048)  &
 
 #	Levanto la segunda consola
-($CONSOLEPATH/Consola $CONFPATH/BASE_2 1024)  &
-
-#	Levanto la tercera consola
-($CONSOLEPATH/Consola $CONFPATH/BASE_2 1024)  &
-
+($CONSOLEPATH/Consola $CONFPATH/TLB_2  2048)  &
