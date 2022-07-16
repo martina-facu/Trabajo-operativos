@@ -19,7 +19,6 @@
 #include <commons/collections/list.h>
 #include <commons/config.h>
 #include <time.h>
-#include "coordenada.h"
 #include "../conexion.h"
 
 /*

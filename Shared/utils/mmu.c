@@ -137,7 +137,7 @@ Pagina_direccion* traducir_direccion(Datos_calculo_direccion* datos){
 }
 
 uint32_t get_marco(Datos_calculo_direccion* datos){
-	log_info(logger, "CPU-MMU Empiezo a buscar el marco de la pagina", datos->numero_pagina);
+	log_info(logger, "CPU-MMU Empiezo a buscar el marco de la pagina %d", datos->numero_pagina);
 
 	uint32_t marco = buscar_marco(datos->numero_pagina);
 
@@ -157,19 +157,36 @@ uint32_t get_marco(Datos_calculo_direccion* datos){
 
 uint32_t get_marco_memoria(Datos_calculo_direccion* datos){
 
+	uint8_t codigo_operacion;
+	int conexion = datos->conexion_memoria;
+
+	// Busco la entrada de la tabla de paginas de segundo nivel
+	codigo_operacion = SOLICITAR_VALOR_ENTRADA1;
+
 	uint32_t* id_tabla_paginas2 = malloc(sizeof(uint32_t));
 
-	Coordenada_tabla* coordenada = malloc(sizeof(Coordenada_tabla));
-	coordenada->id_tabla = datos->id_tabla_paginas1;
-	coordenada->numero_entrada = datos->entrada_tabla_primer_nivel;
+	uint32_t id_tabla = datos->id_tabla_paginas1;
+	uint32_t numero_entrada = datos->entrada_tabla_primer_nivel;
 
-	enviar_coordenada(coordenada, id_tabla_paginas2, datos->conexion_memoria,SOLICITAR_VALOR_ENTRADA1);
+	send(conexion, &codigo_operacion, sizeof(uint8_t), 0);
+	send(conexion, &id_tabla, sizeof(uint32_t), 0);
+	send(conexion, &numero_entrada, sizeof(uint32_t), 0);
 
-	coordenada->id_tabla = *id_tabla_paginas2;
-	coordenada->numero_entrada = datos->entrada_tabla_segundo_nivel;
+	recv(conexion, id_tabla_paginas2, sizeof(uint32_t), 0);
+
+//	Busco la entrada de la tabla de paginas de segundo nivel
+	codigo_operacion = SOLICITAR_VALOR_ENTRADA2;
+
+	id_tabla = *id_tabla_paginas2;
+	numero_entrada = datos->entrada_tabla_segundo_nivel;
+
+	send(conexion, &codigo_operacion, sizeof(uint8_t), 0);
+	send(conexion, &id_tabla, sizeof(uint32_t), 0);
+	send(conexion, &numero_entrada, sizeof(uint32_t), 0);
+	send(conexion, &(datos->numero_pagina), sizeof(uint32_t), 0);
 
 	uint32_t* marco = malloc(sizeof(uint32_t));
-	enviar_coordenada(coordenada, marco, datos->conexion_memoria,SOLICITAR_VALOR_ENTRADA2);
+	recv(conexion, marco, sizeof(uint32_t), 0);
 
 	uint32_t aux = *marco;
 
