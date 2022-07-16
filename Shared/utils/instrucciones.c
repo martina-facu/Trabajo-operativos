@@ -52,22 +52,18 @@ void mostrar_parametros(t_list* list, t_log* logger)
 
 	for(int i=0;i<aux;i++){
 		int* parametro= list_get(list,i);
-//		printf(" %d ", *parametro);
 		log_trace(logger, "Parametro: %d\tValor: %d ",i, *parametro);
 	}
-//	printf("\n");
 }
 void mostrar_instrucciones(t_list* list, t_log* logger)
 {
 	int aux = list_size(list);
 	Instruccion* instruccion;
-//	Instruccion* instruccion = malloc(sizeof(Instruccion));
 	char* nombre[6]={"NO_OP", "I/O", "WRITE", "COPY", "READ", "EXIT"}; // TODO: Liberar la memoria de este array
 
 
 	for(int i=0;i<aux;i++){
 		instruccion= list_get(list,i);
-//		printf("\nEl codigo de la instruccion es: %d , nombre: %s \n cantidad de parametros: %d parametros: ", instruccion->id, nombre[(instruccion->id)-1], getCantidadParametros(instruccion->id));
 		log_trace(logger, "El codigo de la instruccion es: %d , nombre: %s \n cantidad de parametros: %d parametros: ", instruccion->id, nombre[(instruccion->id)-1], getCantidadParametros(instruccion->id));
 		mostrar_parametros(instruccion->parametros, logger);
 	}
@@ -78,7 +74,6 @@ int calcular_espacio_instrucciones(t_list* instrucciones)
 {
 	int size = sizeof(uint32_t); // cantidad de instrucciones
 	Instruccion* instruccion;
-//	Instruccion* instruccion = malloc(sizeof(instruccion));
 	int aux=list_size(instrucciones);
 
 	for(int i=0;i<aux;i++){
@@ -94,7 +89,6 @@ void* armar_stream_instruccion(t_list* instrucciones)
 	void* stream = malloc(calcular_espacio_instrucciones(instrucciones));
 	int desplazamiento=0;
 	Instruccion* instruccion;
-//	Instruccion* instruccion = malloc(sizeof(instruccion));
 	uint32_t aux=list_size(instrucciones);
 
 
@@ -115,24 +109,6 @@ void* armar_stream_instruccion(t_list* instrucciones)
 			desplazamiento+=sizeof(uint32_t);
 		}
 	}
-
-	//	memcpy(stream+desplazamiento,&aux,sizeof(uint32_t)); // CANT DE INSTRUCCIONES
-	//	desplazamiento+= sizeof(uint32_t);
-
-//	uint8_t aux2;
-//	int* prm;
-//	for(int i=0;i<list_size(instrucciones);i++){
-//		instruccion= list_get(instrucciones,i);
-//		aux2= instruccion->id;
-//		memcpy(stream+desplazamiento,&aux2,sizeof(uint8_t)); // ID
-//		desplazamiento+=sizeof(uint8_t);
-//		int cant_prm = list_size(instruccion->parametros);
-//		for(int i=0;i<cant_prm;i++){							// PARAMETROS
-//			prm= list_get(instruccion->parametros,i);
-//			memcpy(stream+desplazamiento,prm,sizeof(uint32_t));
-//			desplazamiento+=sizeof(uint32_t);
-//		}
-//	}
 	return stream;
 }
 
@@ -176,8 +152,8 @@ t_list* deserializar_paquete_instrucciones(int cliente, uint32_t* tamano_proceso
 
 	//recibo el tamaño del paquete
 	recv(cliente, &(buffer->size), sizeof(uint32_t), 0);
-//	printf("\nTamaño del buffer: %d\tTamaño del uint32_t: %d\n",buffer->size,sizeof(uint32_t));
 	log_trace(logger, "Tamaño del buffer: %d\tTamaño del uint32_t: %d",buffer->size,sizeof(uint32_t));
+
 	//recibo el buffer con las instrucciones
 	buffer->stream = malloc(buffer->size);
 	recv(cliente, buffer->stream, buffer->size, 0);

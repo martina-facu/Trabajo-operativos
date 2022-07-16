@@ -1,7 +1,7 @@
 #include "consola.h"
-
-
-
+t_buffer* buffer;
+t_paquete* paquete;
+void* stream_instrucciones;
 
 int main(int argc, char *argv[]) {
 
@@ -14,9 +14,8 @@ int main(int argc, char *argv[]) {
 
 	log_trace(logger, "El archivo de instrucciones para esta consola es: %s", filename);
 	//	Leo el segundo arguento y lo guardo como uint32_t. El mismo posee el tamaño del proceso.
-	uint32_t* tamano_proceso = malloc(sizeof(uint32_t));
-	*tamano_proceso = atoi(argv[2]);
-	log_trace(logger, "El tamaño del proceso para esta consola es: %d", *tamano_proceso);
+	uint32_t tamano_proceso = atoi(argv[2]);
+	log_trace(logger, "El tamaño del proceso para esta consola es: %d", tamano_proceso);
 
 	//	Levamto y leo del archivo de configuracion los valores de conexion al Kernel
 	t_config* config = config_create("consola.config");
@@ -28,8 +27,7 @@ int main(int argc, char *argv[]) {
 	//	Abro el archivo donde estan las instrucciones del programa
 	FILE* input_file = fopen(filename, "r");
 
-	if (input_file == NULL)
-	{
+	if (input_file == NULL) {
 		perror("error al leer el archivo");
 		log_error(logger, "Error al leer el archivo de instrucciones del programa");
 		exit(EXIT_FAILURE);
@@ -44,7 +42,7 @@ int main(int argc, char *argv[]) {
 	// ---------------------------------------------------------------------------- SERIALIZACION ----------------------------------------------------------------------------------------//
 	//	Serializo el mensaje a enviar al Kernel
 	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
-	void* a_enviar = serializar_mensaje(instrucciones,tamano_proceso,tamano_mensaje);
+	void* a_enviar = serializar_mensaje(instrucciones,&tamano_proceso,tamano_mensaje);
 	log_trace(logger, "Serializo el mensaje a enviar");
 
 	// ---------------------------------------------------------------------------- CONEXION ----------------------------------------------------------------------------------------//
@@ -69,6 +67,15 @@ int main(int argc, char *argv[]) {
 		log_error(logger, "No pudo finalizarse en forma exitosa el proceso");
 
 	close(conexion);
+
+	free(tamano_mensaje);
+	config_destroy(config);
+	destruir_lista_instrucciones(instrucciones);
+	free(stream_instrucciones);
+	free(buffer);
+	free(paquete);
+	free(a_enviar);
+
 	return EXIT_SUCCESS;
 }
 
@@ -134,13 +141,12 @@ int levantarConexionKernel(char* ip, char* puerto, t_log* logger)
  *  Autor:
  */
 
-void* serializar_mensaje(t_list* instrucciones, uint32_t* tamano_proceso,uint32_t* tamano_mensaje)
-{
-	void* stream_instrucciones = armar_stream_instruccion(instrucciones);
+void* serializar_mensaje(t_list* instrucciones, uint32_t* tamano_proceso,uint32_t* tamano_mensaje){
+	stream_instrucciones = armar_stream_instruccion(instrucciones);
 	int tamano_instrucciones = calcular_espacio_instrucciones(instrucciones);
 
-	t_buffer* buffer = armar_buffer(tamano_instrucciones, stream_instrucciones);
-	t_paquete* paquete = empaquetar_buffer(buffer,0);
+	buffer = armar_buffer(tamano_instrucciones, stream_instrucciones);
+	paquete = empaquetar_buffer(buffer,0);
 
 	void* a_enviar = malloc(paquete->size + sizeof(uint32_t));
 	a_enviar = serializar_paquete(paquete, a_enviar);
@@ -163,14 +169,13 @@ void* serializar_mensaje(t_list* instrucciones, uint32_t* tamano_proceso,uint32_
  *  Autor:
  */
 
-t_list* obtener_intrucciones(FILE* input_file)
-{
+t_list* obtener_intrucciones(FILE* input_file) {
 	char *contents = NULL;
 	size_t len = 0;
 
 	t_list* instrucciones = list_create();
 	uint32_t* parametro;
-	uint32_t* cant = malloc(sizeof(uint32_t));
+	uint32_t cant;
 
 	while (getline(&contents, &len, input_file) != -1) {
 		char** linea = string_split(contents, " ");
@@ -179,27 +184,30 @@ t_list* obtener_intrucciones(FILE* input_file)
 
 		Instruccion* instruccion = malloc(sizeof(Instruccion));
 		instruccion->id = id;
-		instruccion->parametros = list_create();
+		instruccion->parametros =list_create();
 
 		if(id == 1){
-			*cant = atoi(linea[1]);
+			cant = atoi(linea[1]);
 
-			for (int i = 1; i<=*cant; i++) {
+			for (int i = 1; i<=cant; i++) {
 				list_add(instrucciones, instruccion);
 			}
+			free(linea[1]);
 		}else{
 			for (int i = 1; linea[i] != NULL; i++) {
 				parametro = malloc(sizeof(uint32_t));
 				*parametro = atoi(linea[i]);
 				list_add(instruccion->parametros, parametro);
+				free(linea[i]);
 			}
 			list_add(instrucciones, instruccion);
 		}
+		free(linea[0]);
+		free(linea);
 	}
 
 	fclose(input_file);
 	free(contents);
-	free(cant);
 
 	return instrucciones;
 }
