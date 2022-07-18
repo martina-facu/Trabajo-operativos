@@ -26,6 +26,7 @@
 #include <unistd.h>
 #include <netdb.h>
 #include <pcb.h>
+#include "swap.h"
 
 
 
@@ -33,6 +34,7 @@ int socket_cpu;
 int socket_kernel;
 int socket_server;
 
+void* memoria;
 t_bitarray* bitMem;
 t_log* logger;
 char* PUERTO_ESCUCHA;
@@ -43,7 +45,7 @@ int RETARDO_MEMORIA;
 char* ALGORITMO_REEMPLAZO;
 uint32_t MARCOS_POR_PROCESO;
 int RETARDO_SWAP;
-char* PATH_SWAP;
+char* pSwap;
 int CANT_MARCOS;
 
 

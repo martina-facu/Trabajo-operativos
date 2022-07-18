@@ -8,6 +8,8 @@
 
 #ifndef FUNCIONES_KERNEL_H_
 #define FUNCIONES_KERNEL_H_
+
+
 typedef struct{
 	uint32_t pid;
 	int* entradas;
@@ -18,6 +20,19 @@ typedef struct{
 }t_tabla_2;
 
 typedef struct{
+	int frame;
+	uint32_t bUso;
+	uint32_t bMod;
+	uint32_t bPres;
+}t_entrada_2;
+
+typedef struct{
+	uint32_t n_tabla_2;
+	uint32_t n_entrada_2;
+	t_entrada_2 *entrada;
+}t_memory_pag;
+
+typedef struct{
 	uint32_t pid;
 	uint32_t tam_proceso;
 	uint32_t entrada_1;
@@ -26,16 +41,13 @@ typedef struct{
 	int contador;
 }t_proceso;
 
-typedef struct{
-	int frame;
-	uint32_t bUso;
-	uint32_t bMod;
-	uint32_t bPres;
-}t_entrada_2;
 
 int division_entera(double numerador,  double denominador);
 void* funciones_kernel();
 void inicializar_proceso();
+bool paginas_modificadas(void* entrada_);
+void suspender_proceso();
+void mostrar_paginas(t_list* paginas);
 t_proceso* crear_proceso(uint32_t pid, uint32_t tam_proceso);
 void inicializar_tabla_1(t_tabla_1* tabla,uint32_t pid);
 void asignar_tabla_2(t_tabla_1* tabla,uint32_t cant_entradas_1);

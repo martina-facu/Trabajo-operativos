@@ -17,6 +17,8 @@
 #include "pcb.h"
 #include "listas.h"
 #include "semaforos.h"
+#include "var_glob.h"
+#include "conexion.h"
 #include "planificador_mediano_plazo.h"
 
 void* suspender_proceso(){
@@ -32,8 +34,11 @@ void* suspender_proceso(){
 		pthread_mutex_unlock(&mx_susp_block_l);
 
 		pcb->estado= SUSPENDIDO;
-
+		uint8_t mensaje = SUSPENDER_PROCESO;
 		//TODO LIBERAR MEMORIA
+		send(socket_memoria,&mensaje,sizeof(uint8_t),0);
+
+		send(socket_memoria,&pcb->pid,sizeof(uint32_t),0);
 
 		sem_post(&s_grado_multiprogramacion);
 		sem_post(&s_susp);

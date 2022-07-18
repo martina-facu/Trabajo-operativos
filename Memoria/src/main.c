@@ -13,7 +13,8 @@ int main(){
 	iniciar_servidor_memoria();
 	iniciar_conexiones_mem();
 
-	void* memoria = malloc(TAM_MEMORIA);
+	memoria = malloc(TAM_MEMORIA);
+	memset(memoria,'\0',TAM_MEMORIA);
 
 	pthread_t kernel;
 
@@ -65,7 +66,7 @@ void iniciar_config(){
 	MARCOS_POR_PROCESO= (uint32_t) config_get_int_value(config,"MARCOS_POR_PROCESO");
 	log_trace(logger,"MARCOS POR PROCESO: %d",MARCOS_POR_PROCESO);
 	RETARDO_SWAP = config_get_int_value(config,"RETARDO_SWAP");
-	PATH_SWAP = config_get_string_value(config,"PATH_SWAP");
+	pSwap = config_get_string_value(config,"PATH_SWAP");
 }
 // 1 para cpu
 // 41 para kernel

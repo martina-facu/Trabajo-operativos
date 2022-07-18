@@ -33,9 +33,16 @@ void* funciones_kernel(){
 		switch(operacion){
 		case INICIALIZAR_PROCESO:
 			inicializar_proceso();
+			log_trace(logger,"VAMO A SUSPENDER");
+			suspender_proceso();
+			break;
+		case SUSPENDER_PROCESO:
+
+			suspender_proceso();
 			break;
 		}
 	}
+	return NULL;
 }
 
 void inicializar_proceso(){
@@ -46,8 +53,67 @@ void inicializar_proceso(){
 	recv(socket_kernel,&tam_proceso,sizeof(uint32_t),0);
 	log_trace(logger,"TAM PROCESO RECIBIDO: %d",tam_proceso);
 	t_proceso *proceso = crear_proceso(pid,tam_proceso);
+	list_add(procesos,proceso);
+	uint32_t cant_pag = division_entera(tam_proceso,TAM_PAGINA);
+	crear_archivo_swap(pid,cant_pag);
 	log_trace(logger,"PROCESO CREADO CON EXITO, MANDANDO MENSAJE...");
 	send(socket_kernel,&proceso->entrada_1,sizeof(uint32_t),0);
+
+	// BORRAR
+
+	// frame 1: 63 bytes - 127 bytes
+
+	t_tabla_1* tabla = list_get(tabla_1_l,proceso->entrada_1);
+	log_trace(logger,"HACEMOS UN GET DE LA TABLA 1, INDICE: %d ",proceso->entrada_1);
+	uint32_t indice = *(tabla->entradas);
+	log_trace(logger,"INDICE A LA SEGUNDA TABLA: %d ",indice);
+	t_tabla_2* tabla2 = list_get(tabla_2_l,indice);
+	log_trace(logger,"AGARRAMOS LA TABLA 2, Y ENTRADA 1");
+	t_entrada_2* entrada = list_get(tabla2->entradas,1);
+	entrada->bPres=1;
+	entrada->bMod=1;
+	entrada->frame=1;
+	t_memory_pag* pagina = malloc(sizeof(t_memory_pag));
+	pagina->entrada = entrada;
+	pagina->n_tabla_2=0;
+	pagina->n_entrada_2=1;
+	list_add(proceso->pagMem,pagina);
+	char aux[] = "holaa";
+	memcpy(memoria+entrada->frame*TAM_PAGINA+32,aux,strlen(aux)+1);
+	log_trace(logger,"ENTRADA DE NIVEL 2 MODIFICADA Y AGREGADA A MEMORIA");
+}
+
+bool paginas_modificadas(void* entrada_){
+	t_memory_pag* pagina= entrada_;
+	return pagina->entrada->bMod ==1;
+}
+void mostrar_paginas(t_list* paginas){
+	log_trace(logger,"PASAMO O NO PASAMOsss, %d", list_size(paginas));
+	for(int i =0; i<list_size(paginas);i++){
+		log_trace(logger,"ENTRADAAAAAAAAAAAAAAAAAAAAAA");
+		t_memory_pag* pagina = list_get(paginas,i);
+		int num_pagina = pagina->n_tabla_2*ENTRADAS_POR_TABLA + pagina->n_entrada_2;
+		log_trace(logger,"PAGINA: %d, FRAME: %d ",num_pagina,pagina->entrada->frame);
+	}
+}
+
+void suspender_proceso(){
+	uint32_t pid;
+//	recv(socket_kernel,&pid,sizeof(uint32_t),0);
+	pid=0;
+	t_proceso* proceso = list_get(procesos,pid);
+	log_trace(logger,"AGARRAMOS EL PROCESO DE LA LISTA DE PROCESOS, PID: %d",proceso->pid);
+	t_list* paginas_modificadas_proceso =list_filter(proceso->pagMem,paginas_modificadas);
+	log_trace(logger,"PASAMO O NO PASAMO");
+	mostrar_paginas(paginas_modificadas_proceso);
+	for(int i =0; i<list_size(paginas_modificadas_proceso);i++){
+		t_memory_pag* pagina = list_get(paginas_modificadas_proceso,i);
+		pagina->entrada->bPres=0;
+		int numero_pagina = pagina->n_tabla_2*ENTRADAS_POR_TABLA + pagina->n_entrada_2;
+		log_trace(logger,"VAMOS A SWAPEAR UNA PAGINA DEL FRAME: %d",pagina->entrada->frame);
+		swap_pagina(pid,numero_pagina,pagina->entrada);
+	}
+
 }
 
 t_proceso* crear_proceso(uint32_t pid, uint32_t tam_proceso){
