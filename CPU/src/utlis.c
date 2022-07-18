@@ -50,11 +50,11 @@ int levantar_conexion_memoria(char* ipServer, char* portServer, uint32_t* cantid
 		uint8_t mensaje = SOLICITAR_ENTRADA_Y_TAMANO;
 		send(conexion_memoria, &mensaje, sizeof(uint8_t), 0);
 
-		recv(conexion_memoria, &cantidad_entradas, sizeof(uint32_t), 0);
-		recv(conexion_memoria, &tamano_pagina, sizeof(uint32_t), 0);
+		recv(conexion_memoria, &cant, sizeof(uint32_t), 0);
+		recv(conexion_memoria, &tam, sizeof(uint32_t), 0);
 
-		log_trace(logger, "cant entradas %d", cantidad_entradas);
-		log_trace(logger, "tamano_pagina %d", tamano_pagina);
+		log_trace(logger, "cant entradas %d", cant);
+		log_trace(logger, "tamano_pagina %d", tam);
 
 //		recv(conexion_memoria, &Ncantidad_entradas, sizeof(uint32_t), 0);
 //		recv(conexion_memoria, &Ntamano_pagina, sizeof(uint32_t), 0);

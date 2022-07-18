@@ -21,8 +21,6 @@
 #include "pcb.h"
 #include "listas.h"
 #include "semaforos.h"
-#include <conexion.h>
-#include "var_glob.h"
 
 /*
  * Prototipo de funciones

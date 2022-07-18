@@ -53,6 +53,8 @@
 /*
  * Listado de variables globales
 */
+	int cant;
+	int tam;
 	t_log* logger;
 	int fdDispatch;
 	t_list* tlb;
