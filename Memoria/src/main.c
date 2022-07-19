@@ -1,6 +1,7 @@
 
 #include "main.h"
 #include "funciones_kernel.h"
+#include "funciones_cpu.h"
 
 void iniciar_config();
 void iniciar_servidor_memoria();
@@ -18,9 +19,14 @@ int main(){
 
 	pthread_t kernel;
 	pthread_t swap;
+	pthread_t cpu;
+	
 	pthread_create(&swap,NULL,swap_,NULL);
 	pthread_create(&kernel,NULL,funciones_kernel,NULL);
+	pthread_create(&cpu, NULL, funciones_cpu, NULL);
+	
 	pthread_join(kernel,NULL);
+	pthread_join(cpu, NULL);
 
 
 	return 0;
