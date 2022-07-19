@@ -43,7 +43,7 @@ typedef struct{
 
 typedef struct{
 	uint32_t pid;
-	t_list memorias_a_swappear;
+	t_list* memorias_a_swappear;
 }t_swap;
 
 int division_entera(double numerador,  double denominador);
