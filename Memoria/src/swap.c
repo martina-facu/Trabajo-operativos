@@ -159,7 +159,7 @@ void eliminar_archivo_swap(int pidRecibido){
 //	close(fd);
 //
 //}
-void swap_(){
+void* swap_(){ //TODO: Agregue el void* como está definido en el .h
 	while(1){
 		sem_wait(&swap);
 
