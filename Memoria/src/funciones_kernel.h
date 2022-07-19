@@ -41,6 +41,10 @@ typedef struct{
 	int contador;
 }t_proceso;
 
+typedef struct{
+	uint32_t pid;
+	t_list memorias_a_swappear;
+}t_swap;
 
 int division_entera(double numerador,  double denominador);
 void* funciones_kernel();
@@ -52,11 +56,14 @@ t_proceso* crear_proceso(uint32_t pid, uint32_t tam_proceso);
 void inicializar_tabla_1(t_tabla_1* tabla,uint32_t pid);
 void asignar_tabla_2(t_tabla_1* tabla,uint32_t cant_entradas_1);
 void inicializar_tabla_2(t_list* entradas_tabla2);
+void finalizar_proceso();
+void mostrar_bitarray();
 
 
 t_list* tabla_1_l;
 t_list* tabla_2_l;
 t_list* procesos;
+t_list* pedidos_swap_l;
 
 
 #endif /* FUNCIONES_KERNEL_H_ */

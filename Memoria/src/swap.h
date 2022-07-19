@@ -45,7 +45,7 @@
 	int existe_archivo(char* path);
 	void crear_archivo_swap(int pid, int cantidadPaginas);
 	void eliminar_archivo_swap(int pid);
-	void swap_pagina(uint32_t pid,int numero_pagina,t_entrada_2* entrada);
+	void* swap_();
 	void retardo_swap();
 
 

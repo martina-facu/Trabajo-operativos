@@ -159,49 +159,53 @@ void eliminar_archivo_swap(int pidRecibido){
 //	close(fd);
 //
 //}
-void swap_pagina(uint32_t pid, int numero_pagina,t_entrada_2* entrada){
+void swap_(){
+	while(1){
+		sem_wait(&swap);
 
-	log_info(logger, "MEMORIA: Ingresando a SWAP..(SUSPENSION)");
+		t_swap* pedido = list_remove(pedidos_swap_l,0);
 
-	retardo_swap();
+		log_info(logger, "MEMORIA: Ingresando a SWAP..(SUSPENSION)");
 
+		retardo_swap();
 
-	char nombreArchivo[1024];
-	char pathArchivo[1024];
-	struct stat sb;
+		uint32_t pid = pedido->pid;
 
-	sprintf(nombreArchivo, "%d.swap", pid);
-	sprintf(pathArchivo, "%s/%s", pSwap, nombreArchivo);
+		char nombreArchivo[1024];
+		char pathArchivo[1024];
+		struct stat sb;
 
-	log_info(logger, "%s", pathArchivo);
-	int fd = open(pathArchivo, O_RDWR,0770);
-	if(fstat(fd,&sb)==-1){
-		log_trace(logger,"ERROR EN ASIGNAR EL ESPACIO DEL ARCHIVO");
+		sprintf(nombreArchivo, "%d.swap", pid);
+		sprintf(pathArchivo, "%s/%s", pSwap, nombreArchivo);
+
+		log_info(logger, "%s", pathArchivo);
+		int fd = open(pathArchivo, O_RDWR,0770);
+		if(fstat(fd,&sb)==-1){
+			log_trace(logger,"ERROR EN ASIGNAR EL ESPACIO DEL ARCHIVO");
+		}
+		if (fd == -1){
+
+			log_error(logger, "SWAP: El archivo no existe.");
+			exit(1);
+		}
+		log_info(logger, "MEMORIA: VAMO A SWAPPEAR");
+		void* archivo = (void*) mmap(NULL, sb.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+
+		while(!list_is_empty(pedido->memorias_a_swappear)){
+
+			t_memory_pag* pagina = list_remove(pedido->memorias_a_swappear,0);
+
+			int numero_pagina = pagina->n_tabla_2*ENTRADAS_POR_TABLA + pagina->n_entrada_2;
+
+			memcpy(archivo+numero_pagina*TAM_PAGINA, (memoria + TAM_PAGINA*pagina->entrada->frame), TAM_PAGINA);
+
+			log_info(logger, "MEMORIA: ARCHIVO COPIADO");
+		}
+
+		munmap(archivo, TAM_PAGINA);
+
+		log_info(logger, "SWAP: Ingresando a memoria..");
+		close(fd);
 	}
-	if (fd == -1){
-
-		log_error(logger, "SWAP: El archivo no existe.");
-		exit(1);
-	}
-	log_info(logger, "MEMORIA: VAMO A SWAPPEAR");
-	void* archivo = (void*) mmap(NULL, sb.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-	log_info(logger, "MEMORIA: ARCHIVO MAPEADO,VAMO A COPIAR EN: %d, el frame: %d", TAM_PAGINA*numero_pagina-1, entrada->frame);
-
-	memcpy(archivo+numero_pagina*TAM_PAGINA, (memoria + TAM_PAGINA*entrada->frame), TAM_PAGINA);
-
-
-	char aux[6];
-
-	memcpy(aux,archivo+numero_pagina*TAM_PAGINA+32,6);
-
-
-
-	log_info(logger, "MEMORIA: ARCHIVO COPIADO: %s",aux);
-
-
-	munmap(archivo, TAM_PAGINA);
-
-	log_info(logger, "SWAP: Ingresando a memoria..");
-	close(fd);
 }
 

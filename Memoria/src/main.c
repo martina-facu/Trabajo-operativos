@@ -17,7 +17,8 @@ int main(){
 	memset(memoria,'\0',TAM_MEMORIA);
 
 	pthread_t kernel;
-
+	pthread_t swap;
+	pthread_create(&swap,NULL,swap_,NULL);
 	pthread_create(&kernel,NULL,funciones_kernel,NULL);
 	pthread_join(kernel,NULL);
 
@@ -33,20 +34,22 @@ void inicializar(){
 
 	int cant_marcos_bytes = division_entera(CANT_MARCOS,8);
 
-	log_info(logger, "%d", cant_marcos_bytes);
-
 	void* bitarray_memory = malloc(cant_marcos_bytes);
-
-	memset(bitarray_memory,0,cant_marcos_bytes);
-
 	bitMem = bitarray_create_with_mode(bitarray_memory,cant_marcos_bytes,MSB_FIRST);
 
-	for (int i =0; i < cant_marcos_bytes;i++){
-			printf("%d", (int)bitarray_test_bit(bitMem,i));
+	for(int i=0;i< bitarray_get_max_bit(bitMem);i++){
+		bitarray_clean_bit(bitMem, i);
 	}
+
+	mostrar_bitarray(bitMem);
+
+	pedidos_swap_l = list_create();
 	tabla_1_l = list_create();
 	tabla_2_l = list_create();
 	procesos = list_create();
+
+	sem_init(&swap,0,0);
+
 }
 
 void iniciar_config(){

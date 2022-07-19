@@ -27,6 +27,7 @@
 //}
 void* funciones_kernel(){
 	while(1){
+		log_trace(logger,"TE ESTAMOS ESPERANDO KERNELITO");
 		uint8_t operacion;
 		recv(socket_kernel,&operacion,sizeof(uint8_t),0);
 		log_trace(logger,"RECIBI UN CODIGO DE OPERACION: %d", (int) operacion);
@@ -37,8 +38,10 @@ void* funciones_kernel(){
 			suspender_proceso();
 			break;
 		case SUSPENDER_PROCESO:
-
 			suspender_proceso();
+			break;
+		case FINALIZAR_PROCESO:
+			finalizar_proceso();
 			break;
 		}
 	}
@@ -81,6 +84,8 @@ void inicializar_proceso(){
 	char aux[] = "holaa";
 	memcpy(memoria+entrada->frame*TAM_PAGINA+32,aux,strlen(aux)+1);
 	log_trace(logger,"ENTRADA DE NIVEL 2 MODIFICADA Y AGREGADA A MEMORIA");
+	bitarray_set_bit(bitMem, pagina->entrada->frame);
+	mostrar_bitarray();
 }
 
 bool paginas_modificadas(void* entrada_){
@@ -104,17 +109,69 @@ void suspender_proceso(){
 	t_proceso* proceso = list_get(procesos,pid);
 	log_trace(logger,"AGARRAMOS EL PROCESO DE LA LISTA DE PROCESOS, PID: %d",proceso->pid);
 	t_list* paginas_modificadas_proceso =list_filter(proceso->pagMem,paginas_modificadas);
-	log_trace(logger,"PASAMO O NO PASAMO");
-	mostrar_paginas(paginas_modificadas_proceso);
-	for(int i =0; i<list_size(paginas_modificadas_proceso);i++){
-		t_memory_pag* pagina = list_get(paginas_modificadas_proceso,i);
+	t_swap* paginas_a_swappear = malloc(sizeof(t_swap));
+	paginas_a_swappear->pid = pid;
+	paginas_a_swappear->memorias_a_swappear=  paginas_modificadas_proceso;
+	list_add(pedidos_swap_l,paginas_a_swappear);
+	sem_post(&swap);
+	usleep(RETARDO_SWAP);
+	while(!list_is_empty(proceso->pagMem)){
+		t_memory_pag* pagina = list_remove(proceso->pagMem,0);
 		pagina->entrada->bPres=0;
-		int numero_pagina = pagina->n_tabla_2*ENTRADAS_POR_TABLA + pagina->n_entrada_2;
-		log_trace(logger,"VAMOS A SWAPEAR UNA PAGINA DEL FRAME: %d",pagina->entrada->frame);
-		swap_pagina(pid,numero_pagina,pagina->entrada);
+		bitarray_clean_bit(bitMem, pagina->entrada->frame);
+	}
+	log_trace(logger,"PASAMO O NO PASAMO");
+
+//	for(int i =0; i<list_size(paginas_modificadas_proceso);i++){
+//		log_trace(logger,"ENTRAMOS EN EL FOR");
+//		t_memory_pag* pagina = list_get(paginas_modificadas_proceso,i);
+//		pagina->entrada->bPres=0;
+//		int numero_pagina = pagina->n_tabla_2*ENTRADAS_POR_TABLA + pagina->n_entrada_2;
+//		log_trace(logger,"VAMOS A SWAPEAR UNA PAGINA DEL FRAME: %d",pagina->entrada->frame);
+//		swap_pagina(pid,numero_pagina,pagina->entrada);
+//		log_trace(logger,"SALIMO DEL SWAP");
+//		memset(memoria + pagina->entrada->frame*TAM_PAGINA, '\0', TAM_PAGINA);
+//		log_trace(logger,"LIMPIAMOS MEMORIA");
+//		bitarray_clean_bit(bitMem, pagina->entrada->frame);
+//		log_trace(logger,"LIMPIAMOS EL BIT");
+//	}
+	mostrar_bitarray();
+}
+void finalizar_proceso(){
+
+	uint32_t pid;
+	recv(socket_kernel,&pid,sizeof(uint32_t),0);
+
+	log_info(logger, "MEMORIA-KERNEL: Se recibe un pid %d para finalizar", pid);
+
+	t_proceso* proceso = list_get(procesos,pid);
+	log_trace(logger,"AGARRAMOS EL PROCESO DE LA LISTA DE PROCESOS, PID: %d",proceso->pid);
+
+	for(int i = 0; i < list_size(proceso->pagMem); i++){
+
+		t_memory_pag* pagina = list_get(proceso->pagMem,i);
+		log_trace(logger,"VAMOS A Liberar UNA PAGINA DEL FRAME: %d",pagina->entrada->frame);
+		memset(memoria + pagina->entrada->frame*TAM_PAGINA, '\0', TAM_PAGINA);
+		bitarray_clean_bit(bitMem, pagina->entrada->frame);
+		log_trace(logger, "MUESTRO EL BITARRAY, LUEGO DE LIMPIAR ESE FRAME");
+		mostrar_bitarray();
 	}
 
+	log_trace(logger, "Ingresando a SWAP..");
+	eliminar_archivo_swap(pid);
+	log_trace(logger, "Ingresando a MEMORIA..");
+
+//TODO: Esto se me ocurrio para liberar memoria
+
+//	log_trace(logger, "Eliminamos la lista de paginas presentes");
+//	list_destroy(paginas_presentes_proceso);
+//	log_trace(logger, "Eliminamos la lista de paginas en memoria y las liberamos");
+//	list_destroy_and_destroy_elements(proceso->pagMem, free);
+//	log_trace(logger, "Liberamos el proceso de la lista de procesos");
+//	list_remove_and_destroy_element(procesos, proceso->pid, free);
+
 }
+
 
 t_proceso* crear_proceso(uint32_t pid, uint32_t tam_proceso){
 	log_trace(logger,"CREANDO PROCESO");
@@ -202,7 +259,11 @@ int division_entera(double numerador,  double denominador){
 		return (int)intpart;
 }
 
-
+void mostrar_bitarray(){
+	for(int i=0;i< bitarray_get_max_bit(bitMem);i++){
+				printf("%d", (int)bitarray_test_bit(bitMem,i));
+		}
+}
 
 
 

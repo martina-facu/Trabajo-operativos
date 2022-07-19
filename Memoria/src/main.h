@@ -24,6 +24,7 @@
 #include <pthread.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <semaphore.h>
 #include <netdb.h>
 #include <pcb.h>
 #include "swap.h"
@@ -47,6 +48,7 @@ uint32_t MARCOS_POR_PROCESO;
 int RETARDO_SWAP;
 char* pSwap;
 int CANT_MARCOS;
+sem_t swap;
 
 
 #endif /* MAIN_H_ */

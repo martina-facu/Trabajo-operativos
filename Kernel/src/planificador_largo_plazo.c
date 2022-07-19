@@ -227,9 +227,10 @@ void* finalizar_procesos(){
 		printf("proceso finalizado: \n");
 		pcb_mostrar(pcb_finalizado, PLP);
 		pthread_mutex_unlock(&mx_finalizado_l);
+		uint8_t mensaje= FINALIZAR_PROCESO;
 
-
-//		 TODO avisar a memoria que libere la memoria
+		send(socket_memoria,&mensaje,sizeof(uint8_t),0);
+		send(socket_memoria,&pcb_finalizado->pid,sizeof(uint32_t),0);
 
 		comunicacion_t* comunicacion =buscar_comunicacion(pcb_finalizado);
 		log_trace(PLP,"se encontro una comunicacion");
