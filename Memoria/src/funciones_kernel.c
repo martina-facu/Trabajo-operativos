@@ -118,7 +118,7 @@ void suspender_proceso(){
 	paginas_a_swappear->pid = pid;
 	paginas_a_swappear->memorias_a_swappear=  paginas_modificadas_proceso;
 	list_add(pedidos_swap_l,paginas_a_swappear);
-	sem_post(&swap);
+	sem_post(&s_swap);
 	usleep(RETARDO_SWAP);
 	while(!list_is_empty(proceso->pagMem)){
 		t_memory_pag* pagina = list_remove(proceso->pagMem,0);

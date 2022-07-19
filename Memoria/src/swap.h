@@ -47,6 +47,7 @@
 	void eliminar_archivo_swap(int pid);
 	void* swap_();
 	void retardo_swap();
+	void traer_a_memoria(uint32_t pid,int numero_pagina,uint32_t frame);
 
 
 #endif /* SWAP_H_ */

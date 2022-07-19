@@ -54,7 +54,7 @@ void inicializar(){
 	tabla_2_l = list_create();
 	procesos = list_create();
 
-	sem_init(&swap,0,0);
+	sem_init(&s_swap,0,0);
 
 }
 

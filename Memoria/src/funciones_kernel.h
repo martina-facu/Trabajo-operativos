@@ -60,6 +60,8 @@ void finalizar_proceso();
 void mostrar_bitarray();
 
 
+
+
 t_list* tabla_1_l;
 t_list* tabla_2_l;
 t_list* procesos;

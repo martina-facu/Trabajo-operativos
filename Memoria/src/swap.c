@@ -119,6 +119,28 @@ void eliminar_archivo_swap(int pidRecibido){
 
 }
 
+void traer_a_memoria(uint32_t pid,int numero_pagina,uint32_t frame){
+	retardo_swap();
+	char nombreArchivo[1024];
+	char pathArchivo[1024];
+	struct stat sb;
+
+	sprintf(nombreArchivo, "%d.swap", pid);
+	sprintf(pathArchivo, "%s/%s", pSwap, nombreArchivo);
+
+	log_info(logger, "%s", pathArchivo);
+
+	int fd = open(pathArchivo, O_RDWR,0770);
+	if(fstat(fd,&sb)==-1){
+		log_trace(logger,"ERROR EN ASIGNAR EL ESPACIO DEL ARCHIVO");
+	}
+	log_info(logger, "MEMORIA: VAMO A TRAER A MEMORIA");
+	void* archivo = (void*) mmap(NULL, sb.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+
+	memcpy(memoria+frame*TAM_PAGINA , archivo+numero_pagina*TAM_PAGINA , TAM_PAGINA);
+	log_info(logger, "SE TRAJO A MEMORIA, LA PAGINA:%d, AL FRAME: %d",numero_pagina,frame);
+}
+
 /*
  *  Funcion: crear_archivo_swap
  *  Entradas: 	void No recibe ningun parametro

@@ -48,7 +48,7 @@ uint32_t MARCOS_POR_PROCESO;
 int RETARDO_SWAP;
 char* pSwap;
 int CANT_MARCOS;
-sem_t swap;
+sem_t s_swap;
 
 
 #endif /* MAIN_H_ */
