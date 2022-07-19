@@ -43,6 +43,11 @@ void* funciones_kernel(){
 		case FINALIZAR_PROCESO:
 			finalizar_proceso();
 			break;
+		default:
+			log_error(logger, "El mensaje recibido %d no corresponde a uno de los conocidos.", operacion);
+			log_error(logger, "Se procede a cerrar la conexion");
+			close(socket_kernel);
+			break;
 		}
 	}
 	return NULL;
