@@ -168,7 +168,7 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
 	log_info(logger, "CPU-MEMORIA El valor leido fue: %d", *valor_leido);
 	valor_leido_respuesta = *valor_leido;
 	free(valor_leido);
-	return valor_leido_respuesta;
+	return 0;
 }
 
 uint32_t escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calculo_direccion* datos)
@@ -178,24 +178,25 @@ uint32_t escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calcul
 //	printf("El valor de la direccion fisica es: %d", resultado->direccion_fisica);
 	log_info(logger, "CPU-MEMORIA El valor de la direccion fisica es: %d", resultado->direccion_fisica);
 
-	mandar_lecto_escritura(resultado->direccion_fisica, valor_a_escribir, SOLICITAR_ESCRITURA, datos->conexion_memoria);
-
-//	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
-//	uint32_t* resultado_escritura = malloc(sizeof(uint32_t));
+//	mandar_lecto_escritura(resultado->direccion_fisica, valor_a_escribir, SOLICITAR_ESCRITURA, datos->conexion_memoria);
 //
-//	memcpy(resultado_escritura, respuesta->buffer->stream, sizeof(uint32_t));
-
-	uint8_t ok;
-	recv(datos->conexion_memoria,&ok,sizeof(uint8_t),0);
-
-	if(ok)
-	{
-		log_info(logger, "CPU-MEMORIA El resultado de escribir fue exitoso, %d", *valor_a_escribir);
-//		printf("El resultado de escribir fue: %d", *resultado_escritura);
-		return valor_a_escribir;
-	}else{
-		return NULL;
-	}
+////	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
+////	uint32_t* resultado_escritura = malloc(sizeof(uint32_t));
+////
+////	memcpy(resultado_escritura, respuesta->buffer->stream, sizeof(uint32_t));
+//
+//	uint8_t ok;
+//	recv(datos->conexion_memoria,&ok,sizeof(uint8_t),0);
+//
+//	if(ok)
+//	{
+//		log_info(logger, "CPU-MEMORIA El resultado de escribir fue exitoso, %d", *valor_a_escribir);
+////		printf("El resultado de escribir fue: %d", *resultado_escritura);
+//		return *valor_a_escribir;
+//	}else{
+//		return 0;
+//	}
+	return 0;
 }
 
 //bool execute(Instruccion* instruccion,t_config* config, pcb_t* pcb, t_log* logger)
@@ -244,7 +245,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 		case WRITE:
 			log_info(logger, "CPU-EXECUTE Proceso una operacion de WRITE PID: %d", pcb->pid);
 			resultado = escribir(*parametro1, parametro2, datos);
-			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
+//			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
@@ -253,8 +254,8 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			break;
 		case COPY: // COPY(destino, origen)
 			log_info(logger, "CPU-EXECUTE Proceso una operacion de COPY PID: %d", pcb->pid);
-			resultado = escribir(*parametro1, parametro2, datos);
-			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
+//			resultado = escribir(*parametro1, parametro2, datos);
+//			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 
 			sleep(2);
@@ -262,7 +263,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			break;
 		case READ:
 			log_info(logger, "CPU-EXECUTE Proceso una operacion de READ PID: %d", pcb->pid);
-			valor_leido = leer(*parametro1,datos);
+//			valor_leido = leer(*parametro1,datos);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
 			sleep(2);

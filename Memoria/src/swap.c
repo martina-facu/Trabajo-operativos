@@ -183,7 +183,6 @@ void traer_a_memoria(uint32_t pid,int numero_pagina,uint32_t frame){
 //}
 void* swap_(){ //TODO: Agregue el void* como está definido en el .h
 	while(1){
-		//sem_wait(&swap);
 		sem_wait(&s_swap);
 
 		t_swap* pedido = list_remove(pedidos_swap_l,0);

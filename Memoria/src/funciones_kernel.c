@@ -34,8 +34,6 @@ void* funciones_kernel(){
 		switch(operacion){
 		case INICIALIZAR_PROCESO:
 			inicializar_proceso();
-			log_trace(logger,"VAMO A SUSPENDER");
-			suspender_proceso();
 			break;
 		case SUSPENDER_PROCESO:
 			suspender_proceso();
@@ -68,29 +66,61 @@ void inicializar_proceso(){
 	send(socket_kernel,&proceso->entrada_1,sizeof(uint32_t),0);
 
 	// BORRAR
-
+	mostrar_bitarray();
 	// frame 1: 63 bytes - 127 bytes
 
-	t_tabla_1* tabla = list_get(tabla_1_l,proceso->entrada_1);
-	log_trace(logger,"HACEMOS UN GET DE LA TABLA 1, INDICE: %d ",proceso->entrada_1);
-	uint32_t indice = *(tabla->entradas);
-	log_trace(logger,"INDICE A LA SEGUNDA TABLA: %d ",indice);
-	t_tabla_2* tabla2 = list_get(tabla_2_l,indice);
-	log_trace(logger,"AGARRAMOS LA TABLA 2, Y ENTRADA 1");
-	t_entrada_2* entrada = list_get(tabla2->entradas,1);
-	entrada->bPres=1;
-	entrada->bMod=1;
-	entrada->frame=1;
-	t_memory_pag* pagina = malloc(sizeof(t_memory_pag));
-	pagina->entrada = entrada;
-	pagina->n_tabla_2=0;
-	pagina->n_entrada_2=1;
-	list_add(proceso->pagMem,pagina);
-	char aux[] = "holaa";
-	memcpy(memoria+entrada->frame*TAM_PAGINA+32,aux,strlen(aux)+1);
-	log_trace(logger,"ENTRADA DE NIVEL 2 MODIFICADA Y AGREGADA A MEMORIA");
-	bitarray_set_bit(bitMem, pagina->entrada->frame);
-	mostrar_bitarray();
+//	t_tabla_1* tabla = list_get(tabla_1_l,proceso->entrada_1);
+//	log_trace(logger,"HACEMOS UN GET DE LA TABLA 1, INDICE: %d ",proceso->entrada_1);
+//	uint32_t indice = *(tabla->entradas);
+//	log_trace(logger,"INDICE A LA SEGUNDA TABLA: %d ",indice);
+//	t_tabla_2* tabla2 = list_get(tabla_2_l,indice);
+//	log_trace(logger,"AGARRAMOS LA TABLA 2, Y ENTRADA 1");
+//	t_entrada_2* entrada = list_get(tabla2->entradas,1);
+//	entrada->bPres=1;
+//	entrada->bMod=1;
+//	entrada->frame=1;
+//	t_memory_pag* pagina = malloc(sizeof(t_memory_pag));
+//	pagina->entrada = entrada;
+//	pagina->n_tabla_2=0;
+//	pagina->n_entrada_2=1;
+//	list_add(proceso->pagMem,pagina);
+//	char aux[] = "holaa";
+//	memcpy(memoria+entrada->frame*TAM_PAGINA+32,aux,strlen(aux)+1);
+
+
+}
+
+void crear_paginas_prueba(t_proceso* proceso){
+
+	for(int i = 0; i < 4; i++){
+		t_tabla_1* tabla = list_get(tabla_1_l, proceso->entrada_1);
+
+		uint32_t indice = *(tabla->entradas);
+
+		t_tabla_2* tabla2 = list_get(tabla_2_l,indice);
+
+		t_entrada_2* entrada = list_get(tabla2->entradas, i);
+		entrada->bPres = 1;
+		entrada->bUso = 1;
+		entrada->bMod = 1;
+		entrada->frame = i;
+		t_memory_pag* pagina = malloc(sizeof(t_memory_pag));
+		pagina->entrada = entrada;
+		pagina->n_tabla_2 = 0;
+		pagina->n_entrada_2 = i;
+		list_add(proceso->pagMem,pagina);
+		char aux[] = "holu";
+		memcpy(memoria+entrada->frame*TAM_PAGINA+10,aux,strlen(aux)+1);
+	}
+
+	printf("\nEntrada\t\tFrame\t\tBit Uso\t\tBit Mod\t\tBit Pres\n");
+
+	for (int i = 0; i < 4; i++){
+		t_tabla_2* tabla2 = list_get(tabla_2_l,0);
+		t_entrada_2* entrada = list_get(tabla2->entradas, i);
+		printf("\n%d\t\t%d\t\t%d\t\t%d\t\t%d\n", i, entrada->frame, (int)entrada->bUso, (int)entrada->bMod, (int)entrada->bPres);
+
+	}
 }
 
 bool paginas_modificadas(void* entrada_){
@@ -98,9 +128,7 @@ bool paginas_modificadas(void* entrada_){
 	return pagina->entrada->bMod ==1;
 }
 void mostrar_paginas(t_list* paginas){
-	log_trace(logger,"PASAMO O NO PASAMOsss, %d", list_size(paginas));
 	for(int i =0; i<list_size(paginas);i++){
-		log_trace(logger,"ENTRADAAAAAAAAAAAAAAAAAAAAAA");
 		t_memory_pag* pagina = list_get(paginas,i);
 		int num_pagina = pagina->n_tabla_2*ENTRADAS_POR_TABLA + pagina->n_entrada_2;
 		log_trace(logger,"PAGINA: %d, FRAME: %d ",num_pagina,pagina->entrada->frame);
@@ -109,10 +137,9 @@ void mostrar_paginas(t_list* paginas){
 
 void suspender_proceso(){
 	uint32_t pid;
-//	recv(socket_kernel,&pid,sizeof(uint32_t),0);
-	pid=0;
+	recv(socket_kernel,&pid,sizeof(uint32_t),0);
+
 	t_proceso* proceso = list_get(procesos,pid);
-	log_trace(logger,"AGARRAMOS EL PROCESO DE LA LISTA DE PROCESOS, PID: %d",proceso->pid);
 	t_list* paginas_modificadas_proceso =list_filter(proceso->pagMem,paginas_modificadas);
 	t_swap* paginas_a_swappear = malloc(sizeof(t_swap));
 	paginas_a_swappear->pid = pid;
@@ -125,8 +152,6 @@ void suspender_proceso(){
 		pagina->entrada->bPres=0;
 		bitarray_clean_bit(bitMem, pagina->entrada->frame);
 	}
-	log_trace(logger,"PASAMO O NO PASAMO");
-
 //	for(int i =0; i<list_size(paginas_modificadas_proceso);i++){
 //		log_trace(logger,"ENTRAMOS EN EL FOR");
 //		t_memory_pag* pagina = list_get(paginas_modificadas_proceso,i);
@@ -142,6 +167,7 @@ void suspender_proceso(){
 //	}
 	mostrar_bitarray();
 }
+
 void finalizar_proceso(){
 
 	uint32_t pid;
@@ -215,7 +241,6 @@ void inicializar_tabla_1(t_tabla_1* tabla,uint32_t pid){
 	tabla->entradas = malloc(ENTRADAS_POR_TABLA* sizeof(int));
 	for(int i=0; i<ENTRADAS_POR_TABLA;i++){
 		*(tabla->entradas + i)= -1;
-		log_trace(logger,"NUMERO: %d",*(tabla->entradas+i));
 	}
 }
 
@@ -223,16 +248,16 @@ void asignar_tabla_2(t_tabla_1* tabla,uint32_t cant_entradas_1){
 	for(int i=0;i<cant_entradas_1;i++){
 		t_tabla_2* tabla2= malloc(sizeof(t_tabla_2));
 		tabla2->entradas=list_create();
-		log_trace(logger,"ASIGNADO TABLA SEGUNDO NIVEL || NUMERO: %d", i);
+
 		inicializar_tabla_2(tabla2->entradas);
-		log_trace(logger,"TABLA INICIALIZADA");
+
 
 		list_add(tabla_2_l,tabla2);
 
-		log_trace(logger,"TABLA AGREGADA");
+
 
 		*(tabla->entradas+i)=list_size(tabla_2_l)-1;
-		log_trace(logger,"NUMERO: %d",*(tabla->entradas+i));
+
 	}
 
 }
@@ -245,7 +270,7 @@ void inicializar_tabla_2(t_list* entradas_tabla2){
 		entrada->bMod=0;
 		entrada->bPres=0;
 		list_add(entradas_tabla2,entrada);
-		log_trace(logger,"INICIALIZANDO ENTRADA DE SEGUNDO NIVEL NUMERO: %d", i);
+
 	}
 }
 

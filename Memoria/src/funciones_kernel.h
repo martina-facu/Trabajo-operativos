@@ -58,6 +58,7 @@ void asignar_tabla_2(t_tabla_1* tabla,uint32_t cant_entradas_1);
 void inicializar_tabla_2(t_list* entradas_tabla2);
 void finalizar_proceso();
 void mostrar_bitarray();
+void crear_paginas_prueba(t_proceso* proceso);
 
 
 

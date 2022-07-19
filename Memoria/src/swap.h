@@ -27,6 +27,7 @@
 #include "funciones_kernel.h"
 #include <sys/stat.h>
 
+
 /*
  * Listado de estructuras
 */

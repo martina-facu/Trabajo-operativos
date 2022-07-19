@@ -130,7 +130,7 @@ void calcular_datos_direccion(Datos_calculo_direccion* datos, uint32_t direccion
 Pagina_direccion* traducir_direccion(Datos_calculo_direccion* datos){
 	log_info(logger, "CPU-MMU Inicio la traduccion");
 	Pagina_direccion* resultado = malloc(sizeof(Pagina_direccion));
-	resultado->marco = get_marco(datos);
+	resultado->marco = get_marco_memoria(datos);
 	resultado->numero_pagina = datos->numero_pagina;
 	resultado->direccion_fisica = (resultado->marco * datos->tamano_pagina) + datos->desplazamiento;
 	return resultado;
@@ -167,19 +167,19 @@ uint32_t get_marco_memoria(Datos_calculo_direccion* datos){
 
 	uint32_t id_tabla = datos->id_tabla_paginas1;
 	uint32_t numero_entrada = datos->entrada_tabla_primer_nivel;
-
+	log_info(logger, "ENVIAMOS || CODIGO: %d || ID_ TABLA: %d || NUM ENTRADA: %d", codigo_operacion,id_tabla,numero_entrada);
 	send(conexion, &codigo_operacion, sizeof(uint8_t), 0);
 	send(conexion, &id_tabla, sizeof(uint32_t), 0);
 	send(conexion, &numero_entrada, sizeof(uint32_t), 0);
 
 	recv(conexion, id_tabla_paginas2, sizeof(uint32_t), 0);
-
+	log_info(logger, "RECIBO DE SUELDO: %d", id_tabla_paginas2);
 //	Busco la entrada de la tabla de paginas de segundo nivel
 	codigo_operacion = SOLICITAR_VALOR_ENTRADA2;
 
 	id_tabla = *id_tabla_paginas2;
 	numero_entrada = datos->entrada_tabla_segundo_nivel;
-
+	log_info(logger, "ENVIAMOS || CODIGO: %d || ID_ TABLA: %d || NUM ENTRADA: %d || NUM PAG: %d", codigo_operacion,id_tabla,numero_entrada,datos->numero_pagina);
 	send(conexion, &codigo_operacion, sizeof(uint8_t), 0);
 	send(conexion, &id_tabla, sizeof(uint32_t), 0);
 	send(conexion, &numero_entrada, sizeof(uint32_t), 0);
@@ -187,6 +187,8 @@ uint32_t get_marco_memoria(Datos_calculo_direccion* datos){
 
 	uint32_t* marco = malloc(sizeof(uint32_t));
 	recv(conexion, marco, sizeof(uint32_t), 0);
+
+	log_info(logger, "RECIBIMOS MARCO: %d" ,marco);
 
 	uint32_t aux = *marco;
 
