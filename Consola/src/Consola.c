@@ -60,8 +60,10 @@ int main(int argc, char *argv[]) {
 
 	if (respuesta == PROCESO_FINALIZADO)
 	{
-		recv(conexion, &respuesta, sizeof(uint8_t), 0);
-		log_info(logger, "Se recibio la respuesta de finalizacion exitosa del KERNEL para el PROCESO ID: %d", respuesta);
+		uint32_t pid;
+
+		recv(conexion, &pid, sizeof(uint32_t), 0);
+		log_info(logger, "Se recibio la respuesta de finalizacion exitosa del KERNEL para el PROCESO ID: %d", pid);
 	}
 	else
 		log_error(logger, "No pudo finalizarse en forma exitosa el proceso");
@@ -69,14 +71,20 @@ int main(int argc, char *argv[]) {
 	close(conexion);
 
 	free(tamano_mensaje);
+	log_trace(logger, "Se libera tamaño del mensaje");
 	config_destroy(config);
+	log_trace(logger, "Se libera la configuracion");
 	destruir_lista_instrucciones(instrucciones);
+	log_trace(logger, "Se libera la lista de instrucciones");
 	free(stream_instrucciones);
+	log_trace(logger, "Se libera el stream de instrucciones");
 	free(buffer);
+	log_trace(logger, "Se libera el buffer");
 	free(paquete);
+	log_trace(logger, "Se libera el paquete");
 	free(a_enviar);
+	log_trace(logger, "Se libera la variable a_enviar");
 	log_destroy(logger);
-	free(logger);
 
 	return EXIT_SUCCESS;
 }

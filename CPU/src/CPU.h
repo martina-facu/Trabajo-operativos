@@ -81,7 +81,6 @@
 /*
  * Prototipo de funciones
 */
-	t_config_cpu* crearConfigCPU();
 	t_config_cpu* cargarConfiguracion(char* configPath);
 	void aceptoServerInterrupt(int socketAnalizar);
 	void aceptoServerDispatch(int socketAnalizar);

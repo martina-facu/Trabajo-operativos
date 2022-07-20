@@ -1,2 +1,3 @@
+READ 0
 WRITE 4 42
 EXIT

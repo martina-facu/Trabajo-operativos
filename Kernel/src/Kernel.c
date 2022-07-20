@@ -34,29 +34,29 @@ int main(void)
 	pthread_t planificador_largo_plazo;
 
 
-//	if(strcmp(configuracion->algoritmo,"FIFO")==0)
-//	{
-//		log_trace(logP,"MODO PLANIFICADOR CORTO PLAZO: FIFO\n");
-//		pthread_create(&planificador_corto_plazo,NULL,fifo,NULL);
-//	}
-//	else if(strcmp(configuracion->algoritmo,"SJF")==0)
-//	{
-//		log_trace(logP,"MODO PLANIFICADOR CORTO PLAZO: SJF");
-//		pthread_create(&planificador_corto_plazo,NULL,sjf,NULL);
-//	}
-//	else{
-//		printf("error en el algoritmo, finalizando kernel\n");
-//		return -1;
-//	}
+	if(strcmp(configuracion->algoritmo,"FIFO")==0)
+	{
+		log_trace(logP,"MODO PLANIFICADOR CORTO PLAZO: FIFO\n");
+		pthread_create(&planificador_corto_plazo,NULL,fifo,NULL);
+	}
+	else if(strcmp(configuracion->algoritmo,"SJF")==0)
+	{
+		log_trace(logP,"MODO PLANIFICADOR CORTO PLAZO: SJF");
+		pthread_create(&planificador_corto_plazo,NULL,sjf,NULL);
+	}
+	else{
+		printf("error en el algoritmo, finalizando kernel\n");
+		return -1;
+	}
 	log_trace(logP,"EJECUTANDO: PLANIFICADOR LARGO PLAZO\n");
 	pthread_create(&planificador_largo_plazo,NULL,administrador_largo_plazo,NULL);
-//	log_trace(logP,"EJECUTANDO: PLANIFICADOR MEDIANO PLAZO");
-//	pthread_create(&planificador_mediano_plazo,NULL,administrador_mediano_plazo,NULL);
+	log_trace(logP,"EJECUTANDO: PLANIFICADOR MEDIANO PLAZO");
+	pthread_create(&planificador_mediano_plazo,NULL,administrador_mediano_plazo,NULL);
 
 
 	pthread_join(planificador_largo_plazo,NULL);
-//	pthread_join(planificador_corto_plazo,NULL);
-//	pthread_join(planificador_mediano_plazo,NULL);
+	pthread_join(planificador_corto_plazo,NULL);
+	pthread_join(planificador_mediano_plazo,NULL);
 
 	return EXIT_SUCCESS;
 }

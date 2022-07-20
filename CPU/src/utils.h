@@ -73,8 +73,8 @@
 /*
  * Prototipo de funciones
 */
-
-	int levantar_conexion_memoria(char* ipServer, char* portServer, uint32_t* cantidad_entradas,uint32_t* tamano_pagina);
+	t_config_cpu* crearConfigCPU();
+	int levantar_conexion_memoria_CPU(char* ipServer, char* portServer, uint32_t* cantidad_entradas,uint32_t* tamano_pagina);
 	int levantar_server(char* ipServer, char* portServer, char* sTipo);
 	t_paquete* recibir_mensaje_memoria(int conexion_memoria);
 	pcb_t* obtener_pcb(int cliente);

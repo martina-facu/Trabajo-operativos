@@ -2,12 +2,6 @@
 #include "CPU.h"
 
 
-t_config_cpu* crearConfigCPU(void)
-{
-	t_config_cpu* config = malloc(sizeof(t_config_cpu));
-	return config;
-}
-
 /*
  *  Funcion: aceptoServerDispatch
  *  Entradas: 	int socketAnalizar		socket que se esta analizando en el select
@@ -139,7 +133,7 @@ int main(void)
 	FD_ZERO(&master_fd_set);
 
 //	Iniciar conexiones
-	int conexion_memoria = levantar_conexion_memoria(configuracion->IPMemoria, configuracion->puertoMemoria, &cantidad_entradas,&tamano_pagina);
+	int conexion_memoria = levantar_conexion_memoria_CPU(configuracion->IPMemoria, configuracion->puertoMemoria, &cantidad_entradas,&tamano_pagina);
 	//	Marco el descriptor en donde me conecte al server de memoria como limite maximo y minimo del select
 	fdmax = conexion_memoria;
 	fdmin = conexion_memoria;

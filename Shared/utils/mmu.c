@@ -155,7 +155,8 @@ uint32_t get_marco(Datos_calculo_direccion* datos){
 	}
 }
 
-uint32_t get_marco_memoria(Datos_calculo_direccion* datos){
+uint32_t get_marco_memoria(Datos_calculo_direccion* datos)
+{
 
 	uint8_t codigo_operacion;
 	int conexion = datos->conexion_memoria;
@@ -169,8 +170,11 @@ uint32_t get_marco_memoria(Datos_calculo_direccion* datos){
 	uint32_t numero_entrada = datos->entrada_tabla_primer_nivel;
 	log_info(logger, "ENVIAMOS || CODIGO: %d || ID_ TABLA: %d || NUM ENTRADA: %d", codigo_operacion,id_tabla,numero_entrada);
 	send(conexion, &codigo_operacion, sizeof(uint8_t), 0);
+	log_trace(logger, "CPU-MEMORIA Envio codigo de operacion SOLICITAR_VALOR_ENTRADA1");
 	send(conexion, &id_tabla, sizeof(uint32_t), 0);
+	log_trace(logger, "CPU-MEMORIA Envio Id de tabla");
 	send(conexion, &numero_entrada, sizeof(uint32_t), 0);
+	log_trace(logger, "CPU-MEMORIA Envio numero de entrada");
 
 	recv(conexion, id_tabla_paginas2, sizeof(uint32_t), 0);
 	log_info(logger, "RECIBO DE SUELDO: %d", id_tabla_paginas2);

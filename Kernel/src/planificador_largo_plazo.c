@@ -80,6 +80,9 @@ void* gestionar_comunicacion(void* aux)
 	void* a_enviar = malloc(sizeof(uint8_t));
 	memcpy(a_enviar,&auxv,sizeof(uint8_t));
 	send(socket,a_enviar,sizeof(uint8_t),0);
+	//	Envio el numero de PID para saber que proceso termino.
+	memcpy(a_enviar,&pcb->pid,sizeof(uint32_t));
+	send(socket,a_enviar,sizeof(uint32_t),0);
 
 	// CHAU HILO GRACIAS POR TU SERVICIO
 	return NULL;
