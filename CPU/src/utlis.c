@@ -120,8 +120,32 @@ bool validar_codigo(t_paquete* paquete, uint8_t operacion)
 	}
 }
 
-void mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion)
+//void mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion)
+//{
+//	void* stream;
+//	int tamano_mensaje = 0;
+//
+//	uint8_t lectura = SOLICITAR_LECTURA;
+//	uint8_t escritura = SOLICITAR_ESCRITURA;
+//
+//
+//	if(operacion == SOLICITAR_LECTURA)
+//	{
+//		send(conexion,&lectura,sizeof(uint8_t),0);
+//		send(conexion, &direccion, sizeof(uint32_t),0);
+//	}
+//	else if(operacion == SOLICITAR_ESCRITURA)
+//	{
+//		send(conexion,&escritura,sizeof(uint8_t),0);
+//		send(conexion,&direccion, sizeof(uint32_t),0);
+//		send(conexion, valor, sizeof(uint32_t),0);
+//	}
+//}
+
+uint32_t mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion)
 {
+	uint32_t valorRecibido;
+
 	void* stream;
 	int tamano_mensaje = 0;
 
@@ -129,34 +153,53 @@ void mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operaci
 	uint8_t escritura = SOLICITAR_ESCRITURA;
 
 
-	if(operacion == SOLICITAR_LECTURA){
+	if(operacion == SOLICITAR_LECTURA)
+	{
+		//	Envio operacion de lectura
 		send(conexion,&lectura,sizeof(uint8_t),0);
 		send(conexion, &direccion, sizeof(uint32_t),0);
-	}else if(operacion == SOLICITAR_ESCRITURA){
-		send(conexion,&escritura,sizeof(uint8_t),0);
-		send(conexion, &direccion, sizeof(uint32_t),0);
-		send(conexion,valor, sizeof(uint32_t),0);
+		log_trace(logger, "CPU-MEMORIA Envie solicitud de Lectura");
+
+		//	Recibo valor leido de la memoria
+		recv(datos->conexion_memoria,&valorRecibido,sizeof(uint32_t),0);
+		log_info(logger, "CPU-MEMORIA Lei la posicion de memoria");
 	}
+	else if(operacion == SOLICITAR_ESCRITURA)
+	{
+		//	Envio operacion de Escritura
+		send(conexion,&escritura,sizeof(uint8_t),0);
+		send(conexion,&direccion, sizeof(uint32_t),0);
+		send(conexion, valor, sizeof(uint32_t),0);
+		//	Recibo resultado de la escritura
+		recv(datos->conexion_memoria,&valorRecibido,sizeof(uint32_t),0);
+		log_info(logger, "CPU-MEMORIA Se recibio el resultado de la operacion de escritura");
+	}
+
+	return valorRecibido;
 }
 
 uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
 {
-	log_trace(logger, "LEER FUNCION");
+	uint32_t valorRecibido;
+
+	log_info(logger, "CPU-MEMORIA Voy a leer valor de memoria");
 	uint32_t valor_leido_respuesta;
-	log_trace(logger, "VOY A CALCULAR DATOS");
-	log_trace(logger, "Direccion logica %d", direccion_logica);
+	log_trace(logger, "CPU-MEMORIA ----- Direccion logica %d", direccion_logica);
+	// Voy a calcular los datos de la direccion
 	calcular_datos_direccion(datos, direccion_logica);
-	log_trace(logger, "Calcule datos");
+	log_trace(logger, "CPU-MEMORIA ----- Calcule datos de direccion");
 	Pagina_direccion* resultado = traducir_direccion(datos);
+	log_trace(logger, "CPU-MEMORIA ----- Traduje los datos");
 
-	mandar_lecto_escritura(resultado->direccion_fisica, 0, SOLICITAR_LECTURA, datos->conexion_memoria);
+	valorRecibido = mandar_lecto_escritura(resultado->direccion_fisica, 0, SOLICITAR_LECTURA, datos->conexion_memoria);
+	log_info(logger, "CPU-MEMORIA Envie pedido de lectura a la Memoria");
 
-//	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
-	void * buffer = malloc(sizeof(uint32_t));
-	recv(datos->conexion_memoria,buffer,sizeof(uint32_t),0);
-	uint32_t* valor_leido = malloc(sizeof(uint32_t));
-
-	memcpy(valor_leido, buffer ,sizeof(uint32_t));
+////	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
+//	void * buffer = malloc(sizeof(uint32_t));
+//	recv(datos->conexion_memoria,buffer,sizeof(uint32_t),0);
+//	uint32_t* valor_leido = malloc(sizeof(uint32_t));
+//
+//	memcpy(valor_leido, buffer ,sizeof(uint32_t));
 
 //	if(validar_codigo(respuesta,RESULTADO_LECTURA))
 //	{
@@ -165,9 +208,9 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
 //	}else{
 //		log_error(logger, "CPU-MEMORIA HUBO UN ERROR EN LA LECTURA DE LA DIRECCION");
 //	}
-	log_info(logger, "CPU-MEMORIA El valor leido fue: %d", *valor_leido);
-	valor_leido_respuesta = *valor_leido;
-	free(valor_leido);
+	log_info(logger, "CPU-MEMORIA El valor leido fue: %d", valorRecibido);
+//	valor_leido_respuesta = *valor_leido;
+//	free(valor_leido);
 	return 0;
 }
 

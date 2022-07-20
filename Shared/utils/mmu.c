@@ -127,12 +127,28 @@ void calcular_datos_direccion(Datos_calculo_direccion* datos, uint32_t direccion
 	mostrar_datos(datos);
 }
 
-Pagina_direccion* traducir_direccion(Datos_calculo_direccion* datos){
+Pagina_direccion* traducir_direccion(Datos_calculo_direccion* datos)
+{
+	uint32_t direccion_fisica;
+
 	log_info(logger, "CPU-MMU Inicio la traduccion");
 	Pagina_direccion* resultado = malloc(sizeof(Pagina_direccion));
 	resultado->marco = get_marco_memoria(datos);
+	log_trace(logger, "CPU-MMU Obtengo el marco");
 	resultado->numero_pagina = datos->numero_pagina;
-	resultado->direccion_fisica = (resultado->marco * datos->tamano_pagina) + datos->desplazamiento;
+	log_trace(logger, "CPU-MMU Seteo el numero de pagina");
+
+	//	Calculo la direccion fisica
+	//	( Marco * Tamaña Pagina ) + Desplazamiento
+	log_trace(logger, "CPU-MMU ---- Valores previos al calculo de Direccion Fisica");
+	log_trace(logger, "CPU-MMU ---- Marco: %d", resultado->marco);
+	log_trace(logger, "CPU-MMU ---- Tamaño de Pagina: %d", datos->tamano_pagina);
+	log_trace(logger, "CPU-MMU ---- Desplazamiento: %d", datos->desplazamiento);
+
+	direccion_fisica = (resultado->marco * datos->tamano_pagina) + datos->desplazamiento;
+	resultado->direccion_fisica = direccion_fisica;
+//	resultado->direccion_fisica = (resultado->marco * datos->tamano_pagina) + datos->desplazamiento;
+	log_trace(logger, "CPU-MMU Seteo la direccion fisica");
 	return resultado;
 }
 
@@ -155,50 +171,108 @@ uint32_t get_marco(Datos_calculo_direccion* datos){
 	}
 }
 
+//uint32_t get_marco_memoria(Datos_calculo_direccion* datos)
+//{
+//
+//	uint8_t codigo_operacion;
+//	int conexion = datos->conexion_memoria;
+//
+//	// Busco la entrada de la tabla de paginas de segundo nivel
+//	codigo_operacion = SOLICITAR_VALOR_ENTRADA1;
+//
+//	uint32_t* id_tabla_paginas2 = malloc(sizeof(uint32_t));
+//
+//	uint32_t id_tabla = datos->id_tabla_paginas1;
+//	uint32_t numero_entrada = datos->entrada_tabla_primer_nivel;
+//	log_info(logger, "ENVIAMOS || CODIGO: %d || ID_ TABLA: %d || NUM ENTRADA: %d", codigo_operacion,id_tabla,numero_entrada);
+//	send(conexion, &codigo_operacion, sizeof(uint8_t), 0);
+//	log_trace(logger, "CPU-MEMORIA Envio codigo de operacion SOLICITAR_VALOR_ENTRADA1");
+//	send(conexion, &id_tabla, sizeof(uint32_t), 0);
+//	log_trace(logger, "CPU-MEMORIA Envio Id de tabla");
+//	send(conexion, &numero_entrada, sizeof(uint32_t), 0);
+//	log_trace(logger, "CPU-MEMORIA Envio numero de entrada");
+//
+//	recv(conexion, id_tabla_paginas2, sizeof(uint32_t), 0);
+//	log_info(logger, "RECIBO DE SUELDO: %d", id_tabla_paginas2);
+////	Busco la entrada de la tabla de paginas de segundo nivel
+//	codigo_operacion = SOLICITAR_VALOR_ENTRADA2;
+//
+//	id_tabla = *id_tabla_paginas2;
+//	numero_entrada = datos->entrada_tabla_segundo_nivel;
+//	log_info(logger, "ENVIAMOS || CODIGO: %d || ID_ TABLA: %d || NUM ENTRADA: %d || NUM PAG: %d", codigo_operacion,id_tabla,numero_entrada,datos->numero_pagina);
+//	send(conexion, &codigo_operacion, sizeof(uint8_t), 0);
+//	send(conexion, &id_tabla, sizeof(uint32_t), 0);
+//	send(conexion, &numero_entrada, sizeof(uint32_t), 0);
+//	send(conexion, &(datos->numero_pagina), sizeof(uint32_t), 0);
+//
+//	uint32_t* marco = malloc(sizeof(uint32_t));
+//	recv(conexion, marco, sizeof(uint32_t), 0);
+//
+//	log_info(logger, "RECIBIMOS MARCO: %d" ,marco);
+//
+//	uint32_t aux = *marco;
+//
+//	free(marco);
+//	free(id_tabla_paginas2);
+//	return aux;
+//}
+
+uint32_t solicitarValorEntrada(int conexionMemoria, uint32_t id_tabla, uint32_t numero_entrada, uint8_t codigo_operacion)
+{
+	uint32_t valorEntrada;
+
+	//	Solicito el valor de la entrada a la Memoria
+	send(conexionMemoria, &codigo_operacion, sizeof(uint8_t), 0);
+	log_trace(logger, "CPU-MEMORIA-MMU Envio codigo de operacion SOLICITAR_VALOR_ENTRADA1");
+	//	Envio el ID TABLA
+	send(conexionMemoria, &id_tabla, sizeof(uint32_t), 0);
+	log_trace(logger, "CPU-MEMORIA-MMU Envio Id de tabla");
+	//	Envio el Numero de Entrada
+	send(conexionMemoria, &numero_entrada, sizeof(uint32_t), 0);
+	log_trace(logger, "CPU-MEMORIA-MMU Envio numero de entrada");
+
+	//	Recibo el Valor de la Entrada
+	recv(conexionMemoria, &valorEntrada, sizeof(uint32_t), 0);
+	log_info(logger, "CPU-MEMORIA-MMU: El valor de la primera entrada es: %d", valorEntrada);
+
+	return valorEntrada;
+
+}
+
 uint32_t get_marco_memoria(Datos_calculo_direccion* datos)
 {
-
-	uint8_t codigo_operacion;
-	int conexion = datos->conexion_memoria;
-
-	// Busco la entrada de la tabla de paginas de segundo nivel
-	codigo_operacion = SOLICITAR_VALOR_ENTRADA1;
-
-	uint32_t* id_tabla_paginas2 = malloc(sizeof(uint32_t));
-
 	uint32_t id_tabla = datos->id_tabla_paginas1;
-	uint32_t numero_entrada = datos->entrada_tabla_primer_nivel;
-	log_info(logger, "ENVIAMOS || CODIGO: %d || ID_ TABLA: %d || NUM ENTRADA: %d", codigo_operacion,id_tabla,numero_entrada);
-	send(conexion, &codigo_operacion, sizeof(uint8_t), 0);
-	log_trace(logger, "CPU-MEMORIA Envio codigo de operacion SOLICITAR_VALOR_ENTRADA1");
-	send(conexion, &id_tabla, sizeof(uint32_t), 0);
-	log_trace(logger, "CPU-MEMORIA Envio Id de tabla");
-	send(conexion, &numero_entrada, sizeof(uint32_t), 0);
-	log_trace(logger, "CPU-MEMORIA Envio numero de entrada");
+	uint32_t numeroEntradaPrimerNivel = datos->entrada_tabla_primer_nivel;
+	uint32_t numeroEntradaSegundoNivel = datos->entrada_tabla_segundo_nivel;
+	uint32_t id_tabla_paginas2;
 
-	recv(conexion, id_tabla_paginas2, sizeof(uint32_t), 0);
-	log_info(logger, "RECIBO DE SUELDO: %d", id_tabla_paginas2);
-//	Busco la entrada de la tabla de paginas de segundo nivel
-	codigo_operacion = SOLICITAR_VALOR_ENTRADA2;
+//	uint32_t* id_tabla_paginas2 = malloc(sizeof(uint32_t));
 
-	id_tabla = *id_tabla_paginas2;
-	numero_entrada = datos->entrada_tabla_segundo_nivel;
-	log_info(logger, "ENVIAMOS || CODIGO: %d || ID_ TABLA: %d || NUM ENTRADA: %d || NUM PAG: %d", codigo_operacion,id_tabla,numero_entrada,datos->numero_pagina);
-	send(conexion, &codigo_operacion, sizeof(uint8_t), 0);
-	send(conexion, &id_tabla, sizeof(uint32_t), 0);
-	send(conexion, &numero_entrada, sizeof(uint32_t), 0);
-	send(conexion, &(datos->numero_pagina), sizeof(uint32_t), 0);
+//	Coordenada_tabla* coordenada = malloc(sizeof(Coordenada_tabla));
+//	coordenada->id_tabla = datos->id_tabla_paginas1;
+//	coordenada->numero_entrada = datos->entrada_tabla_primer_nivel;
 
-	uint32_t* marco = malloc(sizeof(uint32_t));
-	recv(conexion, marco, sizeof(uint32_t), 0);
+	//	Solicito el ID de la tabla de paginas de segundo nivel
+	id_tabla_paginas2=  solicitarValorEntrada(datos->conexion_memoria, id_tabla, numeroEntradaPrimerNivel, SOLICITAR_VALOR_ENTRADA1);
+//	enviar_coordenada(coordenada, id_tabla_paginas2, datos->conexion_memoria,SOLICITAR_VALOR_ENTRADA1);
+//
+//	coordenada->id_tabla = *id_tabla_paginas2;
+//	coordenada->numero_entrada = datos->entrada_tabla_segundo_nivel;
 
-	log_info(logger, "RECIBIMOS MARCO: %d" ,marco);
+//	uint32_t* marco = malloc(sizeof(uint32_t));
+//	enviar_coordenada(coordenada, marco, datos->conexion_memoria,SOLICITAR_VALOR_ENTRADA2);
 
-	uint32_t aux = *marco;
+	//	Solicito el Marco
+	uint32_t marco;
+	marco=  solicitarValorEntrada(datos->conexion_memoria, id_tabla_paginas2, numeroEntradaSegundoNivel, SOLICITAR_VALOR_ENTRADA2);
 
-	free(marco);
-	free(id_tabla_paginas2);
-	return aux;
+
+//	uint32_t aux = *marco;
+//
+//	free(marco);
+//	free(id_tabla_paginas2);
+//	return aux;
+	return marco;
 }
 
 void limpiar_tlb(t_list* tlb)
