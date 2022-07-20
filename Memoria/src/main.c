@@ -27,6 +27,7 @@ int main(){
 	
 	pthread_join(kernel,NULL);
 	pthread_join(cpu, NULL);
+	pthread_join(swap,NULL);
 
 
 	return 0;

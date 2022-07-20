@@ -70,7 +70,7 @@ void crear_archivo_swap(int pid, int cantidadPaginas){
 
 		void* archivoMAP = (void*) mmap(NULL, tamano_proceso, PROT_READ | PROT_WRITE, MAP_SHARED, archivo, 0);
 
-		char aux = '1';
+		char aux = '\0';
 
 		memset(archivoMAP,aux,tamano_proceso);
 

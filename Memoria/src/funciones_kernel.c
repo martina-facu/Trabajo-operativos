@@ -27,10 +27,10 @@
 //}
 void* funciones_kernel(){
 	while(1){
-		log_trace(logger,"TE ESTAMOS ESPERANDO KERNELITO");
+		log_trace(logger,"KERNEL || TE ESTAMOS ESPERANDO KERNELITO");
 		uint8_t operacion;
 		recv(socket_kernel,&operacion,sizeof(uint8_t),0);
-		log_trace(logger,"RECIBI UN CODIGO DE OPERACION: %d", (int) operacion);
+		log_trace(logger,"KERNEL || RECIBI UN CODIGO DE OPERACION: %d", (int) operacion);
 		switch(operacion){
 		case INICIALIZAR_PROCESO:
 			inicializar_proceso();
@@ -42,8 +42,8 @@ void* funciones_kernel(){
 			finalizar_proceso();
 			break;
 		default:
-			log_error(logger, "El mensaje recibido %d no corresponde a uno de los conocidos.", operacion);
-			log_error(logger, "Se procede a cerrar la conexion");
+			log_error(logger, "KERNEL || El mensaje recibido %d no corresponde a uno de los conocidos.", operacion);
+			log_error(logger, "KERNEL || Se procede a cerrar la conexion");
 			close(socket_kernel);
 			break;
 		}
@@ -55,14 +55,14 @@ void inicializar_proceso(){
 	uint32_t pid;
 	uint32_t tam_proceso;
 	recv(socket_kernel,&pid,sizeof(uint32_t),0);
-	log_trace(logger,"PID RECIBIDO: %d",pid);
+	log_trace(logger,"KERNEL || PID RECIBIDO: %d",pid);
 	recv(socket_kernel,&tam_proceso,sizeof(uint32_t),0);
-	log_trace(logger,"TAM PROCESO RECIBIDO: %d",tam_proceso);
+	log_trace(logger,"KERNEL || TAM PROCESO RECIBIDO: %d",tam_proceso);
 	t_proceso *proceso = crear_proceso(pid,tam_proceso);
 	list_add(procesos,proceso);
 	uint32_t cant_pag = division_entera(tam_proceso,TAM_PAGINA);
 	crear_archivo_swap(pid,cant_pag);
-	log_trace(logger,"PROCESO CREADO CON EXITO, MANDANDO MENSAJE...");
+	log_trace(logger,"KERNEL || PROCESO CREADO CON EXITO, MANDANDO MENSAJE...");
 	send(socket_kernel,&proceso->entrada_1,sizeof(uint32_t),0);
 
 	// BORRAR
@@ -113,12 +113,12 @@ void crear_paginas_prueba(t_proceso* proceso){
 		memcpy(memoria+entrada->frame*TAM_PAGINA+10,aux,strlen(aux)+1);
 	}
 
-	printf("\nEntrada\t\tFrame\t\tBit Uso\t\tBit Mod\t\tBit Pres\n");
+	printf("KERNEL || \nEntrada\t\tFrame\t\tBit Uso\t\tBit Mod\t\tBit Pres\n");
 
 	for (int i = 0; i < 4; i++){
 		t_tabla_2* tabla2 = list_get(tabla_2_l,0);
 		t_entrada_2* entrada = list_get(tabla2->entradas, i);
-		printf("\n%d\t\t%d\t\t%d\t\t%d\t\t%d\n", i, entrada->frame, (int)entrada->bUso, (int)entrada->bMod, (int)entrada->bPres);
+		printf("KERNEL || \n%d\t\t%d\t\t%d\t\t%d\t\t%d\n", i, entrada->frame, (int)entrada->bUso, (int)entrada->bMod, (int)entrada->bPres);
 
 	}
 }
@@ -131,7 +131,7 @@ void mostrar_paginas(t_list* paginas){
 	for(int i =0; i<list_size(paginas);i++){
 		t_memory_pag* pagina = list_get(paginas,i);
 		int num_pagina = pagina->n_tabla_2*ENTRADAS_POR_TABLA + pagina->n_entrada_2;
-		log_trace(logger,"PAGINA: %d, FRAME: %d ",num_pagina,pagina->entrada->frame);
+		log_trace(logger,"KERNEL || PAGINA: %d, FRAME: %d ",num_pagina,pagina->entrada->frame);
 	}
 }
 
@@ -173,24 +173,24 @@ void finalizar_proceso(){
 	uint32_t pid;
 	recv(socket_kernel,&pid,sizeof(uint32_t),0);
 
-	log_info(logger, "MEMORIA-KERNEL: Se recibe un pid %d para finalizar", pid);
+	log_info(logger, "KERNEL || MEMORIA-KERNEL: Se recibe un pid %d para finalizar", pid);
 
 	t_proceso* proceso = list_get(procesos,pid);
-	log_trace(logger,"AGARRAMOS EL PROCESO DE LA LISTA DE PROCESOS, PID: %d",proceso->pid);
+	log_trace(logger,"KERNEL || AGARRAMOS EL PROCESO DE LA LISTA DE PROCESOS, PID: %d",proceso->pid);
 
 	for(int i = 0; i < list_size(proceso->pagMem); i++){
 
 		t_memory_pag* pagina = list_get(proceso->pagMem,i);
-		log_trace(logger,"VAMOS A Liberar UNA PAGINA DEL FRAME: %d",pagina->entrada->frame);
+		log_trace(logger,"KERNEL || VAMOS A Liberar UNA PAGINA DEL FRAME: %d",pagina->entrada->frame);
 		memset(memoria + pagina->entrada->frame*TAM_PAGINA, '\0', TAM_PAGINA);
 		bitarray_clean_bit(bitMem, pagina->entrada->frame);
-		log_trace(logger, "MUESTRO EL BITARRAY, LUEGO DE LIMPIAR ESE FRAME");
+		log_trace(logger, "KERNEL || MUESTRO EL BITARRAY, LUEGO DE LIMPIAR ESE FRAME");
 		mostrar_bitarray();
 	}
 
-	log_trace(logger, "Ingresando a SWAP..");
+	log_trace(logger, "KERNEL || Ingresando a SWAP..");
 	eliminar_archivo_swap(pid);
-	log_trace(logger, "Ingresando a MEMORIA..");
+	log_trace(logger, "KERNEL || Ingresando a MEMORIA..");
 
 //TODO: Esto se me ocurrio para liberar memoria
 
@@ -205,14 +205,14 @@ void finalizar_proceso(){
 
 
 t_proceso* crear_proceso(uint32_t pid, uint32_t tam_proceso){
-	log_trace(logger,"CREANDO PROCESO");
+	log_trace(logger,"KERNEL || CREANDO PROCESO");
 	uint32_t cant_pag = division_entera(tam_proceso,TAM_PAGINA);
-	log_trace(logger,"CANTIDAD PAGINAS: %d", cant_pag);
+	log_trace(logger,"KERNEL || CANTIDAD PAGINAS: %d", cant_pag);
 	uint32_t cant_entradas_1 = division_entera(cant_pag,ENTRADAS_POR_TABLA);
-	log_trace(logger,"CANTIDAD ENTRADAS: %d", cant_entradas_1);
+	log_trace(logger,"KERNEL || CANTIDAD ENTRADAS: %d", cant_entradas_1);
 
 	if(cant_entradas_1>ENTRADAS_POR_TABLA){
-		log_error(logger,"NO SE DEBERIA PODER, QUE HACEMOS?");
+		log_error(logger,"KERNEL || NO SE DEBERIA PODER, QUE HACEMOS?");
 	}
 
 	t_tabla_1* tabla = malloc(sizeof(t_tabla_1));
@@ -221,7 +221,7 @@ t_proceso* crear_proceso(uint32_t pid, uint32_t tam_proceso){
 	list_add(tabla_1_l,tabla);
 
 	uint32_t entrada = list_size(tabla_1_l)-1;
-	log_trace(logger,"ENTRADA: %d || PID: %d",entrada,pid);
+	log_trace(logger,"KERNEL || ENTRADA: %d || PID: %d",entrada,pid);
 
 	t_proceso * proceso= malloc(sizeof(t_proceso));
 
@@ -236,7 +236,7 @@ t_proceso* crear_proceso(uint32_t pid, uint32_t tam_proceso){
 }
 
 void inicializar_tabla_1(t_tabla_1* tabla,uint32_t pid){
-	log_trace(logger,"INICIALIZANDO TABLA PRIMER NIVEL || PID: %d", pid);
+	log_trace(logger,"KERNEL || INICIALIZANDO TABLA PRIMER NIVEL || PID: %d", pid);
 	tabla->pid = pid;
 	tabla->entradas = malloc(ENTRADAS_POR_TABLA* sizeof(int));
 	for(int i=0; i<ENTRADAS_POR_TABLA;i++){

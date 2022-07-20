@@ -226,10 +226,10 @@ uint32_t solicitarValorEntrada(int conexionMemoria, uint32_t id_tabla, uint32_t 
 	log_trace(logger, "CPU-MEMORIA-MMU Envio codigo de operacion SOLICITAR_VALOR_ENTRADA1");
 	//	Envio el ID TABLA
 	send(conexionMemoria, &id_tabla, sizeof(uint32_t), 0);
-	log_trace(logger, "CPU-MEMORIA-MMU Envio Id de tabla");
+	log_trace(logger, "CPU-MEMORIA-MMU Envio ID de tabla: %d", id_tabla);
 	//	Envio el Numero de Entrada
 	send(conexionMemoria, &numero_entrada, sizeof(uint32_t), 0);
-	log_trace(logger, "CPU-MEMORIA-MMU Envio numero de entrada");
+	log_trace(logger, "CPU-MEMORIA-MMU Envio numero de entrada: %d", numero_entrada);
 
 	//	Recibo el Valor de la Entrada
 	recv(conexionMemoria, &valorEntrada, sizeof(uint32_t), 0);

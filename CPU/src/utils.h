@@ -68,7 +68,7 @@
 	bool recibiPCB;				//	Si es FALSE significa que todavia no recibi ningun PCB si es TRUE ya recibi PCB a procesar desde el Kernel
 	//	bool* hubo_interrupcion;
 	t_list* tlb;
-
+	int cliente_memoria;
 
 /*
  * Prototipo de funciones

@@ -119,7 +119,7 @@ void aceptoServerInterrupt(int socketAnalizar)
 int main(void)
 {
 	config = config_create("cpu.config");
-	uint32_t cantidad_entradas, tamano_pagina = 0;
+	uint32_t cantidad_entradas=0 , tamano_pagina = 0;
 	devolver_pcb = false;
 	recibiPCB = false;
 
@@ -133,10 +133,10 @@ int main(void)
 	FD_ZERO(&master_fd_set);
 
 //	Iniciar conexiones
-	int conexion_memoria = levantar_conexion_memoria_CPU(configuracion->IPMemoria, configuracion->puertoMemoria, &cantidad_entradas,&tamano_pagina);
+	cliente_memoria = levantar_conexion_memoria_CPU(configuracion->IPMemoria, configuracion->puertoMemoria, &cantidad_entradas,&tamano_pagina);
 	//	Marco el descriptor en donde me conecte al server de memoria como limite maximo y minimo del select
-	fdmax = conexion_memoria;
-	fdmin = conexion_memoria;
+	fdmax = cliente_memoria;
+	fdmin = cliente_memoria;
 
 	//	Levanto el server para el DISPATCH
 	int kernel_dispatch =  levantarServerDispatch();
@@ -211,7 +211,7 @@ int main(void)
 	log_trace(logger, "CPU-COMUNICACION-SELECT Sali del while infinito y voy a cerrar las conexiones generadas");
 
 //	Cierro conexiones
-	close(conexion_memoria);
+	close(cliente_memoria);
 	close(socket_dispatch);
 	close(kernel_dispatch);
 	close(socket_interrupt);
@@ -279,7 +279,7 @@ void procesarPCB(void)
 {
 	log_info(logger, "CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo");
 	while (devolver_pcb == false)
-		ejecutar_ciclo_instrucciones(pcb, &devolver_pcb, configuracion->retardoNoOp, cant, cliente_dispatch,tam, &interrupcion);
+		ejecutar_ciclo_instrucciones(pcb, &devolver_pcb, configuracion->retardoNoOp, cant, cliente_memoria,tam, &interrupcion);
 //		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
 
 
