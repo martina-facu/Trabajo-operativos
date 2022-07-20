@@ -23,6 +23,7 @@ bool ordenar(void* entrada1, void* entrada2);
 t_memory_pag* clock_();
 void escritura();
 void lectura();
+void mostrar_tabla_pagina();
 t_entrada_2* obtener_entrada();
 void mostrar_entrada(t_entrada_2* entrada2);
 

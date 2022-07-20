@@ -185,9 +185,10 @@ void* swap_(){ //TODO: Agregue el void* como está definido en el .h
 	while(1){
 		sem_wait(&s_swap);
 
+		log_info(logger, "MEMORIA: Ingresando a SWAP..(SUSPENSION)");
+
 		t_swap* pedido = list_remove(pedidos_swap_l,0);
 
-		log_info(logger, "MEMORIA: Ingresando a SWAP..(SUSPENSION)");
 
 		retardo_swap();
 
