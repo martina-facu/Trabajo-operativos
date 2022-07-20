@@ -12,7 +12,9 @@ void* funciones_cpu(){
 	switch(operacion){
 
 		case SOLICITAR_VALOR_ENTRADA1:
+			log_info(logger, "Lvalor entrada 1");
 			entrada1();
+			log_info(logger, "enviado valor entrada 1");
 		break;
 		case SOLICITAR_VALOR_ENTRADA2:
 			entrada2();
@@ -118,7 +120,8 @@ void page_fault(t_entrada_2* entrada,uint32_t indice_tabla_2, uint32_t entrada_t
 	log_trace(logger, "ENTRADA :%d || BIT USO: %d || BIT MOD: %d || BIT PRES: %d || FRAME: %d", entrada_tabla_2,entrada->bUso, entrada->bMod, entrada->bPres, entrada->frame);
 	pagina->entrada = entrada;
 	log_trace(logger, "Hacemos la cuenta del nro de pagina");
-	int numero_pagina = indice_tabla_2*ENTRADAS_POR_TABLA +entrada_tabla_2;
+	//int numero_pagina = indice_tabla_2*ENTRADAS_POR_TABLA +entrada_tabla_2;
+	int numero_pagina = entrada_tabla_2*ENTRADAS_POR_TABLA +indice_tabla_2;
 	log_trace(logger, "Nro pagina = %d", numero_pagina);
 	log_trace(logger, "Nos vamo para swap");
 	traer_a_memoria(pid_,numero_pagina,entrada->frame);
