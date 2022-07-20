@@ -42,14 +42,15 @@ void entrada1(){
 	log_trace(logger, "CPU || VAMOS A RECIBIR ENTRADA 1");
 	uint32_t indice_tabla_1;
 	recv(socket_cpu, &indice_tabla_1, sizeof(uint32_t),0);
+	backup_indice_1= indice_tabla_1;
 	log_trace(logger, "CPU || INDICE DE TABLA 1 RECIBIDO: %d", indice_tabla_1);
 
 	uint32_t entrada_tabla_1;
 	recv(socket_cpu,&entrada_tabla_1,sizeof(uint32_t),0);
 	log_trace(logger, "CPU || ENTRA DE TABLA 1 RECIBIDO: %d", entrada_tabla_1);
+	backup_entrada_tabla_1 = entrada_tabla_1;
 
 	t_tabla_1* tabla= list_get(tabla_1_l,indice_tabla_1);
-	backup_indice_1= indice_tabla_1;
 	pid_ = tabla->pid;
 	log_trace(logger, "CPU || PID DE TABLA: %d", pid_);
 
@@ -57,13 +58,26 @@ void entrada1(){
 	proceso_ = list_get(procesos,pid_);
 
 	uint32_t indice_entrada_2 = *(tabla->entradas+entrada_tabla_1);
-	backup_entrada_tabla_1 = indice_entrada_2;
 	log_trace(logger, "Obtuve el indice de la entrada 2 -> %d", backup_entrada_tabla_1);
 
 	send(socket_cpu,&indice_entrada_2,sizeof(uint32_t),0);
 	log_trace(logger, "Se envio el mensaje a cpu");
 }
 
+t_entrada_2* obtener_entrada(){
+	log_trace(logger, "--------------------OBTENER ENTRADA----------------------");
+	log_trace(logger, "INDICE DE TABLA 1: %d", backup_indice_1);
+	t_tabla_1* tabla1 = list_get(tabla_1_l,backup_indice_1);
+	log_trace(logger, "ENTRADA DE TABLA 1: %d", backup_entrada_tabla_1);
+	backup_indice_tabla_2= *(tabla1->entradas+backup_entrada_tabla_1);
+	log_trace(logger, "INDICE DE TABLA 2: %d", backup_indice_tabla_2);
+	t_tabla_2* tabla2 = list_get(tabla_2_l,backup_indice_tabla_2);
+	log_trace(logger, "ENTRADA DE TABLA 2: %d", backup_entrada_tabla_2);
+	t_entrada_2* entrada2= list_get(tabla2->entradas,backup_entrada_tabla_2);
+	log_trace(logger, "CPU || INDICE GLOBAL 1: %d || ENTRADA (INDICE TABLA 2): %d || ENTRADA TABLA 2: %d	", backup_indice_1,backup_indice_tabla_2,backup_entrada_tabla_2);
+	log_trace(logger,"CPU || ENTRADA || U: %d || M: %d || P: %d || FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
+	return entrada2;
+}
 void entrada2(){
 
 
@@ -128,6 +142,7 @@ void page_fault(t_entrada_2* entrada,uint32_t indice_tabla_2, uint32_t entrada_t
 	log_trace(logger, "Hemos Volvido a memoria");
 	list_add(proceso_->pagMem,pagina);
 	log_trace(logger, "Se agrego una pagina a la lista de paginas en memoria");
+	mostrar_bitarray();
 }
 bool ordenar(void* entrada1, void* entrada2){
 
@@ -223,15 +238,6 @@ void lectura(){
 	log_trace(logger, "SE REALIZO LA LECTURA");
 }
 
-t_entrada_2* obtener_entrada(){
-	t_tabla_1* tabla1 = list_get(tabla_1_l,backup_indice_1);
-	backup_indice_tabla_2= *(tabla1->entradas+backup_entrada_tabla_1);
-	t_tabla_2* tabla2 = list_get(tabla_2_l,backup_indice_tabla_2);
-	t_entrada_2* entrada2= list_get(tabla2->entradas,backup_entrada_tabla_2);
-	log_trace(logger, "CPU || INDICE GLOBAL 1: %d || ENTRADA (INDICE TABLA 2): %d || ENTRADA TABLA 2: %d	", backup_indice_1,backup_indice_tabla_2,backup_entrada_tabla_2);
-	log_trace(logger,"CPU || ENTRADA || U: %d || M: %d || P: %d || FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
-	return entrada2;
-}
 
 void mostrar_entrada(t_entrada_2* entrada2){
 	log_trace(logger, "CPU || INDICE GLOBAL 1: %d || ENTRADA (INDICE TABLA 2): %d || ENTRADA TABLA 2: %d	", backup_indice_1,backup_indice_tabla_2,backup_entrada_tabla_2);
@@ -248,7 +254,7 @@ bool memoria_esta_llena(){
 
 int buscar_frame_libre(){
 	for(int i=0;i< bitarray_get_max_bit(bitMem);i++){
-					if(0==(int)bitarray_test_bit(bitMem,i)){
+					if(!bitarray_test_bit(bitMem,i)){
 						bitarray_set_bit(bitMem,i);
 						return i;
 					}
