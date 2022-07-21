@@ -245,7 +245,7 @@ uint32_t escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calcul
 //bool execute(Instruccion* instruccion,t_config* config, pcb_t* pcb, t_log* logger)
 bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos, pcb_t* pcb)
 {
-	mostrar_datos(datos);
+//	mostrar_datos(datos);
 	uint8_t id = instruccion->id;
 	t_list* parametros = instruccion->parametros;
 

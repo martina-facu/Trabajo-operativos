@@ -132,7 +132,7 @@ void calcular_datos_direccion(Datos_calculo_direccion* datos, uint32_t direccion
 	set_entrada_tabla_1er_nivel(datos);
 	set_entrada_tabla_2do_nivel(datos);
 	set_desplazamiento(datos,direccion_logica);
-	mostrar_datos(datos);
+//	mostrar_datos(datos);
 }
 
 Pagina_direccion* traducir_direccion(Datos_calculo_direccion* datos)
