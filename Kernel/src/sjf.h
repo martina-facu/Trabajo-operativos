@@ -37,7 +37,6 @@
 /*
  * Prototipo de funciones
 */
-	void pcb_mostrar_(pcb_t* pcb, t_log* logger);
 	void* sjf(); //
 	void* bloquear_proceso_sjf(void* pcb_); //
 	void remover_de_lista_sjf(t_list* lista,pcb_t* pcb); //

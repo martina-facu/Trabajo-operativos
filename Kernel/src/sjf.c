@@ -93,32 +93,12 @@ void* interrupciones(){
 	}
 }
 
-void pcb_mostrar_(pcb_t* pcb, t_log* logger)
-{
-	char* estados[5]={"INICIADO", "BLOQUEADO", "FINALIZADO","SUSPENDIDO","INTERRUMPIDO"};
-	printf("\n\nINFORMACION PCB:\n");
-	log_info(logger, "INFORMACION PCB:");
-	printf("PID: %d\n", pcb->pid);
-	log_info(logger, "PID: %d\n", pcb->pid);
-	printf("TAMANO: %d\n", pcb->tamano);
-	log_info(logger, "TAMANO: %d\n", pcb->tamano);
-	printf("PC: %d\n", pcb->program_counter);
-	log_info(logger, "PC: %d\n", pcb->program_counter);
-	printf("ESTIMADO_RAFAGA: %d\n", pcb->estimado_rafaga);
-	log_info(logger, "ESTIMADO_RAFAGA: %d\n", pcb->estimado_rafaga);
-	printf("ESTADO: %s\n", estados[pcb->estado]);
-	log_info(logger, "ESTADO: %s\n", estados[pcb->estado]);
-	printf("TIEMPO BLOQUEO: %d\n", pcb->tiempo_block);
-	log_info(logger, "TIEMPO BLOQUEO: %d\n", pcb->tiempo_block);
-}
-
-
 void actualizar_estimacion(pcb_t* pcb){
 	log_trace(PCP, "PCB || PID: %d || ESTIMACION ANTIGUA: %d",pcb->pid,pcb->estimado_rafaga);
 	log_trace(PCP, "ALPHA: %f",alpha);
 	pcb->estimado_rafaga = pcb->estimado_rafaga*(1-alpha)+alpha*tiempo_de_ejecucion;
 	log_trace(PCP, "PCB || PID: %d || ESTIMACION ACTUAL: %d",pcb->pid,pcb->estimado_rafaga);
-	pcb_mostrar_(pcb,PCP);
+	pcb_mostrar(pcb,PCP);
 }
 
 void* bloquear_proceso_sjf(void* pcb_){
@@ -193,6 +173,7 @@ void* devoluciones(){
 		}
 		tiempo_de_ejecucion= (tiempo_de_ejecucion_final - tiempo_de_ejecucion_inicial)/(CLOCKS_PER_SEC); // divido por mil para dejarlo en milisegundos
 		actualizar_estimacion(pcb);
+		log_trace(PCP,"------------------------ MI ESTADO ES: %d-------------------------------------", pcb->estado);
 		if(pcb->estado==INTERRUMPIDO) {
 			log_trace(PCP, "PCB || PID: %d || MOTIVO: INTERRUMPIDO || SE VA A AGREGAR A READY",pcb->pid);
 
