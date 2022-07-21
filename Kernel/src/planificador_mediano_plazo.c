@@ -28,18 +28,19 @@ void* suspender_proceso(){
 		pcb_t* pcb= list_remove(susp_block_buffer_l,0);
 		pthread_mutex_unlock(&mx_susp_block_buffer_l);
 
-
+		log_trace(PMP,"VOY A SUSPENDER EL PID: %d", pcb->pid);
 		pthread_mutex_lock(&mx_susp_block_l);
 		list_add(susp_block_l,pcb);
 		pthread_mutex_unlock(&mx_susp_block_l);
-
 		pcb->estado= SUSPENDIDO;
+
 		uint8_t mensaje = SUSPENDER_PROCESO;
-		//TODO LIBERAR MEMORIA
+		pthread_mutex_lock(&mx_mensaje_memoria);
 		send(socket_memoria,&mensaje,sizeof(uint8_t),0);
 
+		log_trace(PMP,"MENSAJE DE SUSPENSION ENVIADO");
 		send(socket_memoria,&pcb->pid,sizeof(uint32_t),0);
-
+		pthread_mutex_unlock(&mx_mensaje_memoria);
 		sem_post(&s_grado_multiprogramacion);
 		sem_post(&s_susp);
 	}
@@ -55,6 +56,7 @@ void* avisar_proceso_susp_ready(){
 		pcb= list_remove(susp_ready_l,0);
 		pthread_mutex_unlock(&mx_susp_ready_l);
 		//TODO PEDIR MEMORIA
+		log_trace(PMP,"SE VA A PASAR EL PROCESO: %d, A READY",pcb->pid);
 		pthread_mutex_lock(&mx_susp_readyM_l);
 		list_add(susp_readyM_l,pcb);
 		pthread_mutex_unlock(&mx_susp_readyM_l);

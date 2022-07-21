@@ -37,6 +37,7 @@
 	pthread_mutex_t mx_comunicaciones_l;
 	pthread_mutex_t mx_execute_l;
 	pthread_mutex_t mx_proceso_ejecutando;
+	pthread_mutex_t mx_mensaje_memoria;
 
 	sem_t s_proceso_ready;
 	sem_t s_proceso_susp;

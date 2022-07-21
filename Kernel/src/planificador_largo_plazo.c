@@ -170,12 +170,13 @@ void* pasar_a_ready(){
 		pcb_t* pcb= list_remove(new_l,0);
 		pthread_mutex_unlock(&mx_new_l);
 		log_trace(PLP,"se pasa un proceso a ready, ID: %d",pcb->pid);
-
+		pthread_mutex_lock(&mx_mensaje_memoria);
 		uint8_t mensaje = INICIALIZAR_PROCESO;
 		send(socket_memoria,&mensaje,sizeof(uint8_t),0);
 		log_trace(PLP,"SE ENVIO UN MENSAJE");
 		send(socket_memoria,&pcb->pid,sizeof(uint32_t),0);
 		send(socket_memoria,&pcb->tamano,sizeof(uint32_t),0);
+		pthread_mutex_unlock(&mx_mensaje_memoria);
 		//	LO AGREGO A UN BUFFER ENTRE PLP Y PCP, PARA QUE EL PCP LO SAQUE
 		//	DEL BUFFER Y NO DE LA LISTA DE NEW
 		recv(socket_memoria,&pcb->tabla_paginas,sizeof(uint32_t),0);
@@ -229,10 +230,10 @@ void* finalizar_procesos(){
 		pcb_mostrar(pcb_finalizado, PLP);
 		pthread_mutex_unlock(&mx_finalizado_l);
 		uint8_t mensaje= FINALIZAR_PROCESO;
-
+		pthread_mutex_lock(&mx_mensaje_memoria);
 		send(socket_memoria,&mensaje,sizeof(uint8_t),0);
 		send(socket_memoria,&pcb_finalizado->pid,sizeof(uint32_t),0);
-
+		pthread_mutex_unlock(&mx_mensaje_memoria);
 		comunicacion_t* comunicacion =buscar_comunicacion(pcb_finalizado);
 		log_trace(PLP,"se encontro una comunicacion");
 
