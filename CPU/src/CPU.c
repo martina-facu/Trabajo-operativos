@@ -364,19 +364,18 @@ void * atencionInterrupt(void * socketInterrupt)
 	while(1)
 	{
 		recv(iSocketInterrupt, &mensaje, sizeof(uint8_t), 0);
-//		log_trace(logger,"CPU-KERNEL-INTERRUPT Mensaje recibido interrupt: %d", mensaje);
+		pthread_mutex_lock(&mutex_interrupt);
 		if(mensaje == SOLICITAR_INTERRUPCION)
 		{
 			//	Como el mensaje es correcto seteo la variable para que el CPU devuelva el PCB
-//			log_info(logger,"CPU-EXECUTE Se recibio una interrupcion del Kernel para reprogramar");
 			interrupcion = true;
-	}
+		}
 		else
 		{
 			//	Como el mensaje es incorrecto desestimo el mensaje recibido.
 			log_trace(logger,"CPU-KERNEL-INTERRUPT Mensaje recibido del interrupt %d es incorrecto, se desestima el mismo", mensaje);
 		}
-
+		pthread_mutex_unlock(&mutex_interrupt);
 
 	}
 }

@@ -69,7 +69,7 @@
 	//	bool* hubo_interrupcion;
 	t_list* tlb;
 	int cliente_memoria;
-
+	pthread_mutex_t mutex_interrupt;
 /*
  * Prototipo de funciones
 */

@@ -369,6 +369,7 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 	*devolver_pcb = execute(instruccion, retardoNoOp, datos, pcb);
 	log_trace(logger, "CPU-EXECUTE Valor de devolver PCBt %s", *devolver_pcb?"true":"false");
 	//check interrupt
+	pthread_mutex_lock(&mutex_interrupt);
 	if (!*devolver_pcb){
 		if(*hubo_interrupcion)
 		{
@@ -377,6 +378,7 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 		}
 		*devolver_pcb = *hubo_interrupcion;
 	}
+	pthread_mutex_unlock(&mutex_interrupt);
 }
 
 t_config_cpu* crearConfigCPU(void)
