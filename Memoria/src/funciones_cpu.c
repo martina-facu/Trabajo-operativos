@@ -102,6 +102,13 @@ void entrada2(){
 	send(socket_cpu,&entrada->frame,sizeof(uint32_t),0);
 }
 
+void chequear_puntero(){
+	if(list_size(proceso_->pagMem)==proceso_->puntero){
+		proceso_->puntero=0;
+	}
+}
+
+
 void page_fault(t_entrada_2* entrada,uint32_t indice_tabla_2, uint32_t entrada_tabla_2){
 	log_trace(logger, "Creo una pagina");
 	t_memory_pag *pagina= malloc(sizeof(t_memory_pag));
@@ -109,6 +116,7 @@ void page_fault(t_entrada_2* entrada,uint32_t indice_tabla_2, uint32_t entrada_t
 	pagina->n_entrada_2 = entrada_tabla_2;
 
 	if(list_size(proceso_->pagMem)==MARCOS_POR_PROCESO || memoria_esta_llena()){
+		chequear_puntero();
 		log_trace(logger, "Todos los marcos estan ocupados, ejecuto algoritmo");
 		ejecutar_algoritmo(entrada);
 	}else{
@@ -174,9 +182,23 @@ void ejecutar_algoritmo(t_entrada_2* entrada){
 			log_trace(logger, "PASE NOMAAAS");
 		}
 
-	} else if(strcmp(ALGORITMO_REEMPLAZO, "CLOCK-M")){
+	} else if(strcmp(ALGORITMO_REEMPLAZO, "CLOCK-M")==0){
 //		clock_M(proceso_,entrada);
-		victima = clock_(proceso_);
+		victima = clock_M();
+		if(victima->entrada->bMod==1){
+			log_trace(logger, "CPU || El maquina tiene el bit de modificado en 1");
+			t_swap* swap= malloc(sizeof(t_swap));
+			log_trace(logger, "CPU || CREO LA ESTRUCTURA SWAP, CON PID: %d",pid_);
+			swap->pid=pid_;;
+			swap->memorias_a_swappear= list_create();
+			log_trace(logger, "CPU || Agrego la victima a la lista de paginas a swapear");
+			list_add(swap->memorias_a_swappear,victima);
+			log_trace(logger, "CPU || AGREGUE LA VICTIMA A LA LISTA SWAP");
+			log_trace(logger, "CPU || PEDIDO AGREGADO");
+			list_add(pedidos_swap_l,swap);
+			sem_post(&s_swap);
+			log_trace(logger, "PASE NOMAAAS");
+		}
 	} else{
 		log_error(logger,"ERROR EN LEER EL ALGORITMO");
 		return;
@@ -210,6 +232,51 @@ t_memory_pag* clock_(){
 		log_trace(logger, "CPU || CONTADOR: %d", proceso_->contador);
 		proceso_->puntero= proceso_->contador%list_size(proceso_->pagMem);
 		log_trace(logger, "CPU || PUNTERO: %d", proceso_->puntero);
+	}
+}
+t_memory_pag* clock_M(){
+	log_trace(logger, "CPU || VAMOS A EJECUTAR CLOCK-M");
+	log_trace(logger,"CPU || PUNTERO INICIAL: %d || CONTADOR: %d", proceso_->puntero, proceso_->contador);
+	while(1){
+		mostrar_tabla_pagina();
+		log_trace(logger, "Obtengo una posible victima");
+		for(int i = 0; i < list_size(proceso_->pagMem); i++){
+			t_memory_pag* posible_victima = list_get(proceso_->pagMem,proceso_->puntero);
+
+			log_trace(logger, "Veo si tiene el buso y bmod en 0");
+
+			if(posible_victima->entrada->bUso==0 && posible_victima->entrada->bMod==0){
+
+				log_trace(logger, "Tiene el b de usoy b de mod en 0, se hizo la vistima");
+				return list_remove(proceso_->pagMem,proceso_->puntero);
+			}
+
+			log_trace(logger, "Contador %d", proceso_->contador);
+			proceso_->contador++;
+			log_trace(logger, "Contador %d", proceso_->contador);
+			proceso_->puntero= proceso_->contador%list_size(proceso_->pagMem);
+			log_trace(logger, "Puntero %d", proceso_->puntero);
+		}
+
+		for(int i = 0; i < list_size(proceso_->pagMem); i++){
+			t_memory_pag* posible_victima = list_get(proceso_->pagMem,proceso_->puntero);
+
+			if (posible_victima->entrada->bUso==0 && posible_victima->entrada->bMod==1){
+
+				log_trace(logger, "Tiene el b de usoy b de mod en 1, se hizo la vistima");
+				return list_remove(proceso_->pagMem,proceso_->puntero);
+			}
+			else{
+				log_trace(logger, "Pongo el b de uso en 0 ");
+				posible_victima->entrada->bUso=0;
+			}
+
+			log_trace(logger, "Contador %d", proceso_->contador);
+			proceso_->contador++;
+			log_trace(logger, "Contador %d", proceso_->contador);
+			proceso_->puntero= proceso_->contador%list_size(proceso_->pagMem);
+			log_trace(logger, "Puntero %d", proceso_->puntero);
+		}
 	}
 }
 

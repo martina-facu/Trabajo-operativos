@@ -39,9 +39,9 @@ int main(void)
 		log_trace(logP,"MODO PLANIFICADOR CORTO PLAZO: FIFO\n");
 		pthread_create(&planificador_corto_plazo,NULL,fifo,NULL);
 	}
-	else if(strcmp(configuracion->algoritmo,"SJF")==0)
+	else if(strcmp(configuracion->algoritmo,"SRT")==0)
 	{
-		log_trace(logP,"MODO PLANIFICADOR CORTO PLAZO: SJF");
+		log_trace(logP,"MODO PLANIFICADOR CORTO PLAZO: SRT");
 		pthread_create(&planificador_corto_plazo,NULL,sjf,NULL);
 	}
 	else{

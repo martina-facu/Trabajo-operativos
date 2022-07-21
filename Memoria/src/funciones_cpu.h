@@ -21,9 +21,11 @@ void ejecutar_algoritmo( t_entrada_2* entrada);
 t_proceso* proceso_;
 bool ordenar(void* entrada1, void* entrada2);
 t_memory_pag* clock_();
+t_memory_pag* clock_M();
 void escritura();
 void lectura();
 void mostrar_tabla_pagina();
+void chequear_puntero();
 t_entrada_2* obtener_entrada();
 void mostrar_entrada(t_entrada_2* entrada2);
 
