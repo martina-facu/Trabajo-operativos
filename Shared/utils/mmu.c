@@ -309,15 +309,15 @@ void mostrar_entradas(t_list* list){
 }
 
 void mostrar_datos(Datos_calculo_direccion* datos) {
-	log_info(logger,"\n-----------DATOS PARA EL CALCULO DE DIRECCIONES----------------\n");
-	log_info(logger,"CONEXION MEMORIA: %d\n", datos->conexion_memoria);
-	log_info(logger,"ID TABLA PRIMER NIVEL: %d\n", datos->id_tabla_paginas1);
-	log_info(logger,"DESPLAZAMIENTO: %d\n", datos->desplazamiento);
-	log_info(logger,"ENTRADA PRIMER NIVEL: %d\n", datos->entrada_tabla_primer_nivel);
-	log_info(logger,"ENTRADA SEGUNDO NIVEL: %d\n", datos->entrada_tabla_segundo_nivel);
-	log_info(logger,"NUMERO PAGINA: %d\n", datos->numero_pagina);
-	log_info(logger,"ENTRADAS POR TABLA: %d\n", datos->entradas_por_tabla);
-	log_info(logger,"TAMAÑO PAGINA: %d\n", datos->tamano_pagina);
+//	log_info(logger,"\n-----------DATOS PARA EL CALCULO DE DIRECCIONES----------------\n");
+//	log_info(logger,"CONEXION MEMORIA: %d\n", datos->conexion_memoria);
+//	log_info(logger,"ID TABLA PRIMER NIVEL: %d\n", datos->id_tabla_paginas1);
+//	log_info(logger,"DESPLAZAMIENTO: %d\n", datos->desplazamiento);
+//	log_info(logger,"ENTRADA PRIMER NIVEL: %d\n", datos->entrada_tabla_primer_nivel);
+//	log_info(logger,"ENTRADA SEGUNDO NIVEL: %d\n", datos->entrada_tabla_segundo_nivel);
+//	log_info(logger,"NUMERO PAGINA: %d\n", datos->numero_pagina);
+//	log_info(logger,"ENTRADAS POR TABLA: %d\n", datos->entradas_por_tabla);
+//	log_info(logger,"TAMAÑO PAGINA: %d\n", datos->tamano_pagina);
 }
 
 void crear_tabla_prueba(){
