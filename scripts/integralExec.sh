@@ -33,15 +33,15 @@ $KERNELPATH/Kernel &
 cd $CONSOLEPATH
 sleep 1
 ($CONSOLEPATH/Consola $CONFPATH/INTEGRAL_1 2048)  &
-
+sleep 1
 #	Levanto la segunda consola
 ($CONSOLEPATH/Consola $CONFPATH/INTEGRAL_2 2048)  &
-
+sleep 1
 #	Levanto la tercera consola
 ($CONSOLEPATH/Consola $CONFPATH/INTEGRAL_3 2048)  &
-
+sleep 1
 #	Levanto la cuarta consola
 ($CONSOLEPATH/Consola $CONFPATH/INTEGRAL_4 2048)  &
-
+sleep 1
 #	Levanto la quinta consola
 ($CONSOLEPATH/Consola $CONFPATH/INTEGRAL_5 2048)  &

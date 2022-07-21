@@ -33,6 +33,6 @@ $KERNELPATH/Kernel &
 cd $CONSOLEPATH
 sleep 1
 ($CONSOLEPATH/Consola $CONFPATH/TLB_1   2048)  &
-
+sleep 1
 #	Levanto la segunda consola
 ($CONSOLEPATH/Consola $CONFPATH/TLB_2  2048)  &
