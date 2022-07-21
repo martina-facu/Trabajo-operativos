@@ -205,6 +205,7 @@ void* devoluciones(){
 		else{
 			log_trace(PCP,"HAY ERROR AL RECIBIR EL ESTADO");
 		}
+		sleep(1);
 		sem_post(&s_proceso_ejecutando);
 	}
 	return NULL;
