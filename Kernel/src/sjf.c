@@ -57,8 +57,8 @@ pcb_t* recibir_paquete_pcb_sjf(){
 
 void* enviar_a_ejecutar_sjf(){
 	while(1){
-		sem_wait(&s_proceso_ejecutando);
 		sem_wait(&s_cpu);
+		sem_wait(&s_proceso_ejecutando);
 
 		log_trace(PCP,"VOY A ENVIAR");
 
@@ -178,7 +178,7 @@ void* devoluciones(){
 			log_trace(PCP, "PCB || PID: %d || MOTIVO: INTERRUMPIDO || SE VA A AGREGAR A READY",pcb->pid);
 
 			pthread_mutex_lock(&mx_interrumpidos_l);
-			list_add_sorted(interrumpidos_l, pcb, menor_estimacion);
+			list_add(interrumpidos_l, pcb);
 			pthread_mutex_unlock(&mx_interrumpidos_l);
 
 			sem_post(&s_interrupcion_atendida);
@@ -237,6 +237,7 @@ void* agregar_a_ready_sjf(){
 		pthread_mutex_lock(&mx_ready_l);
 		list_add_sorted(ready_l, pcb, menor_estimacion);
 		pthread_mutex_unlock(&mx_ready_l);
+		log_trace(PCP,"INGRESO UN PROCESO A READY, PID: %d", pcb->pid);
 		if(proceso_ejecutando){
 			log_trace(PCP, "------------------------------------VOY A INTERRUMPIR-------------------------------------------------------------");
 			interrumpir();
@@ -245,7 +246,6 @@ void* agregar_a_ready_sjf(){
 			list_add_sorted(ready_l,pcb_,menor_estimacion);
 			sem_post(&s_cpu);
 		}
-		log_trace(PCP,"INGRESO UN PROCESO A READY, PID: %d", pcb->pid);
 		mostrar_lista_ready_sjf(ready_l);
 		sem_post(&s_cpu);
 	}
