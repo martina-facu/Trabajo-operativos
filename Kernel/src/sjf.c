@@ -74,9 +74,8 @@ void* enviar_a_ejecutar_sjf(){
 
 		void* a_enviar= pcb_serializar(pcb,&espacio,0);
 
-		send(socket_cpu_dispatch,a_enviar,espacio,0);
-
 		pthread_mutex_lock(&mx_proceso_ejecutando);
+		send(socket_cpu_dispatch,a_enviar,espacio,0);
 		proceso_ejecutando=1;
 		pthread_mutex_unlock(&mx_proceso_ejecutando);
 
@@ -185,13 +184,13 @@ void* bloquear_proceso_sjf(void* pcb_){
 void* devoluciones(){
 	while(1){
 		pcb_t* pcb=recibir_paquete_pcb_sjf();
+		pthread_mutex_lock(&mx_proceso_ejecutando);
+		proceso_ejecutando=0;
+		pthread_mutex_unlock(&mx_proceso_ejecutando);
 		tiempo_de_ejecucion_final=clock();
 		if(tiempo_de_ejecucion_final<0){
 			printf("error en el clock final");
 		}
-		pthread_mutex_lock(&mx_proceso_ejecutando);
-		proceso_ejecutando=0;
-		pthread_mutex_unlock(&mx_proceso_ejecutando);
 		tiempo_de_ejecucion= (tiempo_de_ejecucion_final - tiempo_de_ejecucion_inicial)/(CLOCKS_PER_SEC); // divido por mil para dejarlo en milisegundos
 		actualizar_estimacion(pcb);
 		if(pcb->estado==INTERRUMPIDO) {
@@ -202,8 +201,6 @@ void* devoluciones(){
 			pthread_mutex_unlock(&mx_interrumpidos_l);
 
 			sem_post(&s_interrupcion_atendida);
-			sem_post(&s_cpu);
-
 		}
 		else if(pcb->estado == BLOQUEADO){
 			pthread_mutex_lock(&mx_block_l);
@@ -225,7 +222,7 @@ void* devoluciones(){
 			sem_post(&s_proceso_finalizado);
 		}
 		else{
-			log_trace(PCP,"HAY ERROR");
+			log_trace(PCP,"HAY ERROR AL RECIBIR EL ESTADO");
 		}
 		sem_post(&s_proceso_ejecutando);
 	}
@@ -242,10 +239,11 @@ void* agregar_a_ready_sjf(){
 		sem_wait(&s_proceso_ready);
 		if(proceso_ejecutando){
 			log_trace(PCP, "------------------------------------VOY A INTERRUMPIR-------------------------------------------------------------");
-			sem_post(&s_interrupcion);
+			interrumpir();
 			sem_wait(&s_interrupcion_atendida);
-			pcb_t* pcb = list_remove(interrumpidos_l,0);
-			list_add_sorted(ready_l,pcb,menor_estimacion);
+			pcb_t* pcb_ = list_remove(interrumpidos_l,0);
+			list_add_sorted(ready_l,pcb_,menor_estimacion);
+			sem_post(&s_cpu);
 		}
 		pcb_t* pcb;
 		if(!list_is_empty(susp_readyM_l)){
@@ -269,13 +267,10 @@ void* agregar_a_ready_sjf(){
 		list_add_sorted(ready_l, pcb, menor_estimacion);
 		pthread_mutex_unlock(&mx_ready_l);
 
-		log_trace(PCP,"HICE EL POST");
-
+		log_trace(PCP,"LISTA READY SJF:");
 		mostrar_lista_ready_sjf(ready_l);
 
 		sem_post(&s_cpu);
-
-
 	}
 	return NULL;
 }
