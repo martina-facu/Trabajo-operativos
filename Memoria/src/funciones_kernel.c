@@ -65,7 +65,7 @@ void inicializar_proceso(){
 	log_trace(logger,"KERNEL || PROCESO CREADO CON EXITO, MANDANDO MENSAJE...");
 	send(socket_kernel,&proceso->entrada_1,sizeof(uint32_t),0);
 
-	// BORRAR
+	mostrar_tablas(proceso);
 	mostrar_bitarray();
 	// frame 1: 63 bytes - 127 bytes
 
@@ -296,7 +296,19 @@ void mostrar_bitarray(){
 }
 
 
-
+void mostrar_tablas(t_proceso* proceso_){
+	t_tabla_1* tabla1 = list_get(tabla_1_l,proceso_->entrada_1);
+	log_trace(logger,"MOSTRANDO TABLA 1, PERTENENCIENTE AL PROCESO: %d || ENTRADA DE TABLA 1 GLOBAL: %d",proceso_->pid,proceso_->entrada_1);
+	for(int i=0; i < ENTRADAS_POR_TABLA && *(tabla1->entradas+i)!=-1 ;i++){
+		uint32_t indice = *(tabla1->entradas+i);
+		log_trace(logger,"MOSTRANDO TABLA 2, PERTENENCIENTE AL PROCESO: %d || INDICE DE TABLA 2 GLOBAL: %d ",proceso_->pid,indice);
+		t_tabla_2* tabla2= list_get(tabla_2_l,indice);
+		for(int j =0; j<ENTRADAS_POR_TABLA;j++){
+			t_entrada_2* entrada2 = list_get(tabla2->entradas,j);
+			log_trace(logger,"ENTRADA || U: %d || M: %d || P: %d || FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
+		}
+	}
+}
 
 
 

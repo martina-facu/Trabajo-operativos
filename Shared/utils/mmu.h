@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
+#include <math.h>
 #include <netdb.h>
 #include <commons/collections/list.h>
 #include <commons/config.h>

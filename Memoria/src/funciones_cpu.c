@@ -54,9 +54,10 @@ void entrada1(){
 
 	log_trace(logger, "Obtengo el proceso %d de la lista de procesos", pid_);
 	proceso_ = list_get(procesos,pid_);
+	mostrar_tablas(proceso_);
 
 	uint32_t indice_entrada_2 = *(tabla->entradas+entrada_tabla_1);
-	log_trace(logger, "Obtuve el indice de la entrada 2 -> %d", backup_entrada_tabla_1);
+	log_trace(logger, "CPU || SE OBTUVO EL INDICE DE ENTRADA 2: %d", indice_entrada_2);
 
 	send(socket_cpu,&indice_entrada_2,sizeof(uint32_t),0);
 	log_trace(logger, "Se envio el mensaje a cpu");
@@ -81,9 +82,11 @@ void entrada2(){
 
 	uint32_t indice_tabla_2;
 	recv(socket_cpu, &indice_tabla_2, sizeof(uint32_t),0);
-
+	log_trace(logger, "CPU || RECIBIMOS EL INDICE DE TABLA 2: %d || PID: %d", indice_tabla_2,pid_);
 	uint32_t entrada_tabla_2;
 	recv(socket_cpu,&entrada_tabla_2,sizeof(uint32_t),0);
+	log_trace(logger, "CPU || RECIBIMOS EL ENTRADA DE TABLA 2: %d || PID: %d", entrada_tabla_2,pid_);
+
 	backup_entrada_tabla_2= entrada_tabla_2;
 	t_tabla_2* tabla2= list_get(tabla_2_l,indice_tabla_2);
 	t_entrada_2* entrada = list_get(tabla2->entradas,entrada_tabla_2);
@@ -355,6 +358,8 @@ bool memoria_esta_llena(){
 }
 
 int buscar_frame_libre(){
+	log_trace(logger, "CPU || FRAMES: %d",bitarray_get_max_bit(bitMem));
+	mostrar_bitarray();
 	for(int i=0;i< bitarray_get_max_bit(bitMem);i++){
 					if(!bitarray_test_bit(bitMem,i)){
 						bitarray_set_bit(bitMem,i);

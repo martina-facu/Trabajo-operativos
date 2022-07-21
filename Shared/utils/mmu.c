@@ -100,15 +100,23 @@ void set_numero_pagina(Datos_calculo_direccion* datos, uint32_t direccion_logica
 
 
 	if (datos->tamano_pagina != 0){
-		log_info(logger, "Tam%d", datos->tamano_pagina);
-		datos->numero_pagina = direccion_logica/datos->tamano_pagina;
+		log_trace(logger, "CALCULO DE PAGINA");
+		log_trace(logger, "DIRECCION LOGICA: %d, TAMANO DE PAGINA: %d",direccion_logica, datos->tamano_pagina);
+
+
+		datos->numero_pagina = floor(direccion_logica/datos->tamano_pagina);
+
+		log_trace(logger,"NUMERO DE PAGINA: %d",datos->numero_pagina);
 	}
+
 	else
 		log_info(logger, "CPU: SE DIVIDE POR 0 :O");
 }
 
 void set_entrada_tabla_1er_nivel (Datos_calculo_direccion* datos){
-	datos->entrada_tabla_primer_nivel = datos->numero_pagina/datos->entradas_por_tabla;
+	log_trace(logger, "NUMERO DE PAGINA: %d, ENTRADAS POR TABLA: %d", datos->numero_pagina,datos->entradas_por_tabla);
+	datos->entrada_tabla_primer_nivel = floor(datos->numero_pagina/datos->entradas_por_tabla);
+	log_trace(logger, "ENTRADA: %d", datos->entrada_tabla_primer_nivel);
 }
 
 void set_entrada_tabla_2do_nivel (Datos_calculo_direccion* datos){

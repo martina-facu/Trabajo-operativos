@@ -59,6 +59,7 @@ void inicializar_tabla_2(t_list* entradas_tabla2);
 void finalizar_proceso();
 void mostrar_bitarray();
 void crear_paginas_prueba(t_proceso* proceso);
+void mostrar_tablas(t_proceso* proceso_);
 
 
 
