@@ -11,12 +11,9 @@ export CONSOLA=$TPHOME/Consola
 export KERNEL=$TPHOME/Kernel
 export CPU=$TPHOME/CPU
 export MEMORIA=$TPHOME/Memoria
+cd $TPHOME
+git pull
 
-#       Ingreso a la so-commons-library y la compilo
-cd so-commons-library
-make clean
-make
-make install
 #       Me posiciono en la shared library de nuestro TP y compilo
 cd $SHAREDCOMPILAR
 make clean
