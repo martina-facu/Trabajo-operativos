@@ -12,9 +12,7 @@ void* funciones_cpu(){
 	switch(operacion){
 
 		case SOLICITAR_VALOR_ENTRADA1:
-			log_info(logger, "Lvalor entrada 1");
 			entrada1();
-			log_info(logger, "enviado valor entrada 1");
 		break;
 		case SOLICITAR_VALOR_ENTRADA2:
 			entrada2();
@@ -47,7 +45,7 @@ void entrada1(){
 
 	uint32_t entrada_tabla_1;
 	recv(socket_cpu,&entrada_tabla_1,sizeof(uint32_t),0);
-	log_trace(logger, "CPU || ENTRA DE TABLA 1 RECIBIDO: %d", entrada_tabla_1);
+	log_trace(logger, "CPU || ENTRADA DE TABLA 1 RECIBIDO: %d", entrada_tabla_1);
 	backup_entrada_tabla_1 = entrada_tabla_1;
 
 	t_tabla_1* tabla= list_get(tabla_1_l,indice_tabla_1);

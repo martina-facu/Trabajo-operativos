@@ -209,7 +209,7 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
 	log_info(logger, "CPU-MEMORIA El valor leido fue: %d", valorRecibido);
 //	valor_leido_respuesta = *valor_leido;
 //	free(valor_leido);
-	return 0;
+	return valorRecibido;
 }
 
 uint32_t escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calculo_direccion* datos)
@@ -230,13 +230,12 @@ uint32_t escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calcul
 ////	memcpy(resultado_escritura, respuesta->buffer->stream, sizeof(uint32_t));
 //
 //	uint8_t ok;
-//	recv(datos->conexion_memoria,&ok,sizeof(uint8_t),0);
-//
+//	recv(datos->conexion_memoria,&ok,sizeof(uint32_t),0);
+////
 //	if(ok)
 //	{
-//		log_info(logger, "CPU-MEMORIA El resultado de escribir fue exitoso, %d", *valor_a_escribir);
-////		printf("El resultado de escribir fue: %d", *resultado_escritura);
-//		return *valor_a_escribir;
+//		log_info(logger, "CPU-MEMORIA El resultado de escribir fue exitoso, %d",ok);
+//		return ok;
 //	}else{
 //		return 0;
 //	}
@@ -296,7 +295,8 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			break;
 		case COPY: // COPY(destino, origen)
 			log_info(logger, "CPU-EXECUTE Proceso una operacion de COPY PID: %d", pcb->pid);
-//			resultado = escribir(*parametro1, parametro2, datos);
+			valor_leido= leer(*parametro1,datos);
+			resultado = escribir(*parametro1, parametro2, datos);
 //			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 
 			sleep(1);
