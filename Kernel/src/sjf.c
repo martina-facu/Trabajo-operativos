@@ -39,7 +39,7 @@ void mostrar_lista_ready_sjf(t_list* lista){
 	for(i=0;i<lista_size;i++){
 		pcb_t* pcb= malloc(sizeof(pcb_t));
 		pcb= list_get(lista,i);
-		log_trace(PCP,"PCB || PID = %d || prioridad= %d || ESTIMACION: %d  \n", pcb->pid,i, pcb->estimado_rafaga);
+		log_trace(PCP,"PCB || PID = %d || prioridad= %d || ESTIMACION: %d", pcb->pid,i, pcb->estimado_rafaga);
 	}
 }
 
@@ -57,8 +57,8 @@ pcb_t* recibir_paquete_pcb_sjf(){
 
 void* enviar_a_ejecutar_sjf(){
 	while(1){
-		sem_wait(&s_cpu);
 		sem_wait(&s_proceso_ejecutando);
+		sem_wait(&s_cpu);
 
 		log_trace(PCP,"VOY A ENVIAR");
 
@@ -218,14 +218,6 @@ void interrumpir(){
 void* agregar_a_ready_sjf(){
 	while(1){
 		sem_wait(&s_proceso_ready);
-		if(proceso_ejecutando){
-			log_trace(PCP, "------------------------------------VOY A INTERRUMPIR-------------------------------------------------------------");
-			interrumpir();
-			sem_wait(&s_interrupcion_atendida);
-			pcb_t* pcb_ = list_remove(interrumpidos_l,0);
-			list_add_sorted(ready_l,pcb_,menor_estimacion);
-			sem_post(&s_cpu);
-		}
 		pcb_t* pcb;
 		if(!list_is_empty(susp_readyM_l)){
 			pthread_mutex_lock(&mx_susp_readyM_l);
@@ -242,29 +234,33 @@ void* agregar_a_ready_sjf(){
 			pcb= list_remove(newM_l,0);
 			pthread_mutex_unlock(&mx_newM_l);
 		}
-		log_trace(PCP,"INGRESO UN PROCESO A READY, PID: %d", pcb->pid);
-
 		pthread_mutex_lock(&mx_ready_l);
 		list_add_sorted(ready_l, pcb, menor_estimacion);
 		pthread_mutex_unlock(&mx_ready_l);
-
-		log_trace(PCP,"LISTA READY SJF:");
+		if(proceso_ejecutando){
+			log_trace(PCP, "------------------------------------VOY A INTERRUMPIR-------------------------------------------------------------");
+			interrumpir();
+			sem_wait(&s_interrupcion_atendida);
+			pcb_t* pcb_ = list_remove(interrumpidos_l,0);
+			list_add_sorted(ready_l,pcb_,menor_estimacion);
+			sem_post(&s_cpu);
+		}
+		log_trace(PCP,"INGRESO UN PROCESO A READY, PID: %d", pcb->pid);
 		mostrar_lista_ready_sjf(ready_l);
-
 		sem_post(&s_cpu);
 	}
 	return NULL;
 }
 
 void* hablar_con_cpu(){
-	pthread_t hilo1;
+//	pthread_t hilo1;
 	pthread_t hilo2;
 	pthread_t hilo3;
 
-	pthread_create(&hilo1,NULL,interrupciones,NULL);
+//	pthread_create(&hilo1,NULL,interrupciones,NULL);
 	pthread_create(&hilo3,NULL,enviar_a_ejecutar_sjf,NULL);
 	pthread_create(&hilo2,NULL,devoluciones,NULL);
-	pthread_join(hilo1,NULL);
+//	pthread_join(hilo1,NULL);
 	pthread_join(hilo2,NULL);
 	pthread_join(hilo3,NULL);
 	return NULL;
