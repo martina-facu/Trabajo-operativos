@@ -1,6 +1,7 @@
 set -o vi
 #	Declaro variables de entorno
 export TPHOME=$HOME/tp-2022-1c-9-12
+export SHAREDCOMPILAR=$TPHOME/Shared/compilar
 export SHARED=$TPHOME/Shared
 export CONSOLACOMPILAR=$TPHOME/Consola/compilar
 export KERNELCOMPILAR=$TPHOME/Kernel/compilar
@@ -20,8 +21,9 @@ cd so-commons-library
 make
 make install
 #	Me posiciono en la shared library de nuestro TP y compilo
-cd $SHARED
+cd $SHAREDCOMPILAR
 make
+mv libShared.so $SHARED/libShared.so
 #	Me posiciono en la Consola de nuestro TP y compilo
 cd $CONSOLACOMPILAR
 make

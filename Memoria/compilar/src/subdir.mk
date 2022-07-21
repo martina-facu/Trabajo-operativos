@@ -4,24 +4,21 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../src/algoritmos.c \
-../src/memoria.c \
-../src/mensajes.c \
-../src/server.c \
+../src/funciones_cpu.c \
+../src/funciones_kernel.c \
+../src/main.c \
 ../src/swap.c 
 
 OBJS += \
-./src/algoritmos.o \
-./src/memoria.o \
-./src/mensajes.o \
-./src/server.o \
+./src/funciones_cpu.o \
+./src/funciones_kernel.o \
+./src/main.o \
 ./src/swap.o 
 
 C_DEPS += \
-./src/algoritmos.d \
-./src/memoria.d \
-./src/mensajes.d \
-./src/server.d \
+./src/funciones_cpu.d \
+./src/funciones_kernel.d \
+./src/main.d \
 ./src/swap.d 
 
 
