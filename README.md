@@ -1,7 +1,7 @@
 # Faltantes:
-	Validar Clock-M - []
+	Validar Clock-M - [X]
 	Activar - Probar TLB - []
-	Activar COPY en CPU - []
+	Activar COPY en CPU - [X]
 	Validar escritura del Swap - []
 
 # Errores
