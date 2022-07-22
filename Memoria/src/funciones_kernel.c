@@ -294,7 +294,7 @@ void mostrar_bitarray(){
 	memset(bitArrayToString,'\0',1025);
 
 	for(int i=0;i< bitarray_get_max_bit(bitMem);i++){
-		sprintf(bitArrayToString, "%d",(int)bitarray_test_bit(bitMem,i));
+		sprintf(bitArrayToString[i], "%d",(int)bitarray_test_bit(bitMem,i));
 
 //				printf("%d", (int)bitarray_test_bit(bitMem,i));
 		}
