@@ -27,10 +27,10 @@
 //}
 void* funciones_kernel(){
 	while(1){
-		log_trace(logger,"KERNEL || TE ESTAMOS ESPERANDO KERNELITO");
+		log_info(logger,"MEMORIA-KERNEL || TE ESTAMOS ESPERANDO KERNELITO");
 		uint8_t operacion;
 		recv(socket_kernel,&operacion,sizeof(uint8_t),0);
-		log_trace(logger,"KERNEL || RECIBI UN CODIGO DE OPERACION: %d", (int) operacion);
+		log_trace(logger,"MEMORIA-KERNEL || RECIBI UN CODIGO DE OPERACION: %d", (int) operacion);
 		switch(operacion){
 		case INICIALIZAR_PROCESO:
 			inicializar_proceso();
@@ -42,8 +42,8 @@ void* funciones_kernel(){
 			finalizar_proceso();
 			break;
 		default:
-			log_error(logger, "KERNEL || El mensaje recibido %d no corresponde a uno de los conocidos.", operacion);
-			log_error(logger, "KERNEL || Se procede a cerrar la conexion");
+			log_error(logger, "MEMORIA-KERNEL || El mensaje recibido %d no corresponde a uno de los conocidos.", operacion);
+			log_error(logger, "MEMORIA-KERNEL || Se procede a cerrar la conexion");
 			close(socket_kernel);
 			break;
 		}
@@ -55,14 +55,14 @@ void inicializar_proceso(){
 	uint32_t pid;
 	uint32_t tam_proceso;
 	recv(socket_kernel,&pid,sizeof(uint32_t),0);
-	log_trace(logger,"KERNEL || PID RECIBIDO: %d",pid);
+	log_trace(logger,"MEMORIA-KERNEL || PID RECIBIDO: %d",pid);
 	recv(socket_kernel,&tam_proceso,sizeof(uint32_t),0);
-	log_trace(logger,"KERNEL || TAM PROCESO RECIBIDO: %d",tam_proceso);
+	log_trace(logger,"MEMORIA-KERNEL || TAM PROCESO RECIBIDO: %d",tam_proceso);
 	t_proceso *proceso = crear_proceso(pid,tam_proceso);
 	list_add(procesos,proceso);
 	uint32_t cant_pag = division_entera(tam_proceso,TAM_PAGINA);
 	crear_archivo_swap(pid,cant_pag);
-	log_trace(logger,"KERNEL || PROCESO CREADO CON EXITO, MANDANDO MENSAJE...");
+	log_info(logger,"MEMORIA-KERNEL || PROCESO CREADO CON EXITO, MANDANDO MENSAJE...");
 	send(socket_kernel,&proceso->entrada_1,sizeof(uint32_t),0);
 
 	mostrar_tablas(proceso);
@@ -92,35 +92,35 @@ void inicializar_proceso(){
 
 void crear_paginas_prueba(t_proceso* proceso){
 
-	for(int i = 0; i < 4; i++){
-		t_tabla_1* tabla = list_get(tabla_1_l, proceso->entrada_1);
+//	for(int i = 0; i < 4; i++){
+//		t_tabla_1* tabla = list_get(tabla_1_l, proceso->entrada_1);
+//
+//		uint32_t indice = *(tabla->entradas);
+//
+//		t_tabla_2* tabla2 = list_get(tabla_2_l,indice);
+//
+//		t_entrada_2* entrada = list_get(tabla2->entradas, i);
+//		entrada->bPres = 1;
+//		entrada->bUso = 1;
+//		entrada->bMod = 1;
+//		entrada->frame = i;
+//		t_memory_pag* pagina = malloc(sizeof(t_memory_pag));
+//		pagina->entrada = entrada;
+//		pagina->n_tabla_2 = 0;
+//		pagina->n_entrada_2 = i;
+//		list_add(proceso->pagMem,pagina);
+//		char aux[] = "holu";
+//		memcpy(memoria+entrada->frame*TAM_PAGINA+10,aux,strlen(aux)+1);
+//	}
 
-		uint32_t indice = *(tabla->entradas);
-
-		t_tabla_2* tabla2 = list_get(tabla_2_l,indice);
-
-		t_entrada_2* entrada = list_get(tabla2->entradas, i);
-		entrada->bPres = 1;
-		entrada->bUso = 1;
-		entrada->bMod = 1;
-		entrada->frame = i;
-		t_memory_pag* pagina = malloc(sizeof(t_memory_pag));
-		pagina->entrada = entrada;
-		pagina->n_tabla_2 = 0;
-		pagina->n_entrada_2 = i;
-		list_add(proceso->pagMem,pagina);
-		char aux[] = "holu";
-		memcpy(memoria+entrada->frame*TAM_PAGINA+10,aux,strlen(aux)+1);
-	}
-
-	printf("KERNEL || \nEntrada\t\tFrame\t\tBit Uso\t\tBit Mod\t\tBit Pres\n");
-
-	for (int i = 0; i < 4; i++){
-		t_tabla_2* tabla2 = list_get(tabla_2_l,0);
-		t_entrada_2* entrada = list_get(tabla2->entradas, i);
-		printf("KERNEL || \n%d\t\t%d\t\t%d\t\t%d\t\t%d\n", i, entrada->frame, (int)entrada->bUso, (int)entrada->bMod, (int)entrada->bPres);
-
-	}
+//	printf("KERNEL || \nEntrada\t\tFrame\t\tBit Uso\t\tBit Mod\t\tBit Pres\n");
+//
+//	for (int i = 0; i < 4; i++){
+//		t_tabla_2* tabla2 = list_get(tabla_2_l,0);
+//		t_entrada_2* entrada = list_get(tabla2->entradas, i);
+////		printf("MEMORIA-KERNEL || \n%d\t\t%d\t\t%d\t\t%d\t\t%d\n", i, entrada->frame, (int)entrada->bUso, (int)entrada->bMod, (int)entrada->bPres);
+//
+//	}
 }
 
 bool paginas_modificadas(void* entrada_){
@@ -131,7 +131,7 @@ void mostrar_paginas(t_list* paginas){
 	for(int i =0; i<list_size(paginas);i++){
 		t_memory_pag* pagina = list_get(paginas,i);
 		int num_pagina = pagina->n_tabla_2*ENTRADAS_POR_TABLA + pagina->n_entrada_2;
-		log_trace(logger,"KERNEL || PAGINA: %d, FRAME: %d ",num_pagina,pagina->entrada->frame);
+		log_info(logger,"MEMORIA-KERNEL || PAGINA: %d, FRAME: %d ",num_pagina,pagina->entrada->frame);
 	}
 }
 
@@ -173,24 +173,24 @@ void finalizar_proceso(){
 	uint32_t pid;
 	recv(socket_kernel,&pid,sizeof(uint32_t),0);
 
-	log_info(logger, "KERNEL || MEMORIA-KERNEL: Se recibe un pid %d para finalizar", pid);
+	log_trace(logger, "MEMORIA-KERNEL || Se recibe un pid %d para finalizar", pid);
 
 	t_proceso* proceso = list_get(procesos,pid);
-	log_trace(logger,"KERNEL || AGARRAMOS EL PROCESO DE LA LISTA DE PROCESOS, PID: %d",proceso->pid);
+	log_trace(logger,"MEMORIA-KERNEL || AGARRAMOS EL PROCESO DE LA LISTA DE PROCESOS, PID: %d",proceso->pid);
 
 	for(int i = 0; i < list_size(proceso->pagMem); i++){
 
 		t_memory_pag* pagina = list_get(proceso->pagMem,i);
-		log_trace(logger,"KERNEL || VAMOS A Liberar UNA PAGINA DEL FRAME: %d",pagina->entrada->frame);
+		log_trace(logger,"MEMORIA-KERNEL || VAMOS A Liberar UNA PAGINA DEL FRAME: %d",pagina->entrada->frame);
 		memset(memoria + pagina->entrada->frame*TAM_PAGINA, '\0', TAM_PAGINA);
 		bitarray_clean_bit(bitMem, pagina->entrada->frame);
-		log_trace(logger, "KERNEL || MUESTRO EL BITARRAY, LUEGO DE LIMPIAR ESE FRAME");
+		log_trace(logger, "MEMORIA-KERNEL || MUESTRO EL BITARRAY, LUEGO DE LIMPIAR ESE FRAME");
 		mostrar_bitarray();
 	}
 
-	log_trace(logger, "KERNEL || Ingresando a SWAP..");
+	log_trace(logger, "MEMORIA-KERNEL || Ingresando a SWAP..");
 	eliminar_archivo_swap(pid);
-	log_trace(logger, "KERNEL || Ingresando a MEMORIA..");
+	log_trace(logger, "MEMORIA-KERNEL || Ingresando a MEMORIA..");
 
 //TODO: Esto se me ocurrio para liberar memoria
 
@@ -205,14 +205,14 @@ void finalizar_proceso(){
 
 
 t_proceso* crear_proceso(uint32_t pid, uint32_t tam_proceso){
-	log_trace(logger,"KERNEL || CREANDO PROCESO");
+	log_info(logger,"MEMORIA-KERNEL || CREANDO PROCESO");
 	uint32_t cant_pag = division_entera(tam_proceso,TAM_PAGINA);
-	log_trace(logger,"KERNEL || CANTIDAD PAGINAS: %d", cant_pag);
+	log_info(logger,"MEMORIA-KERNEL || CANTIDAD PAGINAS: %d", cant_pag);
 	uint32_t cant_entradas_1 = division_entera(cant_pag,ENTRADAS_POR_TABLA);
-	log_trace(logger,"KERNEL || CANTIDAD ENTRADAS: %d", cant_entradas_1);
+	log_info(logger,"MEMORIA-KERNEL || CANTIDAD ENTRADAS: %d", cant_entradas_1);
 
 	if(cant_entradas_1>ENTRADAS_POR_TABLA){
-		log_error(logger,"KERNEL || NO SE DEBERIA PODER, QUE HACEMOS?");
+		log_error(logger,"MEMORIA-KERNEL || NO SE DEBERIA PODER, QUE HACEMOS?");
 	}
 
 	t_tabla_1* tabla = malloc(sizeof(t_tabla_1));
@@ -221,7 +221,7 @@ t_proceso* crear_proceso(uint32_t pid, uint32_t tam_proceso){
 	list_add(tabla_1_l,tabla);
 
 	uint32_t entrada = list_size(tabla_1_l)-1;
-	log_trace(logger,"KERNEL || ENTRADA: %d || PID: %d",entrada,pid);
+	log_info(logger,"MEMORIA-KERNEL || ENTRADA: %d || PID: %d",entrada,pid);
 
 	t_proceso * proceso= malloc(sizeof(t_proceso));
 
@@ -290,43 +290,32 @@ int division_entera(double numerador,  double denominador){
 }
 
 void mostrar_bitarray(){
-	for(int i=0;i< bitarray_get_max_bit(bitMem);i++){
-				printf("%d", (int)bitarray_test_bit(bitMem,i));
-		}
+//	char bitArrayToString[1025];
+//	memset(bitArrayToString,'\0',1025);
+//
+//	for(int i=0;i< bitarray_get_max_bit(bitMem);i++){
+////		sprintf(bitArrayToString[i], "%d",(int)bitarray_test_bit(bitMem,i));
+//
+//				printf("%d", (int)bitarray_test_bit(bitMem,i));
+//		}
+////		log_trace(logger,"MEMORIA-BITARRAY: %s", bitArrayToString);
+//
+//
+//	}
 }
+
 
 
 void mostrar_tablas(t_proceso* proceso_){
 	t_tabla_1* tabla1 = list_get(tabla_1_l,proceso_->entrada_1);
-	log_trace(logger,"MOSTRANDO TABLA 1, PERTENENCIENTE AL PROCESO: %d || ENTRADA DE TABLA 1 GLOBAL: %d",proceso_->pid,proceso_->entrada_1);
+	log_info(logger,"MEMORIA-ALGORITMO: MOSTRANDO TABLA 1, PERTENENCIENTE AL PROCESO: %d || ENTRADA DE TABLA 1 GLOBAL: %d",proceso_->pid,proceso_->entrada_1);
 	for(int i=0; i < ENTRADAS_POR_TABLA && *(tabla1->entradas+i)!=-1 ;i++){
 		uint32_t indice = *(tabla1->entradas+i);
-		log_trace(logger,"MOSTRANDO TABLA 2, PERTENENCIENTE AL PROCESO: %d || INDICE DE TABLA 2 GLOBAL: %d ",proceso_->pid,indice);
+		log_info(logger,"MEMORIA-ALGORITMO: MOSTRANDO TABLA 2, PERTENENCIENTE AL PROCESO: %d || INDICE DE TABLA 2 GLOBAL: %d ",proceso_->pid,indice);
 		t_tabla_2* tabla2= list_get(tabla_2_l,indice);
 		for(int j =0; j<ENTRADAS_POR_TABLA;j++){
 			t_entrada_2* entrada2 = list_get(tabla2->entradas,j);
-			log_trace(logger,"ENTRADA || U: %d || M: %d || P: %d || FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
+			log_info(logger,"MEMORIA-ALGORITMO: ENTRADA || U: %d || M: %d || P: %d || FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
