@@ -58,7 +58,7 @@ void entrada1(){
 
 	uint32_t indice_entrada_2 = *(tabla->entradas+entrada_tabla_1);
 	log_trace(logger, "CPU || SE OBTUVO EL INDICE DE ENTRADA 2: %d", indice_entrada_2);
-
+	retardoXcpu();
 	send(socket_cpu,&indice_entrada_2,sizeof(uint32_t),0);
 	log_trace(logger, "Se envio el mensaje a cpu");
 }
@@ -98,6 +98,7 @@ void entrada2(){
 	}
 
 	log_trace(logger, "Se envia el nro de frame %d", entrada->frame);
+	retardoXcpu();
 	send(socket_cpu,&entrada->frame,sizeof(uint32_t),0);
 }
 
