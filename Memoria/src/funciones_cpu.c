@@ -315,6 +315,7 @@ void escritura(){
 	uint32_t escritura;
 	recv(socket_cpu,&escritura,sizeof(uint32_t),0);
 	memcpy(memoria+direccion_fisica,&escritura,sizeof(uint32_t));
+	retardoXcpu();
 	send(socket_cpu,&escritura,sizeof(uint32_t),0);
 	t_entrada_2* entrada=  obtener_entrada();
 	entrada->bUso=1;
@@ -329,6 +330,7 @@ void lectura(){
 	uint32_t buffer;
 	memcpy(&buffer,memoria+direccion_fisica,sizeof(uint32_t));
 	log_trace(logger,"VALOR LEIDO: %d", buffer);
+	retardoXcpu();
 	send(socket_cpu,&buffer,sizeof(uint32_t),0);
 	t_entrada_2* entrada=  obtener_entrada();
 	entrada->bUso=1;
@@ -369,7 +371,13 @@ int buscar_frame_libre(){
 	return -1;
 }
 
+void retardoXcpu(){
+	int retardoEnSegundos;
 
+	retardoEnSegundos = RETARDO_MEMORIA/1000;
+	sleep(retardoEnSegundos);
+	log_info(logger, "MEMORIA-CPU: Se realizar el retardo de consumo de memoria por CPU de %d segundos", retardoEnSegundos);
+}
 
 
 
