@@ -30,8 +30,8 @@
  * Listado de variables globales
 */
 
-	time_t tiempo_de_ejecucion_inicial;
-	time_t tiempo_de_ejecucion_final;
+	clock_t tiempo_de_ejecucion_inicial;
+	clock_t tiempo_de_ejecucion_final;
 	float tiempo_de_ejecucion;
 
 /*
