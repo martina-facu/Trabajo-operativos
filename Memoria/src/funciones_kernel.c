@@ -290,16 +290,20 @@ int division_entera(double numerador,  double denominador){
 }
 
 void mostrar_bitarray(){
-	char bitArrayToString[1025];
-	memset(bitArrayToString,'\0',1025);
-
-	for(int i=0;i< bitarray_get_max_bit(bitMem);i++){
-		sprintf(bitArrayToString[i], "%d",(int)bitarray_test_bit(bitMem,i));
-
+//	char bitArrayToString[1025];
+//	memset(bitArrayToString,'\0',1025);
+//
+//	for(int i=0;i< bitarray_get_max_bit(bitMem);i++){
+////		sprintf(bitArrayToString[i], "%d",(int)bitarray_test_bit(bitMem,i));
+//
 //				printf("%d", (int)bitarray_test_bit(bitMem,i));
-		}
-		log_trace(logger,"MEMORIA-BITARRAY: %s", bitArrayToString);
+//		}
+////		log_trace(logger,"MEMORIA-BITARRAY: %s", bitArrayToString);
+//
+//
+//	}
 }
+
 
 
 void mostrar_tablas(t_proceso* proceso_){
