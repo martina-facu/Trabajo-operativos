@@ -70,7 +70,7 @@ void* enviar_a_ejecutar_sjf(){
 
 		log_trace(PCP,"KERNEL-CPU-PCB Se va a mandar a ejecutar un proceso %d", pcb->pid);
 
-		tiempo_de_ejecucion_inicial = clock();
+		tiempo_de_ejecucion_inicial = time(NULL);
 
 		void* a_enviar= pcb_serializar(pcb,&espacio,0);
 
@@ -121,7 +121,7 @@ void* bloquear_proceso_sjf(void* pcb_){
 		sem_wait(&s_susp);
 
 
-		usleep(pcb->tiempo_block);
+		sleep(pcb->tiempo_block);
 
 
 		log_trace(PCP,"se DESBLOQUEO un proceso suspendido, ID:  %d", pcb->pid);
@@ -141,7 +141,7 @@ void* bloquear_proceso_sjf(void* pcb_){
 	else{
 		log_trace(PCP,"se va a bloquear un proceso por, ID: %d", pcb->pid);
 
-		usleep(pcb->tiempo_block);
+		sleep(pcb->tiempo_block);
 
 
 
@@ -167,11 +167,11 @@ void* devoluciones(){
 		pthread_mutex_lock(&mx_proceso_ejecutando);
 		proceso_ejecutando=0;
 		pthread_mutex_unlock(&mx_proceso_ejecutando);
-		tiempo_de_ejecucion_final=clock();
+		tiempo_de_ejecucion_final=time(NULL);
 		if(tiempo_de_ejecucion_final<0){
 			printf("error en el clock final");
 		}
-		tiempo_de_ejecucion= (tiempo_de_ejecucion_final - tiempo_de_ejecucion_inicial)/(CLOCKS_PER_SEC); // divido por mil para dejarlo en milisegundos
+		tiempo_de_ejecucion= difftime(tiempo_de_ejecucion_final,tiempo_de_ejecucion_inicial); // divido por mil para dejarlo en milisegundos
 		actualizar_estimacion(pcb);
 		log_trace(PCP,"------------------------ MI ESTADO ES: %d-------------------------------------", pcb->estado);
 		if(pcb->estado==INTERRUMPIDO) {
@@ -205,7 +205,6 @@ void* devoluciones(){
 		else{
 			log_trace(PCP,"HAY ERROR AL RECIBIR EL ESTADO");
 		}
-		sleep(1);
 		sem_post(&s_proceso_ejecutando);
 	}
 	return NULL;
