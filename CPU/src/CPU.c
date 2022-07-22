@@ -2,12 +2,6 @@
 #include "CPU.h"
 
 
-t_config_cpu* crearConfigCPU(void)
-{
-	t_config_cpu* config = malloc(sizeof(t_config_cpu));
-	return config;
-}
-
 /*
  *  Funcion: aceptoServerDispatch
  *  Entradas: 	int socketAnalizar		socket que se esta analizando en el select
@@ -125,7 +119,7 @@ void aceptoServerInterrupt(int socketAnalizar)
 int main(void)
 {
 	config = config_create("cpu.config");
-	uint32_t cantidad_entradas, tamano_pagina = 0;
+	uint32_t cantidad_entradas=0 , tamano_pagina = 0;
 	devolver_pcb = false;
 	recibiPCB = false;
 
@@ -139,10 +133,10 @@ int main(void)
 	FD_ZERO(&master_fd_set);
 
 //	Iniciar conexiones
-	int conexion_memoria = levantar_conexion_memoria(configuracion->IPMemoria, configuracion->puertoMemoria, &cantidad_entradas,&tamano_pagina);
+	cliente_memoria = levantar_conexion_memoria_CPU(configuracion->IPMemoria, configuracion->puertoMemoria, &cantidad_entradas,&tamano_pagina);
 	//	Marco el descriptor en donde me conecte al server de memoria como limite maximo y minimo del select
-	fdmax = conexion_memoria;
-	fdmin = conexion_memoria;
+	fdmax = cliente_memoria;
+	fdmin = cliente_memoria;
 
 	//	Levanto el server para el DISPATCH
 	int kernel_dispatch =  levantarServerDispatch();
@@ -217,7 +211,7 @@ int main(void)
 	log_trace(logger, "CPU-COMUNICACION-SELECT Sali del while infinito y voy a cerrar las conexiones generadas");
 
 //	Cierro conexiones
-	close(conexion_memoria);
+	close(cliente_memoria);
 	close(socket_dispatch);
 	close(kernel_dispatch);
 	close(socket_interrupt);
@@ -285,7 +279,7 @@ void procesarPCB(void)
 {
 	log_info(logger, "CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo");
 	while (devolver_pcb == false)
-		ejecutar_ciclo_instrucciones(pcb, &devolver_pcb, configuracion->retardoNoOp, configuracion->entradasTLB, cliente_dispatch, 1, &interrupcion);
+		ejecutar_ciclo_instrucciones(pcb, &devolver_pcb, configuracion->retardoNoOp, cant, cliente_memoria,tam, &interrupcion);
 //		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
 
 
@@ -370,19 +364,18 @@ void * atencionInterrupt(void * socketInterrupt)
 	while(1)
 	{
 		recv(iSocketInterrupt, &mensaje, sizeof(uint8_t), 0);
-//		log_trace(logger,"CPU-KERNEL-INTERRUPT Mensaje recibido interrupt: %d", mensaje);
+		pthread_mutex_lock(&mutex_interrupt);
 		if(mensaje == SOLICITAR_INTERRUPCION)
 		{
 			//	Como el mensaje es correcto seteo la variable para que el CPU devuelva el PCB
-//			log_info(logger,"CPU-EXECUTE Se recibio una interrupcion del Kernel para reprogramar");
 			interrupcion = true;
-	}
+		}
 		else
 		{
 			//	Como el mensaje es incorrecto desestimo el mensaje recibido.
 			log_trace(logger,"CPU-KERNEL-INTERRUPT Mensaje recibido del interrupt %d es incorrecto, se desestima el mismo", mensaje);
 		}
-
+		pthread_mutex_unlock(&mutex_interrupt);
 
 	}
 }

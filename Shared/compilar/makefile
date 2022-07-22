@@ -8,7 +8,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include src/subdir.mk
+-include utils/subdir.mk
 -include subdir.mk
 -include objects.mk
 
@@ -23,19 +23,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: Kernel
+all: libShared.so
 
 # Tool invocations
-Kernel: $(OBJS) $(USER_OBJS)
+libShared.so: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc -L"/home/utnso/tp-2022-1c-9-12/Shared/Debug" -o "Kernel" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc -shared -o "libShared.so" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) Kernel
+	-$(RM) $(LIBRARIES)$(OBJS)$(C_DEPS) libShared.so
 	-@echo ' '
 
 .PHONY: all clean dependents

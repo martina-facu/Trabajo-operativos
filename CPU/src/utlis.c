@@ -24,7 +24,7 @@ pcb_t* obtener_pcb(int cliente)
 }
 
 
-int levantar_conexion_memoria(char* ipServer, char* portServer, uint32_t* cantidad_entradas,uint32_t* tamano_pagina)
+int levantar_conexion_memoria_CPU(char* ipServer, char* portServer, uint32_t* cantidad_entradas,uint32_t* tamano_pagina)
 {
 	int conexion_memoria = crear_conexion(ipServer, portServer, logger);
 	log_trace(logger, "CPU-COMUNICACION-MEMORIA Se intenta conectarse con la memoria en la IP %s y puerto %s con el descriptor:  %d", ipServer, portServer, conexion_memoria);
@@ -50,11 +50,11 @@ int levantar_conexion_memoria(char* ipServer, char* portServer, uint32_t* cantid
 		uint8_t mensaje = SOLICITAR_ENTRADA_Y_TAMANO;
 		send(conexion_memoria, &mensaje, sizeof(uint8_t), 0);
 
-		recv(conexion_memoria, &cantidad_entradas, sizeof(uint32_t), 0);
-		recv(conexion_memoria, &tamano_pagina, sizeof(uint32_t), 0);
+		recv(conexion_memoria, &cant, sizeof(uint32_t), 0);
+		recv(conexion_memoria, &tam, sizeof(uint32_t), 0);
 
-		log_trace(logger, "cant entradas %d", cantidad_entradas);
-		log_trace(logger, "tamano_pagina %d", tamano_pagina);
+		log_trace(logger, "CPU-COMUNICACION-MEMORIA Cantidad de entradas %d", cant);
+		log_trace(logger, "CPU-COMUNICACION-MEMORIA Tamano_pagina %d", tam);
 
 //		recv(conexion_memoria, &Ncantidad_entradas, sizeof(uint32_t), 0);
 //		recv(conexion_memoria, &Ntamano_pagina, sizeof(uint32_t), 0);
@@ -120,43 +120,84 @@ bool validar_codigo(t_paquete* paquete, uint8_t operacion)
 	}
 }
 
-void mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion)
+//void mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion)
+//{
+//	void* stream;
+//	int tamano_mensaje = 0;
+//
+//	uint8_t lectura = SOLICITAR_LECTURA;
+//	uint8_t escritura = SOLICITAR_ESCRITURA;
+//
+//
+//	if(operacion == SOLICITAR_LECTURA)
+//	{
+//		send(conexion,&lectura,sizeof(uint8_t),0);
+//		send(conexion, &direccion, sizeof(uint32_t),0);
+//	}
+//	else if(operacion == SOLICITAR_ESCRITURA)
+//	{
+//		send(conexion,&escritura,sizeof(uint8_t),0);
+//		send(conexion,&direccion, sizeof(uint32_t),0);
+//		send(conexion, valor, sizeof(uint32_t),0);
+//	}
+//}
+
+uint32_t mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion)
 {
-	void* stream;
-	int tamano_mensaje = 0;
-
-	uint8_t lectura = 9;
-	uint8_t escritura =11;
+	uint32_t valorRecibido;
 
 
-	if(operacion == lectura){
-		send(conexion,&lectura,sizeof(uint8_t),0);
-		send(conexion, &direccion, sizeof(uint32_t),0);
-	}else if(operacion == escritura){
-		send(conexion,&escritura,sizeof(uint8_t),0);
-		send(conexion, &direccion, sizeof(uint32_t),0);
-		send(conexion,valor, sizeof(uint32_t),0);
+	uint8_t lectura = SOLICITAR_LECTURA;
+	uint8_t escritura = SOLICITAR_ESCRITURA;
+
+
+	if(operacion == SOLICITAR_LECTURA)
+	{
+		//	Envio operacion de lectura
+		send(cliente_memoria,&lectura,sizeof(uint8_t),0);
+		send(cliente_memoria, &direccion, sizeof(uint32_t),0);
+		log_trace(logger, "CPU-MEMORIA Envie solicitud de Lectura");
+
+		//	Recibo valor leido de la memoria
+		recv(cliente_memoria,&valorRecibido,sizeof(uint32_t),0);
+		log_info(logger, "CPU-MEMORIA Lei la posicion de memoria: %d", valorRecibido);
 	}
+	else if(operacion == SOLICITAR_ESCRITURA)
+	{
+		//	Envio operacion de Escritura
+		send(cliente_memoria,&escritura,sizeof(uint8_t),0);
+		send(cliente_memoria,&direccion, sizeof(uint32_t),0);
+		send(cliente_memoria, valor, sizeof(uint32_t),0);
+		//	Recibo resultado de la escritura
+		recv(cliente_memoria,&valorRecibido,sizeof(uint32_t),0);
+		log_info(logger, "CPU-MEMORIA Se recibio el resultado de la operacion de escritura");
+	}
+
+	return valorRecibido;
 }
 
 uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
 {
-	log_trace(logger, "LEER FUNCION");
+	uint32_t valorRecibido;
+
+	log_info(logger, "CPU-MEMORIA Voy a leer valor de memoria");
 	uint32_t valor_leido_respuesta;
-	log_trace(logger, "VOY A CALCULAR DATOS");
-	log_trace(logger, "Direccion logica %d", direccion_logica);
+	log_trace(logger, "CPU-MEMORIA ----- Direccion logica %d", direccion_logica);
+	// Voy a calcular los datos de la direccion
 	calcular_datos_direccion(datos, direccion_logica);
-	log_trace(logger, "Calcule datos");
+	log_trace(logger, "CPU-MEMORIA ----- Calcule datos de direccion");
 	Pagina_direccion* resultado = traducir_direccion(datos);
+	log_trace(logger, "CPU-MEMORIA ----- Traduje los datos");
 
-	mandar_lecto_escritura(resultado->direccion_fisica, 0, SOLICITAR_LECTURA, datos->conexion_memoria);
+	valorRecibido = mandar_lecto_escritura(resultado->direccion_fisica, 0, SOLICITAR_LECTURA, datos->conexion_memoria);
+	log_info(logger, "CPU-MEMORIA Envie pedido de lectura a la Memoria");
 
-//	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
-	void * buffer = malloc(sizeof(uint32_t));
-	recv(datos->conexion_memoria,buffer,sizeof(uint32_t),0);
-	uint32_t* valor_leido = malloc(sizeof(uint32_t));
-
-	memcpy(valor_leido, buffer ,sizeof(uint32_t));
+////	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
+//	void * buffer = malloc(sizeof(uint32_t));
+//	recv(datos->conexion_memoria,buffer,sizeof(uint32_t),0);
+//	uint32_t* valor_leido = malloc(sizeof(uint32_t));
+//
+//	memcpy(valor_leido, buffer ,sizeof(uint32_t));
 
 //	if(validar_codigo(respuesta,RESULTADO_LECTURA))
 //	{
@@ -165,43 +206,46 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
 //	}else{
 //		log_error(logger, "CPU-MEMORIA HUBO UN ERROR EN LA LECTURA DE LA DIRECCION");
 //	}
-	log_info(logger, "CPU-MEMORIA El valor leido fue: %d", *valor_leido);
-	valor_leido_respuesta = *valor_leido;
-	free(valor_leido);
-	return valor_leido_respuesta;
+	log_info(logger, "CPU-MEMORIA El valor leido fue: %d", valorRecibido);
+//	valor_leido_respuesta = *valor_leido;
+//	free(valor_leido);
+	return valorRecibido;
 }
 
 uint32_t escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calculo_direccion* datos)
 {
 	calcular_datos_direccion(datos, direccion_logica);
+	log_trace(logger, "CPU-MEMORIA-EXECUTE Calculo direccion logica");
 	Pagina_direccion* resultado = traducir_direccion(datos);
-//	printf("El valor de la direccion fisica es: %d", resultado->direccion_fisica);
+	log_trace(logger, "CPU-MEMORIA-EXECUTE Realizo la traduccion de direccion logica a fisica");
+
+	//	printf("El valor de la direccion fisica es: %d", resultado->direccion_fisica);
 	log_info(logger, "CPU-MEMORIA El valor de la direccion fisica es: %d", resultado->direccion_fisica);
 
 	mandar_lecto_escritura(resultado->direccion_fisica, valor_a_escribir, SOLICITAR_ESCRITURA, datos->conexion_memoria);
-
-//	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
-//	uint32_t* resultado_escritura = malloc(sizeof(uint32_t));
 //
-//	memcpy(resultado_escritura, respuesta->buffer->stream, sizeof(uint32_t));
-
-	uint8_t ok;
-	recv(datos->conexion_memoria,&ok,sizeof(uint8_t),0);
-
-	if(ok)
-	{
-		log_info(logger, "CPU-MEMORIA El resultado de escribir fue exitoso, %d", *valor_a_escribir);
-//		printf("El resultado de escribir fue: %d", *resultado_escritura);
-		return valor_a_escribir;
-	}else{
-		return NULL;
-	}
+////	t_paquete* respuesta = recibir_mensaje_memoria(datos->conexion_memoria);
+////	uint32_t* resultado_escritura = malloc(sizeof(uint32_t));
+////
+////	memcpy(resultado_escritura, respuesta->buffer->stream, sizeof(uint32_t));
+//
+//	uint8_t ok;
+//	recv(datos->conexion_memoria,&ok,sizeof(uint32_t),0);
+////
+//	if(ok)
+//	{
+//		log_info(logger, "CPU-MEMORIA El resultado de escribir fue exitoso, %d",ok);
+//		return ok;
+//	}else{
+//		return 0;
+//	}
+	return 0;
 }
 
 //bool execute(Instruccion* instruccion,t_config* config, pcb_t* pcb, t_log* logger)
 bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos, pcb_t* pcb)
 {
-	mostrar_datos(datos);
+//	mostrar_datos(datos);
 	uint8_t id = instruccion->id;
 	t_list* parametros = instruccion->parametros;
 
@@ -209,12 +253,17 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 	uint32_t* parametro1;
 	uint32_t* parametro2;
 
+
 	if(catidad_parametros == 1){
 		parametro1 = list_get(parametros,0);
+		log_trace(logger, "CPU-EXECUTE Obtengo lista de parametros de la instruccion: Parametro 1: %d\tParametro 2: %d", *parametro1);
 	}else if(catidad_parametros >= 1){
 		parametro1 = list_get(parametros,0);
 		parametro2 = list_get(parametros,1);
+		log_trace(logger, "CPU-EXECUTE Obtengo lista de parametros de la instruccion: Parametro 1: %d\tParametro 2: %d", *parametro1,*parametro2);
 	}
+
+
 
 	uint32_t resultado = -1;
 	uint32_t valor_leido= -1;
@@ -226,9 +275,6 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			dormir = dormir/1000;
 			sleep(dormir);
 
-			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
-//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(2);
 			return false;
 			break;
 		case I_O:
@@ -236,36 +282,31 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			pcb->estado = BLOQUEADO;
 			pcb->tiempo_block = *parametro1;
 
-			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
-//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(2);
+//			sleep(1);
 			return true;
 			break;
 		case WRITE:
 			log_info(logger, "CPU-EXECUTE Proceso una operacion de WRITE PID: %d", pcb->pid);
 			resultado = escribir(*parametro1, parametro2, datos);
-			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
+//			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 
-			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
-//			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(2);
+//			sleep(1);
 			return false;
 			break;
 		case COPY: // COPY(destino, origen)
 			log_info(logger, "CPU-EXECUTE Proceso una operacion de COPY PID: %d", pcb->pid);
+			valor_leido= leer(*parametro1,datos);
 			resultado = escribir(*parametro1, parametro2, datos);
-			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
-			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
+//			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 
-			sleep(2);
+//			sleep(1);
 			return false;
 			break;
 		case READ:
 			log_info(logger, "CPU-EXECUTE Proceso una operacion de READ PID: %d", pcb->pid);
 			valor_leido = leer(*parametro1,datos);
-			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
-			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(2);
+
+//			sleep(1);
 			return false;
 			break;
 		case EXIT:
@@ -273,14 +314,14 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 			pcb->estado = FINALIZADO;
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(2);
+//			sleep(1);
 			return true;
 			break;
 		default:
 			log_info(logger, "CPU-EXECUTE HUBO UN FALLO EN LA EJECUCION DE LAS INSTRUCCIONES PID: %d", pcb->pid);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(2);
+//			sleep(2);
 			return true;
 			break;
 	}
@@ -290,12 +331,14 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 {
 	t_list* instrucciones = pcb->instrucciones;
 	uint32_t program_counter = pcb->program_counter;
-
+	cliente_memoria= conexion_memoria;
 	Datos_calculo_direccion* datos = malloc(sizeof(Datos_calculo_direccion));
 	datos->id_tabla_paginas1 = pcb->pid;
 	datos->conexion_memoria = conexion_memoria;
-	datos->entradas_por_tabla = cantidad_entradas;
-	datos->tamano_pagina = tamano_pagina;
+//	datos->entradas_por_tabla = cantidad_entradas;
+//	datos->tamano_pagina = tamano_pagina;
+	datos->entradas_por_tabla = cant;
+	datos->tamano_pagina = tam;
 
 	//TODO : Borras esta inicializacion o abstraerla a una funcion lo puse por warning en valgrind
 	datos->numero_pagina = -1;
@@ -326,6 +369,7 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 	*devolver_pcb = execute(instruccion, retardoNoOp, datos, pcb);
 	log_trace(logger, "CPU-EXECUTE Valor de devolver PCBt %s", *devolver_pcb?"true":"false");
 	//check interrupt
+	pthread_mutex_lock(&mutex_interrupt);
 	if (!*devolver_pcb){
 		if(*hubo_interrupcion)
 		{
@@ -334,8 +378,14 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 		}
 		*devolver_pcb = *hubo_interrupcion;
 	}
+	pthread_mutex_unlock(&mutex_interrupt);
 }
 
+t_config_cpu* crearConfigCPU(void)
+{
+	t_config_cpu* config = malloc(sizeof(t_config_cpu));
+	return config;
+}
 
 t_config_cpu* cargarConfiguracion(char* configPath)
 {

@@ -8,7 +8,6 @@
 #ifndef SWAP_H_
 #define SWAP_H_
 
-#include "memoria.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,8 +23,10 @@
 #include <unistd.h>
 #include <netdb.h>
 #include <fcntl.h> //para funciones del swap como open
-#include "memoria.h"
+#include "main.h"
+#include "funciones_kernel.h"
 #include <sys/stat.h>
+
 
 /*
  * Listado de estructuras
@@ -45,8 +46,9 @@
 	int existe_archivo(char* path);
 	void crear_archivo_swap(int pid, int cantidadPaginas);
 	void eliminar_archivo_swap(int pid);
-	void guardar_archivo_en_swap(int pid, int tamanoProceso,int nroFrame, int cantPaginas, int tamanoPagina, char* memoriaPrincipal);
+	void* swap_();
 	void retardo_swap();
+	void traer_a_memoria(uint32_t pid,int numero_pagina,uint32_t frame);
 
 
 #endif /* SWAP_H_ */

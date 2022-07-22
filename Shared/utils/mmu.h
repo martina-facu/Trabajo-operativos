@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
+#include <math.h>
 #include <netdb.h>
 #include <commons/collections/list.h>
 #include <commons/config.h>
@@ -81,5 +82,6 @@
 	void mostrar_entradas(t_list* list);
 	void crear_tabla_prueba();
 	void limpiar_tlb(t_list* tlb);
+	uint32_t solicitarValorEntrada(int conexionMemoria, uint32_t id_tabla, uint32_t numero_entrada, uint8_t codigo_operacion);
 
 #endif /* UTILS_MMU_H_ */

@@ -53,6 +53,8 @@
 /*
  * Listado de variables globales
 */
+	int cant;
+	int tam;
 	t_log* logger;
 	int fdDispatch;
 	t_list* tlb;
@@ -66,13 +68,13 @@
 	bool recibiPCB;				//	Si es FALSE significa que todavia no recibi ningun PCB si es TRUE ya recibi PCB a procesar desde el Kernel
 	//	bool* hubo_interrupcion;
 	t_list* tlb;
-
-
+	int cliente_memoria;
+	pthread_mutex_t mutex_interrupt;
 /*
  * Prototipo de funciones
 */
-
-	int levantar_conexion_memoria(char* ipServer, char* portServer, uint32_t* cantidad_entradas,uint32_t* tamano_pagina);
+	t_config_cpu* crearConfigCPU();
+	int levantar_conexion_memoria_CPU(char* ipServer, char* portServer, uint32_t* cantidad_entradas,uint32_t* tamano_pagina);
 	int levantar_server(char* ipServer, char* portServer, char* sTipo);
 	t_paquete* recibir_mensaje_memoria(int conexion_memoria);
 	pcb_t* obtener_pcb(int cliente);
@@ -82,7 +84,7 @@
 	uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos);
 	uint32_t escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calculo_direccion* datos);
 	bool validar_codigo(t_paquete* paquete, uint8_t operacion);
-	void mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion);
-
+//	void mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion);
+	uint32_t mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion);
 
 #endif
