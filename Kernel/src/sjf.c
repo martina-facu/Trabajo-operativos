@@ -248,6 +248,7 @@ void* agregar_a_ready_sjf(){
 			sem_post(&s_cpu);
 		}
 		mostrar_lista_ready_sjf(ready_l);
+		sleep(1);
 		sem_post(&s_cpu);
 	}
 	return NULL;
