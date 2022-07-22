@@ -282,7 +282,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			pcb->estado = BLOQUEADO;
 			pcb->tiempo_block = *parametro1;
 
-			sleep(1);
+//			sleep(1);
 			return true;
 			break;
 		case WRITE:
@@ -290,7 +290,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			resultado = escribir(*parametro1, parametro2, datos);
 //			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 
-			sleep(1);
+//			sleep(1);
 			return false;
 			break;
 		case COPY: // COPY(destino, origen)
@@ -299,14 +299,14 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			resultado = escribir(*parametro1, parametro2, datos);
 //			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 
-			sleep(1);
+//			sleep(1);
 			return false;
 			break;
 		case READ:
 			log_info(logger, "CPU-EXECUTE Proceso una operacion de READ PID: %d", pcb->pid);
 			valor_leido = leer(*parametro1,datos);
 
-			sleep(1);
+//			sleep(1);
 			return false;
 			break;
 		case EXIT:
@@ -314,14 +314,14 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 			pcb->estado = FINALIZADO;
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(1);
+//			sleep(1);
 			return true;
 			break;
 		default:
 			log_info(logger, "CPU-EXECUTE HUBO UN FALLO EN LA EJECUCION DE LAS INSTRUCCIONES PID: %d", pcb->pid);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
-			sleep(2);
+//			sleep(2);
 			return true;
 			break;
 	}
