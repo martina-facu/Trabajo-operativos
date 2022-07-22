@@ -34,4 +34,6 @@ int backup_entrada_tabla_1;
 int backup_entrada_tabla_2;
 uint32_t backup_indice_tabla_2;
 
+void retardoXcpu();
+
 #endif /* FUNCIONES_CPU_H_ */
