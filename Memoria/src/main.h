@@ -49,6 +49,7 @@ int RETARDO_SWAP;
 char* pSwap;
 int CANT_MARCOS;
 sem_t s_swap;
+char* IPMEMORIA;
 
 
 #endif /* MAIN_H_ */

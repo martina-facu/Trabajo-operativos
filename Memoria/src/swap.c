@@ -50,15 +50,15 @@ void crear_archivo_swap(int pid, int cantidadPaginas){
 	retardo_swap();
 
 	if (stat(pSwap, &st) == -1) {
-		log_info(logger, "SWAP: Se crea el directorio de swap en %s", pSwap);
+		log_trace(logger, "SWAP: Se crea el directorio de swap en %s", pSwap);
 	    mkdir(pSwap, 0770);
 	}
 	else
-		log_info(logger, "SWAP: El directorio swap ya existe.");
+		log_trace(logger, "SWAP: El directorio swap ya existe.");
 
 	sprintf(nombreArchivo, "%d.swap", pid);
 
-	log_info(logger, "SWAP: %s",nombreArchivo);
+//	log_info(logger, "SWAP: %s",nombreArchivo);
 
 	sprintf(path, "%s/%s", pSwap, nombreArchivo);
 
@@ -68,7 +68,7 @@ void crear_archivo_swap(int pid, int cantidadPaginas){
 
 		int archivo = open(path, O_CREAT | O_RDWR,0770);
 
-		log_info(logger, "SWAP: Se crea el archivo con el nombre %s", nombreArchivo);
+		log_trace(logger, "SWAP: Se crea el archivo con el nombre %s", nombreArchivo);
 
 		truncate(path, tamano_proceso);
 
@@ -104,7 +104,7 @@ void crear_archivo_swap(int pid, int cantidadPaginas){
 
 void eliminar_archivo_swap(int pidRecibido){
 
-	log_info(logger, "SWAP: Estoy en SWAP");
+	log_trace(logger, "SWAP: Estoy en SWAP para eliminar un archivo");
 
 	char pathArchivo[1024];
 	char nombreArchivo[1024];
@@ -132,17 +132,17 @@ void traer_a_memoria(uint32_t pid,int numero_pagina,uint32_t frame){
 	sprintf(nombreArchivo, "%d.swap", pid);
 	sprintf(pathArchivo, "%s/%s", pSwap, nombreArchivo);
 
-	log_info(logger, "%s", pathArchivo);
+	log_trace(logger, "SWAP: PATH donde se almacena: %s", pathArchivo);
 
 	int fd = open(pathArchivo, O_RDWR,0770);
 	if(fstat(fd,&sb)==-1){
-		log_trace(logger,"ERROR EN ASIGNAR EL ESPACIO DEL ARCHIVO");
+		log_error(logger,"SWAP: ERROR EN ASIGNAR EL ESPACIO DEL ARCHIVO");
 	}
-	log_info(logger, "MEMORIA: VAMO A TRAER A MEMORIA");
+	log_trace(logger, "SWAP: Voy a buscar a memoria");
 	void* archivo = (void*) mmap(NULL, sb.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 
 	memcpy(memoria+frame*TAM_PAGINA , archivo+numero_pagina*TAM_PAGINA , TAM_PAGINA);
-	log_info(logger, "SE TRAJO A MEMORIA, LA PAGINA:%d, AL FRAME: %d",numero_pagina,frame);
+	log_info(logger, "SWAP: SE TRAJO A MEMORIA, LA PAGINA:%d, AL FRAME: %d",numero_pagina,frame);
 }
 
 /*
@@ -189,7 +189,7 @@ void* swap_(){ //TODO: Agregue el void* como está definido en el .h
 	while(1){
 		sem_wait(&s_swap);
 
-		log_info(logger, "MEMORIA: Ingresando a SWAP..(SUSPENSION)");
+		log_info(logger, "SWAP: Ingresando a SWAP..(SUSPENSION)");
 
 		t_swap* pedido = list_remove(pedidos_swap_l,0);
 
@@ -208,14 +208,14 @@ void* swap_(){ //TODO: Agregue el void* como está definido en el .h
 		log_info(logger, "%s", pathArchivo);
 		int fd = open(pathArchivo, O_RDWR,0770);
 		if(fstat(fd,&sb)==-1){
-			log_trace(logger,"ERROR EN ASIGNAR EL ESPACIO DEL ARCHIVO");
+			log_error(logger,"SWAP: ERROR EN ASIGNAR EL ESPACIO DEL ARCHIVO");
 		}
 		if (fd == -1){
 
 			log_error(logger, "SWAP: El archivo no existe.");
-			exit(1);
+//			exit(1);
 		}
-		log_info(logger, "MEMORIA: VAMO A SWAPPEAR");
+		log_trace(logger, "SWAP: Se comienza con el swap");
 		void* archivo = (void*) mmap(NULL, sb.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 
 		while(!list_is_empty(pedido->memorias_a_swappear)){
@@ -226,12 +226,12 @@ void* swap_(){ //TODO: Agregue el void* como está definido en el .h
 
 			memcpy(archivo+numero_pagina*TAM_PAGINA, (memoria + TAM_PAGINA*pagina->entrada->frame), TAM_PAGINA);
 
-			log_info(logger, "MEMORIA: ARCHIVO COPIADO");
+			log_info(logger, "SWAP: Contenido copiado al archivo");
 		}
 
 		munmap(archivo, TAM_PAGINA);
 
-		log_info(logger, "SWAP: Ingresando a memoria..");
+		log_trace(logger, "SWAP: Ingresando a memoria..");
 		close(fd);
 	}
 }

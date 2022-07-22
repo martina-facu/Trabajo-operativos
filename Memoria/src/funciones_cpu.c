@@ -7,7 +7,7 @@ void* funciones_cpu(){
 	
 	uint8_t operacion;
 	recv(socket_cpu,&operacion,sizeof(uint8_t),0);
-	log_trace(logger,"CPU || RECIBI UN CODIGO DE OPERACION: %d", (int) operacion);
+	log_trace(logger,"MEMORIA-CPU || RECIBI UN CODIGO DE OPERACION: %d", (int) operacion);
 
 	switch(operacion){
 
@@ -24,8 +24,8 @@ void* funciones_cpu(){
 			escritura();
 		break;
 		default:
-			log_error(logger, "CPU || El mensaje recibido %d no corresponde a uno de los conocidos.", operacion);
-			log_error(logger, "CPU || Se procede a cerrar la conexion");
+			log_error(logger, "MEMORIA-CPU || El mensaje recibido %d no corresponde a uno de los conocidos.", operacion);
+			log_error(logger, "MEMORIA-CPU || Se procede a cerrar la conexion");
 			close(socket_cpu);
 			break;
 		}
@@ -37,67 +37,67 @@ void* funciones_cpu(){
 
 void entrada1(){
 
-	log_trace(logger, "CPU || VAMOS A RECIBIR ENTRADA 1");
+	log_trace(logger, "MEMORIA-CPU || VAMOS A RECIBIR ENTRADA 1");
 	uint32_t indice_tabla_1;
 	recv(socket_cpu, &indice_tabla_1, sizeof(uint32_t),0);
 	backup_indice_1= indice_tabla_1;
-	log_trace(logger, "CPU || INDICE DE TABLA 1 RECIBIDO: %d", indice_tabla_1);
+	log_trace(logger, "MEMORIA-CPU || INDICE DE TABLA 1 RECIBIDO: %d", indice_tabla_1);
 
 	uint32_t entrada_tabla_1;
 	recv(socket_cpu,&entrada_tabla_1,sizeof(uint32_t),0);
-	log_trace(logger, "CPU || ENTRADA DE TABLA 1 RECIBIDO: %d", entrada_tabla_1);
+	log_trace(logger, "MEMORIA-CPU || ENTRADA DE TABLA 1 RECIBIDO: %d", entrada_tabla_1);
 	backup_entrada_tabla_1 = entrada_tabla_1;
 
 	t_tabla_1* tabla= list_get(tabla_1_l,indice_tabla_1);
 	pid_ = tabla->pid;
-	log_trace(logger, "CPU || PID DE TABLA: %d", pid_);
+	log_trace(logger, "MEMORIA-CPU || PID DE TABLA: %d", pid_);
 
-	log_trace(logger, "Obtengo el proceso %d de la lista de procesos", pid_);
+	log_trace(logger, "MEMORIA-CPU || Obtengo el proceso %d de la lista de procesos", pid_);
 	proceso_ = list_get(procesos,pid_);
 	mostrar_tablas(proceso_);
 
 	uint32_t indice_entrada_2 = *(tabla->entradas+entrada_tabla_1);
-	log_trace(logger, "CPU || SE OBTUVO EL INDICE DE ENTRADA 2: %d", indice_entrada_2);
+	log_info(logger, "MEMORIA-CPU || SE OBTUVO EL INDICE DE ENTRADA 2: %d", indice_entrada_2);
 	retardoXcpu();
 	send(socket_cpu,&indice_entrada_2,sizeof(uint32_t),0);
 	log_trace(logger, "Se envio el mensaje a cpu");
 }
 
 t_entrada_2* obtener_entrada(){
-	log_trace(logger, "--------------------OBTENER ENTRADA----------------------");
-	log_trace(logger, "INDICE DE TABLA 1: %d", backup_indice_1);
+	log_info(logger, "--------------------OBTENER ENTRADA----------------------");
+	log_info(logger, "INDICE DE TABLA 1: %d", backup_indice_1);
 	t_tabla_1* tabla1 = list_get(tabla_1_l,backup_indice_1);
-	log_trace(logger, "ENTRADA DE TABLA 1: %d", backup_entrada_tabla_1);
+	log_info(logger, "ENTRADA DE TABLA 1: %d", backup_entrada_tabla_1);
 	backup_indice_tabla_2= *(tabla1->entradas+backup_entrada_tabla_1);
-	log_trace(logger, "INDICE DE TABLA 2: %d", backup_indice_tabla_2);
+	log_info(logger, "INDICE DE TABLA 2: %d", backup_indice_tabla_2);
 	t_tabla_2* tabla2 = list_get(tabla_2_l,backup_indice_tabla_2);
-	log_trace(logger, "ENTRADA DE TABLA 2: %d", backup_entrada_tabla_2);
+	log_info(logger, "ENTRADA DE TABLA 2: %d", backup_entrada_tabla_2);
 	t_entrada_2* entrada2= list_get(tabla2->entradas,backup_entrada_tabla_2);
-	log_trace(logger, "CPU || INDICE GLOBAL 1: %d || ENTRADA (INDICE TABLA 2): %d || ENTRADA TABLA 2: %d	", backup_indice_1,backup_indice_tabla_2,backup_entrada_tabla_2);
-	log_trace(logger,"CPU || ENTRADA || U: %d || M: %d || P: %d || FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
+	log_info(logger, "CPU || INDICE GLOBAL 1: %d || ENTRADA (INDICE TABLA 2): %d || ENTRADA TABLA 2: %d	", backup_indice_1,backup_indice_tabla_2,backup_entrada_tabla_2);
+	log_info(logger,"CPU || ENTRADA || U: %d || M: %d || P: %d || FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
 	return entrada2;
 }
 void entrada2(){
-	log_trace(logger, "CPU || RECIBIMOS ENTRADA 2");
+	log_trace(logger, "MEMORIA-CPU || RECIBIMOS ENTRADA 2");
 
 	uint32_t indice_tabla_2;
 	recv(socket_cpu, &indice_tabla_2, sizeof(uint32_t),0);
-	log_trace(logger, "CPU || RECIBIMOS EL INDICE DE TABLA 2: %d || PID: %d", indice_tabla_2,pid_);
+	log_trace(logger, "MEMORIA-CPU || RECIBIMOS EL INDICE DE TABLA 2: %d || PID: %d", indice_tabla_2,pid_);
 	uint32_t entrada_tabla_2;
 	recv(socket_cpu,&entrada_tabla_2,sizeof(uint32_t),0);
-	log_trace(logger, "CPU || RECIBIMOS EL ENTRADA DE TABLA 2: %d || PID: %d", entrada_tabla_2,pid_);
+	log_trace(logger, "MEMORIA-CPU || RECIBIMOS EL ENTRADA DE TABLA 2: %d || PID: %d", entrada_tabla_2,pid_);
 
 	backup_entrada_tabla_2= entrada_tabla_2;
 	t_tabla_2* tabla2= list_get(tabla_2_l,indice_tabla_2);
 	t_entrada_2* entrada = list_get(tabla2->entradas,entrada_tabla_2);
-	log_trace(logger, "ENTRADA :%d || BIT USO: %d || BIT MOD: %d || BIT PRES: %d || FRAME: %d", entrada_tabla_2,entrada->bUso, entrada->bMod, entrada->bPres, entrada->frame);
+	log_trace(logger, "MEMORIA-ENTRADA :%d || BIT USO: %d || BIT MOD: %d || BIT PRES: %d || FRAME: %d", entrada_tabla_2,entrada->bUso, entrada->bMod, entrada->bPres, entrada->frame);
 
 	if(entrada->bPres==0){
-		log_trace(logger, "El bit de presencia esta en 0, hacemos page fault");
+		log_trace(logger, "MEMORIA-CPU El bit de presencia esta en 0, hacemos page fault");
 		page_fault(entrada,indice_tabla_2,entrada_tabla_2);
 	}
 
-	log_trace(logger, "Se envia el nro de frame %d", entrada->frame);
+	log_info(logger, "MEMORIA-CPU || Se envia el nro de frame %d", entrada->frame);
 	retardoXcpu();
 	send(socket_cpu,&entrada->frame,sizeof(uint32_t),0);
 }
@@ -110,35 +110,35 @@ void chequear_puntero(){
 
 
 void page_fault(t_entrada_2* entrada,uint32_t indice_tabla_2, uint32_t entrada_tabla_2){
-	log_trace(logger, "CPU || SE CREA UNA PAGINA A AGREGAR");
+	log_trace(logger, "MEMORIA-CPU || SE CREA UNA PAGINA A AGREGAR");
 	t_memory_pag *pagina= malloc(sizeof(t_memory_pag));
 	pagina->n_tabla_2 = indice_tabla_2;
 	pagina->n_entrada_2 = entrada_tabla_2;
 
 	if(list_size(proceso_->pagMem)==MARCOS_POR_PROCESO || memoria_esta_llena()){
 		chequear_puntero();
-		log_trace(logger, "CPU || SE EJECUTA EL ALGORTIMO, SE VA A REEMPLAZAR UNA ENTRADA");
+		log_info(logger, "MEMORIA-CPU || SE EJECUTA EL ALGORTIMO, SE VA A REEMPLAZAR UNA ENTRADA");
 		ejecutar_algoritmo(entrada);
 		entrada->bPres=1;
 		entrada->bUso=1;
 		entrada->bMod=0;
 		log_trace(logger, "ENTRADA A AGREGAR O REEMPLAZAR");
-		log_trace(logger, "ENTRADA :%d || BIT USO: %d || BIT MOD: %d || BIT PRES: %d || FRAME: %d", entrada_tabla_2,entrada->bUso, entrada->bMod, entrada->bPres, entrada->frame);
+		log_info(logger, "MEMORIA-CPU || ENTRADA :%d || BIT USO: %d || BIT MOD: %d || BIT PRES: %d || FRAME: %d", entrada_tabla_2,entrada->bUso, entrada->bMod, entrada->bPres, entrada->frame);
 			//int numero_pagina = indice_tabla_2*ENTRADAS_POR_TABLA +entrada_tabla_2;
 		int numero_pagina = entrada_tabla_2*ENTRADAS_POR_TABLA +indice_tabla_2;
-		log_trace(logger, "CPU || Nro pagina = %d", numero_pagina);
-		log_trace(logger, "Nos vamo para swap");
+		log_info(logger, "MEMORIA-CPU || Nro pagina = %d", numero_pagina);
+//		log_trace(logger, "Nos vamo para swap");
 		traer_a_memoria(pid_,numero_pagina,entrada->frame);
-		log_trace(logger, "CPU || OPERACION DE PAGINA EXITOSA");
-		log_trace(logger, "CPU || PID: %d ||TABLA DE PAGINAS EN MEMORIA: ",pid_);
+		log_trace(logger, "MEMORIA-CPU || OPERACION DE PAGINA EXITOSA");
+		log_info(logger, "MEMORIA-CPU || PID: %d ||TABLA DE PAGINAS EN MEMORIA: ",pid_);
 		mostrar_tabla_pagina();
 		mostrar_bitarray();
 		return;
 	}else{
-		log_trace(logger, "CPU || SE AGREGA UNA PAGINA");
+		log_trace(logger, "MEMORIA-CPU || SE AGREGA UNA PAGINA");
 		int frame_libre = buscar_frame_libre();
 		if(frame_libre<0){
-			log_trace(logger,"HUBO ERROR AL EJECUTAR AL BUSCAR UN FRAME LIBRE");
+			log_error(logger,"MEMORIA-CPU || HUBO ERROR AL EJECUTAR AL BUSCAR UN FRAME LIBRE");
 		}
 		proceso_->contador++;
 		if(proceso_->contador >= MARCOS_POR_PROCESO){
@@ -147,23 +147,23 @@ void page_fault(t_entrada_2* entrada,uint32_t indice_tabla_2, uint32_t entrada_t
 			proceso_->puntero = proceso_->contador;
 		}
 		entrada->frame= frame_libre;
-		log_trace(logger, "FRAME AGREGADO: %d", entrada->frame);
+		log_info(logger, "MEMORIA-CPU || FRAME AGREGADO: %d", entrada->frame);
 	}
 	entrada->bPres=1;
 	entrada->bUso=1;
 	entrada->bMod=0;
-	log_trace(logger, "ENTRADA A AGREGAR O REEMPLAZAR");
-	log_trace(logger, "ENTRADA :%d || BIT USO: %d || BIT MOD: %d || BIT PRES: %d || FRAME: %d", entrada_tabla_2,entrada->bUso, entrada->bMod, entrada->bPres, entrada->frame);
+	log_trace(logger, "MEMORIA-CPU ||ENTRADA A AGREGAR O REEMPLAZAR");
+	log_trace(logger, "MEMORIA-CPU ||ENTRADA :%d || BIT USO: %d || BIT MOD: %d || BIT PRES: %d || FRAME: %d", entrada_tabla_2,entrada->bUso, entrada->bMod, entrada->bPres, entrada->frame);
 	pagina->entrada = entrada;
 	//int numero_pagina = indice_tabla_2*ENTRADAS_POR_TABLA +entrada_tabla_2;
 	int numero_pagina = entrada_tabla_2*ENTRADAS_POR_TABLA +indice_tabla_2;
-	log_trace(logger, "CPU || Nro pagina = %d", numero_pagina);
-	log_trace(logger, "Nos vamo para swap");
+	log_trace(logger, "MEMORIA-CPU || Nro pagina = %d", numero_pagina);
+//	log_trace(logger, "Nos vamo para swap");
 	traer_a_memoria(pid_,numero_pagina,entrada->frame);
-	log_trace(logger, "Hemos Volvido a memoria");
+//	log_trace(logger, "Hemos Volvido a memoria");
 	list_add_sorted(proceso_->pagMem,pagina,ordenar);
-	log_trace(logger, "CPU || OPERACION DE PAGINA EXITOSA");
-	log_trace(logger, "CPU || PID: %d ||TABLA DE PAGINAS EN MEMORIA: ",pid_);
+	log_trace(logger, "MEMORIA-CPU || OPERACION DE PAGINA EXITOSA");
+	log_info(logger, "MEMORIA-CPU || PID: %d ||TABLA DE PAGINAS EN MEMORIA: ",pid_);
 	mostrar_tabla_pagina();
 	mostrar_bitarray();
 }

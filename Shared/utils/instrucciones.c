@@ -40,8 +40,7 @@ int getCantidadParametros(uint8_t id)
 			return 0;
 			break;
 		default:
-			log_trace(logger, "PCB-INSTRUCCION: Se ingreso una operacion incorrecta");
-//			printf("\n Se ingreso una operacion incorrecta");
+			printf("\n Se ingreso una operacion incorrecta");
 			return -1;
 			break;
 	}
