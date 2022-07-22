@@ -70,7 +70,7 @@ void* enviar_a_ejecutar_sjf(){
 
 		log_trace(PCP,"KERNEL-CPU-PCB Se va a mandar a ejecutar un proceso %d", pcb->pid);
 
-		tiempo_de_ejecucion_inicial = clock();
+		tiempo_de_ejecucion_inicial = time(NULL);
 
 		void* a_enviar= pcb_serializar(pcb,&espacio,0);
 
@@ -95,8 +95,9 @@ void* interrupciones(){
 
 void actualizar_estimacion(pcb_t* pcb){
 	log_trace(PCP, "PCB || PID: %d || ESTIMACION ANTIGUA: %d",pcb->pid,pcb->estimado_rafaga);
-	log_trace(PCP, "ALPHA: %f",alpha);
-	pcb->estimado_rafaga = pcb->estimado_rafaga*(1-alpha)+alpha*tiempo_de_ejecucion;
+	log_trace(PCP, "ALPHA: %f, TIEMPO DE EJECUCION: %f",alpha,tiempo_de_ejecucion);
+	log_trace(PCP, "ESTIMACION EN FLOTANTE: %f",(tiempo_de_ejecucion*(1-alpha))+alpha*((double) pcb->estimado_rafaga));
+	pcb->estimado_rafaga = (uint32_t) (tiempo_de_ejecucion*(1-alpha)+alpha*pcb->estimado_rafaga);
 	log_trace(PCP, "PCB || PID: %d || ESTIMACION ACTUAL: %d",pcb->pid,pcb->estimado_rafaga);
 	pcb_mostrar(pcb,PCP);
 }
@@ -167,11 +168,11 @@ void* devoluciones(){
 		pthread_mutex_lock(&mx_proceso_ejecutando);
 		proceso_ejecutando=0;
 		pthread_mutex_unlock(&mx_proceso_ejecutando);
-		tiempo_de_ejecucion_final=clock();
+		tiempo_de_ejecucion_final=time(NULL);
 		if(tiempo_de_ejecucion_final<0){
 			printf("error en el clock final");
 		}
-		tiempo_de_ejecucion= (tiempo_de_ejecucion_final - tiempo_de_ejecucion_inicial)/(CLOCKS_PER_SEC); // divido por mil para dejarlo en milisegundos
+		tiempo_de_ejecucion= difftime(tiempo_de_ejecucion_final,tiempo_de_ejecucion_inicial); // divido por mil para dejarlo en milisegundos
 		actualizar_estimacion(pcb);
 		log_trace(PCP,"------------------------ MI ESTADO ES: %d-------------------------------------", pcb->estado);
 		if(pcb->estado==INTERRUMPIDO) {
@@ -217,7 +218,9 @@ void interrumpir(){
 }
 
 void* agregar_a_ready_sjf(){
+	pcb_t* pcb_interrumpido;
 	while(1){
+		pcb_interrumpido = NULL;
 		sem_wait(&s_proceso_ready);
 		pcb_t* pcb;
 		if(!list_is_empty(susp_readyM_l)){
@@ -243,13 +246,13 @@ void* agregar_a_ready_sjf(){
 			log_trace(PCP, "------------------------------------VOY A INTERRUMPIR-------------------------------------------------------------");
 			interrumpir();
 			sem_wait(&s_interrupcion_atendida);
-			pcb_t* pcb_ = list_remove(interrumpidos_l,0);
-			list_add_sorted(ready_l,pcb_,menor_estimacion);
-			sem_post(&s_cpu);
+			pcb_interrumpido = list_remove(interrumpidos_l,0);
+			list_add_sorted(ready_l,pcb_interrumpido,menor_estimacion);
 		}
 		mostrar_lista_ready_sjf(ready_l);
-		sleep(1);
 		sem_post(&s_cpu);
+		if(pcb_interrumpido!=NULL)
+			sem_post(&s_cpu);
 	}
 	return NULL;
 }
