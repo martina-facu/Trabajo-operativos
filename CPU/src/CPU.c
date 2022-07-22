@@ -94,13 +94,9 @@ void aceptoServerInterrupt(int socketAnalizar)
 				resThread = pthread_attr_init(&attr);
 				if (resThread != 0)
 					log_error(logger,"CPU-COMUNICACION-KERNEL Error al inicializar pthread_attr_init");
-					//handle_error_en(resThread, "Error al inicializar pthread_attr_init");
-//			   struct thread_info *tinfo = calloc(num_threads_interrupt, sizeof(*tinfo));
-//			   if (tinfo == NULL)
-//				   handle_error("Error al alocar la memoria para la informacion de los thread de interrupt");
 				resThread = pthread_create(&threadId, &attr, &atencionInterrupt, (void *) cliente_interrupt);
 				if (resThread != 0)
-					log_error(logger,"Error al crear el Thread");
+					log_error(logger,"CPU-COMUNICACION-KERNEL Error al crear el Thread");
 				else
 					log_trace(logger, "CPU-COMUNICACION-KERNEL Se genera el Thread del Interrupt con TID: %d", resThread);
 				pthread_detach(resThread);
@@ -232,36 +228,31 @@ void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
 {
 	if(idAnteriorPCB == -1)
 	{
-		log_info(logger, "Inicializo la tlb");
+		log_info(logger, "CPU-TLB Inicializo la tlb");
 		tlb = list_create();
 	}
 	else if(pcb->pid != idAnteriorPCB){
-		log_info(logger, "Borro el contenido de la TLB ya que no es el mismo proceso que el anterior");
+		log_info(logger, "CPU-TLB Borro el contenido de la TLB ya que no es el mismo proceso que el anterior");
 		limpiar_tlb(tlb);
 	}
 
 
 	if((cantidad_clientes_dispatch > 0) && (cantidad_clientes_interrupt > 0) )
 	{
-		log_trace(logger, "CPU-KERNEL-PCB Voy a recibir y procesar un PCB del Dispatch");
-		//	Recibir pcb del kernel
-		//	REVISAR EL PRIMER PARAMETRO PORQUE NO SE USA Y NO SERIA NECESARIO
-//							pcb = obtener_pcb(cliente_dispatch);
-
 		pcb = recibirPCB(acceptedConnectionDispatch);
 		recibiPCB = true;
-		log_trace(logger, "CPU-KERNEL-PCB Voy a loguear informacion del PCB recibida por el Dispatch");
-		pcb_mostrar(pcb, logger);
+//		log_trace(logger, "CPU-KERNEL-PCB Voy a loguear informacion del PCB recibida por el Dispatch");
+//		pcb_mostrar(pcb, logger);
 
-		log_info(logger, "CPU-EXECUTE ID DEL PROCESO ANTERIOR %d",idAnteriorPCB);
+		log_trace(logger, "CPU-EXECUTE PID DEL PROCESO ANTERIOR %d",idAnteriorPCB);
 
 		if(idAnteriorPCB == -1){
-			log_info(logger, "Inicializo la tlb");
+			log_info(logger, "CPU-TLB Inicializo la tlb");
 			tlb = list_create();
 			inicializar_mmu(config,tlb,logger);
 		} else if(pcb->pid != idAnteriorPCB){
 			mostrar_entradas(tlb);
-			log_info(logger, "Borro el contenido de la TLB ya que no es el mismo proceso que el anterior");
+			log_info(logger, "CPU-TLB Borro el contenido de la TLB ya que no es el mismo proceso que el anterior");
 			limpiar_tlb(tlb);
 		}
 	}
@@ -277,18 +268,18 @@ void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
  */
 void procesarPCB(void)
 {
-	log_info(logger, "CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo");
+	log_trace(logger, "CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo");
 	while (devolver_pcb == false)
 		ejecutar_ciclo_instrucciones(pcb, &devolver_pcb, configuracion->retardoNoOp, cant, cliente_memoria,tam, &interrupcion);
 //		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
 
 
-	log_info(logger, "CPU-KERNEL-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion");
-	pcb_mostrar(pcb, logger);
+//	log_info(logger, "CPU-KERNEL-PCB Voy a mostrar como quedo el contenido del PCB luego de la ejecucion");
+//	pcb_mostrar(pcb, logger);
 
 	//	DEVOLVER PCB AL KERNEL
 	uint32_t* tamano_mensaje = malloc(sizeof(uint32_t));
-	log_info(logger, "CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB %d al Kernel", pcb->pid);
+	log_trace(logger, "CPU-COMUNICACION-KERNEL Se arma el stream para devolver el PCB %d al Kernel", pcb->pid);
 	log_trace(logger,"--------------------------------------------------------------------ESTADO: %d", pcb->estado);
 	void* a_enviar = pcb_serializar(pcb,tamano_mensaje,1);
 	send(cliente_dispatch, a_enviar, *tamano_mensaje, 0);
@@ -297,7 +288,7 @@ void procesarPCB(void)
 	devolver_pcb = false;
 	recibiPCB = false;
 	idAnteriorPCB = pcb->pid;
-	log_info(logger, "CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel");
+	log_trace(logger, "CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel");
 
 }
 
@@ -353,11 +344,7 @@ int levantarServerInterrupt(void)
 
 void * atencionInterrupt(void * socketInterrupt)
 {
-	log_trace(logger,"CPU-KERNEL-INTERRUPT Entre al hilo");
 	int iSocketInterrupt = (int) socketInterrupt;
-
-	log_trace(logger,"CPU-KERNEL-INTERRUPT El valor del socket que recibe el thread es: %d", iSocketInterrupt);
-//	cantidad_clientes_interrupt++;
 
 	//	Defino el mensaje a recibir del Kernel Interrupt
 	uint8_t mensaje = 0;
@@ -369,11 +356,12 @@ void * atencionInterrupt(void * socketInterrupt)
 		{
 			//	Como el mensaje es correcto seteo la variable para que el CPU devuelva el PCB
 			interrupcion = true;
+			log_info(logger,"CPU-KERNEL-INTERRUPT Se recibio una INTERRUPCION");
 		}
 		else
 		{
 			//	Como el mensaje es incorrecto desestimo el mensaje recibido.
-			log_trace(logger,"CPU-KERNEL-INTERRUPT Mensaje recibido del interrupt %d es incorrecto, se desestima el mismo", mensaje);
+			log_error(logger,"CPU-KERNEL-INTERRUPT Mensaje recibido del interrupt %d es incorrecto, se desestima el mismo", mensaje);
 		}
 		pthread_mutex_unlock(&mutex_interrupt);
 
