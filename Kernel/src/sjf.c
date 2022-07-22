@@ -96,8 +96,8 @@ void* interrupciones(){
 void actualizar_estimacion(pcb_t* pcb){
 	log_trace(PCP, "PCB || PID: %d || ESTIMACION ANTIGUA: %d",pcb->pid,pcb->estimado_rafaga);
 	log_trace(PCP, "ALPHA: %f, TIEMPO DE EJECUCION: %f",alpha,tiempo_de_ejecucion);
-	log_trace(PCP, "ESTIMACION EN FLOTANTE: %f",((double) pcb->estimado_rafaga*(1-alpha)+alpha)*tiempo_de_ejecucion);
-	pcb->estimado_rafaga = (uint32_t) (pcb->estimado_rafaga*(1-alpha)+alpha*tiempo_de_ejecucion);
+	log_trace(PCP, "ESTIMACION EN FLOTANTE: %f",(tiempo_de_ejecucion*(1-alpha))+alpha*((double) pcb->estimado_rafaga));
+	pcb->estimado_rafaga = (uint32_t) (tiempo_de_ejecucion*(1-alpha)+alpha*pcb->estimado_rafaga);
 	log_trace(PCP, "PCB || PID: %d || ESTIMACION ACTUAL: %d",pcb->pid,pcb->estimado_rafaga);
 	pcb_mostrar(pcb,PCP);
 }
