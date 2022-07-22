@@ -19,10 +19,15 @@ uint32_t buscar_marco(uint32_t pagina){
 		return ((Entrada_TLB*)entrada)->numero_pagina == pagina;
 	}
 
+	log_trace(logger, "CPU-MMU || Obtengo la entrada ");
+
 	Entrada_TLB* entrada = list_find(tlb_proceso,_coincide_pagina);
 
 	if(entrada != NULL){
+		log_trace(logger, "CPU-MMU || Encontre el marco %d de la pagina %d", entrada->marco, entrada->numero_pagina);
+		log_trace(logger, "CPU-MMU || Actualizo la ultima referencia %d", entrada->ultima_referencia);
 		entrada->ultima_referencia = time(NULL); //aca se actualiza porque se uso la pagina de la tlb
+		log_trace(logger, "CPU-MMU || Referencia actualizada: %d", entrada->ultima_referencia);
 		return entrada->marco;
 	}else{
 		return -1;
@@ -33,13 +38,20 @@ void cargar_entrada(Entrada_TLB* entrada)
 {
 	entrada->tiempo_carga = time(NULL);
 	entrada->ultima_referencia = 0;
+	log_trace(logger, "CPU-MMU Tiempo de carga de la entrada %d", entrada->tiempo_carga);
 
 	uint32_t entradas_maximas = config_get_int_value(config_cpu,"ENTRADAS_TLB");
+	log_trace(logger, "Entradas de la tlb: %d", entradas_maximas);
 
 	int tamano_lista = list_size(tlb_proceso);
+	log_trace(logger, "CPU-MMU || Tamano lista: %d", tamano_lista);
+
 	if(tamano_lista < entradas_maximas){
+		log_trace(logger, "CPU-MMU || Agrego una entrada a la TLB");
 		list_add(tlb_proceso, entrada);
+		mostrar_entradas(tlb_proceso);
 	}else{
+		log_trace(logger, "CPU-MMU || Voy a reemplazar una entrada");
 		reemplazar_entrada(entrada);
 	}
 
@@ -51,8 +63,10 @@ void reemplazar_entrada(Entrada_TLB* entrada){
 	strcpy(algoritmo, config_get_string_value(config_cpu, "REEMPLAZO_TLB"));
 
 	if(string_contains(algoritmo,"FIFO")){
+		log_trace(logger, "CPU-TLB || Algoritmo: FIFO");
 		reemplazar_entrada_FIFO(entrada);
 	}else if(string_contains(algoritmo,"LRU")){
+		log_trace(logger, "CPU-TLB || Algoritmo: LRU");
 		reemplazar_entrada_LRU(entrada);
 	}else{
 		printf("OCURRIO UN ERROR EN DETECTAR EL ALGORITMO DE REEMPLAZO");
@@ -65,8 +79,11 @@ void reemplazar_entrada_FIFO(Entrada_TLB* entrada){
 		return ((Entrada_TLB*)valor1)->tiempo_carga < ((Entrada_TLB*)valor2)->tiempo_carga;
 	}
 
+	log_trace(logger, "CPU-MMU || Muestro las entradas de la TLB");
 	mostrar_entradas(tlb_proceso);
+	log_trace(logger, "CPU-MMU || Voy a ordenar la tlb por tiempo de carga");
 	list_sort(tlb_proceso, _funcion_comparacion);
+	log_trace(logger, "CPU-MMU || Se muestra la TLB");
 	mostrar_entradas(tlb_proceso);
 	Entrada_TLB* removido = (Entrada_TLB*)list_remove(tlb_proceso, 0);
 
@@ -79,20 +96,24 @@ void reemplazar_entrada_LRU(Entrada_TLB* entrada){
 	bool _funcion_comparacion(void* valor1, void* valor2){
 		time_t tiempo1 = ((Entrada_TLB*)valor1)->ultima_referencia;
 		time_t tiempo2 = ((Entrada_TLB*)valor2)->ultima_referencia;
-
+		log_trace(logger, "CPU-MMU || Algoritmo de reemplazo: LRU");
 		if(tiempo1 == tiempo2){
+			log_trace(logger, "CPU-MMU || Tiempo de carga valor 1 es menor al 2");
 			return ((Entrada_TLB*)valor1)->tiempo_carga < ((Entrada_TLB*)valor2)->tiempo_carga;
 		}else{
 			return tiempo1<tiempo2;
 		}
 	}
-
+	log_trace(logger, "CPU-MMU || Se muestra la TLB");
 	mostrar_entradas(tlb_proceso);
+	log_trace(logger, "CPU-MMU || Voy a ordenar la tlb por tiempo de carga");
 	list_sort(tlb_proceso, _funcion_comparacion);
+	log_trace(logger, "CPU-MMU || Voy a ordenar la tlb por tiempo de carga");
 	mostrar_entradas(tlb_proceso);
 	Entrada_TLB* removido = (Entrada_TLB*)list_remove(tlb_proceso, 0);
 	log_info(logger, "CPU-MMU Pagina removida: %d",removido->numero_pagina);
 
+	log_trace(logger, "CPU-MMU || Se agrega la entrada a la TLB");
 	list_add(tlb_proceso, entrada);
 }
 
@@ -132,7 +153,7 @@ void calcular_datos_direccion(Datos_calculo_direccion* datos, uint32_t direccion
 	set_entrada_tabla_1er_nivel(datos);
 	set_entrada_tabla_2do_nivel(datos);
 	set_desplazamiento(datos,direccion_logica);
-//	mostrar_datos(datos);
+	mostrar_datos(datos);
 }
 
 Pagina_direccion* traducir_direccion(Datos_calculo_direccion* datos)
@@ -141,7 +162,7 @@ Pagina_direccion* traducir_direccion(Datos_calculo_direccion* datos)
 
 	log_info(logger, "CPU-MMU Inicio la traduccion");
 	Pagina_direccion* resultado = malloc(sizeof(Pagina_direccion));
-	resultado->marco = get_marco_memoria(datos);
+	resultado->marco = get_marco(datos);
 	log_trace(logger, "CPU-MMU Obtengo el marco");
 	resultado->numero_pagina = datos->numero_pagina;
 	log_trace(logger, "CPU-MMU Seteo el numero de pagina");
@@ -163,9 +184,11 @@ Pagina_direccion* traducir_direccion(Datos_calculo_direccion* datos)
 uint32_t get_marco(Datos_calculo_direccion* datos){
 	log_info(logger, "CPU-MMU Empiezo a buscar el marco de la pagina %d", datos->numero_pagina);
 
+	log_trace(logger, "CPU-MMU || Voy a buscar el marco en la tabla");
 	uint32_t marco = buscar_marco(datos->numero_pagina);
 
 	if(marco != -1){
+		log_trace(logger, "CPU-MMU || El Marco %d se encontraba en la TLB", marco);
 		return marco;
 	}else{
 		marco = get_marco_memoria(datos);
@@ -289,7 +312,10 @@ void limpiar_tlb(t_list* tlb)
 		free(entrada);
 	}
 
+	log_trace(logger, "CPU-MMU || Saco los elementos de la TLB");
 	list_clean_and_destroy_elements(tlb,destruir_entradas);
+	mostrar_entradas(tlb_proceso);
+	log_trace(logger, "CPU-MMU || La TLB fue limpiada");
 }
 
 void mostrar_entradas(t_list* list){
@@ -298,7 +324,7 @@ void mostrar_entradas(t_list* list){
 
 	for(int i=0;i<aux;i++){
 		entrada= list_get(list,i);
-		log_info(logger,"\nNumero de pagina: %d Marco: %d Tiempo de carga: %d Ultima referencia: %d",
+		log_info(logger,"Numero de pagina: %d || Marco: %d || Tiempo de carga: %d || Ultima referencia: %d",
 				entrada->numero_pagina,
 				entrada->marco,
 				entrada->tiempo_carga,
@@ -309,15 +335,16 @@ void mostrar_entradas(t_list* list){
 }
 
 void mostrar_datos(Datos_calculo_direccion* datos) {
-//	log_info(logger,"\n-----------DATOS PARA EL CALCULO DE DIRECCIONES----------------\n");
-//	log_info(logger,"CONEXION MEMORIA: %d\n", datos->conexion_memoria);
-//	log_info(logger,"ID TABLA PRIMER NIVEL: %d\n", datos->id_tabla_paginas1);
-//	log_info(logger,"DESPLAZAMIENTO: %d\n", datos->desplazamiento);
-//	log_info(logger,"ENTRADA PRIMER NIVEL: %d\n", datos->entrada_tabla_primer_nivel);
-//	log_info(logger,"ENTRADA SEGUNDO NIVEL: %d\n", datos->entrada_tabla_segundo_nivel);
-//	log_info(logger,"NUMERO PAGINA: %d\n", datos->numero_pagina);
-//	log_info(logger,"ENTRADAS POR TABLA: %d\n", datos->entradas_por_tabla);
-//	log_info(logger,"TAMAÑO PAGINA: %d\n", datos->tamano_pagina);
+	/*log_info(logger,"\n-----------DATOS PARA EL CALCULO DE DIRECCIONES----------------\n");
+	log_info(logger,"CONEXION MEMORIA: %d\n", datos->conexion_memoria);
+	log_info(logger,"ID TABLA PRIMER NIVEL: %d\n", datos->id_tabla_paginas1);
+	log_info(logger,"DESPLAZAMIENTO: %d\n", datos->desplazamiento);
+	log_info(logger,"ENTRADA PRIMER NIVEL: %d\n", datos->entrada_tabla_primer_nivel);
+	log_info(logger,"ENTRADA SEGUNDO NIVEL: %d\n", datos->entrada_tabla_segundo_nivel);
+	log_info(logger,"NUMERO PAGINA: %d\n", datos->numero_pagina);
+	log_info(logger,"ENTRADAS POR TABLA: %d\n", datos->entradas_por_tabla);
+	log_info(logger,"TAMAÑO PAGINA: %d\n", datos->tamano_pagina);
+	*/
 }
 
 void crear_tabla_prueba(){
