@@ -3,8 +3,12 @@
 //-----------------------------SWAP-----------------------------
 
 void retardo_swap(){
+	int retardoEnSegundos;
 
-	sleep(RETARDO_SWAP/1000);
+	retardoEnSegundos = RETARDO_SWAP/1000;
+	sleep(retardoEnSegundos);
+//	sleep(RETARDO_SWAP/1000);
+	log_info(logger, "SWAP: Se realizar el retardo de SWAP de %d segundos", retardoEnSegundos);
 }
 
 /*

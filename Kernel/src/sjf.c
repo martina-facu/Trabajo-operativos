@@ -216,7 +216,9 @@ void interrumpir(){
 }
 
 void* agregar_a_ready_sjf(){
+	pcb_t *pcb_interrumpido=NULL;
 	while(1){
+		pcb_interrumpido=NULL;
 		sem_wait(&s_proceso_ready);
 		pcb_t* pcb;
 		if(!list_is_empty(susp_readyM_l)){
@@ -242,12 +244,16 @@ void* agregar_a_ready_sjf(){
 			log_trace(PCP, "------------------------------------VOY A INTERRUMPIR-------------------------------------------------------------");
 			interrumpir();
 			sem_wait(&s_interrupcion_atendida);
-			pcb_t* pcb_ = list_remove(interrumpidos_l,0);
-			list_add_sorted(ready_l,pcb_,menor_estimacion);
-			sem_post(&s_cpu);
+			pcb_interrumpido = list_remove(interrumpidos_l,0);
+//			pcb_t* pcb_ = list_remove(interrumpidos_l,0);
+			list_add_sorted(ready_l,pcb_interrumpido,menor_estimacion);
+//			list_add_sorted(ready_l,pcb_,menor_estimacion);
+//			sem_post(&s_cpu);
 		}
 		mostrar_lista_ready_sjf(ready_l);
-		sleep(1);
+//		sleep(1);
+		if(pcb_interrumpido!=NULL)
+			sem_post(&s_cpu);
 		sem_post(&s_cpu);
 	}
 	return NULL;
