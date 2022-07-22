@@ -15,10 +15,10 @@ int crear_conexion(char *ip, char* puerto, t_log* logger)
 	int socket_cliente = socket(server_info->ai_family,server_info->ai_socktype,server_info->ai_protocol);
 
 	if(connect(socket_cliente, server_info->ai_addr,server_info->ai_addrlen)==0)
-		log_info(logger, "Conexion establecida con exito");
+		log_info(logger, "CONEXION: Conexion establecida con exito");
 	else
 	{
-		log_error(logger, "Fallo la conexion al server");
+		log_error(logger, "CONEXION: Fallo la conexion al server");
 		return -1;
 	}
 
@@ -46,16 +46,16 @@ int iniciar_servidor(char *ip, char* puerto_escucha, t_log* logger)
 		    perror("setsockopt(SO_REUSEADDR) failed");
 	// Asociamos el socket a un puerto
 	if(bind(socketserv,servinfo->ai_addr,servinfo->ai_addrlen)!=0){
-		log_error(logger, "Fallo el bind al generar server");
+		log_error(logger, "CONEXION: Fallo el bind al generar server");
 		return 1;
 	}
 	// Escuchamos las conexiones entrantes
 	if(listen(socketserv,SOMAXCONN)==-1)
 	{
-		log_error(logger, "Fallo el listen al generar server");
+		log_error(logger, "CONEXION: Fallo el listen al generar server");
 		return -1;
 	}
-	log_info(logger, "Server escuchando");
+	log_info(logger, "CONEXION: Server escuchando");
 
 	freeaddrinfo(servinfo);
 	return socketserv;
@@ -66,7 +66,7 @@ int esperar_cliente(int socket_servidor, t_log* logger)
 	int socket_cliente=accept(socket_servidor,NULL,NULL);
 	if(socket_cliente==-1)
 	{
-		log_error(logger, "Error al aceptar cliente");
+		log_error(logger, "CONEXION: Error al aceptar cliente");
 		return -1;
 	}
 

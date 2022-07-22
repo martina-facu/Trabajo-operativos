@@ -40,7 +40,8 @@ int getCantidadParametros(uint8_t id)
 			return 0;
 			break;
 		default:
-			printf("\n Se ingreso una operacion incorrecta");
+			log_trace(logger, "PCB-INSTRUCCION: Se ingreso una operacion incorrecta");
+//			printf("\n Se ingreso una operacion incorrecta");
 			return -1;
 			break;
 	}
@@ -52,7 +53,7 @@ void mostrar_parametros(t_list* list, t_log* logger)
 
 	for(int i=0;i<aux;i++){
 		int* parametro= list_get(list,i);
-		log_trace(logger, "Parametro: %d\tValor: %d ",i, *parametro);
+		log_trace(logger, "PCB-INSTRUCCION: Parametro: %d\tValor: %d ",i, *parametro);
 	}
 }
 void mostrar_instrucciones(t_list* list, t_log* logger)
@@ -64,7 +65,7 @@ void mostrar_instrucciones(t_list* list, t_log* logger)
 
 	for(int i=0;i<aux;i++){
 		instruccion= list_get(list,i);
-		log_trace(logger, "El codigo de la instruccion es: %d , nombre: %s \n cantidad de parametros: %d parametros: ", instruccion->id, nombre[(instruccion->id)-1], getCantidadParametros(instruccion->id));
+		log_trace(logger, "PCB-INSTRUCCION: El codigo de la instruccion es: %d , nombre: %s \n cantidad de parametros: %d parametros: ", instruccion->id, nombre[(instruccion->id)-1], getCantidadParametros(instruccion->id));
 		mostrar_parametros(instruccion->parametros, logger);
 	}
 
@@ -152,7 +153,7 @@ t_list* deserializar_paquete_instrucciones(int cliente, uint32_t* tamano_proceso
 
 	//recibo el tamaño del paquete
 	recv(cliente, &(buffer->size), sizeof(uint32_t), 0);
-	log_trace(logger, "Tamaño del buffer: %d\tTamaño del uint32_t: %d",buffer->size,sizeof(uint32_t));
+//	log_trace(logger, "Tamaño del buffer: %d\tTamaño del uint32_t: %d",buffer->size,sizeof(uint32_t));
 
 	//recibo el buffer con las instrucciones
 	buffer->stream = malloc(buffer->size);
@@ -163,7 +164,7 @@ t_list* deserializar_paquete_instrucciones(int cliente, uint32_t* tamano_proceso
 
 	recv(cliente, tamano_proceso, sizeof(uint32_t), 0);
 
-	log_trace(logger, "Tamaño de las instrucciones a recibir: %d", *tamano_proceso);
+//	log_trace(logger, "Tamaño de las instrucciones a recibir: %d", *tamano_proceso);
 
 	return instrucciones;
 }
