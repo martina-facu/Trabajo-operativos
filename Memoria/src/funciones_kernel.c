@@ -290,7 +290,8 @@ int division_entera(double numerador,  double denominador){
 }
 
 
-void mostrar_bitarray(){
+void mostrar_bitarray()
+{
 	char barray[1024];
 	char buffer[1024];
 
