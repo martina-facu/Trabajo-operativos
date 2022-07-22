@@ -80,7 +80,7 @@ void iniciar_config(){
 	log_trace(logger,"MEMORIA-CONFIGURACION: RETARDO SWAP: %d",RETARDO_SWAP);
 	pSwap = config_get_string_value(config,"PATH_SWAP");
 	log_trace(logger,"MEMORIA-CONFIGURACION: PATH SWAP: %s",pSwap);
-	IPMEMORIA = config_get_string_value(config, IPMEMORIA);
+	IPMEMORIA = config_get_string_value(config, "IPMEMORIA");
 	if(IPMEMORIA == NULL)
 	{
 		IPMEMORIA = malloc(10*sizeof(char));
