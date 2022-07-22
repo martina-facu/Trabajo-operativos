@@ -290,10 +290,8 @@ int division_entera(double numerador,  double denominador){
 }
 
 void mostrar_bitarray(){
-	char* bitArrayToString;
-	bitArrayToString=malloc(sizeof(char)*bitarray_get_max_bit(bitMem)+1);
-
-
+	char bitArrayToString[1025];
+	memset(bitArrayToString,'\0',1025);
 
 	for(int i=0;i< bitarray_get_max_bit(bitMem);i++){
 		sprintf(bitArrayToString, "%d",(int)bitarray_test_bit(bitMem,i));
@@ -301,7 +299,6 @@ void mostrar_bitarray(){
 //				printf("%d", (int)bitarray_test_bit(bitMem,i));
 		}
 		log_trace(logger,"MEMORIA-BITARRAY: %s", bitArrayToString);
-	free(bitArrayToString);
 }
 
 
