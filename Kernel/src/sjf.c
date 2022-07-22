@@ -96,7 +96,7 @@ void* interrupciones(){
 void actualizar_estimacion(pcb_t* pcb){
 	log_trace(PCP, "PCB || PID: %d || ESTIMACION ANTIGUA: %d",pcb->pid,pcb->estimado_rafaga);
 	log_trace(PCP, "ALPHA: %f, TIEMPO DE EJECUCION: %f",alpha,tiempo_de_ejecucion);
-	log_trace(PCP, "ESTIMACION EN FLOTANTE: %f",pcb->estimado_rafaga*(1-alpha)+alpha*tiempo_de_ejecucion);
+	log_trace(PCP, "ESTIMACION EN FLOTANTE: %f",((double) pcb->estimado_rafaga*(1-alpha)+alpha)*tiempo_de_ejecucion);
 	pcb->estimado_rafaga = (uint32_t) (pcb->estimado_rafaga*(1-alpha)+alpha*tiempo_de_ejecucion);
 	log_trace(PCP, "PCB || PID: %d || ESTIMACION ACTUAL: %d",pcb->pid,pcb->estimado_rafaga);
 	pcb_mostrar(pcb,PCP);
@@ -246,8 +246,8 @@ void* agregar_a_ready_sjf(){
 			log_trace(PCP, "------------------------------------VOY A INTERRUMPIR-------------------------------------------------------------");
 			interrumpir();
 			sem_wait(&s_interrupcion_atendida);
-			pcb_t* pcb_ = list_remove(interrumpidos_l,0);
-			list_add_sorted(ready_l,pcb_,menor_estimacion);
+			pcb_interrumpido = list_remove(interrumpidos_l,0);
+			list_add_sorted(ready_l,pcb_interrumpido,menor_estimacion);
 		}
 		mostrar_lista_ready_sjf(ready_l);
 		sem_post(&s_cpu);
