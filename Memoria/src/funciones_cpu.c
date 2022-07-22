@@ -189,14 +189,14 @@ void ejecutar_algoritmo(t_entrada_2* entrada){
 		log_error(logger,"ERROR EN LEER EL ALGORITMO");
 		return;
 	}
-	log_trace(logger,"TABLA DE PAGINAS DESPUES DE EJECUTAR EL ALGORITMO: ");
+	log_info(logger,"TABLA DE PAGINAS DESPUES DE EJECUTAR EL ALGORITMO: ");
 	mostrar_tabla_pagina();
 }
 
 void clock_(t_entrada_2* entrada){
 	log_trace(logger, "CPU || VAMOS A EJECUTAR CLOCK");
 	log_trace(logger,"CPU || PUNTERO INICIAL: %d || CONTADOR: %d", proceso_->puntero, proceso_->contador);
-	log_trace(logger,"CPU || SE VA A EJECUTAR EL ALGORITMO SOBRE LA SIGUIENTE TABLA: ");
+	log_info(logger,"CPU || SE VA A EJECUTAR EL ALGORITMO SOBRE LA SIGUIENTE TABLA: ");
 	mostrar_tabla_pagina();
 	while(1){
 		log_trace(logger, "CPU || BUSCO VICTIMA");
@@ -242,7 +242,7 @@ void clock_(t_entrada_2* entrada){
 void clock_M(t_entrada_2* entrada){
 	log_trace(logger, "CPU || VAMOS A EJECUTAR CLOCK-M");
 	log_trace(logger,"CPU || PUNTERO INICIAL: %d || CONTADOR: %d", proceso_->puntero, proceso_->contador);
-	log_trace(logger,"CPU || SE VA A EJECUTAR EL ALGORITMO SOBRE LA SIGUIENTE TABLA: ");
+	log_info(logger,"CPU || SE VA A EJECUTAR EL ALGORITMO SOBRE LA SIGUIENTE TABLA: ");
 	mostrar_tabla_pagina();
 	while(1){
 		log_trace(logger, "Obtengo una posible victima");
@@ -342,14 +342,14 @@ void mostrar_tabla_pagina(){
 	for(int i=0; i < list_size(proceso_->pagMem); i++){
 		t_memory_pag* pagina = list_get(proceso_->pagMem,i);
 		t_entrada_2* entrada2 = pagina->entrada;
-		log_trace(logger,"CPU || ENTRADA || U: %d || M: %d || P: %d || FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
+		log_info(logger,"MEMORIA-CPU || ENTRADA || U: %d || M: %d || P: %d || FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
 	}
 }
 
 
 void mostrar_entrada(t_entrada_2* entrada2){
-	log_trace(logger, "CPU || INDICE GLOBAL 1: %d || ENTRADA (INDICE TABLA 2): %d || ENTRADA TABLA 2: %d	", backup_indice_1,backup_indice_tabla_2,backup_entrada_tabla_2);
-	log_trace(logger,"CPU || ENTRADA || U: %d || M: %d || P: %d || FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
+	log_info(logger, "MEMORIA-CPU || INDICE GLOBAL 1: %d || ENTRADA (INDICE TABLA 2): %d || ENTRADA TABLA 2: %d	", backup_indice_1,backup_indice_tabla_2,backup_entrada_tabla_2);
+	log_info(logger,"MEMORIA-CPU || ENTRADA || U: %d || M: %d || P: %d || FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
 }
 
 bool memoria_esta_llena(){
