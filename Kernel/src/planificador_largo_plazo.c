@@ -20,7 +20,6 @@ comunicacion_t* comunicacion_create(sem_t* s,uint32_t pid){
 	return comunicacion;
 }
 
-
 //--------------------------------------------------------------------------------------//
 //FUNCION: 							GESTIONAR_COMUNIACION
 //RESPONSABILIDAD: 	MANTENER LA COMUNICACION CON LA CONSOLA Y FINALIZARLA CUANDO CORRESPONDA
