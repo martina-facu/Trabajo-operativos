@@ -29,7 +29,7 @@ echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
 echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
 echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
 echo "IP_MEMORIA=$IPMEMORIA" >> $CPUPATH/cpu.config
-
+echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $CPUPATH/cpu.config
 
 aplicaciones[1]="Prueba_Base"
 aplicaciones[2]="Prueba_PlanificacionFIFO"
@@ -41,7 +41,8 @@ aplicaciones[7]="Prueba_Memoria_Clock-M"
 aplicaciones[8]="Prueba_TLB-FIFO"
 aplicaciones[9]="Prueba_TLB-LRU"
 aplicaciones[10]="Prueba_Integral"
-aplicaciones[11]="Salir"
+aplicaciones[11]="Matar_Procesos"
+aplicaciones[12]="Salir"
 
 select appl in ${aplicaciones[*]}
 do
@@ -147,6 +148,9 @@ do
 			#	Ejecuto la CPU
 			cd $CPUPATH
 			$CPUPATH/CPU &
+		;;
+		'Matar_Procesos')	
+			$(WORKSPACEPATH/scripts/kpsTP.sh) &
 		;;
 		*)
 			

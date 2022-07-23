@@ -26,7 +26,8 @@ aplicaciones[7]="Prueba_Memoria_Clock-M"
 aplicaciones[8]="Prueba_TLB-FIFO"
 aplicaciones[9]="Prueba_TLB-LRU"
 aplicaciones[10]="Prueba_Integral"
-aplicaciones[11]="Salir"
+aplicaciones[11]="Matar_Procesos"
+aplicaciones[12]="Salir"
 
 select appl in ${aplicaciones[*]}
 do
@@ -141,6 +142,9 @@ do
 			sleep 1
 			#	Levanto la quinta consola
 			($CONSOLEPATH/Consola $CONFPATH/INTEGRAL_5 2048)  &
+		;;
+		'Matar_Procesos')	
+			$(WORKSPACEPATH/scripts/kpsTP.sh) &
 		;;
 		*)
 			
