@@ -98,7 +98,7 @@ void iniciar_servidor_memoria(){
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 
-	getaddrinfo("127.0.0.1", PUERTO_ESCUCHA, &hints, &servinfo);
+	getaddrinfo(IPMEMORIA, PUERTO_ESCUCHA, &hints, &servinfo);
 
 	// Creamos el socket de escucha del servidor
 	socket_server=socket(servinfo->ai_family,servinfo->ai_socktype,servinfo->ai_protocol);
