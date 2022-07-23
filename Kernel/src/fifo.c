@@ -31,7 +31,7 @@
 void mostrar_lista_ready(t_list* lista){
 	int i;
 	int lista_size= list_size(lista);
-	pcb_t* pcb= malloc(sizeof(pcb_t));
+	pcb_t* pcb;
 	for(i=0;i<lista_size;i++){
 		pcb= list_get(lista,i);
 		log_trace(PCP,"PCB = %d, prioridad= %d \n", pcb->pid,i);
@@ -193,15 +193,17 @@ void recibir_paquete_pcb(pcb_t* pcb)
 {
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 	t_buffer* buffer = malloc(sizeof(t_buffer));
+
 	recv(socket_cpu_dispatch,&paquete->codigo_operacion,sizeof(uint8_t),0);
 	recv(socket_cpu_dispatch,&buffer->size,sizeof(uint32_t),0);
-	buffer->stream = malloc(buffer->size);
+	void* stream = malloc(buffer->size);
+	buffer->stream = stream;
 	recv(socket_cpu_dispatch,buffer->stream,buffer->size,0);
 	pcb_deserializar(buffer,pcb);
 	pcb_mostrar(pcb, PCP);
 	log_trace(PCP,"recibi un proceso ID: %d ",pcb->pid);
 
-//	free(buffer->stream);
+	free(stream);
 	free(buffer);
 	free(paquete);
 }
@@ -249,6 +251,7 @@ void* recibir_proceso_de_cpu(){
 		// AVISAR QUE NO HAY NINGUN PROCESO EJECUTANDO
 		sem_post(&s_proceso_ejecutando);
 	}
+//	pcb_liberar(pcb);
 	return NULL;
 }
 
