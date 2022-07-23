@@ -36,21 +36,21 @@ int main(void)
 
 	if(strcmp(configuracion->algoritmo,"FIFO")==0)
 	{
-		log_info(logP,"KERNEL-PLANIFICADOR-C: Modo FIFO");
+		log_trace(logP,"MODO PLANIFICADOR CORTO PLAZO: FIFO\n");
 		pthread_create(&planificador_corto_plazo,NULL,fifo,NULL);
 	}
 	else if(strcmp(configuracion->algoritmo,"SRT")==0)
 	{
-		log_info(logP,"KERNEL-PLANIFICADOR-C: Modo SRT");
+		log_trace(logP,"MODO PLANIFICADOR CORTO PLAZO: SRT");
 		pthread_create(&planificador_corto_plazo,NULL,sjf,NULL);
 	}
 	else{
-		log_error(logger, "KERNEL: Error al seleccionar el algoritmo, finalizando kernel\n");
+		printf("error en el algoritmo, finalizando kernel\n");
 		return -1;
 	}
-	log_trace(logP,"KERNEL: EJECUTANDO PLANIFICADOR LARGO PLAZO\n");
+	log_trace(logP,"EJECUTANDO: PLANIFICADOR LARGO PLAZO\n");
 	pthread_create(&planificador_largo_plazo,NULL,administrador_largo_plazo,NULL);
-	log_trace(logP,"KERNEL: EJECUTANDO PLANIFICADOR MEDIANO PLAZO");
+	log_trace(logP,"EJECUTANDO: PLANIFICADOR MEDIANO PLAZO");
 	pthread_create(&planificador_mediano_plazo,NULL,administrador_mediano_plazo,NULL);
 
 
@@ -67,7 +67,7 @@ void establecer_configuracion()
 
 	if(kernel_config==NULL)
 	{
-		log_error(logger, "KERNEL: No pude abrir el archivo de configuracion");
+		perror("\nNo pude abrir el archivo de configuracion\n");
 		exit(EXIT_FAILURE);
 	}
 
