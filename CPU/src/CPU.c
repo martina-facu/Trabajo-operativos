@@ -119,8 +119,7 @@ int main(void)
 	devolver_pcb = false;
 	recibiPCB = false;
 
-
-	logger = initLogger("cpu.log", "CPU", LOG_LEVEL_TRACE);
+//	logger = initLogger("cpu.log", "CPU", LOG_LEVEL_TRACE);
 	//	Cargo archivo de config
 	configuracion = cargarConfiguracion("cpu.config");
 	//	Seteo en 0 a los set de descriptores a revisar por el select
