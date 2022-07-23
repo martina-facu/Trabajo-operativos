@@ -191,6 +191,7 @@ void* pasar_a_ready(){
 		// AVISO QUE HAY UN PROCESO LISTO PARA QUE EL PCP LO AGREGUE A READY
 
 		sem_post(&s_proceso_ready);
+		pthread_mutex_unlock(&mx_mensaje_memoria);
 	}
 	return NULL;
 }
