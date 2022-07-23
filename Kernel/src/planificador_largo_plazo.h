@@ -30,7 +30,6 @@
  * Prototipo de funciones
 */
 
-
 	void* administrador_largo_plazo();
 	void* finalizar_procesos();
 	void* pasar_a_ready();

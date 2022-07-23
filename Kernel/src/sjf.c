@@ -19,6 +19,8 @@
 bool menor_estimacion(void* pcb_aux,void* pcb_aux2){
 	pcb_t* pcb1 =pcb_aux;
 	pcb_t* pcb2 =pcb_aux2;
+	if(pcb1->estimado_rafaga==pcb2->estimado_rafaga)
+		return pcb1->pid<pcb2->pid;
 	return pcb1->estimado_rafaga<pcb2->estimado_rafaga;
 }
 
@@ -97,7 +99,7 @@ void actualizar_estimacion(pcb_t* pcb){
 	log_trace(PCP, "PCB || PID: %d || ESTIMACION ANTIGUA: %d",pcb->pid,pcb->estimado_rafaga);
 	log_trace(PCP, "ALPHA: %f, TIEMPO DE EJECUCION: %f",alpha,tiempo_de_ejecucion);
 	log_trace(PCP, "ESTIMACION EN FLOTANTE: %f",(tiempo_de_ejecucion*(1-alpha))+alpha*((double) pcb->estimado_rafaga));
-	pcb->estimado_rafaga = (uint32_t) (tiempo_de_ejecucion*(1-alpha)+alpha*pcb->estimado_rafaga);
+	pcb->estimado_rafaga = (uint32_t) ((tiempo_de_ejecucion*(1-alpha))+alpha*((double) pcb->estimado_rafaga));
 	log_trace(PCP, "PCB || PID: %d || ESTIMACION ACTUAL: %d",pcb->pid,pcb->estimado_rafaga);
 	pcb_mostrar(pcb,PCP);
 }
@@ -206,7 +208,6 @@ void* devoluciones(){
 		else{
 			log_trace(PCP,"HAY ERROR AL RECIBIR EL ESTADO");
 		}
-		sleep(1);
 		sem_post(&s_proceso_ejecutando);
 	}
 	return NULL;
