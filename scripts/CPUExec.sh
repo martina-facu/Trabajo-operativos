@@ -19,7 +19,7 @@ READIP=$(hostname -I | cut -f1 -d' ')
 while true; do
     read -p "La IP de la CPU es: $READIP. Ingrese S si es correcto o N para ingresar una nueva IP.  " yn
     case $yn in
-        [Ss]* ) export IP_CPU=$READIP; break;;
+        [Ss]* ) export IPCPU=$READIP; break;;
         [Nn]* ) read -p "Ingrese la IP del CPU: " IPCPU; break;;
         * ) echo "Ingrese Si o No.";;
     esac
@@ -44,7 +44,7 @@ do
 	'Salir')	exit;;
 		'Prueba_Base')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_CPU=$IP_CPU" > $CPUPATH/cpu.config
+			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
 			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config

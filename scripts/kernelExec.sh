@@ -22,7 +22,7 @@ READIP=$(hostname -I | cut -f1 -d' ')
 while true; do
     read -p "La IP del Kernelito es: $READIP. Ingrese S si es correcto o N para ingresar una nueva IP.  " yn
     case $yn in
-        [Ss]* ) export IP_KERNEL=$READIP; break;;
+        [Ss]* ) export IPKERNELITO=$READIP; break;;
         [Nn]* ) read -p "Ingrese la IP del Kernelito: " IPKERNELITO; break;;
         * ) echo "Ingrese Si o No.";;
     esac
