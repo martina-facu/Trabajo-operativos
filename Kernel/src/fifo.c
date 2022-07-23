@@ -201,9 +201,9 @@ void recibir_paquete_pcb(pcb_t* pcb)
 	pcb_mostrar(pcb, PCP);
 	log_trace(PCP,"recibi un proceso ID: %d ",pcb->pid);
 
+//	free(buffer->stream);
 	free(buffer);
 	free(paquete);
-//	return pcb;
 }
 
 //--------------------------------------------------------------------------------------//
@@ -215,9 +215,9 @@ void recibir_paquete_pcb(pcb_t* pcb)
 //					AVISAR QUE NO HAY NINGUN PROCESO EJECUTANDO
 //--------------------------------------------------------------------------------------//
 void* recibir_proceso_de_cpu(){
-	pcb_t* pcb = malloc(sizeof(pcb_t));
 	while(1)
 	{
+		pcb_t* pcb = malloc(sizeof(pcb_t));
 		recibir_paquete_pcb(pcb);
 		log_trace(PCP,"KERNEL-CPU-PCB Recibi PCB desde la CPU");
 		if(pcb->estado == FINALIZADO){ // SE PODRIA MODELAR CON UN SWITCH
@@ -249,7 +249,6 @@ void* recibir_proceso_de_cpu(){
 		// AVISAR QUE NO HAY NINGUN PROCESO EJECUTANDO
 		sem_post(&s_proceso_ejecutando);
 	}
-	pcb_liberar(pcb);
 	return NULL;
 }
 
