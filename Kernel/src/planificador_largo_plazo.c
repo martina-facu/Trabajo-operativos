@@ -47,7 +47,6 @@ void* gestionar_comunicacion(void* aux)
 	// CREO UN PCB CON ESAS INSTRUCCIONES Y EL ESPACIO QUE VA A OCUPAR
 	pcb_t* pcb=  pcb_create(espacio,instrucciones,id, configuracion->estimacion_inicial, 0);
 
-
 	// AÑADO EL PCB CREADO A NEW
 	pthread_mutex_lock(&mx_new_l);
 	list_add(new_l,pcb);
@@ -71,7 +70,7 @@ void* gestionar_comunicacion(void* aux)
 
 	// AVISO QUE YA SE AGREGO UN PROCESO A NEW
 	sem_post(&s_proceso_new);
-
+	pthread_mutex_unlock(&mx_orden);
 	// LO BLOQUEO PARA ESPERAR QUE TERMINE DE EJECUTAR EL PROCESO
 	sem_wait(&s);
 
@@ -118,7 +117,7 @@ void* comunicacion_con_consolas()
 
 			if(mensajeConsola == INICIAR_CONEXION_CONSOLA)
 			{
-
+				pthread_mutex_lock(&mx_orden);
 				handshake = ACEPTAR_CONEXION_CONSOLA;
 				send(socket_cliente, &handshake, sizeof(uint8_t), 0);
 				log_info(PLP, "Conexion establecida con la Consola");
@@ -167,6 +166,7 @@ void* pasar_a_ready(){
 		sem_wait(&s_proceso_new);
 		sem_wait(&s_grado_multiprogramacion);
 		// SACO AL PCB DE LA LISTA DE NEW
+
 		pthread_mutex_lock(&mx_new_l);
 		pcb_t* pcb= list_remove(new_l,0);
 		pthread_mutex_unlock(&mx_new_l);
@@ -191,6 +191,7 @@ void* pasar_a_ready(){
 		// AVISO QUE HAY UN PROCESO LISTO PARA QUE EL PCP LO AGREGUE A READY
 
 		sem_post(&s_proceso_ready);
+
 	}
 	return NULL;
 }
