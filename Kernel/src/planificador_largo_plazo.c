@@ -197,7 +197,7 @@ void* pasar_a_ready(){
 }
 
 comunicacion_t* buscar_comunicacion(pcb_t* pcb){
-	comunicacion_t* comunicacion= malloc(sizeof(comunicacion_t));
+	comunicacion_t* comunicacion;
 	for(int i=0;i<list_size(comunicaciones_l);i++){
 		comunicacion=list_get(comunicaciones_l,i);
 		if(comunicacion->pid == pcb->pid){
@@ -223,7 +223,7 @@ void* finalizar_procesos(){
 		// ESPERO QUE HAYA UN PROCESO FINALIZADO
 		sem_wait(&s_proceso_finalizado);
 		log_trace(logP,"se va a finalizar un proceso");
-		pcb_t* pcb_finalizado = malloc(sizeof(pcb_t));
+		pcb_t* pcb_finalizado;
 
 		// LO SACO DE LA LISTA DE FINALIZADOR QUE FUNCIONA COMO UN BUFFER
 		pthread_mutex_lock(&mx_finalizado_l);
@@ -244,6 +244,7 @@ void* finalizar_procesos(){
 
 		// AÑADO A LA LISTA DE EXIT
 		list_add(exit_l,pcb_finalizado);
+//		pcb_liberar(pcb_finalizado);
 
 		// AVISO QUE SE PUEDE AGREGAR A MEMORIA UN PROCESO NUEVO
 		sem_post(&s_grado_multiprogramacion);

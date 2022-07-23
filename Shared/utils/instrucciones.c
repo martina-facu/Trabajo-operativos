@@ -201,6 +201,8 @@ t_list* deserializar_mensaje(int cliente, uint32_t* tamano_proceso, t_log* logge
 
 	log_info(logger, "Tamaño del proceso a recibir: %d", *tamano_proceso);
 
+//	free(buffer);
+	free(paquete);
 	return instrucciones;
 }
 
