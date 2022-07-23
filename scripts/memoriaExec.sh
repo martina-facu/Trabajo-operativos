@@ -33,7 +33,8 @@ aplicaciones[8]="Prueba_TLB-FIFO"
 aplicaciones[9]="Prueba_TLB-LRU"
 aplicaciones[10]="Prueba_Integral"
 aplicaciones[11]="Matar_Procesos"
-aplicaciones[12]="Salir"
+aplicaciones[12]="Ver_Procesos"
+aplicaciones[13]="Salir"
 
 select appl in ${aplicaciones[*]}
 do
@@ -222,7 +223,10 @@ do
 			$MEMORYPATH/Memoria &
 		;;
 		'Matar_Procesos')	
-			$(WORKSPACEPATH/scripts/kpsTP.sh) &
+			$WORKSPACEPATH/scripts/kpsTP.sh &
+		;;
+		'Ver_Procesos')	
+			$WORKSPACEPATH/scripts/psTP.sh &
 		;;
 		*)
 			
