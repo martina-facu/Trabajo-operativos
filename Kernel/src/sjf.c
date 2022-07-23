@@ -37,11 +37,11 @@ void remover_de_lista_sjf(t_list* lista,pcb_t* pcb){
 void mostrar_lista_ready_sjf(t_list* lista){
 	int i;
 	int lista_size= list_size(lista);
-	log_trace(PCP,"LISTA READY");
+	log_trace(PCP,"KERNEL: LISTA READY");
 	for(i=0;i<lista_size;i++){
 		pcb_t* pcb= malloc(sizeof(pcb_t));
 		pcb= list_get(lista,i);
-		log_trace(PCP,"PCB || PID = %d || prioridad= %d || ESTIMACION: %d", pcb->pid,i, pcb->estimado_rafaga);
+		log_info(PCP,"KERNEL-PCB: PID = %d || prioridad= %d || ESTIMACION: %d", pcb->pid,i, pcb->estimado_rafaga);
 	}
 }
 
@@ -53,7 +53,7 @@ pcb_t* recibir_paquete_pcb_sjf(){
 	buffer->stream = malloc(buffer->size);
 	recv(socket_cpu_dispatch,buffer->stream,buffer->size,0);
 	pcb_t* pcb = pcb_deserializar(buffer);
-	log_trace(PCP,"recibi un proceso ID: %d ",pcb->pid);
+	log_trace(PCP,"KERNEL: Recibi un proceso ID: %d ",pcb->pid);
 	return pcb;
 }
 
@@ -62,15 +62,13 @@ void* enviar_a_ejecutar_sjf(){
 		sem_wait(&s_cpu);
 		sem_wait(&s_proceso_ejecutando);
 
-		log_trace(PCP,"VOY A ENVIAR");
-
 		pthread_mutex_lock(&mx_ready_l);
 		pcb_t* pcb= list_remove(ready_l,0);
 		pthread_mutex_unlock(&mx_ready_l);
 
 		uint32_t espacio;
 
-		log_trace(PCP,"KERNEL-CPU-PCB Se va a mandar a ejecutar un proceso %d", pcb->pid);
+		log_info(PCP,"KERNEL-CPU-PCB: Se va a mandar a ejecutar un proceso %d", pcb->pid);
 
 		tiempo_de_ejecucion_inicial = time(NULL);
 
@@ -96,11 +94,11 @@ void* interrupciones(){
 }
 
 void actualizar_estimacion(pcb_t* pcb){
-	log_trace(PCP, "PCB || PID: %d || ESTIMACION ANTIGUA: %d",pcb->pid,pcb->estimado_rafaga);
-	log_trace(PCP, "ALPHA: %f, TIEMPO DE EJECUCION: %f",alpha,tiempo_de_ejecucion);
-	log_trace(PCP, "ESTIMACION EN FLOTANTE: %f",(tiempo_de_ejecucion*(1-alpha))+alpha*((double) pcb->estimado_rafaga));
+	log_info(PCP, "KERNEL-PCB: PID: %d || ESTIMACION ANTIGUA: %d",pcb->pid,pcb->estimado_rafaga);
+	log_trace(PCP, "KERNEL-PCB: ALPHA: %f, TIEMPO DE EJECUCION: %f",alpha,tiempo_de_ejecucion);
+	log_trace(PCP, "KERNEL-PCB: ESTIMACION EN FLOTANTE: %f",(tiempo_de_ejecucion*(1-alpha))+alpha*((double) pcb->estimado_rafaga));
 	pcb->estimado_rafaga = (uint32_t) ((tiempo_de_ejecucion*(1-alpha))+alpha*((double) pcb->estimado_rafaga));
-	log_trace(PCP, "PCB || PID: %d || ESTIMACION ACTUAL: %d",pcb->pid,pcb->estimado_rafaga);
+	log_info(PCP, "KERNEL-PCB: PID: %d || ESTIMACION ACTUAL: %d",pcb->pid,pcb->estimado_rafaga);
 	pcb_mostrar(pcb,PCP);
 }
 
@@ -108,7 +106,7 @@ void* bloquear_proceso_sjf(void* pcb_){
 	pcb_t* pcb= pcb_;
 
 	if(pcb->tiempo_block>TIEMPO_BLOCK_MAX){ // CONDICION DE SUSPENSION
-		log_trace(PCP,"se va a suspender un proceso por %d, ID: %d", pcb->tiempo_block,pcb->pid);
+		log_info(PCP,"KERNEL: Se va a suspender un proceso por %d, ID: %d", pcb->tiempo_block,pcb->pid);
 
 		pthread_mutex_lock(&mx_block_l);
 		remover_de_lista_sjf(block_l,pcb);
@@ -127,7 +125,7 @@ void* bloquear_proceso_sjf(void* pcb_){
 		usleep(pcb->tiempo_block);
 
 
-		log_trace(PCP,"se DESBLOQUEO un proceso suspendido, ID:  %d", pcb->pid);
+		log_trace(PCP,"KERNEL: Se DESBLOQUEO un proceso suspendido, ID:  %d", pcb->pid);
 		pthread_mutex_lock(&mx_susp_block_l);
 		remover_de_lista_sjf(susp_block_l,pcb);
 		pthread_mutex_unlock(&mx_susp_block_l);
@@ -142,7 +140,7 @@ void* bloquear_proceso_sjf(void* pcb_){
 		sem_post(&s_proceso_susp_ready);
 	}
 	else{
-		log_trace(PCP,"se va a bloquear un proceso por, ID: %d", pcb->pid);
+		log_trace(PCP,"KERNEL: Se va a bloquear un proceso por, ID: %d", pcb->pid);
 
 		usleep(pcb->tiempo_block);
 
@@ -172,13 +170,13 @@ void* devoluciones(){
 		pthread_mutex_unlock(&mx_proceso_ejecutando);
 		tiempo_de_ejecucion_final=time(NULL);
 		if(tiempo_de_ejecucion_final<0){
-			printf("error en el clock final");
+			log_error(PCP, "KERNEL: Error en el clock final");
 		}
 		tiempo_de_ejecucion= difftime(tiempo_de_ejecucion_final,tiempo_de_ejecucion_inicial); // divido por mil para dejarlo en milisegundos
 		actualizar_estimacion(pcb);
 		log_trace(PCP,"------------------------ MI ESTADO ES: %d-------------------------------------", pcb->estado);
 		if(pcb->estado==INTERRUMPIDO) {
-			log_trace(PCP, "PCB || PID: %d || MOTIVO: INTERRUMPIDO || SE VA A AGREGAR A READY",pcb->pid);
+			log_info(PCP, "KERNEL-PCB: PID: %d || MOTIVO: INTERRUMPIDO || SE VA A AGREGAR A READY",pcb->pid);
 
 			pthread_mutex_lock(&mx_interrumpidos_l);
 			list_add(interrumpidos_l, pcb);
@@ -192,21 +190,21 @@ void* devoluciones(){
 			pthread_mutex_unlock(&mx_block_l);
 
 				// CREAR EL HILO QUE SE VA A BLOQUEAR UN EL PCB ADENTRO
-			log_trace(PCP, "PCB || PID: %d || MOTIVO: BLOQUEADO || SE VA A BLOQUEAR",pcb->pid);
+			log_trace(PCP, "KERNEL-PCB: PID: %d || MOTIVO: BLOQUEADO || SE VA A BLOQUEAR",pcb->pid);
 
 			pthread_t hilo_bloqueante;
 			pthread_create(&hilo_bloqueante,NULL,bloquear_proceso_sjf,pcb);
 			pthread_detach(hilo_bloqueante);
 		}
 		else if(pcb->estado == FINALIZADO){
-			log_trace(PCP, "PCB || PID: %d || MOTIVO: FINALIZADO || SE VA A FINALIZAR",pcb->pid);
+			log_info(PCP, "KERNEL-PCB: PID: %d || MOTIVO: FINALIZADO || SE VA A FINALIZAR",pcb->pid);
 			pthread_mutex_lock(&mx_finalizado_l);
 			list_add(finalizado_l,pcb);
 			pthread_mutex_unlock(&mx_finalizado_l);
 			sem_post(&s_proceso_finalizado);
 		}
 		else{
-			log_trace(PCP,"HAY ERROR AL RECIBIR EL ESTADO");
+			log_error(PCP,"KERNEL-PCB: HAY ERROR AL RECIBIR EL ESTADO");
 		}
 		sem_post(&s_proceso_ejecutando);
 	}
@@ -242,7 +240,7 @@ void* agregar_a_ready_sjf(){
 		pthread_mutex_lock(&mx_ready_l);
 		list_add_sorted(ready_l, pcb, menor_estimacion);
 		pthread_mutex_unlock(&mx_ready_l);
-		log_trace(PCP,"INGRESO UN PROCESO A READY, PID: %d", pcb->pid);
+		log_info(PCP,"KERNEL: INGRESO UN PROCESO A READY, PID: %d", pcb->pid);
 		if(proceso_ejecutando){
 			log_trace(PCP, "------------------------------------VOY A INTERRUMPIR-------------------------------------------------------------");
 			interrumpir();
