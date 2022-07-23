@@ -34,7 +34,6 @@
 	void* finalizar_procesos();
 	void* pasar_a_ready();
 	void* agregar_estado_new();
-	pthread_mutex_t mx_orden;
 
 
 #endif /* PLANIFICADOR_LARGO_PLAZO_H_ */
