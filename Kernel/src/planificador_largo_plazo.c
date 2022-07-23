@@ -47,7 +47,6 @@ void* gestionar_comunicacion(void* aux)
 	// CREO UN PCB CON ESAS INSTRUCCIONES Y EL ESPACIO QUE VA A OCUPAR
 	pcb_t* pcb=  pcb_create(espacio,instrucciones,id, configuracion->estimacion_inicial, 0);
 
-	pthread_mutex_lock(&mx_orden);
 	// AÑADO EL PCB CREADO A NEW
 	pthread_mutex_lock(&mx_new_l);
 	list_add(new_l,pcb);
@@ -118,7 +117,7 @@ void* comunicacion_con_consolas()
 
 			if(mensajeConsola == INICIAR_CONEXION_CONSOLA)
 			{
-
+				pthread_mutex_lock(&mx_orden);
 				handshake = ACEPTAR_CONEXION_CONSOLA;
 				send(socket_cliente, &handshake, sizeof(uint8_t), 0);
 				log_info(PLP, "Conexion establecida con la Consola");
