@@ -20,7 +20,6 @@ comunicacion_t* comunicacion_create(sem_t* s,uint32_t pid){
 	return comunicacion;
 }
 
-
 //--------------------------------------------------------------------------------------//
 //FUNCION: 							GESTIONAR_COMUNIACION
 //RESPONSABILIDAD: 	MANTENER LA COMUNICACION CON LA CONSOLA Y FINALIZARLA CUANDO CORRESPONDA
@@ -51,7 +50,7 @@ void* gestionar_comunicacion(void* aux)
 	pthread_mutex_lock(&mx_new_l);
 	list_add(new_l,pcb);
 	pthread_mutex_unlock(&mx_new_l);
-	log_trace(PLP,"se agrego un proceso a new, ID: %d", pcb->pid);
+	log_info(PLP,"KERNEL-PLANIFICADOR-L: Se agrego un proceso a new, ID: %d", pcb->pid);
 
 	// CREO EL SEMAFORO CUYA FUNCION VA A SER ESPERAR QUE EL PROCESO FINALICE PARA PODER AVISARLE A LA CONSOLA QUE FINALIZO
 	sem_t s;
@@ -75,7 +74,7 @@ void* gestionar_comunicacion(void* aux)
 	sem_wait(&s);
 
 	// AVISO QUE TERMINO BIEN!! :D
-	log_trace(PLP,"Puedo finalizar el proceso ID: %d, envio mensaje", pcb->pid);
+	log_info(PLP,"KERNEL-PLANIFICADOR-L: Puedo finalizar el proceso ID: %d, envio mensaje", pcb->pid);
 	uint8_t auxv= PROCESO_FINALIZADO;
 	void* a_enviar = malloc(sizeof(uint8_t));
 	memcpy(a_enviar,&auxv,sizeof(uint8_t));
@@ -103,7 +102,7 @@ void* comunicacion_con_consolas()
 		uint32_t socket_cliente = accept(server_fd,NULL,NULL);
 		log_trace(PLP,"Se acepto temporalmente la conexion en el descriptor: %d hasta validar la misma", socket_cliente);
 		if( socket_cliente < 0)
-			log_trace(PLP,"Error al intentar aceptar conexion de un cliente");
+			log_error(PLP,"KERNEL: Error al intentar aceptar conexion de un cliente");
 		else
 		{
 			/*
@@ -113,7 +112,7 @@ void* comunicacion_con_consolas()
 			//	Recibo el mensaje de la consola
 			mensajeConsola = 0;
 			recv(socket_cliente, &mensajeConsola, sizeof(uint8_t), 0);
-			log_info(PLP, "Mensaje recibido de la consola:  %d", mensajeConsola);
+			log_trace(PLP, "KERNEL-CONSOLA: Mensaje recibido de la consola:  %d", mensajeConsola);
 
 			if(mensajeConsola == INICIAR_CONEXION_CONSOLA)
 			{
@@ -137,16 +136,16 @@ void* comunicacion_con_consolas()
 				// EVALUO QUE EL HILO SE HAYA CREADO CORRECTAMENTE
 				if(status <0)
 				{
-					log_error(PLP, "No pudo crearse un nuevo hilo de atencion a consola. Cierro la conexion con la misma");
+					log_error(PLP, "KERNEL: No pudo crearse un nuevo hilo de atencion a consola. Cierro la conexion con la misma");
 					close(socket_cliente);
 				}
 				else
-					log_info(PLP, "Se creo un nuevo hilo para comunicarme con una consola.");
+					log_trace(PLP, "KERNEL: Se creo un nuevo hilo para comunicarme con una consola.");
 
 			}
 			else
 			{
-				log_error(PLP, "Handshake recibido de consola invalido: %d",mensajeConsola);
+				log_error(PLP, "KERNEL: Handshake recibido de consola invalido: %d",mensajeConsola);
 				close(socket_cliente);
 			}
 		}
@@ -170,11 +169,11 @@ void* pasar_a_ready(){
 		pthread_mutex_lock(&mx_new_l);
 		pcb_t* pcb= list_remove(new_l,0);
 		pthread_mutex_unlock(&mx_new_l);
-		log_trace(PLP,"se pasa un proceso a ready, ID: %d",pcb->pid);
+		log_info(PLP,"KERNEL-PLANIFICADOR-L: se pasa un proceso a ready, ID: %d",pcb->pid);
 		pthread_mutex_lock(&mx_mensaje_memoria);
 		uint8_t mensaje = INICIALIZAR_PROCESO;
 		send(socket_memoria,&mensaje,sizeof(uint8_t),0);
-		log_trace(PLP,"SE ENVIO UN MENSAJE");
+		log_trace(PLP,"KERNEL: SE ENVIO UN MENSAJE");
 		send(socket_memoria,&pcb->pid,sizeof(uint32_t),0);
 		send(socket_memoria,&pcb->tamano,sizeof(uint32_t),0);
 		pthread_mutex_unlock(&mx_mensaje_memoria);
@@ -182,7 +181,7 @@ void* pasar_a_ready(){
 		//	DEL BUFFER Y NO DE LA LISTA DE NEW
 		recv(socket_memoria,&pcb->tabla_paginas,sizeof(uint32_t),0);
 
-		log_trace(PLP,"RECIBI LA ENTRADA: %d", pcb->tabla_paginas);
+		log_trace(PLP,"KERNEL-PLANIFICADOR-L: RECIBI LA ENTRADA: %d", pcb->tabla_paginas);
 
 		pthread_mutex_lock(&mx_newM_l);
 		list_add(newM_l,pcb);
@@ -201,7 +200,7 @@ comunicacion_t* buscar_comunicacion(pcb_t* pcb){
 	for(int i=0;i<list_size(comunicaciones_l);i++){
 		comunicacion=list_get(comunicaciones_l,i);
 		if(comunicacion->pid == pcb->pid){
-			printf("encontre la comunicacion %d, %d", comunicacion->pid, pcb->pid);
+			log_trace(PLP, "KERNEL: Encontre la comunicacion %d, %d", comunicacion->pid, pcb->pid);
 			comunicacion = list_remove(comunicaciones_l,i);
 			return comunicacion;
 		}
@@ -222,7 +221,7 @@ void* finalizar_procesos(){
 	{
 		// ESPERO QUE HAYA UN PROCESO FINALIZADO
 		sem_wait(&s_proceso_finalizado);
-		log_trace(logP,"se va a finalizar un proceso");
+		log_info(logP,"KERNEL-PLANIFICADOR-L: Se va a finalizar un proceso");
 		pcb_t* pcb_finalizado = malloc(sizeof(pcb_t));
 
 		// LO SACO DE LA LISTA DE FINALIZADOR QUE FUNCIONA COMO UN BUFFER
@@ -237,7 +236,7 @@ void* finalizar_procesos(){
 		send(socket_memoria,&pcb_finalizado->pid,sizeof(uint32_t),0);
 		pthread_mutex_unlock(&mx_mensaje_memoria);
 		comunicacion_t* comunicacion =buscar_comunicacion(pcb_finalizado);
-		log_trace(PLP,"se encontro una comunicacion");
+		log_trace(PLP,"KERNEL: se encontro una comunicacion");
 
 		// HAGO EL SEM POST PARA QUE SE DESBLOQUEE EL HILO Y AVISE
 		sem_post(comunicacion->s);
