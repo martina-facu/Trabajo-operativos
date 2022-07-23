@@ -47,7 +47,7 @@ void* gestionar_comunicacion(void* aux)
 	// CREO UN PCB CON ESAS INSTRUCCIONES Y EL ESPACIO QUE VA A OCUPAR
 	pcb_t* pcb=  pcb_create(espacio,instrucciones,id, configuracion->estimacion_inicial, 0);
 
-
+	pthread_mutex_lock(&mx_orden);
 	// AÑADO EL PCB CREADO A NEW
 	pthread_mutex_lock(&mx_new_l);
 	list_add(new_l,pcb);
@@ -66,12 +66,12 @@ void* gestionar_comunicacion(void* aux)
 	comunicacion_t* comunicacion = comunicacion_create(&s,pcb->pid);
 	pthread_mutex_lock(&mx_comunicaciones_l);
 	list_add(comunicaciones_l,comunicacion);
+	pthread_mutex_unlock(&mx_comunicaciones_l);
 	log_trace(PLP,"me voy a bloquear, ID: %d", pcb->pid);
 
 	// AVISO QUE YA SE AGREGO UN PROCESO A NEW
 	sem_post(&s_proceso_new);
-	pthread_mutex_unlock(&mx_comunicaciones_l);
-
+	pthread_mutex_unlock(&mx_orden);
 	// LO BLOQUEO PARA ESPERAR QUE TERMINE DE EJECUTAR EL PROCESO
 	sem_wait(&s);
 
@@ -167,6 +167,7 @@ void* pasar_a_ready(){
 		sem_wait(&s_proceso_new);
 		sem_wait(&s_grado_multiprogramacion);
 		// SACO AL PCB DE LA LISTA DE NEW
+
 		pthread_mutex_lock(&mx_new_l);
 		pcb_t* pcb= list_remove(new_l,0);
 		pthread_mutex_unlock(&mx_new_l);
