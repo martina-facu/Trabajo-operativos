@@ -66,11 +66,11 @@ void* gestionar_comunicacion(void* aux)
 	comunicacion_t* comunicacion = comunicacion_create(&s,pcb->pid);
 	pthread_mutex_lock(&mx_comunicaciones_l);
 	list_add(comunicaciones_l,comunicacion);
-	pthread_mutex_unlock(&mx_comunicaciones_l);
 	log_trace(PLP,"me voy a bloquear, ID: %d", pcb->pid);
 
 	// AVISO QUE YA SE AGREGO UN PROCESO A NEW
 	sem_post(&s_proceso_new);
+	pthread_mutex_unlock(&mx_comunicaciones_l);
 
 	// LO BLOQUEO PARA ESPERAR QUE TERMINE DE EJECUTAR EL PROCESO
 	sem_wait(&s);
@@ -166,12 +166,12 @@ void* pasar_a_ready(){
 		//	ME PERMITA ASIGNAR MEMORIA
 		sem_wait(&s_proceso_new);
 		sem_wait(&s_grado_multiprogramacion);
-		pthread_mutex_lock(&mx_mensaje_memoria);
 		// SACO AL PCB DE LA LISTA DE NEW
 		pthread_mutex_lock(&mx_new_l);
 		pcb_t* pcb= list_remove(new_l,0);
 		pthread_mutex_unlock(&mx_new_l);
 		log_trace(PLP,"se pasa un proceso a ready, ID: %d",pcb->pid);
+		pthread_mutex_lock(&mx_mensaje_memoria);
 		uint8_t mensaje = INICIALIZAR_PROCESO;
 		send(socket_memoria,&mensaje,sizeof(uint8_t),0);
 		log_trace(PLP,"SE ENVIO UN MENSAJE");
@@ -191,7 +191,7 @@ void* pasar_a_ready(){
 		// AVISO QUE HAY UN PROCESO LISTO PARA QUE EL PCP LO AGREGUE A READY
 
 		sem_post(&s_proceso_ready);
-		pthread_mutex_unlock(&mx_mensaje_memoria);
+
 	}
 	return NULL;
 }
