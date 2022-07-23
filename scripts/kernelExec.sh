@@ -22,19 +22,11 @@ READIP=$(hostname -I | cut -f1 -d' ')
 while true; do
     read -p "La IP del Kernelito es: $READIP. Ingrese S si es correcto o N para ingresar una nueva IP.  " yn
     case $yn in
-        [Ss]* ) echo "IP_KERNEL=$READIP" > $MEMORYPATH/kernel.config; break;;
-        [Nn]* ) read -p "Ingrese la IP del Kernelito: " IPKERNELITO; echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config; break;;
+        [Ss]* ) export IP_KERNEL=$READIP; break;;
+        [Nn]* ) read -p "Ingrese la IP del Kernelito: " IPKERNELITO; break;;
         * ) echo "Ingrese Si o No.";;
     esac
 done
-
-echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
-echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
-echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
-echo "PUERTO_CPU_DISPATCH=8001" >> $KERNELPATH/kernel.config
-echo "PUERTO_CPU_INTERRUPT=8005" >> $KERNELPATH/kernel.config
-echo "PUERTO_ESCUCHA=8000" >> $KERNELPATH/kernel.config
-echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $KERNELPATH/kernel.config
 
 aplicaciones[1]="Prueba_Base"
 aplicaciones[2]="Prueba_PlanificacionFIFO"
@@ -56,6 +48,14 @@ do
 	'Salir')	exit;;
 		'Prueba_Base')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
+			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
+			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
+			echo "PUERTO_CPU_DISPATCH=8001" >> $KERNELPATH/kernel.config
+			echo "PUERTO_CPU_INTERRUPT=8005" >> $KERNELPATH/kernel.config
+			echo "PUERTO_ESCUCHA=8000" >> $KERNELPATH/kernel.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $KERNELPATH/kernel.config
 			echo "ALGORITMO_PLANIFICACION=FIFO" >> $KERNELPATH/kernel.config
 			echo "ESTIMACION_INICIAL=10000" >> $KERNELPATH/kernel.config			
 			echo "ALFA=0.5" >> $KERNELPATH/kernel.config
@@ -70,6 +70,15 @@ do
 		
 		'Prueba_PlanificacionFIFO')			
 			#	Armo el archivo de configuracion BASE
+			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
+			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
+			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
+			echo "PUERTO_CPU_DISPATCH=8001" >> $KERNELPATH/kernel.config
+			echo "PUERTO_CPU_INTERRUPT=8005" >> $KERNELPATH/kernel.config
+			echo "PUERTO_ESCUCHA=8000" >> $KERNELPATH/kernel.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $KERNELPATH/kernel.config
+
 			echo "ALGORITMO_PLANIFICACION=FIFO" >> $KERNELPATH/kernel.config
 			echo "ESTIMACION_INICIAL=20000" >> $KERNELPATH/kernel.config			
 			echo "ALFA=0.5" >> $KERNELPATH/kernel.config
@@ -82,6 +91,14 @@ do
 		;;
 		'Prueba_PlanificacionSRT')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
+			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
+			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
+			echo "PUERTO_CPU_DISPATCH=8001" >> $KERNELPATH/kernel.config
+			echo "PUERTO_CPU_INTERRUPT=8005" >> $KERNELPATH/kernel.config
+			echo "PUERTO_ESCUCHA=8000" >> $KERNELPATH/kernel.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $KERNELPATH/kernel.config
 			echo "ALGORITMO_PLANIFICACION=SRT" >> $KERNELPATH/kernel.config
 			echo "ESTIMACION_INICIAL=20000" >> $KERNELPATH/kernel.config			
 			echo "ALFA=0.5" >> $KERNELPATH/kernel.config
@@ -94,6 +111,14 @@ do
 		;;
 		'Prueba_SuspensionFIFO')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
+			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
+			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
+			echo "PUERTO_CPU_DISPATCH=8001" >> $KERNELPATH/kernel.config
+			echo "PUERTO_CPU_INTERRUPT=8005" >> $KERNELPATH/kernel.config
+			echo "PUERTO_ESCUCHA=8000" >> $KERNELPATH/kernel.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $KERNELPATH/kernel.config
 			echo "ALGORITMO_PLANIFICACION=FIFO" >> $KERNELPATH/kernel.config
 			echo "ESTIMACION_INICIAL=20000" >> $KERNELPATH/kernel.config			
 			echo "ALFA=0.5" >> $KERNELPATH/kernel.config
@@ -106,6 +131,14 @@ do
 		;;
 		'Prueba_SuspensionSRT')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
+			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
+			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
+			echo "PUERTO_CPU_DISPATCH=8001" >> $KERNELPATH/kernel.config
+			echo "PUERTO_CPU_INTERRUPT=8005" >> $KERNELPATH/kernel.config
+			echo "PUERTO_ESCUCHA=8000" >> $KERNELPATH/kernel.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $KERNELPATH/kernel.config
 			echo "ALGORITMO_PLANIFICACION=SRT" >> $KERNELPATH/kernel.config
 			echo "ESTIMACION_INICIAL=20000" >> $KERNELPATH/kernel.config			
 			echo "ALFA=0.5" >> $KERNELPATH/kernel.config
@@ -118,6 +151,14 @@ do
 		;;
 		'Prueba_MemoriaClock')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
+			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
+			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
+			echo "PUERTO_CPU_DISPATCH=8001" >> $KERNELPATH/kernel.config
+			echo "PUERTO_CPU_INTERRUPT=8005" >> $KERNELPATH/kernel.config
+			echo "PUERTO_ESCUCHA=8000" >> $KERNELPATH/kernel.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $KERNELPATH/kernel.config
 			echo "ALGORITMO_PLANIFICACION=FIFO" >> $KERNELPATH/kernel.config
 			echo "ESTIMACION_INICIAL=20000" >> $KERNELPATH/kernel.config			
 			echo "ALFA=0.5" >> $KERNELPATH/kernel.config
@@ -130,6 +171,14 @@ do
 		;;
 		'Prueba_Memoria_Clock-M')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
+			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
+			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
+			echo "PUERTO_CPU_DISPATCH=8001" >> $KERNELPATH/kernel.config
+			echo "PUERTO_CPU_INTERRUPT=8005" >> $KERNELPATH/kernel.config
+			echo "PUERTO_ESCUCHA=8000" >> $KERNELPATH/kernel.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $KERNELPATH/kernel.config
 			echo "ALGORITMO_PLANIFICACION=FIFO" >> $KERNELPATH/kernel.config
 			echo "ESTIMACION_INICIAL=20000" >> $KERNELPATH/kernel.config			
 			echo "ALFA=0.5" >> $KERNELPATH/kernel.config
@@ -142,6 +191,14 @@ do
 		;;
 		'Prueba_TLB-FIFO')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
+			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
+			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
+			echo "PUERTO_CPU_DISPATCH=8001" >> $KERNELPATH/kernel.config
+			echo "PUERTO_CPU_INTERRUPT=8005" >> $KERNELPATH/kernel.config
+			echo "PUERTO_ESCUCHA=8000" >> $KERNELPATH/kernel.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $KERNELPATH/kernel.config
 			echo "ALGORITMO_PLANIFICACION=FIFO" >> $KERNELPATH/kernel.config
 			echo "ESTIMACION_INICIAL=20000" >> $KERNELPATH/kernel.config			
 			echo "ALFA=0.5" >> $KERNELPATH/kernel.config
@@ -154,6 +211,14 @@ do
 		;;
 		'Prueba_TLB-LRU')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
+			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
+			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
+			echo "PUERTO_CPU_DISPATCH=8001" >> $KERNELPATH/kernel.config
+			echo "PUERTO_CPU_INTERRUPT=8005" >> $KERNELPATH/kernel.config
+			echo "PUERTO_ESCUCHA=8000" >> $KERNELPATH/kernel.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $KERNELPATH/kernel.config
 			echo "ALGORITMO_PLANIFICACION=FIFO" >> $KERNELPATH/kernel.config
 			echo "ESTIMACION_INICIAL=20000" >> $KERNELPATH/kernel.config			
 			echo "ALFA=0.5" >> $KERNELPATH/kernel.config
@@ -166,6 +231,14 @@ do
 		;;
 		'Prueba_Integral')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
+			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
+			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
+			echo "PUERTO_CPU_DISPATCH=8001" >> $KERNELPATH/kernel.config
+			echo "PUERTO_CPU_INTERRUPT=8005" >> $KERNELPATH/kernel.config
+			echo "PUERTO_ESCUCHA=8000" >> $KERNELPATH/kernel.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $KERNELPATH/kernel.config
 			echo "ALGORITMO_PLANIFICACION=SRT" >> $KERNELPATH/kernel.config
 			echo "ESTIMACION_INICIAL=50000" >> $KERNELPATH/kernel.config			
 			echo "ALFA=0.2" >> $KERNELPATH/kernel.config

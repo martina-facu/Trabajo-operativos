@@ -19,17 +19,11 @@ READIP=$(hostname -I | cut -f1 -d' ')
 while true; do
     read -p "La IP de la CPU es: $READIP. Ingrese S si es correcto o N para ingresar una nueva IP.  " yn
     case $yn in
-        [Ss]* ) echo "IP_CPU=$READIP" > $CPUPATH/cpu.config; break;;
-        [Nn]* ) read -p "Ingrese la IP del CPU: " IPCPU; echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config; break;;
+        [Ss]* ) export IP_CPU=$READIP; break;;
+        [Nn]* ) read -p "Ingrese la IP del CPU: " IPCPU; break;;
         * ) echo "Ingrese Si o No.";;
     esac
 done
-
-echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
-echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
-echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
-echo "IP_MEMORIA=$IPMEMORIA" >> $CPUPATH/cpu.config
-echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $CPUPATH/cpu.config
 
 aplicaciones[1]="Prueba_Base"
 aplicaciones[2]="Prueba_PlanificacionFIFO"
@@ -50,6 +44,12 @@ do
 	'Salir')	exit;;
 		'Prueba_Base')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $CPUPATH/cpu.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $CPUPATH/cpu.config
 			echo "ENTRADAS_TLB=4" >> $CPUPATH/cpu.config
 			echo "REEMPLAZO_TLB=LRU" >> $CPUPATH/cpu.config
 			echo "RETARDO_NOOP=1000" >> $CPUPATH/cpu.config
@@ -61,6 +61,12 @@ do
 		
 		'Prueba_PlanificacionFIFO')			
 			#	Armo el archivo de configuracion BASE
+			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $CPUPATH/cpu.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $CPUPATH/cpu.config
 			echo "ENTRADAS_TLB=4" >> $CPUPATH/cpu.config
 			echo "REEMPLAZO_TLB=LRU" >> $CPUPATH/cpu.config
 			echo "RETARDO_NOOP=1000" >> $CPUPATH/cpu.config
@@ -71,6 +77,12 @@ do
 		;;
 		'Prueba_PlanificacionSRT')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $CPUPATH/cpu.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $CPUPATH/cpu.config
 			echo "ENTRADAS_TLB=4" >> $CPUPATH/cpu.config
 			echo "REEMPLAZO_TLB=LRU" >> $CPUPATH/cpu.config
 			echo "RETARDO_NOOP=1000" >> $CPUPATH/cpu.config
@@ -81,6 +93,12 @@ do
 		;;
 		'Prueba_SuspensionFIFO')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $CPUPATH/cpu.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $CPUPATH/cpu.config
 			echo "ENTRADAS_TLB=4" >> $CPUPATH/cpu.config
 			echo "REEMPLAZO_TLB=LRU" >> $CPUPATH/cpu.config
 			echo "RETARDO_NOOP=1000" >> $CPUPATH/cpu.config
@@ -91,6 +109,12 @@ do
 		;;
 		'Prueba_SuspensionSRT')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $CPUPATH/cpu.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $CPUPATH/cpu.config
 			echo "ENTRADAS_TLB=4" >> $CPUPATH/cpu.config
 			echo "REEMPLAZO_TLB=LRU" >> $CPUPATH/cpu.config
 			echo "RETARDO_NOOP=1000" >> $CPUPATH/cpu.config
@@ -101,6 +125,12 @@ do
 		;;
 		'Prueba_MemoriaClock')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $CPUPATH/cpu.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $CPUPATH/cpu.config
 			echo "ENTRADAS_TLB=1" >> $CPUPATH/cpu.config
 			echo "REEMPLAZO_TLB=LRU" >> $CPUPATH/cpu.config
 			echo "RETARDO_NOOP=1000" >> $CPUPATH/cpu.config
@@ -111,6 +141,12 @@ do
 		;;
 		'Prueba_Memoria_Clock-M')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $CPUPATH/cpu.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $CPUPATH/cpu.config
 			echo "ENTRADAS_TLB=1" >> $CPUPATH/cpu.config
 			echo "REEMPLAZO_TLB=LRU" >> $CPUPATH/cpu.config
 			echo "RETARDO_NOOP=1000" >> $CPUPATH/cpu.config
@@ -121,6 +157,12 @@ do
 		;;
 		'Prueba_TLB-FIFO')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $CPUPATH/cpu.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $CPUPATH/cpu.config
 			echo "ENTRADAS_TLB=4" >> $CPUPATH/cpu.config
 			echo "REEMPLAZO_TLB=FIFO" >> $CPUPATH/cpu.config
 			echo "RETARDO_NOOP=1000" >> $CPUPATH/cpu.config
@@ -131,6 +173,12 @@ do
 		;;
 		'Prueba_TLB-LRU')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $CPUPATH/cpu.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $CPUPATH/cpu.config
 			echo "ENTRADAS_TLB=4" >> $CPUPATH/cpu.config
 			echo "REEMPLAZO_TLB=LRU" >> $CPUPATH/cpu.config
 			echo "RETARDO_NOOP=1000" >> $CPUPATH/cpu.config
@@ -141,6 +189,12 @@ do
 		;;
 		'Prueba_Integral')	
 			#	Armo el archivo de configuracion BASE
+			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
+			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
+			echo "IP_MEMORIA=$IPMEMORIA" >> $CPUPATH/cpu.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $CPUPATH/cpu.config
 			echo "ENTRADAS_TLB=2" >> $CPUPATH/cpu.config
 			echo "REEMPLAZO_TLB=LRU" >> $CPUPATH/cpu.config
 			echo "RETARDO_NOOP=100" >> $CPUPATH/cpu.config

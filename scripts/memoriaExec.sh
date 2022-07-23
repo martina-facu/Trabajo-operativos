@@ -16,16 +16,11 @@ READIP=$(hostname -I | cut -f1 -d' ')
 while true; do
     read -p "La IP de la Memoria es: $READIP. Ingrese S si es correcto o N para ingresar una nueva IP.  " yn
     case $yn in
-        [Ss]* ) echo "IPMEMORIA=$READIP" > $MEMORYPATH/memoria.config; break;;
-        [Nn]* ) read -p "Ingrese la IP de la Memoria: " IPMEMORIA; echo "IPMEMORIA=$IPMEMORIA" > $MEMORYPATH/memoria.config; break;;
+	    [Ss]* ) export IPMEMORIA=$READIP; break;;
+        [Nn]* ) read -p "Ingrese la IP de la Memoria: " IPMEMORIA; break;;
         * ) echo "Ingrese Si o No.";;
     esac
 done
-
-echo "PUERTO_ESCUCHA=8002" >> $MEMORYPATH/memoria.config
-echo "ENTRADAS_POR_TABLA=4" >> $MEMORYPATH/memoria.config
-echo "PATH_SWAP=/home/utnso/swap" >> $MEMORYPATH/memoria.config
-echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $MEMORYPATH/memoria.config
 
 aplicaciones[1]="Prueba_Base"
 aplicaciones[2]="Prueba_PlanificacionFIFO"
@@ -46,6 +41,11 @@ do
 	'Salir')	exit;;
 		'Prueba_Base')	
 			#	Armo el archivo de configuracion BASE
+			echo "IPMEMORIA=$IPMEMORIA" > $MEMORYPATH/memoria.config
+			echo "PUERTO_ESCUCHA=8002" >> $MEMORYPATH/memoria.config
+			echo "ENTRADAS_POR_TABLA=4" >> $MEMORYPATH/memoria.config
+			echo "PATH_SWAP=/home/utnso/swap" >> $MEMORYPATH/memoria.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $MEMORYPATH/memoria.config
 			echo "TAM_MEMORIA=4096" >> $MEMORYPATH/memoria.config
 			echo "TAM_PAGINA=64" >> $MEMORYPATH/memoria.config			
 			echo "RETARDO_MEMORIA=1000" >> $MEMORYPATH/memoria.config
@@ -61,6 +61,11 @@ do
 		
 		'Prueba_PlanificacionFIFO')			
 			#	Armo el archivo de configuracion BASE
+			echo "IPMEMORIA=$IPMEMORIA" > $MEMORYPATH/memoria.config
+			echo "PUERTO_ESCUCHA=8002" >> $MEMORYPATH/memoria.config
+			echo "ENTRADAS_POR_TABLA=4" >> $MEMORYPATH/memoria.config
+			echo "PATH_SWAP=/home/utnso/swap" >> $MEMORYPATH/memoria.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $MEMORYPATH/memoria.config
 			echo "TAM_MEMORIA=4096" >> $MEMORYPATH/memoria.config
 			echo "TAM_PAGINA=64" >> $MEMORYPATH/memoria.config			
 			echo "RETARDO_MEMORIA=1000" >> $MEMORYPATH/memoria.config
@@ -74,6 +79,11 @@ do
 		;;
 		'Prueba_PlanificacionSRT')	
 			#	Armo el archivo de configuracion BASE
+			echo "IPMEMORIA=$IPMEMORIA" > $MEMORYPATH/memoria.config
+			echo "PUERTO_ESCUCHA=8002" >> $MEMORYPATH/memoria.config
+			echo "ENTRADAS_POR_TABLA=4" >> $MEMORYPATH/memoria.config
+			echo "PATH_SWAP=/home/utnso/swap" >> $MEMORYPATH/memoria.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $MEMORYPATH/memoria.config
 			echo "TAM_MEMORIA=4096" >> $MEMORYPATH/memoria.config
 			echo "TAM_PAGINA=64" >> $MEMORYPATH/memoria.config			
 			echo "RETARDO_MEMORIA=1000" >> $MEMORYPATH/memoria.config
@@ -87,6 +97,11 @@ do
 		;;
 		'Prueba_SuspensionFIFO')	
 			#	Armo el archivo de configuracion BASE
+			echo "IPMEMORIA=$IPMEMORIA" > $MEMORYPATH/memoria.config
+			echo "PUERTO_ESCUCHA=8002" >> $MEMORYPATH/memoria.config
+			echo "ENTRADAS_POR_TABLA=4" >> $MEMORYPATH/memoria.config
+			echo "PATH_SWAP=/home/utnso/swap" >> $MEMORYPATH/memoria.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $MEMORYPATH/memoria.config
 			echo "TAM_MEMORIA=4096" >> $MEMORYPATH/memoria.config
 			echo "TAM_PAGINA=64" >> $MEMORYPATH/memoria.config			
 			echo "RETARDO_MEMORIA=1000" >> $MEMORYPATH/memoria.config
@@ -100,6 +115,11 @@ do
 		;;
 		'Prueba_SuspensionSRT')	
 			#	Armo el archivo de configuracion BASE
+			echo "IPMEMORIA=$IPMEMORIA" > $MEMORYPATH/memoria.config
+			echo "PUERTO_ESCUCHA=8002" >> $MEMORYPATH/memoria.config
+			echo "ENTRADAS_POR_TABLA=4" >> $MEMORYPATH/memoria.config
+			echo "PATH_SWAP=/home/utnso/swap" >> $MEMORYPATH/memoria.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $MEMORYPATH/memoria.config
 			echo "TAM_MEMORIA=4096" >> $MEMORYPATH/memoria.config
 			echo "TAM_PAGINA=64" >> $MEMORYPATH/memoria.config			
 			echo "RETARDO_MEMORIA=1000" >> $MEMORYPATH/memoria.config
@@ -113,6 +133,11 @@ do
 		;;
 		'Prueba_MemoriaClock')	
 			#	Armo el archivo de configuracion BASE
+			echo "IPMEMORIA=$IPMEMORIA" > $MEMORYPATH/memoria.config
+			echo "PUERTO_ESCUCHA=8002" >> $MEMORYPATH/memoria.config
+			echo "ENTRADAS_POR_TABLA=4" >> $MEMORYPATH/memoria.config
+			echo "PATH_SWAP=/home/utnso/swap" >> $MEMORYPATH/memoria.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $MEMORYPATH/memoria.config
 			echo "TAM_MEMORIA=2048" >> $MEMORYPATH/memoria.config
 			echo "TAM_PAGINA=256" >> $MEMORYPATH/memoria.config			
 			echo "RETARDO_MEMORIA=1000" >> $MEMORYPATH/memoria.config
@@ -126,6 +151,11 @@ do
 		;;
 		'Prueba_Memoria_Clock-M')	
 			#	Armo el archivo de configuracion BASE
+			echo "IPMEMORIA=$IPMEMORIA" > $MEMORYPATH/memoria.config
+			echo "PUERTO_ESCUCHA=8002" >> $MEMORYPATH/memoria.config
+			echo "ENTRADAS_POR_TABLA=4" >> $MEMORYPATH/memoria.config
+			echo "PATH_SWAP=/home/utnso/swap" >> $MEMORYPATH/memoria.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $MEMORYPATH/memoria.config
 			echo "TAM_MEMORIA=2048" >> $MEMORYPATH/memoria.config
 			echo "TAM_PAGINA=256" >> $MEMORYPATH/memoria.config			
 			echo "RETARDO_MEMORIA=1000" >> $MEMORYPATH/memoria.config
@@ -139,6 +169,11 @@ do
 		;;
 		'Prueba_TLB-FIFO')	
 			#	Armo el archivo de configuracion BASE
+			echo "IPMEMORIA=$IPMEMORIA" > $MEMORYPATH/memoria.config
+			echo "PUERTO_ESCUCHA=8002" >> $MEMORYPATH/memoria.config
+			echo "ENTRADAS_POR_TABLA=4" >> $MEMORYPATH/memoria.config
+			echo "PATH_SWAP=/home/utnso/swap" >> $MEMORYPATH/memoria.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $MEMORYPATH/memoria.config
 			echo "TAM_MEMORIA=8192" >> $MEMORYPATH/memoria.config
 			echo "TAM_PAGINA=128" >> $MEMORYPATH/memoria.config			
 			echo "RETARDO_MEMORIA=3000" >> $MEMORYPATH/memoria.config
@@ -152,6 +187,11 @@ do
 		;;
 		'Prueba_TLB-LRU')	
 			#	Armo el archivo de configuracion BASE
+			echo "IPMEMORIA=$IPMEMORIA" > $MEMORYPATH/memoria.config
+			echo "PUERTO_ESCUCHA=8002" >> $MEMORYPATH/memoria.config
+			echo "ENTRADAS_POR_TABLA=4" >> $MEMORYPATH/memoria.config
+			echo "PATH_SWAP=/home/utnso/swap" >> $MEMORYPATH/memoria.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $MEMORYPATH/memoria.config
 			echo "TAM_MEMORIA=8192" >> $MEMORYPATH/memoria.config
 			echo "TAM_PAGINA=128" >> $MEMORYPATH/memoria.config			
 			echo "RETARDO_MEMORIA=3000" >> $MEMORYPATH/memoria.config
@@ -165,6 +205,11 @@ do
 		;;
 		'Prueba_Integral')	
 			#	Armo el archivo de configuracion BASE
+			echo "IPMEMORIA=$IPMEMORIA" > $MEMORYPATH/memoria.config
+			echo "PUERTO_ESCUCHA=8002" >> $MEMORYPATH/memoria.config
+			echo "ENTRADAS_POR_TABLA=4" >> $MEMORYPATH/memoria.config
+			echo "PATH_SWAP=/home/utnso/swap" >> $MEMORYPATH/memoria.config
+			echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $MEMORYPATH/memoria.config
 			echo "TAM_MEMORIA=10240" >> $MEMORYPATH/memoria.config
 			echo "TAM_PAGINA=256" >> $MEMORYPATH/memoria.config			
 			echo "RETARDO_MEMORIA=500" >> $MEMORYPATH/memoria.config
