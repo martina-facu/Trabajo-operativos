@@ -198,13 +198,18 @@ int main(void)
 		//	Proceso lo recibido, es decir actuo como CPU
 		//	Ejecutar ciclo de instrucciones
 
-		if(recibiPCB == true)
+		if(recibiPCB == true){
 			procesarPCB();
+			pcb_liberar(pcb);
+		}
 
 		//	Vuelvo a iniciar el proceso del While
 	}
 
 	log_trace(logger, "CPU-COMUNICACION-SELECT Sali del while infinito y voy a cerrar las conexiones generadas");
+
+//	Libero lo que puedo
+
 
 //	Cierro conexiones
 	close(cliente_memoria);
@@ -227,16 +232,6 @@ int main(void)
 void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
 {
 	pcb = malloc(sizeof(pcb_t));
-	if(idAnteriorPCB == -1)
-	{
-		log_info(logger, "CPU-TLB Inicializo la tlb");
-		tlb = list_create();
-	}
-	else if(pcb->pid != idAnteriorPCB){
-		log_info(logger, "CPU-TLB Borro el contenido de la TLB ya que no es el mismo proceso que el anterior");
-		limpiar_tlb(tlb);
-	}
-
 
 	if((cantidad_clientes_dispatch > 0) && (cantidad_clientes_interrupt > 0) )
 	{
@@ -291,6 +286,8 @@ void procesarPCB(void)
 	idAnteriorPCB = pcb->pid;
 	log_trace(logger, "CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel");
 
+	free(a_enviar);
+	free(tamano_mensaje);
 }
 
 

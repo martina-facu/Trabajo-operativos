@@ -149,7 +149,6 @@ void recibirPCB(int socket, pcb_t* pcb)
 {
 
 	t_paquete* paquete = malloc(sizeof(t_paquete));
-
 	paquete->buffer = malloc(sizeof(t_buffer));
 	t_buffer* buffer = paquete->buffer;
 	//recibimos el codigo del tipo de mensaje que nos llega
@@ -164,6 +163,8 @@ void recibirPCB(int socket, pcb_t* pcb)
 
 	pcb_deserializar(buffer,pcb);
 
+	free(buffer);
+	free(paquete);
 //	return pcb;
 }
 

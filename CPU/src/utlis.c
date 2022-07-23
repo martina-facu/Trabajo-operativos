@@ -1,27 +1,27 @@
 #include "utils.h"
 
-pcb_t* obtener_pcb(int cliente)
-{
-
-	t_paquete* paquete = malloc(sizeof(t_paquete));
-
-	paquete->buffer = malloc(sizeof(t_buffer));
-	t_buffer* buffer = paquete->buffer;
-
-	//recibimos el codigo del tipo de mensaje que nos llega
-	recv(cliente, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
-
-	//recibo el tamaño del paquete
-	recv(cliente, &(buffer->size), sizeof(uint32_t), 0);
-
-	//recibo el buffer con el pcb
-	buffer->stream = malloc(buffer->size);
-	recv(cliente, buffer->stream, buffer->size, 0);
-
-	pcb_deserializar(buffer,pcb);
-
-//	return pcb;
-}
+//pcb_t* obtener_pcb(int cliente)
+//{
+//
+//	t_paquete* paquete = malloc(sizeof(t_paquete));
+//
+//	paquete->buffer = malloc(sizeof(t_buffer));
+//	t_buffer* buffer = paquete->buffer;
+//
+//	//recibimos el codigo del tipo de mensaje que nos llega
+//	recv(cliente, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
+//
+//	//recibo el tamaño del paquete
+//	recv(cliente, &(buffer->size), sizeof(uint32_t), 0);
+//
+//	//recibo el buffer con el pcb
+//	buffer->stream = malloc(buffer->size);
+//	recv(cliente, buffer->stream, buffer->size, 0);
+//
+//	pcb_deserializar(buffer,pcb);
+//
+////	return pcb;
+//}
 
 
 int levantar_conexion_memoria_CPU(char* ipServer, char* portServer, uint32_t* cantidad_entradas,uint32_t* tamano_pagina)
@@ -152,6 +152,8 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
 	valorRecibido = mandar_lecto_escritura(resultado->direccion_fisica, 0, SOLICITAR_LECTURA, datos->conexion_memoria);
 	log_info(logger, "CPU-MEMORIA Envie pedido de lectura a la Memoria");
 	log_info(logger, "CPU-MEMORIA El valor leido fue: %d", valorRecibido);
+
+	free(resultado);
 	return valorRecibido;
 }
 
@@ -166,6 +168,7 @@ uint32_t escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calcul
 
 	mandar_lecto_escritura(resultado->direccion_fisica, valor_a_escribir, SOLICITAR_ESCRITURA, datos->conexion_memoria);
 
+	free(resultado);
 	return 0;
 }
 
@@ -224,7 +227,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			log_info(logger, "CPU-EXECUTE Proceso una operacion de COPY PID: %d", pcb->pid);
 			valor_leido= leer(*parametro1,datos);
 			resultado = escribir(*parametro1, parametro2, datos);
-//			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
+
 
 //			sleep(1);
 			return false;
@@ -306,6 +309,8 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 		*devolver_pcb = *hubo_interrupcion;
 	}
 	pthread_mutex_unlock(&mutex_interrupt);
+
+	free(datos);
 }
 
 t_config_cpu* crearConfigCPU(void)
