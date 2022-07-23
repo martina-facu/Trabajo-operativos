@@ -40,7 +40,8 @@
 	void* sjf(); //
 	void* bloquear_proceso_sjf(void* pcb_); //
 	void remover_de_lista_sjf(t_list* lista,pcb_t* pcb); //
-	pcb_t* recibir_paquete_pcb_sjf(); //
+//	pcb_t* recibir_paquete_pcb_sjf(); //
+	void recibir_paquete_pcb_sjf(pcb_t* pcb);
 	void* agregar_a_ready_sjf(); //
 	bool menor_estimacion(void* pcb_aux,void* pcb_aux2); //
 	void* hablar_con_cpu(); //
