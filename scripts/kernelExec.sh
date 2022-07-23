@@ -127,7 +127,7 @@ do
 			echo "TIEMPO_MAXIMO_BLOQUEADO=8000" >> $KERNELPATH/kernel.config
 			
 			#	Ejecuto la Memoria
-			cd $CPUPATH
+			cd $KERNELPATH
 			$KERNELPATH/Kernel &
 		;;
 		'Prueba_SuspensionSRT')	
@@ -147,7 +147,7 @@ do
 			echo "TIEMPO_MAXIMO_BLOQUEADO=8000" >> $KERNELPATH/kernel.config
 			
 			#	Ejecuto la Memoria
-			cd $CPUPATH
+			cd $KERNELPATH
 			$KERNELPATH/Kernel &
 		;;
 		'Prueba_MemoriaClock')	
@@ -167,7 +167,7 @@ do
 			echo "TIEMPO_MAXIMO_BLOQUEADO=5000" >> $KERNELPATH/kernel.config
 			
 			#	Ejecuto la Memoria
-			cd $CPUPATH
+			cd $KERNELPATH
 			$KERNELPATH/Kernel &
 		;;
 		'Prueba_Memoria_Clock-M')	
@@ -187,7 +187,7 @@ do
 			echo "TIEMPO_MAXIMO_BLOQUEADO=5000" >> $KERNELPATH/kernel.config
 			
 			#	Ejecuto la Memoria
-			cd $CPUPATH
+			cd $KERNELPATH
 			$KERNELPATH/Kernel &
 		;;
 		'Prueba_TLB-FIFO')	
@@ -207,7 +207,7 @@ do
 			echo "TIEMPO_MAXIMO_BLOQUEADO=5000" >> $KERNELPATH/kernel.config
 			
 			#	Ejecuto la Memoria
-			cd $CPUPATH
+			cd $KERNELPATH
 			$KERNELPATH/Kernel &
 		;;
 		'Prueba_TLB-LRU')	
@@ -227,7 +227,7 @@ do
 			echo "TIEMPO_MAXIMO_BLOQUEADO=5000" >> $KERNELPATH/kernel.config
 			
 			#	Ejecuto la Memoria
-			cd $CPUPATH
+			cd $KERNELPATH
 			$KERNELPATH/Kernel &
 		;;
 		'Prueba_Integral')	
@@ -247,7 +247,7 @@ do
 			echo "TIEMPO_MAXIMO_BLOQUEADO=1000" >> $KERNELPATH/kernel.config
 			
 			#	Ejecuto el Kernelito
-			cd $CPUPATH
+			cd $KERNELPATH
 			$KERNELPATH/Kernel &
 		;;
 		'Matar_Procesos')	
@@ -260,9 +260,3 @@ do
 			
 	esac
 done
-
-
-
-
-
-
