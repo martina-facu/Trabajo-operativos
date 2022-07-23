@@ -30,7 +30,7 @@
  * Prototipo de funciones
 */
 
-
+	bool ordenar_pcb(void* aux1,void* aux2);
 	void* administrador_largo_plazo();
 	void* finalizar_procesos();
 	void* pasar_a_ready();
