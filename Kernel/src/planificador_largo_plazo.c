@@ -20,13 +20,6 @@ comunicacion_t* comunicacion_create(sem_t* s,uint32_t pid){
 	return comunicacion;
 }
 
-bool ordenar_pcb(void* aux1,void* aux2){
-	pcb_t* pcb1= aux1;
-	pcb_t* pcb2= aux2;
-	return pcb1->pid<pcb2->pid;
-}
-
-
 
 //--------------------------------------------------------------------------------------//
 //FUNCION: 							GESTIONAR_COMUNIACION
@@ -57,7 +50,7 @@ void* gestionar_comunicacion(void* aux)
 
 	// AÑADO EL PCB CREADO A NEW
 	pthread_mutex_lock(&mx_new_l);
-	list_add_sorted(new_l,pcb,ordenar_pcb);
+	list_add(new_l,pcb);
 	pthread_mutex_unlock(&mx_new_l);
 	log_trace(PLP,"se agrego un proceso a new, ID: %d", pcb->pid);
 
