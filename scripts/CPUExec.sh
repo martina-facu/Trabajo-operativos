@@ -44,7 +44,7 @@ do
 	'Salir')	exit;;
 		'Prueba_Base')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "IP_CPU=$IP_CPU" > $CPUPATH/cpu.config
 			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
@@ -61,7 +61,7 @@ do
 		
 		'Prueba_PlanificacionFIFO')			
 			#	Armo el archivo de configuracion BASE
-			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "IP_CPU=$IP_CPU" > $CPUPATH/cpu.config
 			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
@@ -77,7 +77,7 @@ do
 		;;
 		'Prueba_PlanificacionSRT')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "IP_CPU=$IP_CPU" > $CPUPATH/cpu.config
 			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
@@ -93,7 +93,7 @@ do
 		;;
 		'Prueba_SuspensionFIFO')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "IP_CPU=$IP_CPU" > $CPUPATH/cpu.config
 			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
@@ -109,7 +109,7 @@ do
 		;;
 		'Prueba_SuspensionSRT')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "IP_CPU=$IP_CPU" > $CPUPATH/cpu.config
 			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
@@ -125,7 +125,7 @@ do
 		;;
 		'Prueba_MemoriaClock')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "IP_CPU=$IP_CPU" > $CPUPATH/cpu.config
 			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
@@ -141,7 +141,7 @@ do
 		;;
 		'Prueba_Memoria_Clock-M')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "IP_CPU=$IP_CPU" > $CPUPATH/cpu.config
 			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
@@ -157,7 +157,7 @@ do
 		;;
 		'Prueba_TLB-FIFO')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "IP_CPU=$IP_CPU" > $CPUPATH/cpu.config
 			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
@@ -173,7 +173,7 @@ do
 		;;
 		'Prueba_TLB-LRU')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "IP_CPU=$IP_CPU" > $CPUPATH/cpu.config
 			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
@@ -189,7 +189,7 @@ do
 		;;
 		'Prueba_Integral')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_CPU=$IPCPU" > $CPUPATH/cpu.config
+			echo "IP_CPU=$IP_CPU" > $CPUPATH/cpu.config
 			echo "PUERTO_MEMORIA=8002" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_DISPATCH=8001" >> $CPUPATH/cpu.config
 			echo "PUERTO_ESCUCHA_INTERRUPT=8005" >> $CPUPATH/cpu.config
