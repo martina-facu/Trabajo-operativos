@@ -34,7 +34,7 @@ echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config
 echo "PUERTO_CPU_DISPATCH=8001" >> $KERNELPATH/kernel.config
 echo "PUERTO_CPU_INTERRUPT=8005" >> $KERNELPATH/kernel.config
 echo "PUERTO_ESCUCHA=8000" >> $KERNELPATH/kernel.config
-
+echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $KERNELPATH/kernel.config
 
 aplicaciones[1]="Prueba_Base"
 aplicaciones[2]="Prueba_PlanificacionFIFO"

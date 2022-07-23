@@ -16,8 +16,8 @@ READIP=$(hostname -I | cut -f1 -d' ')
 while true; do
     read -p "La IP de la Memoria es: $READIP. Ingrese S si es correcto o N para ingresar una nueva IP.  " yn
     case $yn in
-        [Ss]* ) echo "IP_MEMORIA=$READIP" > $MEMORYPATH/memoria.config; break;;
-        [Nn]* ) read -p "Ingrese la IP de la Memoria: " IPMEMORIA; echo "IP_MEMORIA=$IPMEMORIA" > $MEMORYPATH/memoria.config; break;;
+        [Ss]* ) echo "IPMEMORIA=$READIP" > $MEMORYPATH/memoria.config; break;;
+        [Nn]* ) read -p "Ingrese la IP de la Memoria: " IPMEMORIA; echo "IPMEMORIA=$IPMEMORIA" > $MEMORYPATH/memoria.config; break;;
         * ) echo "Ingrese Si o No.";;
     esac
 done
@@ -25,7 +25,7 @@ done
 echo "PUERTO_ESCUCHA=8002" >> $MEMORYPATH/memoria.config
 echo "ENTRADAS_POR_TABLA=4" >> $MEMORYPATH/memoria.config
 echo "PATH_SWAP=/home/utnso/swap" >> $MEMORYPATH/memoria.config
-
+echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $MEMORYPATH/memoria.config
 
 aplicaciones[1]="Prueba_Base"
 aplicaciones[2]="Prueba_PlanificacionFIFO"
@@ -94,7 +94,7 @@ do
 			echo "RETARDO_SWAP=2000" >> $MEMORYPATH/memoria.config
 			
 			#	Ejecuto la Memoria
-			cd $CPUPATH
+			cd $MEMORYPATH
 			$MEMORYPATH/Memoria &
 		;;
 		'Prueba_SuspensionSRT')	
@@ -107,7 +107,7 @@ do
 			echo "RETARDO_SWAP=2000" >> $MEMORYPATH/memoria.config
 			
 			#	Ejecuto la Memoria
-			cd $CPUPATH
+			cd $MEMORYPATH
 			$MEMORYPATH/Memoria &
 		;;
 		'Prueba_MemoriaClock')	
@@ -120,7 +120,7 @@ do
 			echo "RETARDO_SWAP=5000" >> $MEMORYPATH/memoria.config
 			
 			#	Ejecuto la Memoria
-			cd $CPUPATH
+			cd $MEMORYPATH
 			$MEMORYPATH/Memoria &
 		;;
 		'Prueba_Memoria_Clock-M')	
@@ -133,7 +133,7 @@ do
 			echo "RETARDO_SWAP=5000" >> $MEMORYPATH/memoria.config
 			
 			#	Ejecuto la Memoria
-			cd $CPUPATH
+			cd $MEMORYPATH
 			$MEMORYPATH/Memoria &
 		;;
 		'Prueba_TLB-FIFO')	
@@ -146,7 +146,7 @@ do
 			echo "RETARDO_SWAP=3000" >> $MEMORYPATH/memoria.config
 			
 			#	Ejecuto la Memoria
-			cd $CPUPATH
+			cd $MEMORYPATH
 			$MEMORYPATH/Memoria &
 		;;
 		'Prueba_TLB-LRU')	
@@ -159,7 +159,7 @@ do
 			echo "RETARDO_SWAP=3000" >> $MEMORYPATH/memoria.config
 			
 			#	Ejecuto la Memoria
-			cd $CPUPATH
+			cd $MEMORYPATH
 			$MEMORYPATH/Memoria &
 		;;
 		'Prueba_Integral')	
@@ -172,7 +172,7 @@ do
 			echo "RETARDO_SWAP=1000" >> $MEMORYPATH/memoria.config
 			
 			#	Ejecuto la Memoria
-			cd $CPUPATH
+			cd $MEMORYPATH
 			$MEMORYPATH/Memoria &
 		;;
 		*)

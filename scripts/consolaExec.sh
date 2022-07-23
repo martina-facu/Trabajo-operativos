@@ -14,6 +14,7 @@ export LD_LIBRARY_PATH=$WORKSPACEPATH/Shared
 read -p "Ingrese la IP del Kernel: " IPKERNEL
 echo "IP_KERNEL=$IPKERNEL" > $CONSOLEPATH/consola.config
 echo "PUERTO_KERNEL=8000" >> $CONSOLEPATH/consola.config
+echo "LOG_LEVEL=LOG_LEVEL_INFO" >> $CONSOLEPATH/consola.config
 
 aplicaciones[1]="Prueba_Base"
 aplicaciones[2]="Prueba_PlanificacionFIFO"
