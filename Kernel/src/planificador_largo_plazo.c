@@ -83,6 +83,8 @@ void* gestionar_comunicacion(void* aux)
 	send(socket,&id,sizeof(uint32_t),0);
 
 	// CHAU HILO GRACIAS POR TU SERVICIO
+	pcb_liberar(pcb);
+	free(a_enviar);
 	return NULL;
 }
 

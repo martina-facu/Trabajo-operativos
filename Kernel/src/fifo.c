@@ -186,7 +186,7 @@ void* bloquear_proceso(void* pcb_){
 	return NULL;
 }
 
-pcb_t* recibir_paquete_pcb()
+void recibir_paquete_pcb(pcb_t* pcb)
 {
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 	t_buffer* buffer = malloc(sizeof(t_buffer));
@@ -194,10 +194,13 @@ pcb_t* recibir_paquete_pcb()
 	recv(socket_cpu_dispatch,&buffer->size,sizeof(uint32_t),0);
 	buffer->stream = malloc(buffer->size);
 	recv(socket_cpu_dispatch,buffer->stream,buffer->size,0);
-	pcb_t* pcb = pcb_deserializar(buffer);
+	pcb_deserializar(buffer,pcb);
 	pcb_mostrar(pcb, PCP);
 	log_trace(PCP,"recibi un proceso ID: %d ",pcb->pid);
-	return pcb;
+
+	free(buffer);
+	free(paquete);
+//	return pcb;
 }
 
 //--------------------------------------------------------------------------------------//
@@ -211,7 +214,8 @@ pcb_t* recibir_paquete_pcb()
 void* recibir_proceso_de_cpu(){
 	while(1)
 	{
-		pcb_t* pcb = recibir_paquete_pcb();
+		pcb_t* pcb = malloc(sizeof(pcb_t));
+		recibir_paquete_pcb(pcb);
 		log_trace(PCP,"KERNEL-CPU-PCB Recibi PCB desde la CPU");
 		if(pcb->estado == FINALIZADO){ // SE PODRIA MODELAR CON UN SWITCH
 			// AGREGARLO A FINALIZADO QUE ES UN BUFFER ENTRE PLP Y PCP

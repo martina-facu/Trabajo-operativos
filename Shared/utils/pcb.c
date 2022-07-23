@@ -22,11 +22,9 @@ pcb_t *pcb_create(uint32_t tamano, t_list* instrucciones,uint32_t pid, double es
 	pcb->tamano = tamano;
 	pcb->program_counter = 0;
 	pcb->estimado_rafaga = estimacion_inicial;
-//	pcb->estimado_rafaga = estimacion_inicial;
 	pcb->estado = INICIADO;
 	pcb->tiempo_block = 0;
 	pcb->tabla_paginas = tabla_paginas;
-//	pcb->tabla_paginas = 0;
 	pcb->instrucciones = instrucciones;
 	return pcb;
 }
@@ -87,9 +85,9 @@ void* pcb_serializar(pcb_t* pcb, uint32_t* tamano_mensaje, uint8_t codigo_operac
 	return a_enviar;
 }
 
-pcb_t* pcb_deserializar(t_buffer* buffer)
+void pcb_deserializar(t_buffer* buffer, pcb_t* pcb)
 {
-	pcb_t* pcb = malloc(sizeof(pcb_t));
+//	pcb_t* pcb = malloc(sizeof(pcb_t));
 	void* stream = buffer->stream;
 
 	memcpy(&(pcb->pid), stream, sizeof(uint32_t));
@@ -118,7 +116,7 @@ pcb_t* pcb_deserializar(t_buffer* buffer)
 	t_list* instrucciones = list_create();
 	deserializar_instrucciones(buffer, instrucciones);
 	pcb->instrucciones = instrucciones;
-	return pcb;
+//	return pcb;
 }
 
 
@@ -142,7 +140,7 @@ void pcb_mostrar(pcb_t* pcb, t_log* logger)
 	mostrar_instrucciones(pcb->instrucciones, logger);
 }
 
-pcb_t* recibirPCB(int socket)
+void recibirPCB(int socket, pcb_t* pcb)
 {
 
 	t_paquete* paquete = malloc(sizeof(t_paquete));
@@ -159,7 +157,19 @@ pcb_t* recibirPCB(int socket)
 	buffer->stream = malloc(buffer->size);
 	recv(socket, buffer->stream, buffer->size, 0);
 
-	pcb_t* pcb = pcb_deserializar(buffer);
+	pcb_deserializar(buffer,pcb);
 
-	return pcb;
+//	return pcb;
 }
+
+
+void pcb_liberar (pcb_t* pcb){
+	t_list* instrucciones = pcb->instrucciones;
+	destruir_lista_instrucciones(instrucciones);
+	free(pcb);
+}
+
+
+
+
+

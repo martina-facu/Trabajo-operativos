@@ -137,6 +137,7 @@ void deserializar_instrucciones(t_buffer* buffer,t_list* instrucciones)
 		}
 		list_add(instrucciones,instruccion);
 	}
+
 }
 
 t_list* deserializar_paquete_instrucciones(int cliente, uint32_t* tamano_proceso, t_log* logger)
@@ -165,6 +166,9 @@ t_list* deserializar_paquete_instrucciones(int cliente, uint32_t* tamano_proceso
 
 //	log_trace(logger, "Tamaño de las instrucciones a recibir: %d", *tamano_proceso);
 
+	free(buffer->stream);
+	free(paquete->buffer);
+	free(paquete);
 	return instrucciones;
 }
 
