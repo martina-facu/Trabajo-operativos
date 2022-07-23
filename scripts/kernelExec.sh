@@ -48,8 +48,8 @@ do
 	case $appl in
 	'Salir')	exit;;
 		'Prueba_Base')	
-			#	Armo el archivo de configuracion BASE
-			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			#	Armo el archivo de configuraci|on BASE
+			echo "IP_KERNEL=$IPKERNELITO" > $KERNELPATH/kernel.config
 			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
 			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
 			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
@@ -71,7 +71,7 @@ do
 		
 		'Prueba_PlanificacionFIFO')			
 			#	Armo el archivo de configuracion BASE
-			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_KERNEL=$IPKERNELITO" > $KERNELPATH/kernel.config
 			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
 			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
 			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
@@ -92,7 +92,7 @@ do
 		;;
 		'Prueba_PlanificacionSRT')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_KERNEL=$IPKERNELITO" > $KERNELPATH/kernel.config
 			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
 			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
 			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
@@ -112,7 +112,7 @@ do
 		;;
 		'Prueba_SuspensionFIFO')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_KERNEL=$IPKERNELITO" > $KERNELPATH/kernel.config
 			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
 			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
 			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
@@ -132,7 +132,7 @@ do
 		;;
 		'Prueba_SuspensionSRT')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_KERNEL=$IPKERNELITO" > $KERNELPATH/kernel.config
 			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
 			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
 			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
@@ -152,7 +152,7 @@ do
 		;;
 		'Prueba_MemoriaClock')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_KERNEL=$IPKERNELITO" > $KERNELPATH/kernel.config
 			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
 			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
 			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
@@ -172,7 +172,7 @@ do
 		;;
 		'Prueba_Memoria_Clock-M')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_KERNEL=$IPKERNELITO" > $KERNELPATH/kernel.config
 			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
 			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
 			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
@@ -192,7 +192,7 @@ do
 		;;
 		'Prueba_TLB-FIFO')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_KERNEL=$IPKERNELITO" > $KERNELPATH/kernel.config
 			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
 			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
 			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
@@ -212,7 +212,7 @@ do
 		;;
 		'Prueba_TLB-LRU')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_KERNEL=$IPKERNELITO" > $KERNELPATH/kernel.config
 			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
 			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
 			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
@@ -232,7 +232,7 @@ do
 		;;
 		'Prueba_Integral')	
 			#	Armo el archivo de configuracion BASE
-			echo "IP_KERNEL=$IPKERNELITO" > $MEMORYPATH/kernel.config
+			echo "IP_KERNEL=$IPKERNELITO" > $KERNELPATH/kernel.config
 			echo "IP_MEMORIA=$IPMEMORIA" >> $KERNELPATH/kernel.config
 			echo "IP_CPU=$IPCPU" >> $KERNELPATH/kernel.config
 			echo "PUERTO_MEMORIA=8002" >> $KERNELPATH/kernel.config	
