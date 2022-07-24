@@ -262,7 +262,7 @@ void ejecutar_algoritmo(t_entrada_2* entrada){
 
 
 void clock_(t_entrada_2* entrada){
-	log_info(logger,"MEMORIA-CPU || PUNTERO INICIAL: %d\ţ||CONTADOR: %d", proceso_->puntero, proceso_->contador);
+	log_info(logger,"MEMORIA-CPU || PUNTERO INICIAL: %d\t||CONTADOR: %d", proceso_->puntero, proceso_->contador);
 	log_info(logger,"MEMORIA-CPU || ------ TABLA ------");
 	mostrar_tabla_pagina();
 	while(1){
