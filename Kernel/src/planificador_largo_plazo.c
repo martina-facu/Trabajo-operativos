@@ -35,13 +35,13 @@ void* gestionar_comunicacion(void* aux)
 	memcpy(&socket,aux,sizeof(uint32_t));
 	memcpy(&id,aux+sizeof(uint32_t),sizeof(uint32_t));
 
-	log_info(PLP,"Mi ID de Thread es: %d", id);
-	log_info(PLP,"El descriptor para comunicarme con mi consola es: %d", socket);
-
+	log_trace(logger,"PLP || PLP-INICIALIZACION Mi ID de Thread es: %d", id);
+	log_trace(logger,"PLP || PLP-INICIALIZACION El descriptor para comunicarme con mi consola es: %d", socket);
+	log_info(logger,"PLP || PLP-INICIALIZACION Se recibio un proceso nuevo se le asigna el PID: %d", id);
 
 	uint32_t espacio;
 	// RECIBO LAS INSTRUCCIONES Y EL ESPACIO DEL PROCESO
-	t_list* instrucciones = deserializar_mensaje(socket, &espacio, PLP);
+	t_list* instrucciones = deserializar_mensaje(socket, &espacio, logger);
 //	t_list* instrucciones = deserializar_paquete_instrucciones(socket,&espacio, PLP);
 	// CREO UN PCB CON ESAS INSTRUCCIONES Y EL ESPACIO QUE VA A OCUPAR
 	pcb_t* pcb=  pcb_create(espacio,instrucciones,id, configuracion->estimacion_inicial, 0);
@@ -51,12 +51,12 @@ void* gestionar_comunicacion(void* aux)
 	pthread_mutex_lock(&mx_new_l);
 	list_add(new_l,pcb);
 	pthread_mutex_unlock(&mx_new_l);
-	log_trace(PLP,"se agrego un proceso a new, ID: %d", pcb->pid);
+	log_trace(logger,"PLP || PLP-INICIALIZACION se agrego el proceso a new, PID: %d", pcb->pid);
 
 	// CREO EL SEMAFORO CUYA FUNCION VA A SER ESPERAR QUE EL PROCESO FINALICE PARA PODER AVISARLE A LA CONSOLA QUE FINALIZO
 	sem_t s;
 	sem_init(&s,0,0);
-	log_trace(PLP,"se creo una comunicacion");
+	log_trace(logger,"PLP || PLP-INICIALIZACION Se agrega la consola a la lista de comunicacion");
 	/*
 	 *	CREO UNA VARIABLE DE ESTRUCTURA COMUNICACION PARA PODER GUARDAR EL SEMAFORO Y EL
 	 *	IDENTIFICADOR DEL PROCESO PARA QUE LA FUNCION: FINALIZAR PROCESO SEPA A CUAL HILO
@@ -66,7 +66,7 @@ void* gestionar_comunicacion(void* aux)
 	pthread_mutex_lock(&mx_comunicaciones_l);
 	list_add(comunicaciones_l,comunicacion);
 	pthread_mutex_unlock(&mx_comunicaciones_l);
-	log_trace(PLP,"me voy a bloquear, ID: %d", pcb->pid);
+	log_trace(logger,"PLP || PLP-INICIALIZACON Se bloquea a la comunicacion con la consola del proceso con PID: %d", pcb->pid);
 
 	// AVISO QUE YA SE AGREGO UN PROCESO A NEW
 	sem_post(&s_proceso_new);
@@ -75,7 +75,7 @@ void* gestionar_comunicacion(void* aux)
 	sem_wait(&s);
 
 	// AVISO QUE TERMINO BIEN!! :D
-	log_trace(PLP,"Puedo finalizar el proceso ID: %d, envio mensaje", pcb->pid);
+	log_trace(logger,"PLP || PLP-FINALIZACION Puedo finalizar el proceso con PID: %d, envio mensaje", pcb->pid);
 	uint8_t auxv= PROCESO_FINALIZADO;
 	void* a_enviar = malloc(sizeof(uint8_t));
 	memcpy(a_enviar,&auxv,sizeof(uint8_t));
@@ -101,9 +101,9 @@ void* comunicacion_con_consolas()
 	{
 		//	Acepto de forma temporal la conexion hasta que valide que es un cliente
 		uint32_t socket_cliente = accept(server_fd,NULL,NULL);
-		log_trace(PLP,"Se acepto temporalmente la conexion en el descriptor: %d hasta validar la misma", socket_cliente);
+		log_trace(logger,"PLP || PLP-INICIALIZACION Se acepto temporalmente la conexion en el descriptor: %d hasta validar la misma", socket_cliente);
 		if( socket_cliente < 0)
-			log_trace(PLP,"Error al intentar aceptar conexion de un cliente");
+			log_error(logger,"PLP || PLP-INICIALIZACION Error al intentar aceptar conexion de un cliente");
 		else
 		{
 			/*
@@ -113,14 +113,14 @@ void* comunicacion_con_consolas()
 			//	Recibo el mensaje de la consola
 			mensajeConsola = 0;
 			recv(socket_cliente, &mensajeConsola, sizeof(uint8_t), 0);
-			log_info(PLP, "Mensaje recibido de la consola:  %d", mensajeConsola);
+			log_trace(logger, "PLP || PLP-INICIALIZACION Mensaje recibido de la consola:  %d", mensajeConsola);
 
 			if(mensajeConsola == INICIAR_CONEXION_CONSOLA)
 			{
 
 				handshake = ACEPTAR_CONEXION_CONSOLA;
 				send(socket_cliente, &handshake, sizeof(uint8_t), 0);
-				log_info(PLP, "Conexion establecida con la Consola");
+				log_trace(logger, "PLP || PLP-INICIALIZACION Conexion establecida con la Consola");
 
 				//guardo el socket y el acumulador para pasarselos a la funcion GESTIONAR_COMUNICACION
 				void* aux = malloc(sizeof(uint32_t)*2);
@@ -137,16 +137,16 @@ void* comunicacion_con_consolas()
 				// EVALUO QUE EL HILO SE HAYA CREADO CORRECTAMENTE
 				if(status <0)
 				{
-					log_error(PLP, "No pudo crearse un nuevo hilo de atencion a consola. Cierro la conexion con la misma");
+					log_error(logger, "PLP || PLP-INICIALIZACION No pudo crearse un nuevo hilo de atencion a consola. Cierro la conexion con la misma");
 					close(socket_cliente);
 				}
 				else
-					log_info(PLP, "Se creo un nuevo hilo para comunicarme con una consola.");
+					log_info(logger, "PLP || PLP-INICIALIZACION Se creo un nuevo hilo para comunicarme con una consola.");
 
 			}
 			else
 			{
-				log_error(PLP, "Handshake recibido de consola invalido: %d",mensajeConsola);
+				log_error(logger, "PLP || PLP-INICIALIZACION Handshake recibido de consola invalido: %d",mensajeConsola);
 				close(socket_cliente);
 			}
 		}
@@ -169,11 +169,11 @@ void* pasar_a_ready(){
 		pthread_mutex_lock(&mx_new_l);
 		pcb_t* pcb= list_remove(new_l,0);
 		pthread_mutex_unlock(&mx_new_l);
-		log_trace(PLP,"se pasa un proceso a ready, ID: %d",pcb->pid);
+		log_info(logger,"PLP || PLP-READY Se pasa el proceso con PID %d a ready",pcb->pid);
 		pthread_mutex_lock(&mx_mensaje_memoria);
 		uint8_t mensaje = INICIALIZAR_PROCESO;
 		send(socket_memoria,&mensaje,sizeof(uint8_t),0);
-		log_trace(PLP,"SE ENVIO UN MENSAJE");
+		log_trace(logger,"PLP || PLP-READY SE ENVIO UN MENSAJE");
 		send(socket_memoria,&pcb->pid,sizeof(uint32_t),0);
 		send(socket_memoria,&pcb->tamano,sizeof(uint32_t),0);
 		pthread_mutex_unlock(&mx_mensaje_memoria);
@@ -181,7 +181,7 @@ void* pasar_a_ready(){
 		//	DEL BUFFER Y NO DE LA LISTA DE NEW
 		recv(socket_memoria,&pcb->tabla_paginas,sizeof(uint32_t),0);
 
-		log_trace(PLP,"RECIBI LA ENTRADA: %d", pcb->tabla_paginas);
+		log_trace(logger,"PLP || PLP-READY RECIBI LA ENTRADA: %d", pcb->tabla_paginas);
 
 		pthread_mutex_lock(&mx_newM_l);
 		list_add(newM_l,pcb);
@@ -199,7 +199,8 @@ comunicacion_t* buscar_comunicacion(pcb_t* pcb){
 	for(int i=0;i<list_size(comunicaciones_l);i++){
 		comunicacion=list_get(comunicaciones_l,i);
 		if(comunicacion->pid == pcb->pid){
-			printf("encontre la comunicacion %d, %d", comunicacion->pid, pcb->pid);
+			log_trace(logger,"PLP || Encontre la consonla %d para comunicarme con el PCB PID: %d", comunicacion->pid, pcb->pid);
+//			printf("encontre la comunicacion %d, %d", comunicacion->pid, pcb->pid);
 			comunicacion = list_remove(comunicaciones_l,i);
 			return comunicacion;
 		}
@@ -220,14 +221,15 @@ void* finalizar_procesos(){
 	{
 		// ESPERO QUE HAYA UN PROCESO FINALIZADO
 		sem_wait(&s_proceso_finalizado);
-		log_trace(logP,"se va a finalizar un proceso");
+		log_trace(logger,"PLP || PLP-FINALIZAR Se va a finalizar un proceso");
 		pcb_t* pcb_finalizado = malloc(sizeof(pcb_t));
 
 		// LO SACO DE LA LISTA DE FINALIZADOR QUE FUNCIONA COMO UN BUFFER
 		pthread_mutex_lock(&mx_finalizado_l);
 		pcb_finalizado=list_remove(finalizado_l,0);
-		printf("proceso finalizado: \n");
-		pcb_mostrar(pcb_finalizado, PLP);
+		log_trace(logger,"PLP || PLP-FINALIZAR Se remueve el proceso con PID %d de la lista de finalizados", pcb_finalizado->pid);
+//		printf("proceso finalizado: \n");
+//		pcb_mostrar(pcb_finalizado, logger);
 		pthread_mutex_unlock(&mx_finalizado_l);
 		uint8_t mensaje= FINALIZAR_PROCESO;
 		pthread_mutex_lock(&mx_mensaje_memoria);
@@ -235,7 +237,7 @@ void* finalizar_procesos(){
 		send(socket_memoria,&pcb_finalizado->pid,sizeof(uint32_t),0);
 		pthread_mutex_unlock(&mx_mensaje_memoria);
 		comunicacion_t* comunicacion =buscar_comunicacion(pcb_finalizado);
-		log_trace(PLP,"se encontro una comunicacion");
+		log_trace(logger,"PLP || PLP-FINALIZAR Se encontro el Hilo con el cual finalizar el proceso con la consola que lo inicio");
 
 		// HAGO EL SEM POST PARA QUE SE DESBLOQUEE EL HILO Y AVISE
 		sem_post(comunicacion->s);

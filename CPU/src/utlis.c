@@ -139,7 +139,7 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
 	uint32_t valorRecibido;
 
 	log_info(logger, "CPU-MEMORIA Voy a leer valor de memoria");
-	uint32_t valor_leido_respuesta;
+//	uint32_t valor_leido_respuesta;
 	log_trace(logger, "CPU-MEMORIA ----- Direccion logica %d", direccion_logica);
 	// Voy a calcular los datos de la direccion
 	calcular_datos_direccion(datos, direccion_logica);
