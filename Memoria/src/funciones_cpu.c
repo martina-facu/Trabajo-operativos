@@ -50,7 +50,7 @@ void entrada1(){
 
 	t_tabla_1* tabla= list_get(tabla_1_l,indice_tabla_1);
 	pid_ = tabla->pid;
-	log_trace(logger, "MEMORIA-CPU || PID DE TABLA: %d", pid_);
+//	log_trace(logger, "MEMORIA-CPU || PID DE TABLA: %d", pid_);
 
 	log_trace(logger, "MEMORIA-CPU || Obtengo el proceso %d de la lista de procesos", pid_);
 	proceso_ = list_get(procesos,pid_);
@@ -60,7 +60,7 @@ void entrada1(){
 	log_info(logger, "MEMORIA-CPU || SE OBTUVO EL INDICE DE ENTRADA 2: %d", indice_entrada_2);
 	retardoXcpu();
 	send(socket_cpu,&indice_entrada_2,sizeof(uint32_t),0);
-	log_trace(logger, "Se envio el mensaje a cpu");
+	log_trace(logger, "Se envio el mensaje a cpu con el indice de tabla 2");
 }
 
 t_entrada_2* obtener_entrada(){

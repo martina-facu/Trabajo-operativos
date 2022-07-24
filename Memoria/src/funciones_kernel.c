@@ -310,14 +310,16 @@ void mostrar_bitarray()
 
 void mostrar_tablas(t_proceso* proceso_){
 	t_tabla_1* tabla1 = list_get(tabla_1_l,proceso_->entrada_1);
-	log_info(logger,"MEMORIA-ALGORITMO: MOSTRANDO TABLA 1, PERTENENCIENTE AL PROCESO: %d || ENTRADA DE TABLA 1 GLOBAL: %d",proceso_->pid,proceso_->entrada_1);
+	log_info(logger,"MEMORIA-ALGORITMO || ------------------ MOSTRANDO TABLA 1 Proceso: %d ------------------", proceso_->pid);
+	log_info(logger,"MEMORIA-ALGORITMO || ENTRADA DE TABLA 1 GLOBAL: %d", proceso_->entrada_1);
 	for(int i=0; i < ENTRADAS_POR_TABLA && *(tabla1->entradas+i)!=-1 ;i++){
 		uint32_t indice = *(tabla1->entradas+i);
-		log_info(logger,"MEMORIA-ALGORITMO: MOSTRANDO TABLA 2, PERTENENCIENTE AL PROCESO: %d || INDICE DE TABLA 2 GLOBAL: %d ",proceso_->pid,indice);
+		log_info(logger,"MEMORIA-ALGORITMO || --------- MOSTRANDO TABLA 2 Proceso: %d --------- ", proceso_->pid);
+		log_info(logger,"MEMORIA-ALGORITMO || INDICE DE TABLA 2 GLOBAL: %d ", indice);
 		t_tabla_2* tabla2= list_get(tabla_2_l,indice);
 		for(int j =0; j<ENTRADAS_POR_TABLA;j++){
 			t_entrada_2* entrada2 = list_get(tabla2->entradas,j);
-			log_info(logger,"MEMORIA-ALGORITMO: ENTRADA || U: %d || M: %d || P: %d || FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
+			log_info(logger,"MEMORIA-ALGORITMO ||\tENTRADA\t||U: %d\t||M: %d\t||P: %d\||FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
 		}
 	}
 }
