@@ -66,9 +66,9 @@
 
 	/*
 	 *  Funcion: setearLogLevel
-	 *  Entradas: 	char* fileName
-	 *  			char* processName
-	 *  			t_log_level log_level
+	 *  Entradas: 	t_config* configFile		Variable de archivo de configuracion para leer el nivel de log
+	 *  			char* fileName				Archivo en el cual se guardara el log
+	 *  			char* processName			Nombre del proceso para el log
 	 *  Salidas: t_log*
 	 *  Razon: 	Busco el nivel de log del archivo de configuracion e inicializo el mismo de acuerdo
 	 *  		a lo leido.

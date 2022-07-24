@@ -1,5 +1,12 @@
 #include "funciones_cpu.h"
 
+/*
+ *  Funcion: 	funciones_cpu
+ *  Entradas: 	void
+ *  Salidas: 	void* (es la funcion de un hilo)
+ *  Razon:		Evaluar los mensajes recibidos desde el CPU y enviar a procesar los mismos.
+ *  Author: Grupo 99
+ */
 
 void* funciones_cpu(){
 	
@@ -35,9 +42,16 @@ void* funciones_cpu(){
 	return NULL;
 }
 
-void entrada1(){
+/*
+ *  Funcion: 	entrada1
+ *  Entradas: 	void
+ *  Salidas: 	void
+ *  Razon:		Obtener el numero de entrada 1 solicitado y enviarselo a la CPU
+ *  Author: Grupo 99
+ */
 
-	log_trace(logger, "MEMORIA-CPU || VAMOS A RECIBIR ENTRADA 1");
+void entrada1()
+{
 	uint32_t indice_tabla_1;
 	recv(socket_cpu, &indice_tabla_1, sizeof(uint32_t),0);
 	backup_indice_1= indice_tabla_1;
@@ -50,7 +64,6 @@ void entrada1(){
 
 	t_tabla_1* tabla= list_get(tabla_1_l,indice_tabla_1);
 	pid_ = tabla->pid;
-//	log_trace(logger, "MEMORIA-CPU || PID DE TABLA: %d", pid_);
 
 	log_trace(logger, "MEMORIA-CPU || Obtengo el proceso %d de la lista de procesos", pid_);
 	proceso_ = list_get(procesos,pid_);
@@ -63,7 +76,16 @@ void entrada1(){
 	log_trace(logger, "Se envio el mensaje a cpu con el indice de tabla 2");
 }
 
-t_entrada_2* obtener_entrada(){
+/*
+ *  Funcion: 	obtener_entrada
+ *  Entradas: 	void
+ *  Salidas: 	t_entrada_2*
+ *  Razon:
+ *  Author: Grupo 99
+ */
+
+t_entrada_2* obtener_entrada()
+{
 	log_info(logger, "--------------------OBTENER ENTRADA----------------------");
 	log_info(logger, "INDICE DE TABLA 1: %d", backup_indice_1);
 	t_tabla_1* tabla1 = list_get(tabla_1_l,backup_indice_1);
@@ -77,15 +99,22 @@ t_entrada_2* obtener_entrada(){
 	log_info(logger,"CPU || ENTRADA || U: %d || M: %d || P: %d || FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
 	return entrada2;
 }
-void entrada2(){
-	log_trace(logger, "MEMORIA-CPU || RECIBIMOS ENTRADA 2");
 
+/*
+ *  Funcion: 	entrada1
+ *  Entradas: 	void
+ *  Salidas: 	void
+ *  Razon:		Obtener el numero de entrada 1 solicitado y enviarselo a la CPU
+ *  Author: Grupo 99
+ */
+
+void entrada2(){
 	uint32_t indice_tabla_2;
 	recv(socket_cpu, &indice_tabla_2, sizeof(uint32_t),0);
 	log_trace(logger, "MEMORIA-CPU || RECIBIMOS EL INDICE DE TABLA 2: %d || PID: %d", indice_tabla_2,pid_);
 	uint32_t entrada_tabla_2;
 	recv(socket_cpu,&entrada_tabla_2,sizeof(uint32_t),0);
-	log_trace(logger, "MEMORIA-CPU || RECIBIMOS EL ENTRADA DE TABLA 2: %d || PID: %d", entrada_tabla_2,pid_);
+	log_trace(logger, "MEMORIA-CPU || RECIBIMOS LA ENTRADA DE TABLA 2: %d || PID: %d", entrada_tabla_2,pid_);
 
 	backup_entrada_tabla_2= entrada_tabla_2;
 	t_tabla_2* tabla2= list_get(tabla_2_l,indice_tabla_2);
@@ -102,12 +131,29 @@ void entrada2(){
 	send(socket_cpu,&entrada->frame,sizeof(uint32_t),0);
 }
 
+/*
+ *  Funcion: 	chequear_puntero
+ *  Entradas: 	void
+ *  Salidas: 	void
+ *  Razon:
+ *  Author: Grupo 99
+ */
+
 void chequear_puntero(){
 	if(list_size(proceso_->pagMem)==proceso_->puntero){
 		proceso_->puntero=0;
 	}
 }
 
+/*
+ *  Funcion: 	page_fault
+ *  Entradas: 	t_entrada_2* entrada
+ *  			uint32_t indice_tabla_2
+ *  			uint32_t entrada_tabla_2
+ *  Salidas: 	void
+ *  Razon:		Se levanta en memoria una pagina que no se encuentra en la misma
+ *  Author: Grupo 99
+ */
 
 void page_fault(t_entrada_2* entrada,uint32_t indice_tabla_2, uint32_t entrada_tabla_2){
 	log_trace(logger, "MEMORIA-CPU || SE CREA UNA PAGINA A AGREGAR");
@@ -122,15 +168,14 @@ void page_fault(t_entrada_2* entrada,uint32_t indice_tabla_2, uint32_t entrada_t
 		entrada->bPres=1;
 		entrada->bUso=1;
 		entrada->bMod=0;
-		log_trace(logger, "ENTRADA A AGREGAR O REEMPLAZAR");
-		log_info(logger, "MEMORIA-CPU || ENTRADA :%d || BIT USO: %d || BIT MOD: %d || BIT PRES: %d || FRAME: %d", entrada_tabla_2,entrada->bUso, entrada->bMod, entrada->bPres, entrada->frame);
+		log_trace(logger, "MEMORIA-CPU ||------- ENTRADA A AGREGAR O REEMPLAZAR ------- ");
+		log_info(logger, "MEMORIA-CPU || ENTRADA :%d\t||BIT USO: %d\t||BIT MOD: %d\t||BIT PRES: %d\t||FRAME: %d", entrada_tabla_2,entrada->bUso, entrada->bMod, entrada->bPres, entrada->frame);
 			//int numero_pagina = indice_tabla_2*ENTRADAS_POR_TABLA +entrada_tabla_2;
 		int numero_pagina = entrada_tabla_2*ENTRADAS_POR_TABLA +indice_tabla_2;
 		log_info(logger, "MEMORIA-CPU || Nro pagina = %d", numero_pagina);
-//		log_trace(logger, "Nos vamo para swap");
 		traer_a_memoria(pid_,numero_pagina,entrada->frame);
 		log_trace(logger, "MEMORIA-CPU || OPERACION DE PAGINA EXITOSA");
-		log_info(logger, "MEMORIA-CPU || PID: %d ||TABLA DE PAGINAS EN MEMORIA: ",pid_);
+		log_info(logger, "MEMORIA-CPU || PID: %d\t||TABLA DE PAGINAS EN MEMORIA: ",pid_);
 		mostrar_tabla_pagina();
 		mostrar_bitarray();
 		return;
@@ -158,15 +203,23 @@ void page_fault(t_entrada_2* entrada,uint32_t indice_tabla_2, uint32_t entrada_t
 	//int numero_pagina = indice_tabla_2*ENTRADAS_POR_TABLA +entrada_tabla_2;
 	int numero_pagina = entrada_tabla_2*ENTRADAS_POR_TABLA +indice_tabla_2;
 	log_trace(logger, "MEMORIA-CPU || Nro pagina = %d", numero_pagina);
-//	log_trace(logger, "Nos vamo para swap");
 	traer_a_memoria(pid_,numero_pagina,entrada->frame);
-//	log_trace(logger, "Hemos Volvido a memoria");
 	list_add_sorted(proceso_->pagMem,pagina,ordenar);
 	log_trace(logger, "MEMORIA-CPU || OPERACION DE PAGINA EXITOSA");
 	log_info(logger, "MEMORIA-CPU || PID: %d ||TABLA DE PAGINAS EN MEMORIA: ",pid_);
 	mostrar_tabla_pagina();
 	mostrar_bitarray();
 }
+
+/*
+ *  Funcion: 	ordenar
+ *  Entradas: 	void* entrada1
+ *  			void* entrada2
+ *  Salidas: 	bool
+ *  Razon:
+ *  Author: Grupo 99
+ */
+
 bool ordenar(void* entrada1, void* entrada2){
 
 	t_memory_pag* entrada = entrada1;
@@ -175,58 +228,71 @@ bool ordenar(void* entrada1, void* entrada2){
 	return entrada->entrada->frame < aux->entrada->frame;
 
 }
+/*
+ *  Funcion: 	ejecutar_algoritmo
+ *  Entradas: 	t_entrada_2* entrada
+ *  Salidas: 	void
+ *  Razon:		Ejecutar el algoritmo (CLOCK o CLOCK-M segun parametria) para reemplazo de pagina.
+ *  Author: Grupo 99
+ */
+
 void ejecutar_algoritmo(t_entrada_2* entrada){
-	log_trace(logger, "Tipo de algoritmo");
 	if(strcmp(ALGORITMO_REEMPLAZO, "CLOCK")==0){
-		log_trace(logger, "CLOCK");
+		log_info(logger, "MEMORIA-CPU || ---------------- ALGORITMO CLOCK ----------------");
 		clock_(entrada);
 		}
 	else if(strcmp(ALGORITMO_REEMPLAZO, "CLOCK-M")==0){
-		log_trace(logger, "CLOCK-M");
-//		clock_M(proceso_,entrada);
+		log_info(logger, "MEMORIA-CPU || ---------------- ALGORITMO CLOCK-M ----------------");
 		clock_M(entrada);
 	} else{
-		log_error(logger,"ERROR EN LEER EL ALGORITMO");
-		return;
+		log_error(logger,"MEMORIA-CPU || Error al leer el algoritmo a ejecutar. Se proceso a cerrar la memoria ya que no puedo procesar los page fault.");
+		exit(EXIT_FAILURE);
 	}
-	log_info(logger,"TABLA DE PAGINAS DESPUES DE EJECUTAR EL ALGORITMO: ");
+	log_info(logger,"MEMORIA-CPU || ----- TABLA DE PAGINAS DESPUES DE EJECUTAR EL ALGORITMO ----- ");
 	mostrar_tabla_pagina();
 }
 
+/*
+ *  Funcion: 	clock_
+ *  Entradas: 	t_entrada_2* entrada
+ *  Salidas: 	void
+ *  Razon:		Ejecutar el algoritmo CLOCK para reemplazo de pagina.
+ *  Author: Grupo 99
+ */
+
+
 void clock_(t_entrada_2* entrada){
-	log_trace(logger, "CPU || VAMOS A EJECUTAR CLOCK");
-	log_trace(logger,"CPU || PUNTERO INICIAL: %d || CONTADOR: %d", proceso_->puntero, proceso_->contador);
-	log_info(logger,"CPU || SE VA A EJECUTAR EL ALGORITMO SOBRE LA SIGUIENTE TABLA: ");
+	log_info(logger,"MEMORIA-CPU || PUNTERO INICIAL: %d\ţ||CONTADOR: %d", proceso_->puntero, proceso_->contador);
+	log_info(logger,"MEMORIA-CPU || ------ TABLA ------");
 	mostrar_tabla_pagina();
 	while(1){
-		log_trace(logger, "CPU || BUSCO VICTIMA");
+		log_trace(logger, "MEMORIA-CPU || BUSCO VICTIMA");
 		t_memory_pag* posible_victima = list_get(proceso_->pagMem,proceso_->puntero);
 		if(posible_victima->entrada->bUso==0){
-			log_trace(logger, "CPU || ENCONTRE LA VICTIMA");
+			log_trace(logger, "MEMORIA-CPU || ENCONTRE LA VICTIMA");
 			t_memory_pag* victima= posible_victima;
 			// ANTES DE REEMPLAZAR LA ENTRADA
 			victima->entrada->bPres=0;
 			entrada->frame= posible_victima->entrada->frame;
 			if(victima->entrada->bMod==1){
-				log_trace(logger, "CPU || El maquina tiene el bit de modificado en 1");
+				log_trace(logger, "MEMORIA-CPU || El maquina tiene el bit de modificado en 1");
 				t_swap* swap= malloc(sizeof(t_swap));
-				log_trace(logger, "CPU || CREO LA ESTRUCTURA SWAP, CON PID: %d",pid_);
+				log_trace(logger, "MEMORIA-CPU || CREO LA ESTRUCTURA SWAP, CON PID: %d",pid_);
 				swap->pid=pid_;
 				swap->memorias_a_swappear= list_create();
-				log_trace(logger, "CPU || Agrego la victima a la lista de paginas a swapear");
+				log_trace(logger, "MEMORIA-CPU || Agrego la victima a la lista de paginas a swapear");
 				list_add(swap->memorias_a_swappear,victima);
-				log_trace(logger, "CPU || AGREGUE LA VICTIMA A LA LISTA SWAP");
-				log_trace(logger, "CPU || PEDIDO AGREGADO");
+				log_trace(logger, "MEMORIA-CPU || AGREGUE LA VICTIMA A LA LISTA SWAP");
+				log_trace(logger, "MEMORIA-CPU || PEDIDO AGREGADO");
 				list_add(pedidos_swap_l,swap);
 				sem_post(&s_swap);
-				log_trace(logger, "PASE NOMAAAS");
 			}
 
 			victima->entrada = entrada;
 			proceso_->contador++;
-			log_trace(logger, "CPU || CONTADOR: %d", proceso_->contador);
+			log_trace(logger, "MEMORIA-CPU || CONTADOR: %d", proceso_->contador);
 			proceso_->puntero= proceso_->contador%(list_size(proceso_->pagMem));
-			log_trace(logger, "CPU || PUNTERO: %d", proceso_->puntero);
+			log_trace(logger, "MEMORIA-CPU || PUNTERO: %d", proceso_->puntero);
 			entrada->frame= posible_victima->entrada->frame;
 //			return list_remove(proceso_->pagMem,proceso_->puntero);
 			return;
@@ -234,36 +300,43 @@ void clock_(t_entrada_2* entrada){
 			posible_victima->entrada->bUso=0;
 		}
 		proceso_->contador++;
-		log_trace(logger, "CPU || CONTADOR: %d", proceso_->contador);
+		log_trace(logger, "MEMORIA-CPU || CONTADOR: %d", proceso_->contador);
 		proceso_->puntero= proceso_->contador%list_size(proceso_->pagMem);
-		log_trace(logger, "CPU || PUNTERO: %d", proceso_->puntero);
+		log_trace(logger, "MEMORIA-CPU || PUNTERO: %d", proceso_->puntero);
 	}
 }
+
+/*
+ *  Funcion: 	clock_M
+ *  Entradas: 	t_entrada_2* entrada
+ *  Salidas: 	void
+ *  Razon:		Ejecutar el algoritmo CLOCK-M para reemplazo de pagina.
+ *  Author: Grupo 99
+ */
 void clock_M(t_entrada_2* entrada){
-	log_trace(logger, "CPU || VAMOS A EJECUTAR CLOCK-M");
-	log_trace(logger,"CPU || PUNTERO INICIAL: %d || CONTADOR: %d", proceso_->puntero, proceso_->contador);
-	log_info(logger,"CPU || SE VA A EJECUTAR EL ALGORITMO SOBRE LA SIGUIENTE TABLA: ");
+	log_trace(logger,"MEMORIA-CPU || PUNTERO INICIAL: %d\t||CONTADOR: %d", proceso_->puntero, proceso_->contador);
+	log_info(logger,"MEMORIA-CPU || ------ TABLA ------");
 	mostrar_tabla_pagina();
 	while(1){
-		log_trace(logger, "Obtengo una posible victima");
+		log_trace(logger, "MEMORIA-CPU || Obtengo una posible victima");
 		for(int i = 0; i < list_size(proceso_->pagMem); i++){
 			t_memory_pag* posible_victima = list_get(proceso_->pagMem,proceso_->puntero);
 
-			log_trace(logger, "Veo si tiene el buso y bmod en 0");
+			log_trace(logger, "MEMORIA-CPU || Veo si tiene el buso y bmod en 0");
 
 			if(posible_victima->entrada->bUso==0 && posible_victima->entrada->bMod==0){
 				t_memory_pag* victima= posible_victima;
 				// ANTES DE REEMPLAZAR LA ENTRADA
 				victima->entrada->bPres=0;
 				entrada->frame= posible_victima->entrada->frame;
-				log_trace(logger, "Tiene el b de usoy b de mod en 0, se hizo la vistima");
+				log_trace(logger, "MEMORIA-CPU || Tiene el b de usoy b de mod en 0, se hizo la vistima");
 				victima->entrada = entrada;
 				proceso_->contador++;
-				log_trace(logger, "Contador: %d", proceso_->contador);
+				log_trace(logger, "MEMORIA-CPU || Contador: %d", proceso_->contador);
 				proceso_->puntero= proceso_->contador%(list_size(proceso_->pagMem));
-				log_trace(logger, "Puntero: %d", proceso_->puntero);
+				log_trace(logger, "MEMORIA-CPU || Puntero: %d", proceso_->puntero);
 				entrada->frame= posible_victima->entrada->frame;
-				log_trace(logger, "Se asigno el frame %d", entrada->frame);
+				log_trace(logger, "MEMORIA-CPU || Se asigno el frame %d", entrada->frame);
 				return;
 			}
 			proceso_->contador++;
@@ -279,20 +352,19 @@ void clock_M(t_entrada_2* entrada){
 				// ANTES DE REEMPLAZAR LA ENTRADA
 				victima->entrada->bPres=0;
 				entrada->frame= posible_victima->entrada->frame;
-				log_trace(logger, "Tiene el b de usoy b de mod en 1, se hizo la vistima");
+				log_trace(logger, "MEMORIA-CPU || Tiene el b de usoy b de mod en 1, se hizo la vistima");
 				if(victima->entrada->bMod==1){
-					log_trace(logger, "CPU || El maquina tiene el bit de modificado en 1");
+					log_trace(logger, "MEMORIA-CPU || El maquina tiene el bit de modificado en 1");
 					t_swap* swap= malloc(sizeof(t_swap));
-					log_trace(logger, "CPU || CREO LA ESTRUCTURA SWAP, CON PID: %d",pid_);
+					log_trace(logger, "MEMORIA-CPU || CREO LA ESTRUCTURA SWAP, CON PID: %d",pid_);
 					swap->pid=pid_;
 					swap->memorias_a_swappear= list_create();
-					log_trace(logger, "CPU || Agrego la victima a la lista de paginas a swapear");
+					log_trace(logger, "MEMORIA-CPU || Agrego la victima a la lista de paginas a swapear");
 					list_add(swap->memorias_a_swappear,victima);
-					log_trace(logger, "CPU || AGREGUE LA VICTIMA A LA LISTA SWAP");
-					log_trace(logger, "CPU || PEDIDO AGREGADO");
+					log_trace(logger, "MEMORIA-CPU || AGREGUE LA VICTIMA A LA LISTA SWAP");
+					log_trace(logger, "MEMORIA-CPU || PEDIDO AGREGADO");
 					list_add(pedidos_swap_l,swap);
 					sem_post(&s_swap);
-					log_trace(logger, "PASE NOMAAAS");
 				}
 				victima->entrada = entrada;
 				proceso_->contador++;
@@ -301,7 +373,7 @@ void clock_M(t_entrada_2* entrada){
 				return;
 			}
 			else{
-				log_trace(logger, "Pongo el b de uso en 0 ");
+				log_trace(logger, "MEMORIA-CPU || Pongo el b de uso en 0 ");
 				posible_victima->entrada->bUso=0;
 			}
 			proceso_->contador++;
@@ -309,7 +381,13 @@ void clock_M(t_entrada_2* entrada){
 		}
 	}
 }
-
+/*
+ *  Funcion: 	escritura
+ *  Entradas: 	void
+ *  Salidas: 	void
+ *  Razon:		Recibo una operacion de escritura desde la CPU y la proceso.
+ *  Author: Grupo 99
+ */
 void escritura(){
 	uint32_t direccion_fisica;
 	recv(socket_cpu,&direccion_fisica,sizeof(uint32_t),0);
@@ -321,36 +399,64 @@ void escritura(){
 	t_entrada_2* entrada=  obtener_entrada();
 	entrada->bUso=1;
 	entrada->bMod=1;
-	log_trace(logger, "SE REALIZO LA ESCRITURA %d || EN EL FRAME: %d",escritura, entrada->frame );
+	log_info(logger, "MEMORIA-CPU || ------ ESCRITURA %d\t||EN EL FRAME: %d",escritura, entrada->frame );
 }
 
+/*
+ *  Funcion: 	lectura
+ *  Entradas: 	void
+ *  Salidas: 	void
+ *  Razon:		Recibo una operacion de lectura desde la CPU y la proceso.
+ *  Author: Grupo 99
+ */
 
 void lectura(){
 	uint32_t direccion_fisica;
 	recv(socket_cpu,&direccion_fisica,sizeof(uint32_t),0);
 	uint32_t buffer;
 	memcpy(&buffer,memoria+direccion_fisica,sizeof(uint32_t));
-	log_trace(logger,"VALOR LEIDO: %d", buffer);
 	retardoXcpu();
 	send(socket_cpu,&buffer,sizeof(uint32_t),0);
 	t_entrada_2* entrada=  obtener_entrada();
 	entrada->bUso=1;
-	log_trace(logger, "SE REALIZO LA LECTURA");
+	log_info(logger, "MEMORIA-CPU || ------ LECTURA %d\t||EN EL FRAME: %d", buffer, direccion_fisica);
 }
+
+/*
+ *  Funcion: 	mostrar_tabla_pagina
+ *  Entradas: 	void
+ *  Salidas: 	void
+ *  Razon:		Muestro en los logs la tabla de paginas.
+ *  Author: Grupo 99
+ */
 
 void mostrar_tabla_pagina(){
 	for(int i=0; i < list_size(proceso_->pagMem); i++){
 		t_memory_pag* pagina = list_get(proceso_->pagMem,i);
 		t_entrada_2* entrada2 = pagina->entrada;
-		log_info(logger,"MEMORIA-CPU || ENTRADA || U: %d || M: %d || P: %d || FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
+		log_info(logger,"MEMORIA-CPU || ENTRADA\t||U: %d\t||M: %d\t||P: %d\t||FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
 	}
 }
-
+/*
+ *  Funcion: 	mostrar_entrada
+ *  Entradas: 	t_entrada_2* entrada2
+ *  Salidas: 	void
+ *  Razon:
+ *  Author: Grupo 99
+ */
 
 void mostrar_entrada(t_entrada_2* entrada2){
-	log_info(logger, "MEMORIA-CPU || INDICE GLOBAL 1: %d || ENTRADA (INDICE TABLA 2): %d || ENTRADA TABLA 2: %d	", backup_indice_1,backup_indice_tabla_2,backup_entrada_tabla_2);
-	log_info(logger,"MEMORIA-CPU || ENTRADA || U: %d || M: %d || P: %d || FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
+	log_info(logger, "MEMORIA-CPU || INDICE GLOBAL 1: %d\t||ENTRADA (INDICE TABLA 2): %d\t||ENTRADA TABLA 2: %d	", backup_indice_1,backup_indice_tabla_2,backup_entrada_tabla_2);
+	log_info(logger,"MEMORIA-CPU || ENTRADA\t||U: %d\t||M: %d\t||P: %d\t||FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
 }
+
+/*
+ *  Funcion: 	memoria_esta_llena
+ *  Entradas: 	void
+ *  Salidas: 	bool
+ *  Razon:
+ *  Author: Grupo 99
+ */
 
 bool memoria_esta_llena(){
 	for(int i=0;i< bitarray_get_max_bit(bitMem);i++){
@@ -359,6 +465,14 @@ bool memoria_esta_llena(){
 		}
 	return true;
 }
+
+/*
+ *  Funcion: 	buscar_frame_libre
+ *  Entradas: 	void
+ *  Salidas: 	int
+ *  Razon:		Buscar e informar el numero de frame libre
+ *  Author: Grupo 99
+ */
 
 int buscar_frame_libre(){
 	log_trace(logger, "CPU || FRAMES: %d",bitarray_get_max_bit(bitMem));
@@ -372,16 +486,19 @@ int buscar_frame_libre(){
 	return -1;
 }
 
+/*
+ *  Funcion: 	retardoXcpu
+ *  Entradas: 	void
+ *  Salidas: 	int
+ *  Razon:		Retardo por operacion desde CPU. El valor del mismo se setea
+ *  			por archivo de configuracion.
+ *  Author: Grupo 99
+ */
+
 void retardoXcpu(){
 	int retardoEnSegundos;
 
 	retardoEnSegundos = RETARDO_MEMORIA/1000;
 	sleep(retardoEnSegundos);
-	log_info(logger, "MEMORIA-CPU: Se realizar el retardo de consumo de memoria por CPU de %d segundos", retardoEnSegundos);
+	log_info(logger, "MEMORIA-CPU || Se realizar el retardo de consumo de memoria por CPU de %d segundos", retardoEnSegundos);
 }
-
-
-
-
-
-
