@@ -46,10 +46,10 @@
 	pcb_t *pcb_create(uint32_t tamano, t_list* instrucciones,uint32_t pid, double estimacion_inicial,
 			uint32_t tabla_paginas);
 	void *pcb_armar_stream(pcb_t *pcb);
-	pcb_t *pcb_deserializar(t_buffer* buffer);
+	pcb_t *pcb_deserializar(t_buffer* buffer, t_log* logger);
 	void pcb_mostrar(pcb_t* pcb, t_log* logger);
 	uint32_t pcb_calcular_espacio(pcb_t* pcb);
 	void* pcb_serializar(pcb_t* pcb, uint32_t* tamano_mensaje, uint8_t codigo_operacion);
-	pcb_t* recibirPCB(int socket);
+	pcb_t* recibirPCB(int socket, t_log* logger);
 
 #endif /* PCB_H_ */

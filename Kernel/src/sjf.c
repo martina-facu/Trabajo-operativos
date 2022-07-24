@@ -50,7 +50,7 @@ pcb_t* recibir_paquete_pcb_sjf(){
 	recv(socket_cpu_dispatch,&buffer->size,sizeof(uint32_t),0);
 	buffer->stream = malloc(buffer->size);
 	recv(socket_cpu_dispatch,buffer->stream,buffer->size,0);
-	pcb_t* pcb = pcb_deserializar(buffer);
+	pcb_t* pcb = pcb_deserializar(buffer, PCP);
 	log_trace(PCP,"recibi un proceso ID: %d ",pcb->pid);
 	return pcb;
 }

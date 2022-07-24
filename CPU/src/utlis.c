@@ -18,7 +18,7 @@ pcb_t* obtener_pcb(int cliente)
 	buffer->stream = malloc(buffer->size);
 	recv(cliente, buffer->stream, buffer->size, 0);
 
-	pcb_t* pcb = pcb_deserializar(buffer);
+	pcb_t* pcb = pcb_deserializar(buffer, logger);
 
 	return pcb;
 }

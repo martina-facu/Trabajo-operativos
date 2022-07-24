@@ -87,7 +87,7 @@ void* pcb_serializar(pcb_t* pcb, uint32_t* tamano_mensaje, uint8_t codigo_operac
 	return a_enviar;
 }
 
-pcb_t* pcb_deserializar(t_buffer* buffer)
+pcb_t* pcb_deserializar(t_buffer* buffer, t_log* logger)
 {
 	pcb_t* pcb = malloc(sizeof(pcb_t));
 	void* stream = buffer->stream;
@@ -103,6 +103,11 @@ pcb_t* pcb_deserializar(t_buffer* buffer)
 
 	memcpy(&(pcb->estimado_rafaga), stream, sizeof(uint32_t));
 	stream += sizeof(uint32_t);
+	log_trace(logger, "VER ERROR ESTIMADOR DE RAFAGA");
+	log_trace(logger, "VER ERROR ESTIMADOR DE RAFAGA");
+	log_trace(logger, "-----------ESTIMADOR DE RAFAGA: %d", pcb->estimado_rafaga);
+	log_trace(logger, "VER ERROR ESTIMADOR DE RAFAGA");
+	log_trace(logger, "VER ERROR ESTIMADOR DE RAFAGA");
 
 	memcpy(&(pcb->estado), stream, sizeof(uint32_t));
 	stream += sizeof(uint32_t);
@@ -142,7 +147,7 @@ void pcb_mostrar(pcb_t* pcb, t_log* logger)
 	mostrar_instrucciones(pcb->instrucciones, logger);
 }
 
-pcb_t* recibirPCB(int socket)
+pcb_t* recibirPCB(int socket, t_log* logger)
 {
 
 	t_paquete* paquete = malloc(sizeof(t_paquete));
@@ -159,7 +164,7 @@ pcb_t* recibirPCB(int socket)
 	buffer->stream = malloc(buffer->size);
 	recv(socket, buffer->stream, buffer->size, 0);
 
-	pcb_t* pcb = pcb_deserializar(buffer);
+	pcb_t* pcb = pcb_deserializar(buffer, logger);
 
 	return pcb;
 }
