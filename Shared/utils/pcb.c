@@ -103,17 +103,18 @@ pcb_t* pcb_deserializar(t_buffer* buffer, t_log* logger)
 
 	memcpy(&(pcb->estimado_rafaga), stream, sizeof(uint32_t));
 	stream += sizeof(uint32_t);
-	log_trace(logger, "VER ERROR ESTIMADOR DE RAFAGA");
-	log_trace(logger, "VER ERROR ESTIMADOR DE RAFAGA");
-	log_trace(logger, "-----------ESTIMADOR DE RAFAGA: %d", pcb->estimado_rafaga);
-	log_trace(logger, "VER ERROR ESTIMADOR DE RAFAGA");
-	log_trace(logger, "VER ERROR ESTIMADOR DE RAFAGA");
 
 	memcpy(&(pcb->estado), stream, sizeof(uint32_t));
 	stream += sizeof(uint32_t);
 
 	memcpy(&(pcb->tiempo_block), stream, sizeof(uint32_t));
 	stream += sizeof(uint32_t);
+
+	log_trace(logger, "VER ERROR TIEMPO DE IO");
+	log_trace(logger, "VER ERROR TIEMPO DE IO");
+	log_trace(logger, "-----------TIEMPO DE IO: %d", pcb->tiempo_block);
+	log_trace(logger, "VER ERROR TIEMPO DE IO");
+	log_trace(logger, "VER ERROR TIEMPO DE IO");
 
 	memcpy(&(pcb->tabla_paginas), stream, sizeof(uint32_t));
 	stream += sizeof(uint32_t);
