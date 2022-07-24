@@ -196,7 +196,7 @@ pcb_t* recibir_paquete_pcb()
 	buffer->stream = malloc(buffer->size);
 	recv(socket_cpu_dispatch,buffer->stream,buffer->size,0);
 	pcb_t* pcb = pcb_deserializar(buffer, logger);
-	pcb_mostrar(pcb, logger);
+//	pcb_mostrar(pcb, logger);
 	log_trace(logger,"PCP || Recibi un proceso ID: %d ",pcb->pid);
 	return pcb;
 }

@@ -100,7 +100,7 @@ void actualizar_estimacion(pcb_t* pcb){
 	log_trace(logger, "PCP || ESTIMACION EN FLOTANTE: %f",(tiempo_de_ejecucion*(1-alpha))+alpha*((double) pcb->estimado_rafaga));
 	pcb->estimado_rafaga = (uint32_t) (tiempo_de_ejecucion*(1-alpha)+alpha*pcb->estimado_rafaga);
 	log_trace(logger, "PCP || PID: %d\t||ESTIMACION ACTUAL: %d",pcb->pid,pcb->estimado_rafaga);
-	pcb_mostrar(pcb,logger);
+//	pcb_mostrar(pcb,logger);
 }
 
 void* bloquear_proceso_sjf(void* pcb_){

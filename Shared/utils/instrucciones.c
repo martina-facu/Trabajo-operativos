@@ -49,11 +49,12 @@ int getCantidadParametros(uint8_t id)
 void mostrar_parametros(t_list* list, t_log* logger)
 {
 	int aux = list_size(list);
-
+	log_trace(logger, "------ PARAMETROS DE LA INSTRUCCION ------");
 	for(int i=0;i<aux;i++){
 		int* parametro= list_get(list,i);
-		log_trace(logger, "PCB-INSTRUCCION: Parametro: %d\tValor: %d ",i, *parametro);
+		log_trace(logger, "PCB-INSTRUCCION || Parametro: %d\t||Valor: %d",i, *parametro);
 	}
+	log_trace(logger, "------------------- FIN INFORMACION PCB -------------------");
 }
 void mostrar_instrucciones(t_list* list, t_log* logger)
 {
@@ -61,10 +62,11 @@ void mostrar_instrucciones(t_list* list, t_log* logger)
 	Instruccion* instruccion;
 	char* nombre[6]={"NO_OP", "I/O", "WRITE", "COPY", "READ", "EXIT"}; // TODO: Liberar la memoria de este array
 
-
+	log_trace(logger, "----------- INSTRUCCIONES DEL PCB -----------");
 	for(int i=0;i<aux;i++){
 		instruccion= list_get(list,i);
-		log_trace(logger, "PCB-INSTRUCCION: El codigo de la instruccion es: %d , nombre: %s \n cantidad de parametros: %d parametros: ", instruccion->id, nombre[(instruccion->id)-1], getCantidadParametros(instruccion->id));
+//		log_trace(logger, "PCB-INSTRUCCION || INSTRUCCION %d , nombre: %s \n cantidad de parametros: %d parametros: ", instruccion->id, nombre[(instruccion->id)-1], getCantidadParametros(instruccion->id));
+		log_trace(logger, "PCB-INSTRUCCION || INSTRUCCION %s\t||Numero Parametros: %d", nombre[(instruccion->id)-1], getCantidadParametros(instruccion->id));
 		mostrar_parametros(instruccion->parametros, logger);
 	}
 
