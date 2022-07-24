@@ -61,8 +61,8 @@ void inicializar(){
 
 void iniciar_config(){
 	t_config* config = config_create("memoria.config");
-//	logger = log_create("logger.log","memoria",1,LOG_LEVEL_TRACE);
-	logger = initLogger("memoria.log", "MEMORIA", LOG_LEVEL_TRACE);
+
+	logger = setearLogLevel(config,"memoria.log", "MEMORIA");
 
 	PUERTO_ESCUCHA = config_get_string_value(config,"PUERTO_ESCUCHA");
 	TAM_MEMORIA = (uint32_t ) config_get_int_value(config,"TAM_MEMORIA");

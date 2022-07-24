@@ -63,8 +63,6 @@ int main(void)
 }
 void establecer_configuracion()
 {
-	//	Variable para leer el nivel de log deseado.
-	char* logLevel;
 
 	t_config* kernel_config= config_create("kernel.config");
 
@@ -74,23 +72,7 @@ void establecer_configuracion()
 		exit(EXIT_FAILURE);
 	}
 
-	//	Busco el parametro LOG_LEVEL en el archivo de configuracion
-	//	Si no existe seteo el log en TRACE, de existir en lo que diga la variable.
-
-	logLevel = config_get_string_value(kernel_config, "LOG_LEVEL");
-	if(logLevel == NULL)
-	{
-		logLevel = malloc(16*sizeof(char));
-		strcpy(logLevel,"LOG_LEVEL_TRACE");
-	}
-
-	if(strcmp(logLevel,"LOG_LEVEL_TRACE")==0)
-		logger = initLogger("kernel.log", "KERNEL", LOG_LEVEL_TRACE);
-	else if(strcmp(logLevel,"LOG_LEVEL_INFO")==0)
-		logger = initLogger("kernel.log", "KERNEL", LOG_LEVEL_INFO);
-	else
-		logger = initLogger("kernel.log", "KERNEL", LOG_LEVEL_TRACE);
-	free(logLevel);
+	logger = setearLogLevel(kernel_config,"kernel.log", "KERNEL");
 
 	//	Cargo el resto de las configuraciones
 

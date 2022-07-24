@@ -54,7 +54,6 @@ void mostrar_parametros(t_list* list, t_log* logger)
 		int* parametro= list_get(list,i);
 		log_trace(logger, "PCB-INSTRUCCION || Parametro: %d\t||Valor: %d",i, *parametro);
 	}
-	log_trace(logger, "------------------- FIN INFORMACION PCB -------------------");
 }
 void mostrar_instrucciones(t_list* list, t_log* logger)
 {
@@ -193,7 +192,8 @@ t_list* deserializar_mensaje(int cliente, uint32_t* tamano_proceso, t_log* logge
 
 	t_list* instrucciones = list_create();
 	deserializar_instrucciones(buffer, instrucciones);
-	mostrar_instrucciones(instrucciones, logger);
+	//	Muestro las instrucciones deserealizadas. Descomentar solo para hacer TRACE
+//	mostrar_instrucciones(instrucciones, logger);
 
 	recv(cliente, tamano_proceso, sizeof(uint32_t), 0);
 

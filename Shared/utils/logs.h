@@ -37,7 +37,7 @@
  * Prototipo de funciones
 */
 	t_log* initLogger(char* fileName, char* processName, t_log_level log_level);
-
+	t_log* setearLogLevel(t_config* configFile, char* fileName, char* processName );
 
 #endif /* UTILS_LOGS_H_ */
 

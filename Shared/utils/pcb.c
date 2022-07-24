@@ -146,6 +146,7 @@ void pcb_mostrar(pcb_t* pcb, t_log* logger)
 //	printf("TIEMPO BLOQUEO: %d\n", pcb->tiempo_block);
 	log_trace(logger, "PCB || TIEMPO BLOQUEO: %d", pcb->tiempo_block);
 	mostrar_instrucciones(pcb->instrucciones, logger);
+	log_trace(logger, "------------------- FIN INFORMACION PCB -------------------");
 }
 
 pcb_t* recibirPCB(int socket, t_log* logger)

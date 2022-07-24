@@ -316,25 +316,10 @@ t_config_cpu* crearConfigCPU(void)
 
 t_config_cpu* cargarConfiguracion(char* configPath)
 {
-	char* logLevel;
-
 	t_config* configFile = config_create(configPath);
 	t_config_cpu* configTemp = crearConfigCPU();
 
-	logLevel = config_get_string_value(configFile, "LOG_LEVEL");
-	if(logLevel == NULL)
-	{
-		logLevel = malloc(16*sizeof(char));
-		strcpy(logLevel,"LOG_LEVEL_TRACE");
-	}
-
-	if(strcmp(logLevel,"LOG_LEVEL_TRACE")==0)
-		logger = initLogger("cpu.log", "CPU", LOG_LEVEL_TRACE);
-	else if(strcmp(logLevel,"LOG_LEVEL_INFO")==0)
-		logger = initLogger("cpu.log", "CPU", LOG_LEVEL_INFO);
-	else
-		logger = initLogger("cpu.log", "CPU", LOG_LEVEL_TRACE);
-	free(logLevel);
+	logger = setearLogLevel(configFile,"cpu.log", "CPU");
 
 	configTemp->entradasTLB = config_get_int_value(configFile, ENTRADAS_TLB);
 		log_trace(logger, "CPU-CONFIGURACION Se leyo la variable ENTRADAS_TLB: %d", configTemp->entradasTLB);

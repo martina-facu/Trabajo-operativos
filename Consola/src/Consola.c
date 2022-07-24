@@ -7,7 +7,9 @@ int main(int argc, char *argv[]) {
 
 	//	Se levanta el log de la consola.
 	t_log* logger;
-	logger = initLogger("consola.log", "CONSOLA", LOG_LEVEL_INFO);
+	t_config* config = config_create("consola.config");
+
+	logger = setearLogLevel(config,"consola.log", "CONSOLA");
 
 	//	Seteo el primer argumento como la ruta al archivo de instruccion del programa a ejecutar.
 	char* filename = argv[1];
@@ -18,7 +20,7 @@ int main(int argc, char *argv[]) {
 	log_trace(logger, "El tamaño del proceso para esta consola es: %d", tamano_proceso);
 
 	//	Levamto y leo del archivo de configuracion los valores de conexion al Kernel
-	t_config* config = config_create("consola.config");
+
 	char* ip = config_get_string_value(config, "IP_KERNEL");
 	log_trace(logger, "La IP de conexion al Kernel es: %s", ip);
 	char* puerto = config_get_string_value(config, "PUERTO_KERNEL");
