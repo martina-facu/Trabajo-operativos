@@ -37,7 +37,7 @@ void inicializar(){
 
 	CANT_MARCOS= TAM_MEMORIA/TAM_PAGINA;
 
-	log_info(logger,"MEMORIA: CANTIDAD DE MARCOS: %d", CANT_MARCOS);
+	log_info(logger,"MEMORIA-CONFIGURACION || CANTIDAD DE MARCOS: %d", CANT_MARCOS);
 
 	int cant_marcos_bytes = division_entera(CANT_MARCOS,8);
 
@@ -61,8 +61,8 @@ void inicializar(){
 
 void iniciar_config(){
 	t_config* config = config_create("memoria.config");
-//	logger = log_create("logger.log","memoria",1,LOG_LEVEL_TRACE);
-	logger = initLogger("memoria.log", "MEMORIA", LOG_LEVEL_TRACE);
+
+	logger = setearLogLevel(config,"memoria.log", "MEMORIA");
 
 	PUERTO_ESCUCHA = config_get_string_value(config,"PUERTO_ESCUCHA");
 	TAM_MEMORIA = (uint32_t ) config_get_int_value(config,"TAM_MEMORIA");
@@ -104,20 +104,20 @@ void iniciar_servidor_memoria(){
 	socket_server=socket(servinfo->ai_family,servinfo->ai_socktype,servinfo->ai_protocol);
 	//	Marcamos el socket como reutilizable
 		if (setsockopt(socket_server, SOL_SOCKET, SO_REUSEADDR, &(int){1}, sizeof(int)) < 0)
-			log_error(logger, "CONEXION: setsockopt(SO_REUSEADDR) failed");
+			log_error(logger, "MEMORIA-CONEXION || setsockopt(SO_REUSEADDR) failed");
 //		    perror("CONEXION: setsockopt(SO_REUSEADDR) failed");
 	// Asociamos el socket a un puerto
 	if(bind(socket_server,servinfo->ai_addr,servinfo->ai_addrlen)!=0){
-		log_error(logger, "CONEXION: Fallo el bind al generar server");
+		log_error(logger, "MEMORIA-CONEXION || Fallo el bind al generar server");
 		return exit(-2);
 	}
 	// Escuchamos las conexiones entrantes
 	if(listen(socket_server,SOMAXCONN)==-1)
 	{
-		log_error(logger, "CONEXION: Fallo el listen al generar server");
+		log_error(logger, "MEMORIA-CONEXION || Fallo el listen al generar server");
 		return exit(-1);
 	}
-	log_info(logger, "CONEXION: Server escuchando");
+	log_info(logger, "MEMORIA-CONEXION || Server escuchando");
 
 	freeaddrinfo(servinfo);
 }
@@ -126,7 +126,7 @@ void iniciar_conexiones_mem(){
 	for(int i=0; i < 2;i++){
 		int socket_cliente = accept(socket_server,NULL,NULL);
 		if(socket_cliente <0){
-			log_error(logger,"CONEXION: Error en el accept");
+			log_error(logger,"MEMORIA-CONEXION || Error en el accept");
 		}
 		uint8_t codigo;
 		recv(socket_cliente,&codigo,sizeof(uint8_t),0);
@@ -134,12 +134,12 @@ void iniciar_conexiones_mem(){
 			socket_kernel = socket_cliente;
 			uint8_t handshake = ACEPTAR_CONEXION_KERNEL;
 			send(socket_kernel,&handshake,sizeof(uint8_t),0);
-			log_info(logger,"CONEXION: SE ACEPTO EL KERNEL");
+			log_info(logger,"MEMORIA-CONEXION || SE ACEPTO EL KERNEL");
 		} else if( codigo == INICIAR_CONEXION_CPU){
 			socket_cpu = socket_cliente;
 			uint8_t handshake = ACEPTAR_CONEXION_CPU;
 			send(socket_cpu,&handshake,sizeof(uint8_t),0);
-			log_info(logger,"CONEXION: SE ACEPTO EL CPU");
+			log_info(logger,"MEMORIA-CONEXION || SE ACEPTO EL CPU");
 			uint8_t mensaje;
 			recv(socket_cpu,&mensaje,sizeof(uint8_t),0);
 
@@ -147,7 +147,7 @@ void iniciar_conexiones_mem(){
 			send(socket_cliente,&TAM_PAGINA,sizeof(uint32_t),0);
 
 		} else{
-			log_error(logger,"CONEXION: ERROR EN EL MENSAJE DE HANDSHAKE");
+			log_error(logger,"MEMORIA-CONEXION || ERROR EN EL MENSAJE DE HANDSHAKE");
 		}
 	}
 }

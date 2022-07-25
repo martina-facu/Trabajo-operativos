@@ -87,7 +87,7 @@ void* pcb_serializar(pcb_t* pcb, uint32_t* tamano_mensaje, uint8_t codigo_operac
 	return a_enviar;
 }
 
-pcb_t* pcb_deserializar(t_buffer* buffer)
+pcb_t* pcb_deserializar(t_buffer* buffer, t_log* logger)
 {
 	pcb_t* pcb = malloc(sizeof(pcb_t));
 	void* stream = buffer->stream;
@@ -110,6 +110,12 @@ pcb_t* pcb_deserializar(t_buffer* buffer)
 	memcpy(&(pcb->tiempo_block), stream, sizeof(uint32_t));
 	stream += sizeof(uint32_t);
 
+	log_trace(logger, "VER ERROR TIEMPO DE IO");
+	log_trace(logger, "VER ERROR TIEMPO DE IO");
+	log_trace(logger, "-----------TIEMPO DE IO: %d", pcb->tiempo_block);
+	log_trace(logger, "VER ERROR TIEMPO DE IO");
+	log_trace(logger, "VER ERROR TIEMPO DE IO");
+
 	memcpy(&(pcb->tabla_paginas), stream, sizeof(uint32_t));
 	stream += sizeof(uint32_t);
 
@@ -126,23 +132,24 @@ void pcb_mostrar(pcb_t* pcb, t_log* logger)
 {
 	char* estados[5]={"INICIADO", "BLOQUEADO", "FINALIZADO","SUSPENDIDO","INTERRUMPIDO"};
 //	printf("\n\nINFORMACION PCB:\n");
-	log_trace(logger, "INFORMACION PCB:");
+	log_trace(logger, "------------------- INFORMACION PCB -------------------");
 //	printf("PID: %d\n", pcb->pid);
-	log_trace(logger, "PCB || PID: %d\n", pcb->pid);
+	log_trace(logger, "PCB || PID: %d", pcb->pid);
 //	printf("TAMANO: %d\n", pcb->tamano);
-	log_trace(logger, "PCB || TAMANO: %d\n", pcb->tamano);
+	log_trace(logger, "PCB || TAMANO: %d", pcb->tamano);
 //	printf("PC: %d\n", pcb->program_counter);
-	log_trace(logger, "PCB || PC: %d\n", pcb->program_counter);
+	log_trace(logger, "PCB || PC: %d", pcb->program_counter);
 //	printf("ESTIMADO_RAFAGA: %d\n", pcb->estimado_rafaga);
-	log_trace(logger, "PCB || ESTIMADO_RAFAGA: %d\n", pcb->estimado_rafaga);
+	log_trace(logger, "PCB || ESTIMADO_RAFAGA: %d", pcb->estimado_rafaga);
 //	printf("ESTADO: %s\n", estados[pcb->estado]);
-	log_trace(logger, "PCB || ESTADO: %s\n", estados[pcb->estado]);
+	log_trace(logger, "PCB || ESTADO: %s", estados[pcb->estado]);
 //	printf("TIEMPO BLOQUEO: %d\n", pcb->tiempo_block);
-	log_trace(logger, "PCB || TIEMPO BLOQUEO: %d\n", pcb->tiempo_block);
+	log_trace(logger, "PCB || TIEMPO BLOQUEO: %d", pcb->tiempo_block);
 	mostrar_instrucciones(pcb->instrucciones, logger);
+	log_trace(logger, "------------------- FIN INFORMACION PCB -------------------");
 }
 
-pcb_t* recibirPCB(int socket)
+pcb_t* recibirPCB(int socket, t_log* logger)
 {
 
 	t_paquete* paquete = malloc(sizeof(t_paquete));
@@ -159,7 +166,7 @@ pcb_t* recibirPCB(int socket)
 	buffer->stream = malloc(buffer->size);
 	recv(socket, buffer->stream, buffer->size, 0);
 
-	pcb_t* pcb = pcb_deserializar(buffer);
+	pcb_t* pcb = pcb_deserializar(buffer, logger);
 
 	return pcb;
 }

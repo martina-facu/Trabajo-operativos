@@ -18,7 +18,7 @@ pcb_t* obtener_pcb(int cliente)
 	buffer->stream = malloc(buffer->size);
 	recv(cliente, buffer->stream, buffer->size, 0);
 
-	pcb_t* pcb = pcb_deserializar(buffer);
+	pcb_t* pcb = pcb_deserializar(buffer, logger);
 
 	return pcb;
 }
@@ -139,7 +139,7 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
 	uint32_t valorRecibido;
 
 	log_info(logger, "CPU-MEMORIA Voy a leer valor de memoria");
-	uint32_t valor_leido_respuesta;
+//	uint32_t valor_leido_respuesta;
 	log_trace(logger, "CPU-MEMORIA ----- Direccion logica %d", direccion_logica);
 	// Voy a calcular los datos de la direccion
 	calcular_datos_direccion(datos, direccion_logica);
@@ -316,25 +316,10 @@ t_config_cpu* crearConfigCPU(void)
 
 t_config_cpu* cargarConfiguracion(char* configPath)
 {
-	char* logLevel;
-
 	t_config* configFile = config_create(configPath);
 	t_config_cpu* configTemp = crearConfigCPU();
 
-	logLevel = config_get_string_value(configFile, "LOG_LEVEL");
-	if(logLevel == NULL)
-	{
-		logLevel = malloc(16*sizeof(char));
-		strcpy(logLevel,"LOG_LEVEL_TRACE");
-	}
-
-	if(strcmp(logLevel,"LOG_LEVEL_TRACE")==0)
-		logger = initLogger("cpu.log", "CPU", LOG_LEVEL_TRACE);
-	else if(strcmp(logLevel,"LOG_LEVEL_INFO")==0)
-		logger = initLogger("cpu.log", "CPU", LOG_LEVEL_INFO);
-	else
-		logger = initLogger("cpu.log", "CPU", LOG_LEVEL_TRACE);
-	free(logLevel);
+	logger = setearLogLevel(configFile,"cpu.log", "CPU");
 
 	configTemp->entradasTLB = config_get_int_value(configFile, ENTRADAS_TLB);
 		log_trace(logger, "CPU-CONFIGURACION Se leyo la variable ENTRADAS_TLB: %d", configTemp->entradasTLB);

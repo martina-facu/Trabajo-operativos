@@ -38,11 +38,11 @@ typedef struct
 /*
  * Listado de variables globales
 */
-
-	t_log* logP;
-	t_log* PCP;
-	t_log* PMP;
-	t_log* PLP;
+	t_log* logger;
+//	t_log* logP;
+//	t_log* PCP;
+//	t_log* PMP;
+//	t_log* PLP;
 	//int grado_multiprogramacion;
 	//double estimacion_inicial;
 	double alpha;

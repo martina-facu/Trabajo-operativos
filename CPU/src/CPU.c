@@ -238,7 +238,7 @@ void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
 
 	if((cantidad_clientes_dispatch > 0) && (cantidad_clientes_interrupt > 0) )
 	{
-		pcb = recibirPCB(acceptedConnectionDispatch);
+		pcb = recibirPCB(acceptedConnectionDispatch, logger);
 		recibiPCB = true;
 //		log_trace(logger, "CPU-KERNEL-PCB Voy a loguear informacion del PCB recibida por el Dispatch");
 //		pcb_mostrar(pcb, logger);

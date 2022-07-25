@@ -11,17 +11,17 @@ int main(void)
 	inicializar_loggers();
 
 	//	Se establece la conexion con la Memoria
-	levantar_conexion_memoria(configuracion->IP_MEMORIA,configuracion->PUERTO_MEMORIA, logP);
+	levantar_conexion_memoria(configuracion->IP_MEMORIA,configuracion->PUERTO_MEMORIA, logger);
 
 	//	Se establece conexion con el Dispatch de la CPU
-	levantar_conexion_cpu_dispatch(configuracion->IP_CPU, configuracion->PUERTO_CPU_DISPATCH , logP);
+	levantar_conexion_cpu_dispatch(configuracion->IP_CPU, configuracion->PUERTO_CPU_DISPATCH , logger);
 
 	//	Se establece conexion con el Interrupt de la CPU
-	levantar_conexion_cpu_interrupt(configuracion->IP_CPU, configuracion->PUERTO_CPU_INTERRUPT , logP);
+	levantar_conexion_cpu_interrupt(configuracion->IP_CPU, configuracion->PUERTO_CPU_INTERRUPT , logger);
 
 	//	Me levanto como server y establesco todas las conexiones como cliente
 	//	Inicio el servidor Kernel para atencion de consolas
-	server_fd = iniciar_servidor(configuracion->IP_KERNEL,configuracion->PUERTO_ESCUCHA, PLP);
+	server_fd = iniciar_servidor(configuracion->IP_KERNEL,configuracion->PUERTO_ESCUCHA, logger);
 
 	//	Inicializo las listas de los planificadores
 	inicializar_listas();
@@ -36,23 +36,24 @@ int main(void)
 
 	if(strcmp(configuracion->algoritmo,"FIFO")==0)
 	{
-		log_trace(logP,"MODO PLANIFICADOR CORTO PLAZO: FIFO\n");
+		log_trace(logger,"KERNEL-INICIALIZACION || MODO PLANIFICADOR CORTO PLAZO: FIFO\n");
 		pthread_create(&planificador_corto_plazo,NULL,fifo,NULL);
 	}
 	else if(strcmp(configuracion->algoritmo,"SRT")==0)
 	{
-		log_trace(logP,"MODO PLANIFICADOR CORTO PLAZO: SRT");
+		log_trace(logger,"KERNEL-INICIALIZACION || MODO PLANIFICADOR CORTO PLAZO: SRT");
 		pthread_create(&planificador_corto_plazo,NULL,sjf,NULL);
 	}
 	else{
-		printf("error en el algoritmo, finalizando kernel\n");
-		return -1;
+		log_error(logger,"KERNEL-INICIALIZACION || ERROR en el algoritmo, finalizando kernel");
+//		printf("error en el algoritmo, finalizando kernel\n");
+		exit(EXIT_FAILURE);
+//		return -1;
 	}
-	log_trace(logP,"EJECUTANDO: PLANIFICADOR LARGO PLAZO\n");
 	pthread_create(&planificador_largo_plazo,NULL,administrador_largo_plazo,NULL);
-	log_trace(logP,"EJECUTANDO: PLANIFICADOR MEDIANO PLAZO");
+	log_trace(logger,"KERNEL-INICIALIZACION ||EJECUTANDO: PLANIFICADOR LARGO PLAZO\n");
 	pthread_create(&planificador_mediano_plazo,NULL,administrador_mediano_plazo,NULL);
-
+	log_trace(logger,"KERNEL-INICIALIZACION ||EJECUTANDO: PLANIFICADOR MEDIANO PLAZO");
 
 	pthread_join(planificador_largo_plazo,NULL);
 	pthread_join(planificador_corto_plazo,NULL);
@@ -70,6 +71,10 @@ void establecer_configuracion()
 		perror("\nNo pude abrir el archivo de configuracion\n");
 		exit(EXIT_FAILURE);
 	}
+
+	logger = setearLogLevel(kernel_config,"kernel.log", "KERNEL");
+
+	//	Cargo el resto de las configuraciones
 
 	configuracion = malloc(sizeof(t_config_kernel));
 
@@ -127,8 +132,8 @@ void inicializar_semaforos(){
 
 
 void inicializar_loggers(){
-	logP = log_create("kernel.log","KERNEL",0,0);
-	PCP = log_create("planificador_corto_plazo.log","planificador_corto_plazo",0,0);
-	PMP = log_create("planificador_mediano_plazo.log","planificador_mediano_plazo",0,0);
-	PLP = log_create("planificador_largo_plazo.log","planificador_largo_plazo",0,0);
+//	logP = log_create("kernel.log","KERNEL",0,0);
+//	PCP = log_create("planificador_corto_plazo.log","planificador_corto_plazo",0,0);
+//	PMP = log_create("planificador_mediano_plazo.log","planificador_mediano_plazo",0,0);
+//	PLP = log_create("planificador_largo_plazo.log","planificador_largo_plazo",0,0);
 }
