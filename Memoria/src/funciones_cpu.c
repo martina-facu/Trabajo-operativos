@@ -172,7 +172,7 @@ void page_fault(t_entrada_2* entrada,uint32_t indice_tabla_2, uint32_t entrada_t
 		log_info(logger, "MEMORIA-CPU || ENTRADA :%d\t||BIT USO: %d\t||BIT MOD: %d\t||BIT PRES: %d\t||FRAME: %d", entrada_tabla_2,entrada->bUso, entrada->bMod, entrada->bPres, entrada->frame);
 			//int numero_pagina = indice_tabla_2*ENTRADAS_POR_TABLA +entrada_tabla_2;
 		int numero_pagina = entrada_tabla_2*ENTRADAS_POR_TABLA +indice_tabla_2;
-		log_info(logger, "MEMORIA-CPU || Nro pagina = %d", numero_pagina);
+		log_info(logger, "MEMORIA-CPU || ------ Nro PAGINA = %d ------ ", numero_pagina);
 		traer_a_memoria(pid_,numero_pagina,entrada->frame);
 		log_trace(logger, "MEMORIA-CPU || OPERACION DE PAGINA EXITOSA");
 		log_info(logger, "MEMORIA-CPU || PID: %d\t||TABLA DE PAGINAS EN MEMORIA: ",pid_);
@@ -202,7 +202,7 @@ void page_fault(t_entrada_2* entrada,uint32_t indice_tabla_2, uint32_t entrada_t
 	pagina->entrada = entrada;
 	//int numero_pagina = indice_tabla_2*ENTRADAS_POR_TABLA +entrada_tabla_2;
 	int numero_pagina = entrada_tabla_2*ENTRADAS_POR_TABLA +indice_tabla_2;
-	log_trace(logger, "MEMORIA-CPU || Nro pagina = %d", numero_pagina);
+	log_info(logger, "MEMORIA-CPU || ------ Nro PAGINA = %d ------ ", numero_pagina);
 	traer_a_memoria(pid_,numero_pagina,entrada->frame);
 	list_add_sorted(proceso_->pagMem,pagina,ordenar);
 	log_trace(logger, "MEMORIA-CPU || OPERACION DE PAGINA EXITOSA");
