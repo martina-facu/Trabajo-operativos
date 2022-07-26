@@ -198,7 +198,7 @@ bool esta_pcb(t_list* lista, pcb_t* pcb){
 void* suspencion(void* pcb_){
 	pcb_t* pcb = pcb_;
 	log_trace(logger,"CONTADOR || VOY A DESPERTARME EN: %d || PCB: %d", (int) TIEMPO_BLOCK_MAX,pcb->pid);
-	usleep(TIEMPO_BLOCK_MAX);
+	sleep(TIEMPO_BLOCK_MAX/1000);
 	log_trace(logger,"CONTADOR || ME DESPERTE, POR LO TANTO, AVISO DE SUSPENDER || PCB: %d", pcb->pid);
 
 	pthread_mutex_lock(&mx_susp_block_buffer_l);
@@ -246,7 +246,7 @@ void* io(){
 		pcb_t* pcb = block_pend->pcb;
 		log_trace(logger,"IO || VOY A EJECUTAR IO || PCB: %d || TIEMPO: %d",pcb->pid,pcb->tiempo_block);
 		pthread_mutex_unlock(&mx_block_pend_l);
-		usleep(pcb->tiempo_block);
+		sleep(pcb->tiempo_block/1000);
 		log_trace(logger,"IO || ME DESPERTE || PCB: %d",pcb->pid);
 		if(!esta_pcb(susp_block_l,block_pend->pcb)){
 			log_trace(logger,"IO || NO ESTA SUSPENDIDO, POR LO TANTO, MATO AL CONTADOR || PCB: %d",pcb->pid);

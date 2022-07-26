@@ -42,7 +42,7 @@ void* suspender_proceso(){
 		send(socket_memoria,&pcb->pid,sizeof(uint32_t),0);
 		pthread_mutex_unlock(&mx_mensaje_memoria);
 		sem_post(&s_grado_multiprogramacion);
-		sem_post(&s_susp);
+//		sem_post(&s_susp);
 	}
 	return NULL;
 }
