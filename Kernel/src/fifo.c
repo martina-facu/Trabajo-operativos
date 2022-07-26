@@ -244,13 +244,14 @@ void* io(){
 		pthread_mutex_lock(&mx_block_pend_l);
 		block_t* block_pend=list_remove(block_pend_l,0);
 		pcb_t* pcb = block_pend->pcb;
-		log_trace(logger,"IO || VOY A EJECUTAR IO || PCB: %d",pcb->pid);
+		log_trace(logger,"IO || VOY A EJECUTAR IO || PCB: %d || TIEMPO: %d",pcb->pid,pcb->tiempo_block);
 		pthread_mutex_unlock(&mx_block_pend_l);
 		usleep(pcb->tiempo_block);
 		log_trace(logger,"IO || ME DESPERTE || PCB: %d",pcb->pid);
 		if(!esta_pcb(susp_block_l,block_pend->pcb)){
 			log_trace(logger,"IO || NO ESTA SUSPENDIDO, POR LO TANTO, MATO AL CONTADOR || PCB: %d",pcb->pid);
-			pthread_kill(block_pend->contador,SIGKILL);
+//			pthread_kill(block_pend->contador,SIGKILL);
+			pthread_cancel(block_pend->contador);
 		} else{
 			log_trace(logger,"IO || Se DESBLOQUEO un proceso suspendido, ID:  %d", pcb->pid);
 			pthread_mutex_lock(&mx_susp_block_l);
