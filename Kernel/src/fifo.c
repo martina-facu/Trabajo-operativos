@@ -197,8 +197,9 @@ bool esta_pcb(t_list* lista, pcb_t* pcb){
 
 void* suspencion(void* pcb_){
 	pcb_t* pcb = pcb_;
-	usleep(configuracion->TIEMPO_BLOCK_MAX);
-	log_trace(logger,"CONTADOR || ME DESPERTE, POR LO TANTO, AVISO DE SUSPENDER %d, ID: %d", pcb->tiempo_block,pcb->pid);
+	log_trace(logger,"CONTADOR || VOY A DESPERTARME EN: %d || PCB: %d", (int) TIEMPO_BLOCK_MAX,pcb->pid);
+	usleep(TIEMPO_BLOCK_MAX);
+	log_trace(logger,"CONTADOR || ME DESPERTE, POR LO TANTO, AVISO DE SUSPENDER || PCB: %d", pcb->pid);
 
 	pthread_mutex_lock(&mx_susp_block_buffer_l);
 	list_add(susp_block_buffer_l,pcb);
@@ -223,7 +224,6 @@ void* planificador_io(){
 		if(status<0){
 			log_trace(logger,"------------------------ ERROR AL CREAR HILO CONTADOR ----------------------------------------");
 		}
-
 		pthread_detach(block_pend->contador);
 
 		log_trace(logger,"PLANIFICADOR IO || DISPARE EL CONTADOR || PCB: %d",pcb->pid);
