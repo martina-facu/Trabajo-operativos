@@ -252,6 +252,10 @@ void* io(){
 			log_trace(logger,"IO || NO ESTA SUSPENDIDO, POR LO TANTO, MATO AL CONTADOR || PCB: %d",pcb->pid);
 //			pthread_kill(block_pend->contador,SIGKILL);
 			pthread_cancel(block_pend->contador);
+			pthread_mutex_lock(&mx_unblock_l);
+			list_add(unblock_l,pcb);
+			pthread_mutex_unlock(&mx_unblock_l);
+			sem_post(&s_proceso_ready);
 		} else{
 			log_trace(logger,"IO || Se DESBLOQUEO un proceso suspendido, ID:  %d", pcb->pid);
 			pthread_mutex_lock(&mx_susp_block_l);
