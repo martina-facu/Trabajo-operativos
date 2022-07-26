@@ -171,7 +171,7 @@ void page_fault(t_entrada_2* entrada,uint32_t indice_tabla_2, uint32_t entrada_t
 		log_trace(logger, "MEMORIA-CPU ||------- ENTRADA A AGREGAR O REEMPLAZAR ------- ");
 		log_info(logger, "MEMORIA-CPU || ENTRADA :%d\t||BIT USO: %d\t||BIT MOD: %d\t||BIT PRES: %d\t||FRAME: %d", entrada_tabla_2,entrada->bUso, entrada->bMod, entrada->bPres, entrada->frame);
 			//int numero_pagina = indice_tabla_2*ENTRADAS_POR_TABLA +entrada_tabla_2;
-		int numero_pagina = entrada_tabla_2*ENTRADAS_POR_TABLA +indice_tabla_2;
+		int numero_pagina = indice_tabla_2*ENTRADAS_POR_TABLA +entrada_tabla_2;
 		log_info(logger, "MEMORIA-CPU || ------ Nro PAGINA = %d ------ ", numero_pagina);
 		traer_a_memoria(pid_,numero_pagina,entrada->frame);
 		log_trace(logger, "MEMORIA-CPU || OPERACION DE PAGINA EXITOSA");
@@ -201,7 +201,7 @@ void page_fault(t_entrada_2* entrada,uint32_t indice_tabla_2, uint32_t entrada_t
 	log_trace(logger, "MEMORIA-CPU ||ENTRADA :%d\t||BIT USO: %d\t||BIT MOD: %d\t||BIT PRES: %d\t||FRAME: %d", entrada_tabla_2,entrada->bUso, entrada->bMod, entrada->bPres, entrada->frame);
 	pagina->entrada = entrada;
 	//int numero_pagina = indice_tabla_2*ENTRADAS_POR_TABLA +entrada_tabla_2;
-	int numero_pagina = entrada_tabla_2*ENTRADAS_POR_TABLA +indice_tabla_2;
+	int numero_pagina = indice_tabla_2*ENTRADAS_POR_TABLA +entrada_tabla_2;
 	log_info(logger, "MEMORIA-CPU || ------ Nro PAGINA = %d ------ ", numero_pagina);
 	traer_a_memoria(pid_,numero_pagina,entrada->frame);
 	list_add_sorted(proceso_->pagMem,pagina,ordenar);
@@ -337,6 +337,9 @@ void clock_M(t_entrada_2* entrada){
 				log_trace(logger, "MEMORIA-CPU || Puntero: %d", proceso_->puntero);
 				entrada->frame= posible_victima->entrada->frame;
 				log_trace(logger, "MEMORIA-CPU || Se asigno el frame %d", entrada->frame);
+				//TODO: faltaba mover el puntero una vez que elegimos a la victima
+				proceso_->contador++;
+				proceso_->puntero= proceso_->contador%list_size(proceso_->pagMem);
 				return;
 			}
 			proceso_->contador++;
