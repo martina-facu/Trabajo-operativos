@@ -198,7 +198,7 @@ bool esta_pcb(t_list* lista, pcb_t* pcb){
 void* suspencion(void* pcb_){
 	pcb_t* pcb = pcb_;
 	usleep(configuracion->TIEMPO_BLOCK_MAX);
-	log_trace(logger,"PCP || Se va a suspender un proceso por %d, ID: %d", pcb->tiempo_block,pcb->pid);
+	log_trace(logger,"CONTADOR || ME DESPERTE, POR LO TANTO, AVISO DE SUSPENDER %d, ID: %d", pcb->tiempo_block,pcb->pid);
 
 	pthread_mutex_lock(&mx_susp_block_buffer_l);
 	list_add(susp_block_buffer_l,pcb);
@@ -219,9 +219,14 @@ void* planificador_io(){
 		block_t* block_pend = malloc(sizeof(block_t));
 		block_pend->pcb=pcb;
 		log_trace(logger,"PLANIFICADOR IO || DISPARANDO EL CONTADOR || PCB: %d",pcb->pid);
-		pthread_create(&block_pend->contador,NULL,suspencion,pcb);
+		int status=pthread_create(&block_pend->contador,NULL,suspencion,pcb);
+		if(status<0){
+			log_trace(logger,"------------------------ ERROR AL CREAR HILO CONTADOR ----------------------------------------");
+		}
+
 		pthread_detach(block_pend->contador);
 
+		log_trace(logger,"PLANIFICADOR IO || DISPARE EL CONTADOR || PCB: %d",pcb->pid);
 		pthread_mutex_lock(&mx_block_pend_l);
 		list_add(block_pend_l,block_pend);
 		pthread_mutex_lock(&mx_block_pend_l);
@@ -340,10 +345,10 @@ void* fifo(){
 	pthread_create(&hilo4,NULL,planificador_io,NULL);
 	pthread_create(&hilo5,NULL,io,NULL);
 
-	pthread_join(hilo4,NULL);
-	pthread_join(hilo5,NULL);
 	pthread_join(hilo1,NULL);
 	pthread_join(hilo2,NULL);
 	pthread_join(hilo3,NULL);
+	pthread_join(hilo4,NULL);
+	pthread_join(hilo5,NULL);
 	return NULL;
 }
