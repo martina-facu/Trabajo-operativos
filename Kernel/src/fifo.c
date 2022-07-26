@@ -229,7 +229,7 @@ void* planificador_io(){
 		log_trace(logger,"PLANIFICADOR IO || DISPARE EL CONTADOR || PCB: %d",pcb->pid);
 		pthread_mutex_lock(&mx_block_pend_l);
 		list_add(block_pend_l,block_pend);
-		pthread_mutex_lock(&mx_block_pend_l);
+		pthread_mutex_unlock(&mx_block_pend_l);
 
 		sem_post(&s_io);
 		log_trace(logger,"PLANIFICADOR IO || PLANIFICACION DE IO CON EXITO || PCB: %d",pcb->pid);
@@ -245,7 +245,7 @@ void* io(){
 		block_t* block_pend=list_remove(block_pend_l,0);
 		pcb_t* pcb = block_pend->pcb;
 		log_trace(logger,"IO || VOY A EJECUTAR IO || PCB: %d",pcb->pid);
-		pthread_mutex_lock(&mx_block_pend_l);
+		pthread_mutex_unlock(&mx_block_pend_l);
 		usleep(pcb->tiempo_block);
 		log_trace(logger,"IO || ME DESPERTE || PCB: %d",pcb->pid);
 		if(!esta_pcb(susp_block_l,block_pend->pcb)){
