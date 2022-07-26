@@ -8,7 +8,7 @@
 #ifndef VAR_GLOB_H_
 #define VAR_GLOB_H_
 
-
+#include "pcb.h"
 #include <commons/collections/list.h>
 #include <semaphore.h>
 #include <commons/log.h>
@@ -17,6 +17,11 @@ typedef struct{
 	uint32_t pid;
 	sem_t* s;
 }comunicacion_t;
+
+typedef struct{
+	pcb_t* pcb;
+	pthread_t contador;
+}block_t;
 
 typedef struct
 {
