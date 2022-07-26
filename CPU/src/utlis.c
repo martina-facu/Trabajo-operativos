@@ -222,7 +222,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			break;
 		case COPY: // COPY(destino, origen)
 			log_info(logger, "CPU-EXECUTE ------------------- OPERACION COPY PID: %d -------------------", pcb->pid);
-			valor_leido= leer(*parametro1,datos);
+//			valor_leido= leer(*parametro1,datos);
 			resultado = escribir(*parametro1, parametro2, datos);
 //			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 
@@ -286,11 +286,11 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 		requiere_fetch_operands = true;
 
 	//fetch_operands
-//	if (requiere_fetch_operands)
-//	{
-//		uint32_t* origen_dir = list_get(instruccion->parametros,1);
-//		*origen_dir = leer(*origen_dir,datos);
-//	}
+	if (requiere_fetch_operands)
+	{
+		uint32_t* origen_dir = list_get(instruccion->parametros,1);
+		*origen_dir = leer(*origen_dir,datos);
+	}
 
 	//	Ejecuto la instruccion
 	*devolver_pcb = execute(instruccion, retardoNoOp, datos, pcb);
