@@ -371,14 +371,14 @@ void* sjf(){
 	pthread_t hilo3;
 	pthread_t hilo4;
 
-	pthread_create(&hilo1,NULL,agregar_a_ready_sjf,NULL);
 	pthread_create(&hilo3,NULL,io_sjf,NULL);
-	pthread_create(&hilo4,NULL,planificador_io_sjf,NULL);
+	pthread_detach(hilo3);
+	pthread_create(&hilo1,NULL,agregar_a_ready_sjf,NULL);
+	pthread_detach(hilo1);
 	pthread_create(&hilo2,NULL,hablar_con_cpu,NULL);
+	pthread_detach(hilo2);
+	pthread_create(&hilo4,NULL,planificador_io_sjf,NULL);
 
-	pthread_join(hilo1,NULL);
-	pthread_join(hilo2,NULL);
-	pthread_join(hilo3,NULL);
 	pthread_join(hilo4,NULL);
 	return NULL;
 
