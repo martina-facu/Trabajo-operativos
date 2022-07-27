@@ -183,11 +183,11 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 
 	if(catidad_parametros == 1){
 		parametro1 = list_get(parametros,0);
-//		log_trace(logger, "CPU-EXECUTE Obtengo lista de parametros de la instruccion: Parametro 1: %d\tParametro 2: %d", *parametro1);
+		log_info(logger, "CPU-EXECUTE || ------- PARAMETRO 1: %d ------- ", *parametro1);
 	}else if(catidad_parametros >= 1){
 		parametro1 = list_get(parametros,0);
 		parametro2 = list_get(parametros,1);
-//		log_trace(logger, "CPU-EXECUTE Obtengo lista de parametros de la instruccion: Parametro 1: %d\tParametro 2: %d", *parametro1,*parametro2);
+		log_info(logger, "CPU-EXECUTE ||------- PARAMETRO 1: %d\tPARAMETRO2: %d ------- ", *parametro1,*parametro2);
 	}
 
 
@@ -198,14 +198,14 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 	switch (id)
 	{
 		case NO_OP:
-			log_info(logger, "CPU-EXECUTE ------------------- OPERACION NO_OP PID: %d -------------------", dormir/1000, pcb->pid);
+			log_info(logger, "CPU-EXECUTE || ------------------- OPERACION NO_OP PID: %d\t||PC: %d-------------------", dormir/1000, pcb->pid, pcb->program_counter);
 			dormir = dormir/1000;
 			sleep(dormir);
 
 			return false;
 			break;
 		case I_O:
-			log_info(logger, "CPU-EXECUTE ------------------- OPERACION I/0 PID: %d -------------------", pcb->pid);
+			log_info(logger, "CPU-EXECUTE || ------------------- OPERACION I/0 PID: %d\t||PC: %d -------------------", pcb->pid, pcb->program_counter);
 			pcb->estado = BLOQUEADO;
 			pcb->tiempo_block = *parametro1;
 
@@ -213,7 +213,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			return true;
 			break;
 		case WRITE:
-			log_info(logger, "CPU-EXECUTE ------------------- OPERACION WRITE PID: %d -------------------", pcb->pid);
+			log_info(logger, "CPU-EXECUTE || ------------------- OPERACION WRITE PID: %d\t||PC: %d -------------------", pcb->pid, pcb->program_counter);
 			resultado = escribir(*parametro1, parametro2, datos);
 //			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 
@@ -221,7 +221,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			return false;
 			break;
 		case COPY: // COPY(destino, origen)
-			log_info(logger, "CPU-EXECUTE ------------------- OPERACION COPY PID: %d -------------------", pcb->pid);
+			log_info(logger, "CPU-EXECUTE || ------------------- OPERACION COPY PID: %d\t||PC: %d -------------------", pcb->pid, pcb->program_counter);
 			valor_leido= leer(*parametro1,datos);
 			resultado = escribir(*parametro1, parametro2, datos);
 //			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
@@ -230,14 +230,14 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			return false;
 			break;
 		case READ:
-			log_info(logger, "CPU-EXECUTE ------------------- OPERACION READ PID: %d -------------------", pcb->pid);
+			log_info(logger, "CPU-EXECUTE || ------------------- OPERACION READ PID: %d\t||PC: %d -------------------", pcb->pid, pcb->program_counter);
 			valor_leido = leer(*parametro1,datos);
 
 //			sleep(1);
 			return false;
 			break;
 		case EXIT:
-			log_info(logger, "CPU-EXECUTE ------------------- OPERACION EXIT PID: %d -------------------", pcb->pid);
+			log_info(logger, "CPU-EXECUTE || ------------------- OPERACION EXIT PID: %d\t||PC: %d -------------------", pcb->pid, pcb->program_counter);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 			pcb->estado = FINALIZADO;
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
@@ -278,7 +278,7 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 	program_counter++;
 	pcb->program_counter = program_counter;
 
-	log_info(logger, "CPU-EXECUTE Aumento el program counter del PCB PID %d a: %d", pcb->pid, pcb->program_counter);
+//	log_info(logger, "CPU-EXECUTE Aumento el program counter del PCB PID %d a: %d", pcb->pid, pcb->program_counter);
 
 	//decode
 	bool requiere_fetch_operands = false;
