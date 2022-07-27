@@ -212,7 +212,6 @@ void* devoluciones(){
 			log_error(logger,"PCP || El estado recibido del PCB no es valido");
 		}
 		//	SACO EL SLEEP PERO HAY QUE ESTAR ATENTOS A VER SI DA ERROR
-		sleep(1);
 		sem_post(&s_proceso_ejecutando);
 	}
 	return NULL;
