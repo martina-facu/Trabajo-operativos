@@ -222,7 +222,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			break;
 		case COPY: // COPY(destino, origen)
 			log_info(logger, "CPU-EXECUTE || --------- OPERACION COPY\t||PID: %d\t||PC: %3d ---------", pcb->pid, pcb->program_counter);
-			valor_leido= leer(*parametro1,datos);
+//			valor_leido= leer(*parametro1,datos);
 			resultado = escribir(*parametro1, parametro2, datos);
 //			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 
