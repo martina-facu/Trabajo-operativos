@@ -115,6 +115,7 @@ void inicializar_listas(){
 	newM_l=					list_create();
 	susp_readyM_l=			list_create();
 	execute_l=				list_create();
+	block_pend_l=			list_create();
 }
 
 void inicializar_semaforos(){
@@ -128,6 +129,8 @@ void inicializar_semaforos(){
 	sem_init(&s_interrupcion,0,0);
 	sem_init(&s_susp,0,0);
 	sem_init(&s_interrupcion_atendida,0,0);
+	sem_init(&s_io,0,0);
+	sem_init(&s_io_pendiente,0,0);
 }
 
 

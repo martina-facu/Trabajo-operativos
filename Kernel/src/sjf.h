@@ -46,6 +46,10 @@
 	void* hablar_con_cpu(); //
 	void* devoluciones(); //
 	void* interrupciones();
+	void* io_sjf();
+	void* planificador_io_sjf();
+	bool esta_pcb_sjf(t_list* lista, pcb_t* pcb);
+	void* suspencion_sjf(void* pcb_);
 	void actualizar_estimacion(pcb_t* pcb); //
 	void interrumpir(); //
 	void* enviar_a_ejecutar_sjf(); //

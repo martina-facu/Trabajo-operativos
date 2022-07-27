@@ -36,6 +36,10 @@
 	void* enviar_a_ejecutar();
 	void* agregar_a_ready();
 	void mostrar_lista_ready(t_list* lista);
+	bool esta_pcb(t_list* lista, pcb_t* pcb);
+	void* suspencion(void* pcb_);
+	void* planificador_io();
+	void* io();
 
 
 #endif /* FIFO_H_ */

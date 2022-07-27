@@ -19,6 +19,9 @@
 bool menor_estimacion(void* pcb_aux,void* pcb_aux2){
 	pcb_t* pcb1 =pcb_aux;
 	pcb_t* pcb2 =pcb_aux2;
+	if(pcb1->estimado_rafaga == pcb2->estimado_rafaga){
+		return true;
+	}
 	return pcb1->estimado_rafaga<pcb2->estimado_rafaga;
 }
 
@@ -97,8 +100,8 @@ void actualizar_estimacion(pcb_t* pcb){
 	log_info(logger,"PCP || ---------- ACTUALIZACION DE ESTIMACION PROCESO POR SRT ----------");
 	log_trace(logger, "PCP || PID: %d\t||ESTIMACION ANTIGUA: %d",pcb->pid,pcb->estimado_rafaga);
 	log_trace(logger, "PCP || ALPHA: %f\t||TIEMPO DE EJECUCION: %f",alpha,tiempo_de_ejecucion);
-	log_trace(logger, "PCP || ESTIMACION EN FLOTANTE: %f",(tiempo_de_ejecucion*(1-alpha))+alpha*((double) pcb->estimado_rafaga));
-	pcb->estimado_rafaga = (uint32_t) (tiempo_de_ejecucion*(1-alpha)+alpha*pcb->estimado_rafaga);
+	log_trace(logger, "PCP || ESTIMACION EN FLOTANTE: %f",(tiempo_de_ejecucion*(1-alpha)*1000)+alpha*((double) pcb->estimado_rafaga));
+	pcb->estimado_rafaga = (uint32_t) (tiempo_de_ejecucion*(1-alpha)*1000+alpha*pcb->estimado_rafaga);
 	log_trace(logger, "PCP || PID: %d\t||ESTIMACION ACTUAL: %d",pcb->pid,pcb->estimado_rafaga);
 //	pcb_mostrar(pcb,logger);
 }
@@ -196,9 +199,7 @@ void* devoluciones(){
 				// CREAR EL HILO QUE SE VA A BLOQUEAR UN EL PCB ADENTRO
 			log_trace(logger, "PCP || PID: %d\t||MOTIVO: BLOQUEADO\t||SE VA A BLOQUEAR",pcb->pid);
 
-			pthread_t hilo_bloqueante;
-			pthread_create(&hilo_bloqueante,NULL,bloquear_proceso_sjf,pcb);
-			pthread_detach(hilo_bloqueante);
+			sem_post(&s_io_pendiente);
 		}
 		else if(pcb->estado == FINALIZADO){
 			log_trace(logger, "PCP || PID: %d\t||MOTIVO: FINALIZADO\t||SE VA A FINALIZAR",pcb->pid);
@@ -211,8 +212,96 @@ void* devoluciones(){
 			log_error(logger,"PCP || El estado recibido del PCB no es valido");
 		}
 		//	SACO EL SLEEP PERO HAY QUE ESTAR ATENTOS A VER SI DA ERROR
-		sleep(1);
 		sem_post(&s_proceso_ejecutando);
+	}
+	return NULL;
+}
+
+bool esta_pcb_sjf(t_list* lista, pcb_t* pcb){
+	for(int i=0; i<list_size(lista);i++){
+		pcb_t* pcb_ = list_get(lista,i);
+		if(pcb_->pid==pcb->pid)
+			return true;
+	}
+	return false;
+}
+
+void* suspencion_sjf(void* pcb_){
+	pcb_t* pcb = pcb_;
+	log_trace(logger,"CONTADOR || VOY A DESPERTARME EN: %d || PCB: %d", (int) TIEMPO_BLOCK_MAX,pcb->pid);
+	sleep(TIEMPO_BLOCK_MAX/1000);
+	log_trace(logger,"CONTADOR || ME DESPERTE, POR LO TANTO, AVISO DE SUSPENDER || PCB: %d", pcb->pid);
+
+	pthread_mutex_lock(&mx_susp_block_buffer_l);
+	list_add(susp_block_buffer_l,pcb);
+	pthread_mutex_unlock(&mx_susp_block_buffer_l);
+
+	// LE AVISO AL PMP QUE HAY QUE SUSPENDER UN PROCESO
+	sem_post(&s_proceso_susp);
+	return NULL;
+}
+
+void* planificador_io_sjf(){
+	pcb_t* pcb;
+	while(1){
+		sem_wait(&s_io_pendiente);
+		log_trace(logger,"PLANIFICADOR IO || ENTRANDO A ENTRADA Y SALIDA");
+		pcb= list_remove(block_l,0);
+		log_trace(logger,"PLANIFICADOR IO || ENTRANDO A LA COLA DE ENTRADA Y SALIDA || PCB: %d",pcb->pid);
+		block_t* block_pend = malloc(sizeof(block_t));
+		block_pend->pcb=pcb;
+		log_trace(logger,"PLANIFICADOR IO || DISPARANDO EL CONTADOR || PCB: %d",pcb->pid);
+		int status=pthread_create(&block_pend->contador,NULL,suspencion_sjf,pcb);
+		if(status<0){
+			log_trace(logger,"------------------------ ERROR AL CREAR HILO CONTADOR ----------------------------------------");
+		}
+		pthread_detach(block_pend->contador);
+
+		log_trace(logger,"PLANIFICADOR IO || DISPARE EL CONTADOR || PCB: %d",pcb->pid);
+		pthread_mutex_lock(&mx_block_pend_l);
+		list_add(block_pend_l,block_pend);
+		pthread_mutex_unlock(&mx_block_pend_l);
+
+		sem_post(&s_io);
+		log_trace(logger,"PLANIFICADOR IO || PLANIFICACION DE IO CON EXITO || PCB: %d",pcb->pid);
+	}
+	return NULL;
+}
+
+void* io_sjf(){
+	while(1){
+		sem_wait(&s_io);
+		log_trace(logger,"IO || ENTRANDO A IO");
+		pthread_mutex_lock(&mx_block_pend_l);
+		block_t* block_pend=list_remove(block_pend_l,0);
+		pcb_t* pcb = block_pend->pcb;
+		log_trace(logger,"IO || VOY A EJECUTAR IO || PCB: %d || TIEMPO: %d",pcb->pid,pcb->tiempo_block);
+		pthread_mutex_unlock(&mx_block_pend_l);
+		sleep(pcb->tiempo_block/1000);
+		log_trace(logger,"IO || ME DESPERTE || PCB: %d",pcb->pid);
+		if(!esta_pcb_sjf(susp_block_l,block_pend->pcb)){
+			log_trace(logger,"IO || NO ESTA SUSPENDIDO, POR LO TANTO, MATO AL CONTADOR || PCB: %d",pcb->pid);
+//			pthread_kill(block_pend->contador,SIGKILL);
+			pthread_cancel(block_pend->contador);
+			pthread_mutex_lock(&mx_unblock_l);
+			list_add(unblock_l,pcb);
+			pthread_mutex_unlock(&mx_unblock_l);
+			sem_post(&s_proceso_ready);
+		} else{
+			log_trace(logger,"IO || Se DESBLOQUEO un proceso suspendido, ID:  %d", pcb->pid);
+			pthread_mutex_lock(&mx_susp_block_l);
+			remover_de_lista_sjf(susp_block_l,pcb);
+			pthread_mutex_unlock(&mx_susp_block_l);
+
+			// LO AÑADO A SUSPENDIDO READY
+			pthread_mutex_lock(&mx_susp_ready_l);
+			list_add(susp_ready_l,pcb);
+			pthread_mutex_unlock(&mx_susp_ready_l);
+			// TODO avisar a la memoria que se libere
+
+			// LE AVISO QUE HAY UN PROCESO EN SUSP READY
+			sem_post(&s_proceso_susp_ready);
+		}
 	}
 	return NULL;
 }
@@ -281,12 +370,18 @@ void* hablar_con_cpu(){
 void* sjf(){
 	pthread_t hilo1;
 	pthread_t hilo2;
+	pthread_t hilo3;
+	pthread_t hilo4;
 
+	pthread_create(&hilo3,NULL,io_sjf,NULL);
+	pthread_detach(hilo3);
 	pthread_create(&hilo1,NULL,agregar_a_ready_sjf,NULL);
+	pthread_detach(hilo1);
 	pthread_create(&hilo2,NULL,hablar_con_cpu,NULL);
+	pthread_detach(hilo2);
+	pthread_create(&hilo4,NULL,planificador_io_sjf,NULL);
 
-	pthread_join(hilo1,NULL);
-	pthread_join(hilo2,NULL);
+	pthread_join(hilo4,NULL);
 	return NULL;
 
 }

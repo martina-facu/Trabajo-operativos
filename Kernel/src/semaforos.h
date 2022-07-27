@@ -38,6 +38,7 @@
 	pthread_mutex_t mx_execute_l;
 	pthread_mutex_t mx_proceso_ejecutando;
 	pthread_mutex_t mx_mensaje_memoria;
+	pthread_mutex_t mx_block_pend_l;
 
 	sem_t s_proceso_ready;
 	sem_t s_proceso_susp;
@@ -50,6 +51,8 @@
 	sem_t s_interrupcion_atendida;
 	sem_t s_proceso_ejecutando;
 	sem_t s_susp;
+	sem_t s_io_pendiente;
+	sem_t s_io;
 
 
 
