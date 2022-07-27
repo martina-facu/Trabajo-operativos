@@ -402,7 +402,8 @@ void escritura(){
 	t_entrada_2* entrada=  obtener_entrada();
 	entrada->bUso=1;
 	entrada->bMod=1;
-	log_info(logger, "MEMORIA-CPU || ------ ESCRITURA %d\t||EN EL FRAME: %d",escritura, entrada->frame );
+	log_info(logger, "MEMORIA-CPU || ------ ESCRITURA %d\t||EN EL FRAME: %d",escritura, direccion_fisica );
+//	log_info(logger, "MEMORIA-CPU || ------ ESCRITURA %d\t||EN EL FRAME: %d",escritura, entrada->frame );
 }
 
 /*
