@@ -402,8 +402,7 @@ void escritura(){
 	t_entrada_2* entrada=  obtener_entrada();
 	entrada->bUso=1;
 	entrada->bMod=1;
-	log_info(logger, "MEMORIA-CPU || ------ ESCRITURA %d\t||EN EL FRAME: %d",escritura, direccion_fisica );
-//	log_info(logger, "MEMORIA-CPU || ------ ESCRITURA %d\t||EN EL FRAME: %d",escritura, entrada->frame );
+	log_info(logger, "MEMORIA-CPU || ------ ESCRITURA %d\t||FRAME: %d\t||DF: %d",escritura,entrada->frame, direccion_fisica );
 }
 
 /*
@@ -423,7 +422,7 @@ void lectura(){
 	send(socket_cpu,&buffer,sizeof(uint32_t),0);
 	t_entrada_2* entrada=  obtener_entrada();
 	entrada->bUso=1;
-	log_info(logger, "MEMORIA-CPU || ------ LECTURA %d\t||EN EL FRAME: %d", buffer, direccion_fisica);
+	log_info(logger, "MEMORIA-CPU || ------ LECTURA %d\t||FRAME: %d\t||DF: %d", buffer,entrada->frame, direccion_fisica);
 }
 
 /*
