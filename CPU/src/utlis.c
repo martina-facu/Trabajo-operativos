@@ -198,14 +198,14 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 	switch (id)
 	{
 		case NO_OP:
-			log_info(logger, "CPU-EXECUTE || ------------------- OPERACION NO_OP PID: %d\t||PC: %d-------------------", pcb->pid, pcb->program_counter);
+			log_info(logger, "CPU-EXECUTE || --------- OPERACION NO_OP PID: %d\t||PC: %d ---------", pcb->pid, pcb->program_counter);
 			dormir = dormir/1000;
 			sleep(dormir);
 
 			return false;
 			break;
 		case I_O:
-			log_info(logger, "CPU-EXECUTE || ------------------- OPERACION I/0 PID: %d\t||PC: %d -------------------", pcb->pid, pcb->program_counter);
+			log_info(logger, "CPU-EXECUTE || --------- OPERACION I/0 PID: %d\t||PC: %d ---------", pcb->pid, pcb->program_counter);
 			pcb->estado = BLOQUEADO;
 			pcb->tiempo_block = *parametro1;
 
@@ -213,7 +213,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			return true;
 			break;
 		case WRITE:
-			log_info(logger, "CPU-EXECUTE || ------------------- OPERACION WRITE PID: %d\t||PC: %d -------------------", pcb->pid, pcb->program_counter);
+			log_info(logger, "CPU-EXECUTE || --------- OPERACION WRITE PID: %d\t||PC: %d ---------", pcb->pid, pcb->program_counter);
 			resultado = escribir(*parametro1, parametro2, datos);
 //			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 
@@ -221,7 +221,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			return false;
 			break;
 		case COPY: // COPY(destino, origen)
-			log_info(logger, "CPU-EXECUTE || ------------------- OPERACION COPY PID: %d\t||PC: %d -------------------", pcb->pid, pcb->program_counter);
+			log_info(logger, "CPU-EXECUTE || --------- OPERACION COPY PID: %d\t||PC: %d ---------", pcb->pid, pcb->program_counter);
 			valor_leido= leer(*parametro1,datos);
 			resultado = escribir(*parametro1, parametro2, datos);
 //			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
@@ -230,14 +230,14 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			return false;
 			break;
 		case READ:
-			log_info(logger, "CPU-EXECUTE || ------------------- OPERACION READ PID: %d\t||PC: %d -------------------", pcb->pid, pcb->program_counter);
+			log_info(logger, "CPU-EXECUTE || --------- OPERACION READ PID: %d\t||PC: %d ---------", pcb->pid, pcb->program_counter);
 			valor_leido = leer(*parametro1,datos);
 
 //			sleep(1);
 			return false;
 			break;
 		case EXIT:
-			log_info(logger, "CPU-EXECUTE || ------------------- OPERACION EXIT PID: %d\t||PC: %d -------------------", pcb->pid, pcb->program_counter);
+			log_info(logger, "CPU-EXECUTE || --------- OPERACION EXIT PID: %d\t||PC: %d ---------", pcb->pid, pcb->program_counter);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 			pcb->estado = FINALIZADO;
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
