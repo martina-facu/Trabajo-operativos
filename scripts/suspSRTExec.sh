@@ -33,7 +33,7 @@ $KERNELPATH/Kernel &
 cd $CONSOLEPATH
 sleep 1
 ($CONSOLEPATH/Consola $CONFPATH/SUSPE_1 1024)  &
-
+sleep 0.5
 #	Levanto la segunda consola
 ($CONSOLEPATH/Consola $CONFPATH/SUSPE_2 1024)  &
 #	Levanto la tercera consola
