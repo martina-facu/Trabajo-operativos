@@ -100,8 +100,8 @@ void actualizar_estimacion(pcb_t* pcb){
 	log_info(logger,"PCP || ---------- ACTUALIZACION DE ESTIMACION PROCESO POR SRT ----------");
 	log_trace(logger, "PCP || PID: %d\t||ESTIMACION ANTIGUA: %d",pcb->pid,pcb->estimado_rafaga);
 	log_trace(logger, "PCP || ALPHA: %f\t||TIEMPO DE EJECUCION: %f",alpha,tiempo_de_ejecucion);
-	log_trace(logger, "PCP || ESTIMACION EN FLOTANTE: %f",(tiempo_de_ejecucion*(1-alpha))+alpha*((double) pcb->estimado_rafaga));
-	pcb->estimado_rafaga = (uint32_t) (tiempo_de_ejecucion*(1-alpha)+alpha*pcb->estimado_rafaga);
+	log_trace(logger, "PCP || ESTIMACION EN FLOTANTE: %f",(tiempo_de_ejecucion*(1-alpha)*1000)+alpha*((double) pcb->estimado_rafaga));
+	pcb->estimado_rafaga = (uint32_t) (tiempo_de_ejecucion*(1-alpha)*1000+alpha*pcb->estimado_rafaga);
 	log_trace(logger, "PCP || PID: %d\t||ESTIMACION ACTUAL: %d",pcb->pid,pcb->estimado_rafaga);
 //	pcb_mostrar(pcb,logger);
 }
