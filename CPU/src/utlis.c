@@ -198,7 +198,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 	switch (id)
 	{
 		case NO_OP:
-			log_info(logger, "CPU-EXECUTE || ------------------- OPERACION NO_OP PID: %d\t||PC: %d-------------------", dormir/1000, pcb->pid, pcb->program_counter);
+			log_info(logger, "CPU-EXECUTE || ------------------- OPERACION NO_OP PID: %d\t||PC: %d-------------------", pcb->pid, pcb->program_counter);
 			dormir = dormir/1000;
 			sleep(dormir);
 
@@ -286,11 +286,11 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 		requiere_fetch_operands = true;
 
 	//fetch_operands
-//	if (requiere_fetch_operands)
-//	{
-//		uint32_t* origen_dir = list_get(instruccion->parametros,1);
-//		*origen_dir = leer(*origen_dir,datos);
-//	}
+	if (requiere_fetch_operands)
+	{
+		uint32_t* origen_dir = list_get(instruccion->parametros,1);
+		*origen_dir = leer(*origen_dir,datos);
+	}
 
 	//	Ejecuto la instruccion
 	*devolver_pcb = execute(instruccion, retardoNoOp, datos, pcb);
