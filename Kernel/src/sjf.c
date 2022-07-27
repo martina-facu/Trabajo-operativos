@@ -19,6 +19,9 @@
 bool menor_estimacion(void* pcb_aux,void* pcb_aux2){
 	pcb_t* pcb1 =pcb_aux;
 	pcb_t* pcb2 =pcb_aux2;
+	if(pcb1->estimado_rafaga == pcb2->estimado_rafaga){
+		return true;
+	}
 	return pcb1->estimado_rafaga<pcb2->estimado_rafaga;
 }
 
