@@ -100,7 +100,7 @@ t_entrada_2* obtener_entrada(uint32_t numero_pagina)
 	log_info(logger,"MEMORIA-CPU || ENTRADA\t||U: %d\t||M: %d\t||P: %d\t||FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
 
 	log_info(logger, "--------------------OBTENER ENTRADA----------------------");
-	log_trace(logger,"-------------------------CON NUMERO DE PAGINA--------------------------------");
+	log_trace(logger,"-------------------------CON NUMERO DE PAGINA: %d--------------------------------",numero_pagina);
 	log_info(logger, "--------------------OBTENER ENTRADA----------------------");
 	log_info(logger, "INDICE DE TABLA 1: %d", backup_indice_1);
 	t_tabla_1* tabla_1 = list_get(tabla_1_l,backup_indice_1);
