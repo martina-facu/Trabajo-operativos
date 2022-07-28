@@ -169,10 +169,10 @@ void* bloquear_proceso_sjf(void* pcb_){
 
 void* devoluciones(){
 	while(1){
+		pcb_t* pcb=recibir_paquete_pcb_sjf();
 		pthread_mutex_lock(&mx_proceso_ejecutando);
 		proceso_ejecutando=0;
 		pthread_mutex_unlock(&mx_proceso_ejecutando);
-		pcb_t* pcb=recibir_paquete_pcb_sjf();
 		log_trace(logger,"PCP || KERNEL-CPU-PCB Recibi PCB desde la CPU");
 		tiempo_de_ejecucion_final=time(NULL);
 		if(tiempo_de_ejecucion_final<0){
