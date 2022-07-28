@@ -294,6 +294,7 @@ void* io_sjf(){
 			list_add(unblock_l,pcb);
 			pthread_mutex_unlock(&mx_unblock_l);
 			sem_post(&s_proceso_ready);
+			log_trace(logger,"IO || AÑADI A LISTA DE DESBLOQUEADOS Y AVISE QUE SE AGREGUE EL PROCESO A READY || PCB: %d",pcb->pid);
 		} else{
 			log_trace(logger,"IO || Se DESBLOQUEO un proceso suspendido, ID:  %d", pcb->pid);
 			pthread_mutex_lock(&mx_susp_block_l);
