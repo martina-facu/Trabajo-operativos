@@ -140,12 +140,12 @@ void finalizar_proceso(){
 	for(int i = 0; i < list_size(proceso->pagMem); i++){
 		t_memory_pag* pagina = list_get(proceso->pagMem,i);
 		log_trace(logger,"MEMORIA-KERNEL || VAMOS A Liberar UNA PAGINA DEL FRAME: %d",pagina->entrada->frame);
-		memset(memoria + pagina->entrada->frame*TAM_PAGINA, '\0', TAM_PAGINA);
+		//memset(memoria + pagina->entrada->frame*TAM_PAGINA, '\0', TAM_PAGINA);
 		bitarray_clean_bit(bitMem, pagina->entrada->frame);
 		log_trace(logger, "MEMORIA-KERNEL || MUESTRO EL BITARRAY, LUEGO DE LIMPIAR ESE FRAME");
 		mostrar_bitarray();
 	}
-	eliminar_archivo_swap(pid);
+	//eliminar_archivo_swap(pid);
 	log_trace(logger, "MEMORIA-KERNEL || Elimino el archivo de SWAP del proceso con PID: %d",pid);
 
 //TODO: Esto se me ocurrio para liberar memoria

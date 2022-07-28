@@ -115,7 +115,7 @@ void eliminar_archivo_swap(int pidRecibido){
 	sprintf(pathArchivo, "%s/%s", pSwap, nombreArchivo);
 
 	if(existe_archivo(pathArchivo)){
-		//remove(pathArchivo);
+		remove(pathArchivo);
 		log_info(logger, "SWAP: Se eliminó el archivo %s", nombreArchivo);
 	}
 	else
