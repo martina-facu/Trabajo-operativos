@@ -63,6 +63,7 @@ void crear_archivo_swap(int pid, int cantidadPaginas){
 	sprintf(path, "%s/%s", pSwap, nombreArchivo);
 
 	int tamano_proceso = cantidadPaginas*TAM_PAGINA;
+	log_trace(logger, "SWAP --> || TAMANO PROCESO = %d CANTIDAD PAGINA = %d TAMANO PAGINA = %d", tamano_proceso, cantidadPaginas, TAM_PAGINA);
 
 	if(!existe_archivo(path)){
 
