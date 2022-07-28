@@ -191,7 +191,7 @@ void* devoluciones(){
 			pthread_mutex_unlock(&mx_interrumpidos_l);
 			//	Incremento el semaforo de interrupcion atendida para dejar asentado que se realizo la misma
 			sem_post(&s_interrupcion_atendida);
-//			sem_wait(&s_espero_replanificacion);
+			sem_wait(&s_espero_replanificacion);
 		}
 		else if(pcb->estado == BLOQUEADO){
 			//	Agrego el PCB a la lista de procesos bloqueados
@@ -218,7 +218,7 @@ void* devoluciones(){
 		}
 		//	SACO EL SLEEP PERO HAY QUE ESTAR ATENTOS A VER SI DA ERROR
 		//	Habilito la replanificacion de los procesos
-		sleep(1);
+//		sleep(1);
 		sem_post(&s_proceso_ejecutando);
 	}
 	return NULL;
@@ -355,7 +355,7 @@ void* agregar_a_ready_sjf(){
 		if(pcb_interrumpido!=NULL)
 		{
 			sem_post(&s_cpu);
-//			sem_post(&s_espero_replanificacion);
+			sem_post(&s_espero_replanificacion);
 		}
 	}
 	return NULL;
