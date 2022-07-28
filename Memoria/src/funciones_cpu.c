@@ -85,20 +85,39 @@ void entrada1()
  *  Author: Grupo 99
  */
 
-t_entrada_2* obtener_entrada()
+t_entrada_2* obtener_entrada(uint32_t numero_pagina)
 {
+//	log_trace(logger,"-------------------------SIN NUMERO DE PAGINA--------------------------------");
+//	log_info(logger, "--------------------OBTENER ENTRADA----------------------");
+//	log_info(logger, "INDICE DE TABLA 1: %d", backup_indice_1);
+//	t_tabla_1* tabla1 = list_get(tabla_1_l,backup_indice_1);
+//	log_info(logger, "ENTRADA DE TABLA 1: %d", backup_entrada_tabla_1);
+//	backup_indice_tabla_2= *(tabla1->entradas+backup_entrada_tabla_1);
+//	log_info(logger, "INDICE DE TABLA 2: %d", backup_indice_tabla_2);
+//	t_tabla_2* tabla2 = list_get(tabla_2_l,backup_indice_tabla_2);
+//	log_info(logger, "ENTRADA DE TABLA 2: %d", backup_entrada_tabla_2);
+//	t_entrada_2* entrada2= list_get(tabla2->entradas,backup_entrada_tabla_2);
+//	log_info(logger, "MEMORIA-CPU || INDICE GLOBAL 1: %d\t||ENTRADA (INDICE TABLA 2): %d\t||ENTRADA TABLA 2: %d	", backup_indice_1,backup_indice_tabla_2,backup_entrada_tabla_2);
+//	log_info(logger,"MEMORIA-CPU || ENTRADA\t||U: %d\t||M: %d\t||P: %d\t||FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
+
+	log_info(logger, "--------------------OBTENER ENTRADA----------------------");
+	log_trace(logger,"-------------------------CON NUMERO DE PAGINA: %d--------------------------------",numero_pagina);
 	log_info(logger, "--------------------OBTENER ENTRADA----------------------");
 	log_info(logger, "INDICE DE TABLA 1: %d", backup_indice_1);
-	t_tabla_1* tabla1 = list_get(tabla_1_l,backup_indice_1);
-	log_info(logger, "ENTRADA DE TABLA 1: %d", backup_entrada_tabla_1);
-	backup_indice_tabla_2= *(tabla1->entradas+backup_entrada_tabla_1);
-	log_info(logger, "INDICE DE TABLA 2: %d", backup_indice_tabla_2);
-	t_tabla_2* tabla2 = list_get(tabla_2_l,backup_indice_tabla_2);
-	log_info(logger, "ENTRADA DE TABLA 2: %d", backup_entrada_tabla_2);
-	t_entrada_2* entrada2= list_get(tabla2->entradas,backup_entrada_tabla_2);
-	log_info(logger, "MEMORIA-CPU || INDICE GLOBAL 1: %d\t||ENTRADA (INDICE TABLA 2): %d\t||ENTRADA TABLA 2: %d	", backup_indice_1,backup_indice_tabla_2,backup_entrada_tabla_2);
-	log_info(logger,"MEMORIA-CPU || ENTRADA\t||U: %d\t||M: %d\t||P: %d\t||FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
-	return entrada2;
+	t_tabla_1* tabla_1 = list_get(tabla_1_l,backup_indice_1);
+	int entrada_1 = numero_pagina/ENTRADAS_POR_TABLA;
+	log_info(logger, "ENTRADA DE TABLA 1: %d", entrada_1);
+	int indice_tabla_2 = *(tabla_1->entradas+entrada_1);
+	log_info(logger, "INDICE DE TABLA 2: %d", indice_tabla_2);
+	t_tabla_2* tabla_2 = list_get(tabla_2_l,indice_tabla_2);
+	int entrada_tabla_2= numero_pagina - entrada_1*ENTRADAS_POR_TABLA;
+	log_info(logger, "ENTRADA DE TABLA 2: %d",entrada_tabla_2);
+	t_entrada_2* entr2= list_get(tabla_2->entradas,entrada_tabla_2);
+
+	log_info(logger, "MEMORIA-CPU || INDICE GLOBAL 1: %d\t||ENTRADA (INDICE TABLA 2): %d\t||ENTRADA TABLA 2: %d	",backup_indice_1,indice_tabla_2,entrada_tabla_2);
+	log_info(logger,"MEMORIA-CPU || ENTRADA\t||U: %d\t||M: %d\t||P: %d\t||FRAME: %d", entr2->bUso,entr2->bMod,entr2->bPres,entr2->frame);
+
+	return entr2;
 }
 
 /*
@@ -398,9 +417,11 @@ void escritura(){
 	uint32_t escritura;
 	recv(socket_cpu,&escritura,sizeof(uint32_t),0);
 	memcpy(memoria+direccion_fisica,&escritura,sizeof(uint32_t));
+	uint32_t numero_pagina;
 	retardoXcpu();
 	send(socket_cpu,&escritura,sizeof(uint32_t),0);
-	t_entrada_2* entrada=  obtener_entrada();
+	recv(socket_cpu,&numero_pagina,sizeof(uint32_t),0);
+	t_entrada_2* entrada=  obtener_entrada(numero_pagina);
 	entrada->bUso=1;
 	entrada->bMod=1;
 	log_info(logger, "MEMORIA-CPU || ------ ESCRITURA %d\t||FRAME: %d\t||DF: %d",escritura,entrada->frame, direccion_fisica );
@@ -418,10 +439,12 @@ void lectura(){
 	uint32_t direccion_fisica;
 	recv(socket_cpu,&direccion_fisica,sizeof(uint32_t),0);
 	uint32_t buffer;
+	uint32_t numero_pagina;
 	memcpy(&buffer,memoria+direccion_fisica,sizeof(uint32_t));
 	retardoXcpu();
 	send(socket_cpu,&buffer,sizeof(uint32_t),0);
-	t_entrada_2* entrada=  obtener_entrada();
+	recv(socket_cpu,&numero_pagina,sizeof(uint32_t),0);
+	t_entrada_2* entrada=  obtener_entrada(numero_pagina);
 	entrada->bUso=1;
 	log_info(logger, "MEMORIA-CPU || ------ LECTURA %d\t||FRAME: %d\t||DF: %d", buffer,entrada->frame, direccion_fisica);
 }
