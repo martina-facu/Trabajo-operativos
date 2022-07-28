@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 	t_list* instrucciones = obtener_intrucciones(input_file);
 	log_trace(logger, "Proceso el archivo de instrucciones y lo cargo en una lista");
 	//	Muestro las instrucciones obtenidas tanto en pantalla como en log.
-	mostrar_instrucciones(instrucciones, logger);
+	//mostrar_instrucciones(instrucciones, logger);
 
 	// ---------------------------------------------------------------------------- SERIALIZACION ----------------------------------------------------------------------------------------//
 	//	Serializo el mensaje a enviar al Kernel

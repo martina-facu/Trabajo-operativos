@@ -439,8 +439,8 @@ void lectura(){
 	uint32_t direccion_fisica;
 	recv(socket_cpu,&direccion_fisica,sizeof(uint32_t),0);
 	uint32_t buffer;
-	uint32_t numero_pagina;
 	memcpy(&buffer,memoria+direccion_fisica,sizeof(uint32_t));
+	uint32_t numero_pagina;
 	retardoXcpu();
 	send(socket_cpu,&buffer,sizeof(uint32_t),0);
 	recv(socket_cpu,&numero_pagina,sizeof(uint32_t),0);
