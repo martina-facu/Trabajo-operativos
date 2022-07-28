@@ -147,6 +147,8 @@ void traer_a_memoria(uint32_t pid,int numero_pagina,uint32_t frame){
 	log_info(logger, "SWAP---------> ||  LA PAGINA:%d, AL FRAME: %d CONTENIDO %d",numero_pagina,frame, (int)archivo+numero_pagina*TAM_PAGINA);
 
 	munmap(archivo, sb.st_size);
+
+	close(fd);
 }
 
 /*
@@ -232,7 +234,7 @@ void* swap_(){ //TODO: Agregue el void* como está definido en el .h
 
 			log_info(logger, "SWAP: Contenido copiado al archivo");
 		}
-
+		memcpy(archivo, &pathArchivo, 1024);
 		msync(archivo, sb.st_size, MS_SYNC);
 		munmap(archivo, TAM_PAGINA);
 
