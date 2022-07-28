@@ -419,8 +419,8 @@ void escritura(){
 	uint32_t numero_pagina;
 	retardoXcpu();
 	send(socket_cpu,&escritura,sizeof(uint32_t),0);
-	t_entrada_2* entrada=  obtener_entrada(numero_pagina);
 	recv(socket_cpu,&numero_pagina,sizeof(uint32_t),0);
+	t_entrada_2* entrada=  obtener_entrada(numero_pagina);
 	entrada->bUso=1;
 	entrada->bMod=1;
 	log_info(logger, "MEMORIA-CPU || ------ ESCRITURA %d\t||FRAME: %d\t||DF: %d",escritura,entrada->frame, direccion_fisica );
