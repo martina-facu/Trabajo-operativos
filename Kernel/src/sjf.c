@@ -169,11 +169,11 @@ void* bloquear_proceso_sjf(void* pcb_){
 
 void* devoluciones(){
 	while(1){
-		pcb_t* pcb=recibir_paquete_pcb_sjf();
-		log_trace(logger,"PCP || KERNEL-CPU-PCB Recibi PCB desde la CPU");
 		pthread_mutex_lock(&mx_proceso_ejecutando);
 		proceso_ejecutando=0;
 		pthread_mutex_unlock(&mx_proceso_ejecutando);
+		pcb_t* pcb=recibir_paquete_pcb_sjf();
+		log_trace(logger,"PCP || KERNEL-CPU-PCB Recibi PCB desde la CPU");
 		tiempo_de_ejecucion_final=time(NULL);
 		if(tiempo_de_ejecucion_final<0){
 			log_trace(logger,"PCP || Error en el calculo del tiempo de ejecucion ya que me da negativo");
@@ -191,7 +191,7 @@ void* devoluciones(){
 			pthread_mutex_unlock(&mx_interrumpidos_l);
 			//	Incremento el semaforo de interrupcion atendida para dejar asentado que se realizo la misma
 			sem_post(&s_interrupcion_atendida);
-			//sem_wait(&s_espero_replanificacion);
+			sem_wait(&s_espero_replanificacion);
 		}
 		else if(pcb->estado == BLOQUEADO){
 			//	Agrego el PCB a la lista de procesos bloqueados
@@ -319,9 +319,9 @@ void interrumpir(){
 }
 
 void* agregar_a_ready_sjf(){
-	pcb_t* pcb_interrumpido;
+//	pcb_t* pcb_interrumpido;
 	while(1){
-		pcb_interrumpido = NULL;
+//		pcb_interrumpido = NULL;
 		sem_wait(&s_proceso_ready);
 		pcb_t* pcb;
 		if(!list_is_empty(susp_readyM_l)){
@@ -347,16 +347,18 @@ void* agregar_a_ready_sjf(){
 			log_trace(logger, "PCP || ------------------------------------VOY A INTERRUMPIR-------------------------------------------------------------");
 			interrumpir();
 			sem_wait(&s_interrupcion_atendida);
-			pcb_interrumpido = list_remove(interrumpidos_l,0);
-			list_add_sorted(ready_l,pcb_interrumpido,menor_estimacion);
+			pcb = list_remove(interrumpidos_l,0);
+			list_add_sorted(ready_l,pcb,menor_estimacion);
+			sem_post(&s_espero_replanificacion);
+			sem_post(&s_cpu);
 		}
 		mostrar_lista_ready_sjf(ready_l);
 		sem_post(&s_cpu);
-		if(pcb_interrumpido!=NULL)
-		{
-			sem_post(&s_cpu);
-			//sem_post(&s_espero_replanificacion);
-		}
+//		if(pcb_interrumpido!=NULL)
+//		{
+//			sem_post(&s_cpu);
+//			//sem_post(&s_espero_replanificacion);
+//		}
 	}
 	return NULL;
 }
