@@ -100,7 +100,7 @@ bool validar_codigo(t_paquete* paquete, uint8_t operacion)
 	}
 }
 
-uint32_t mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion)
+uint32_t mandar_lecto_escritura(uint32_t direccion,uint32_t numeroPagina, uint32_t* valor, uint8_t operacion, int conexion)
 {
 	uint32_t valorRecibido;
 
@@ -130,6 +130,7 @@ uint32_t mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t ope
 		recv(cliente_memoria,&valorRecibido,sizeof(uint32_t),0);
 		log_info(logger, "CPU-MEMORIA Se recibio el resultado de la operacion de escritura");
 	}
+	send(cliente_memoria, &numeroPagina, sizeof(uint32_t),0);
 
 	return valorRecibido;
 }
@@ -149,7 +150,7 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
 	log_info(logger, "CPU-MEMORIA ----- DIRECCION FISICA: %d ----- ", resultado->direccion_fisica);
 
 
-	valorRecibido = mandar_lecto_escritura(resultado->direccion_fisica, 0, SOLICITAR_LECTURA, datos->conexion_memoria);
+	valorRecibido = mandar_lecto_escritura(resultado->direccion_fisica, datos->numero_pagina, 0, SOLICITAR_LECTURA, datos->conexion_memoria);
 	log_info(logger, "CPU-MEMORIA Envie pedido de lectura a la Memoria");
 	log_info(logger, "CPU-MEMORIA -------- LECTURA: %d -------- ", valorRecibido);
 	return valorRecibido;
@@ -164,7 +165,7 @@ uint32_t escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calcul
 
 	log_info(logger, "CPU-MEMORIA ----- DIRECCION FISICA: %d ----- ", resultado->direccion_fisica);
 
-	mandar_lecto_escritura(resultado->direccion_fisica, valor_a_escribir, SOLICITAR_ESCRITURA, datos->conexion_memoria);
+	mandar_lecto_escritura(resultado->direccion_fisica, datos->numero_pagina, valor_a_escribir, SOLICITAR_ESCRITURA, datos->conexion_memoria);
 
 	return 0;
 }

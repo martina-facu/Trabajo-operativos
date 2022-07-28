@@ -95,8 +95,8 @@ t_entrada_2* obtener_entrada()
 	t_tabla_2* tabla2 = list_get(tabla_2_l,backup_indice_tabla_2);
 	log_info(logger, "ENTRADA DE TABLA 2: %d", backup_entrada_tabla_2);
 	t_entrada_2* entrada2= list_get(tabla2->entradas,backup_entrada_tabla_2);
-	log_info(logger, "CPU || INDICE GLOBAL 1: %d\t||ENTRADA (INDICE TABLA 2): %d\t||ENTRADA TABLA 2: %d	", backup_indice_1,backup_indice_tabla_2,backup_entrada_tabla_2);
-	log_info(logger,"CPU || ENTRADA\t||U: %d\t||M: %d\t||P: %d\t||FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
+	log_info(logger, "MEMORIA-CPU || INDICE GLOBAL 1: %d\t||ENTRADA (INDICE TABLA 2): %d\t||ENTRADA TABLA 2: %d	", backup_indice_1,backup_indice_tabla_2,backup_entrada_tabla_2);
+	log_info(logger,"MEMORIA-CPU || ENTRADA\t||U: %d\t||M: %d\t||P: %d\t||FRAME: %d", entrada2->bUso,entrada2->bMod,entrada2->bPres,entrada2->frame);
 	return entrada2;
 }
 
