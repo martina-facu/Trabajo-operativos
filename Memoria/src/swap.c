@@ -234,9 +234,8 @@ void* swap_(){ //TODO: Agregue el void* como está definido en el .h
 
 			log_info(logger, "SWAP: Contenido copiado al archivo");
 		}
-		memcpy(archivo, &pathArchivo, 1024);
-		msync(archivo, sb.st_size, MS_SYNC);
-		munmap(archivo, TAM_PAGINA);
+
+		munmap(archivo, sb.st_size);
 
 		log_trace(logger, "SWAP: Ingresando a memoria..");
 		close(fd);
