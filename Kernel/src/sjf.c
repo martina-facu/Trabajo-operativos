@@ -60,8 +60,8 @@ pcb_t* recibir_paquete_pcb_sjf(){
 
 void* enviar_a_ejecutar_sjf(){
 	while(1){
-		sem_wait(&s_cpu);
 		sem_wait(&s_proceso_ejecutando);
+		sem_wait(&s_cpu);
 
 		log_trace(logger,"PCP || PCP-EJECUTAR Me preparo para enviar a ejecutar al CPU un proceso");
 
@@ -324,6 +324,7 @@ void* agregar_a_ready_sjf(){
 	while(1){
 //		pcb_interrumpido = NULL;
 		sem_wait(&s_proceso_ready);
+		log_info(logger,"PCP || VOY A PLANIFICAR");
 		pcb_t* pcb;
 		if(!list_is_empty(susp_readyM_l)){
 			pthread_mutex_lock(&mx_susp_readyM_l);
