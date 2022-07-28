@@ -218,7 +218,7 @@ void* devoluciones(){
 		}
 		//	SACO EL SLEEP PERO HAY QUE ESTAR ATENTOS A VER SI DA ERROR
 		//	Habilito la replanificacion de los procesos
-		sleep(0.1);
+		printf("\n");
 		sem_post(&s_proceso_ejecutando);
 	}
 	return NULL;
@@ -348,7 +348,9 @@ void* agregar_a_ready_sjf(){
 			interrumpir();
 			sem_wait(&s_interrupcion_atendida);
 			pcb = list_remove(interrumpidos_l,0);
+			log_trace(logger, "PCP || PCP-READY INTERRUMPIDO Ingreso un proceso con PID: %d a la cola de READY", pcb->pid);
 			list_add_sorted(ready_l,pcb,menor_estimacion);
+
 			sem_post(&s_espero_replanificacion);
 			sem_post(&s_cpu);
 		}
