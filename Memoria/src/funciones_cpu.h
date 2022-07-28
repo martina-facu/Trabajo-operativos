@@ -26,7 +26,7 @@ void escritura();
 void lectura();
 void mostrar_tabla_pagina();
 void chequear_puntero();
-t_entrada_2* obtener_entrada();
+t_entrada_2* obtener_entrada(uint32_t numero_pagina);
 void mostrar_entrada(t_entrada_2* entrada2);
 
 int backup_indice_1;
