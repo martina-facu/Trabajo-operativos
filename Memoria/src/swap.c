@@ -115,7 +115,7 @@ void eliminar_archivo_swap(int pidRecibido){
 	sprintf(pathArchivo, "%s/%s", pSwap, nombreArchivo);
 
 	if(existe_archivo(pathArchivo)){
-		remove(pathArchivo);
+		//remove(pathArchivo);
 		log_info(logger, "SWAP: Se eliminó el archivo %s", nombreArchivo);
 	}
 	else
@@ -139,13 +139,13 @@ void traer_a_memoria(uint32_t pid,int numero_pagina,uint32_t frame){
 		log_error(logger,"SWAP: ERROR EN ASIGNAR EL ESPACIO DEL ARCHIVO");
 	}
 	log_trace(logger, "SWAP: Voy a buscar a memoria");
-	//void* archivo = (void*) mmap(NULL, sb.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+	void* archivo = (void*) mmap(NULL, sb.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 
 	log_trace(logger, "SWAP: Hice el mmap");
-	//memcpy(memoria+frame*TAM_PAGINA , archivo+numero_pagina*TAM_PAGINA , TAM_PAGINA);
+	memcpy(memoria+frame*TAM_PAGINA , archivo+numero_pagina*TAM_PAGINA , TAM_PAGINA);
 	log_info(logger, "SWAP: SE TRAJO A MEMORIA, LA PAGINA:%d, AL FRAME: %d",numero_pagina,frame);
 
-	//munmap(archivo, sb.st_size);
+	munmap(archivo, sb.st_size);
 }
 
 /*
