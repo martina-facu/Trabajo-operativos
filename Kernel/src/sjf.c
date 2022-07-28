@@ -218,7 +218,7 @@ void* devoluciones(){
 		}
 		//	SACO EL SLEEP PERO HAY QUE ESTAR ATENTOS A VER SI DA ERROR
 		//	Habilito la replanificacion de los procesos
-		sleep(0.5);
+		sleep(1);
 		sem_post(&s_proceso_ejecutando);
 	}
 	return NULL;
