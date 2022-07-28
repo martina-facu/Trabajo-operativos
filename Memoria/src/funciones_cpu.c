@@ -444,7 +444,6 @@ void lectura(){
 	retardoXcpu();
 	send(socket_cpu,&buffer,sizeof(uint32_t),0);
 	recv(socket_cpu,&numero_pagina,sizeof(uint32_t),0);
-	log_trace(logger, "----|| Numero de pagina: %d", numero_pagina);
 	t_entrada_2* entrada=  obtener_entrada(numero_pagina);
 	entrada->bUso=1;
 	log_info(logger, "MEMORIA-CPU || ------ LECTURA %d\t||FRAME: %d\t||DF: %d", buffer,entrada->frame, direccion_fisica);
