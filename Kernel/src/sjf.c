@@ -182,36 +182,42 @@ void* devoluciones(){
 		tiempo_de_ejecucion= difftime(tiempo_de_ejecucion_final,tiempo_de_ejecucion_inicial); // divido por mil para dejarlo en milisegundos
 		actualizar_estimacion(pcb);
 		log_trace(logger,"PCP || ------------------------ MI ESTADO ES: %d-------------------------------------", pcb->estado);
+		//	Valido el estado del PCB que fue devuelto desde el CPU
 		if(pcb->estado==INTERRUMPIDO) {
 			log_trace(logger, "PCP || PID: %d\t||MOTIVO: INTERRUMPIDO\t||SE VA A AGREGAR A READY",pcb->pid);
-
+			//	Agrego el PCB devuelto a la lista de interrumpidos
 			pthread_mutex_lock(&mx_interrumpidos_l);
 			list_add(interrumpidos_l, pcb);
 			pthread_mutex_unlock(&mx_interrumpidos_l);
-
+			//	Incremento el semaforo de interrupcion atendida para dejar asentado que se realizo la misma
 			sem_post(&s_interrupcion_atendida);
+			sem_wait(&s_espero_replanificacion);
 		}
 		else if(pcb->estado == BLOQUEADO){
+			//	Agrego el PCB a la lista de procesos bloqueados
 			pthread_mutex_lock(&mx_block_l);
 			list_add(block_l,pcb);
 			pthread_mutex_unlock(&mx_block_l);
 
 				// CREAR EL HILO QUE SE VA A BLOQUEAR UN EL PCB ADENTRO
 			log_trace(logger, "PCP || PID: %d\t||MOTIVO: BLOQUEADO\t||SE VA A BLOQUEAR",pcb->pid);
-
+			//	Incremento el semaforo de IO Pendiente para que actue el planificador de IO
 			sem_post(&s_io_pendiente);
 		}
 		else if(pcb->estado == FINALIZADO){
 			log_trace(logger, "PCP || PID: %d\t||MOTIVO: FINALIZADO\t||SE VA A FINALIZAR",pcb->pid);
+			//	Agrego el PCB a la lista de procesos finalizados
 			pthread_mutex_lock(&mx_finalizado_l);
 			list_add(finalizado_l,pcb);
 			pthread_mutex_unlock(&mx_finalizado_l);
+			//
 			sem_post(&s_proceso_finalizado);
 		}
 		else{
 			log_error(logger,"PCP || El estado recibido del PCB no es valido");
 		}
 		//	SACO EL SLEEP PERO HAY QUE ESTAR ATENTOS A VER SI DA ERROR
+		//	Habilito la replanificacion de los procesos
 		sem_post(&s_proceso_ejecutando);
 	}
 	return NULL;
@@ -346,7 +352,10 @@ void* agregar_a_ready_sjf(){
 		mostrar_lista_ready_sjf(ready_l);
 		sem_post(&s_cpu);
 		if(pcb_interrumpido!=NULL)
+		{
 			sem_post(&s_cpu);
+			sem_post(&s_espero_replanificacion);
+		}
 	}
 	return NULL;
 }

@@ -33,7 +33,8 @@ void* funciones_cpu(){
 		default:
 			log_error(logger, "MEMORIA-CPU || El mensaje recibido %d no corresponde a uno de los conocidos.", operacion);
 			log_error(logger, "MEMORIA-CPU || Se procede a cerrar la conexion");
-			close(socket_cpu);
+//			Esto hay que descomentarlo una vez que se solucione el problema
+//			close(socket_cpu);
 			break;
 		}
 

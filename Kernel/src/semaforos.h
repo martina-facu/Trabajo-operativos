@@ -53,6 +53,7 @@
 	sem_t s_susp;
 	sem_t s_io_pendiente;
 	sem_t s_io;
+	sem_t s_espero_replanificacion;
 
 
 
