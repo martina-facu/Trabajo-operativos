@@ -133,6 +133,7 @@ void inicializar_semaforos(){
 	sem_init(&s_io,0,0);
 	sem_init(&s_io_pendiente,0,0);
 	sem_init(&s_espero_replanificacion,0,0);
+	sem_init(&s_contador,0,0);
 }
 
 

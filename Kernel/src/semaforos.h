@@ -54,6 +54,7 @@
 	sem_t s_io_pendiente;
 	sem_t s_io;
 	sem_t s_espero_replanificacion;
+	sem_t s_contador;
 
 
 
