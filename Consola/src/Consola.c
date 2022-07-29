@@ -72,21 +72,21 @@ int main(int argc, char *argv[]) {
 
 	close(conexion);
 
-	free(tamano_mensaje);
-	log_trace(logger, "Se libera tamaño del mensaje");
-	config_destroy(config);
-	log_trace(logger, "Se libera la configuracion");
-	destruir_lista_instrucciones(instrucciones);
-	log_trace(logger, "Se libera la lista de instrucciones");
-	free(stream_instrucciones);
-	log_trace(logger, "Se libera el stream de instrucciones");
-	free(buffer);
-	log_trace(logger, "Se libera el buffer");
-	free(paquete);
-	log_trace(logger, "Se libera el paquete");
-	free(a_enviar);
-	log_trace(logger, "Se libera la variable a_enviar");
-	log_destroy(logger);
+//	free(tamano_mensaje);
+//	log_trace(logger, "Se libera tamaño del mensaje");
+//	config_destroy(config);
+//	log_trace(logger, "Se libera la configuracion");
+//	destruir_lista_instrucciones(instrucciones);
+//	log_trace(logger, "Se libera la lista de instrucciones");
+//	free(stream_instrucciones);
+//	log_trace(logger, "Se libera el stream de instrucciones");
+//	free(buffer);
+//	log_trace(logger, "Se libera el buffer");
+//	free(paquete);
+//	log_trace(logger, "Se libera el paquete");
+//	free(a_enviar);
+//	log_trace(logger, "Se libera la variable a_enviar");
+//	log_destroy(logger);
 
 	return EXIT_SUCCESS;
 }

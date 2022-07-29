@@ -38,9 +38,9 @@ void remover_de_lista_sjf(t_list* lista,pcb_t* pcb){
 void mostrar_lista_ready_sjf(t_list* lista){
 	int i;
 	int lista_size= list_size(lista);
+	pcb_t* pcb;
 	log_info(logger,"PCP || ---------- LISTA DE READY SRT ----------");
 	for(i=0;i<lista_size;i++){
-		pcb_t* pcb= malloc(sizeof(pcb_t));
 		pcb= list_get(lista,i);
 		log_trace(logger,"PCP || PID = %d\t||Prioridad= %d\t||ESTIMACION: %d", pcb->pid,i, pcb->estimado_rafaga);
 	}
@@ -320,9 +320,7 @@ void interrumpir(){
 }
 
 void* agregar_a_ready_sjf(){
-//	pcb_t* pcb_interrumpido;
 	while(1){
-//		pcb_interrumpido = NULL;
 		sem_wait(&s_proceso_ready);
 		log_info(logger,"PCP || VOY A PLANIFICAR");
 		pcb_t* pcb;
@@ -358,11 +356,7 @@ void* agregar_a_ready_sjf(){
 		}
 		mostrar_lista_ready_sjf(ready_l);
 		sem_post(&s_cpu);
-//		if(pcb_interrumpido!=NULL)
-//		{
-//			sem_post(&s_cpu);
-//			//sem_post(&s_espero_replanificacion);
-//		}
+		log_trace(logger,"PCP || SE PLANIFICO CON EXITO");
 	}
 	return NULL;
 }
