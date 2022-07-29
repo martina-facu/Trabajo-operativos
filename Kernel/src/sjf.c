@@ -361,8 +361,8 @@ void* agregar_a_ready_sjf(){
 				log_trace(logger, "PCP || PCP-READY INTERRUMPIDO Ingreso un proceso con PID: %d a la cola de READY", pcb->pid);
 				list_add_sorted(ready_l,pcb,menor_estimacion);
 				sem_post(&s_espero_replanificacion);
+				sem_post(&s_cpu);
 			}
-			sem_post(&s_cpu);
 		}
 		mostrar_lista_ready_sjf(ready_l);
 		sem_post(&s_cpu);
