@@ -147,8 +147,6 @@ void traer_a_memoria(uint32_t pid,int numero_pagina,uint32_t frame){
 
 	msync(archivo, sb.st_size, MS_SYNC);
 
-	munmap(archivo, sb.st_size);
-
 
 }
 
@@ -239,8 +237,6 @@ void* swap_(){ //TODO: Agregue el void* como está definido en el .h
 		}
 
 		msync(archivo, sb.st_size, MS_SYNC);
-
-		munmap(archivo, sb.st_size);
 
 		log_trace(logger, "SWAP: Ingresando a memoria..");
 
