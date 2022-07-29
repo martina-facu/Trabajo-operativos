@@ -358,8 +358,8 @@ void clock_M(t_entrada_2* entrada){
 				entrada->frame= posible_victima->entrada->frame;
 				log_trace(logger, "MEMORIA-CPU || Se asigno el frame %d", entrada->frame);
 				//TODO: se mueve el puntero luego de escoger a la victima
-				proceso_->contador++;
-				proceso_->puntero= proceso_->contador%list_size(proceso_->pagMem);
+//				proceso_->contador++;
+//				proceso_->puntero= proceso_->contador%list_size(proceso_->pagMem);
 				return;
 			}
 			proceso_->contador++;

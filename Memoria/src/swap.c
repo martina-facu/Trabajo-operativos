@@ -141,14 +141,13 @@ void traer_a_memoria(uint32_t pid,int numero_pagina,uint32_t frame){
 	}
 	log_trace(logger, "SWAP: Voy a buscar a memoria");
 	void* archivo = (void*) mmap(NULL, sb.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-
+	close(fd);
 	log_trace(logger, "SWAP: Hice el mmap");
 	memcpy(memoria+frame*TAM_PAGINA , archivo+numero_pagina*TAM_PAGINA , TAM_PAGINA);
 	log_info(logger, "SWAP---------> ||  LA PAGINA:%d, AL FRAME: %d CONTENIDO %d",numero_pagina,frame, (int)archivo+numero_pagina*TAM_PAGINA);
 
-	munmap(archivo, sb.st_size);
+	msync(archivo, sb.st_size, MS_SYNC);
 
-	close(fd);
 }
 
 /*
@@ -224,6 +223,8 @@ void* swap_(){ //TODO: Agregue el void* como está definido en el .h
 		log_trace(logger, "SWAP: Se comienza con el swap");
 		void* archivo = (void*) mmap(NULL, sb.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 
+		close(fd);
+
 		while(!list_is_empty(pedido->memorias_a_swappear)){
 
 			t_memory_pag* pagina = list_remove(pedido->memorias_a_swappear,0);
@@ -235,10 +236,10 @@ void* swap_(){ //TODO: Agregue el void* como está definido en el .h
 			log_info(logger, "SWAP: Contenido copiado al archivo");
 		}
 
-		munmap(archivo, sb.st_size);
+		msync(archivo, sb.st_size, MS_SYNC);
 
 		log_trace(logger, "SWAP: Ingresando a memoria..");
-		close(fd);
+
 	}
 }
 

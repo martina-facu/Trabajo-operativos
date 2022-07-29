@@ -59,6 +59,7 @@ typedef struct
 	int socket_cpu_dispatch;
 	int socket_cpu_interrupt;
 	int socket_memoria;
+	bool interrupcion;
 
 	t_config_kernel* configuracion;
 
