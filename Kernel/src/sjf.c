@@ -65,6 +65,8 @@ void* enviar_a_ejecutar_sjf(){
 
 		log_trace(logger,"PCP || PCP-EJECUTAR Me preparo para enviar a ejecutar al CPU un proceso");
 
+		mostrar_lista_ready_sjf(ready_l);
+
 		pthread_mutex_lock(&mx_ready_l);
 		pcb_t* pcb= list_remove(ready_l,0);
 		pthread_mutex_unlock(&mx_ready_l);
@@ -81,8 +83,6 @@ void* enviar_a_ejecutar_sjf(){
 		send(socket_cpu_dispatch,a_enviar,espacio,0);
 		proceso_ejecutando=1;
 		pthread_mutex_unlock(&mx_proceso_ejecutando);
-
-
 	}
 	return NULL;
 }
@@ -189,9 +189,9 @@ void* devoluciones(){
 			pthread_mutex_lock(&mx_interrumpidos_l);
 			list_add(interrumpidos_l, pcb);
 			pthread_mutex_unlock(&mx_interrumpidos_l);
-			interrupcion=0;
 			//	Incremento el semaforo de interrupcion atendida para dejar asentado que se realizo la misma
 			sem_post(&s_interrupcion_atendida);
+
 			sem_wait(&s_espero_replanificacion);
 		}
 		else if(pcb->estado == BLOQUEADO){
@@ -206,7 +206,6 @@ void* devoluciones(){
 			sem_post(&s_io_pendiente);
 			if(interrupcion){
 						sem_post(&s_interrupcion_atendida);
-						interrupcion=0;
 			}
 		}
 		else if(pcb->estado == FINALIZADO){
@@ -323,9 +322,9 @@ void* io_sjf(){
 }
 
 void interrumpir(){
+	interrupcion=1;
 	uint8_t intr = 25;
 	send(socket_cpu_interrupt,&intr,sizeof(uint8_t),0);
-	interrupcion=1;
 }
 
 void* agregar_a_ready_sjf(){
@@ -363,6 +362,7 @@ void* agregar_a_ready_sjf(){
 				sem_post(&s_espero_replanificacion);
 				sem_post(&s_cpu);
 			}
+			interrupcion=0;
 		}
 		mostrar_lista_ready_sjf(ready_l);
 		sem_post(&s_cpu);
