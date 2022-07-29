@@ -39,7 +39,7 @@ void mostrar_lista_ready_sjf(t_list* lista){
 	int i;
 	int lista_size= list_size(lista);
 	pcb_t* pcb;
-	log_info(logger,"PCP || ---------- LISTA DE READY SRT ----------");
+	log_info(logger,"PCP || ---------- LISTA DE READY SRT ---------- elementos: %d",lista_size);
 	for(i=0;i<lista_size;i++){
 		pcb= list_get(lista,i);
 		log_trace(logger,"PCP || PID = %d\t||Prioridad= %d\t||ESTIMACION: %d", pcb->pid,i, pcb->estimado_rafaga);
@@ -50,6 +50,7 @@ pcb_t* recibir_paquete_pcb_sjf(){
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 	t_buffer* buffer = malloc(sizeof(t_buffer));
 	recv(socket_cpu_dispatch,&paquete->codigo_operacion,sizeof(uint8_t),0);
+	log_trace(logger,"PCP || VOY A RECIBIR UN PROCESO");
 	recv(socket_cpu_dispatch,&buffer->size,sizeof(uint32_t),0);
 	buffer->stream = malloc(buffer->size);
 	recv(socket_cpu_dispatch,buffer->stream,buffer->size,0);
