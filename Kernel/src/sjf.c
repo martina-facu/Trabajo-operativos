@@ -243,7 +243,7 @@ bool esta_pcb_sjf(t_list* lista, pcb_t* pcb){
 void* suspencion_sjf(void* pcb_){
 	pcb_t* pcb = pcb_;
 	log_trace(logger,"CONTADOR || VOY A DESPERTARME EN: %d || PCB: %d", (int) TIEMPO_BLOCK_MAX,pcb->pid);
-	sem_post(&s_contador);
+//	sem_post(&s_contador);
 	sleep(TIEMPO_BLOCK_MAX/1000);
 	log_trace(logger,"CONTADOR || ME DESPERTE, POR LO TANTO, AVISO DE SUSPENDER || PCB: %d", pcb->pid);
 
@@ -267,7 +267,7 @@ void* planificador_io_sjf(){
 		block_pend->pcb=pcb;
 		log_trace(logger,"PLANIFICADOR IO || DISPARANDO EL CONTADOR || PCB: %d",pcb->pid);
 		int status=pthread_create(&block_pend->contador,NULL,suspencion_sjf,pcb);
-		sem_wait(&s_contador);
+//		sem_wait(&s_contador);
 		if(status<0){
 			log_trace(logger,"------------------------ ERROR AL CREAR HILO CONTADOR ----------------------------------------");
 		}
