@@ -189,6 +189,7 @@ void* devoluciones(){
 			pthread_mutex_lock(&mx_interrumpidos_l);
 			list_add(interrumpidos_l, pcb);
 			pthread_mutex_unlock(&mx_interrumpidos_l);
+			interrupcion=0;
 			//	Incremento el semaforo de interrupcion atendida para dejar asentado que se realizo la misma
 			sem_post(&s_interrupcion_atendida);
 			sem_wait(&s_espero_replanificacion);
@@ -203,6 +204,10 @@ void* devoluciones(){
 			log_trace(logger, "PCP || PID: %d\t||MOTIVO: BLOQUEADO\t||SE VA A BLOQUEAR",pcb->pid);
 			//	Incremento el semaforo de IO Pendiente para que actue el planificador de IO
 			sem_post(&s_io_pendiente);
+			if(interrupcion){
+						sem_post(&s_interrupcion_atendida);
+						interrupcion=0;
+			}
 		}
 		else if(pcb->estado == FINALIZADO){
 			log_trace(logger, "PCP || PID: %d\t||MOTIVO: FINALIZADO\t||SE VA A FINALIZAR",pcb->pid);
@@ -212,13 +217,16 @@ void* devoluciones(){
 			pthread_mutex_unlock(&mx_finalizado_l);
 			//
 			sem_post(&s_proceso_finalizado);
+			if(interrupcion){
+				sem_post(&s_interrupcion_atendida);
+				interrupcion=0;
+			}
 		}
 		else{
 			log_error(logger,"PCP || El estado recibido del PCB no es valido");
 		}
 		//	SACO EL SLEEP PERO HAY QUE ESTAR ATENTOS A VER SI DA ERROR
 		//	Habilito la replanificacion de los procesos
-		printf("\n");
 		sem_post(&s_proceso_ejecutando);
 	}
 	return NULL;
@@ -317,6 +325,7 @@ void* io_sjf(){
 void interrumpir(){
 	uint8_t intr = 25;
 	send(socket_cpu_interrupt,&intr,sizeof(uint8_t),0);
+	interrupcion=1;
 }
 
 void* agregar_a_ready_sjf(){
@@ -347,11 +356,12 @@ void* agregar_a_ready_sjf(){
 			log_trace(logger, "PCP || ------------------------------------VOY A INTERRUMPIR-------------------------------------------------------------");
 			interrumpir();
 			sem_wait(&s_interrupcion_atendida);
-			pcb = list_remove(interrumpidos_l,0);
-			log_trace(logger, "PCP || PCP-READY INTERRUMPIDO Ingreso un proceso con PID: %d a la cola de READY", pcb->pid);
-			list_add_sorted(ready_l,pcb,menor_estimacion);
-
-			sem_post(&s_espero_replanificacion);
+			if(!list_is_empty(interrumpidos_l)){
+				pcb = list_remove(interrumpidos_l,0);
+				log_trace(logger, "PCP || PCP-READY INTERRUMPIDO Ingreso un proceso con PID: %d a la cola de READY", pcb->pid);
+				list_add_sorted(ready_l,pcb,menor_estimacion);
+				sem_post(&s_espero_replanificacion);
+			}
 			sem_post(&s_cpu);
 		}
 		mostrar_lista_ready_sjf(ready_l);

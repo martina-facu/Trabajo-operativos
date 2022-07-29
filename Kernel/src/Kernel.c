@@ -119,6 +119,7 @@ void inicializar_listas(){
 }
 
 void inicializar_semaforos(){
+	interrupcion=0;
 	sem_init(&s_proceso_ejecutando,0,1);
 	sem_init(&s_proceso_ready,0,0);
 	sem_init(&s_cpu,0,0);
