@@ -50,7 +50,7 @@ pcb_t* recibir_paquete_pcb_sjf(){
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 	t_buffer* buffer = malloc(sizeof(t_buffer));
 	recv(socket_cpu_dispatch,&paquete->codigo_operacion,sizeof(uint8_t),0);
-	log_trace(logger,"PCP || VOY A RECIBIR UN PROCESO");
+//	log_trace(logger,"PCP || VOY A RECIBIR UN PROCESO");
 	recv(socket_cpu_dispatch,&buffer->size,sizeof(uint32_t),0);
 	buffer->stream = malloc(buffer->size);
 	recv(socket_cpu_dispatch,buffer->stream,buffer->size,0);
