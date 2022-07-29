@@ -209,6 +209,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			log_info(logger, "CPU-EXECUTE || --------- OPERACION I/0\t||PID: %d\t||PC: %3d ---------", pcb->pid, pcb->program_counter);
 			pcb->estado = BLOQUEADO;
 			pcb->tiempo_block = *parametro1;
+			log_trace(logger, "CPU-EXECUTE || SE VA A EJECUTO UNA I/O CON: %d, DEL PROCESO: %d",pcb->tiempo_block,pcb->pid);
 
 //			sleep(1);
 			return true;

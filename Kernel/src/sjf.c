@@ -205,7 +205,10 @@ void* devoluciones(){
 			//	Incremento el semaforo de IO Pendiente para que actue el planificador de IO
 			sem_post(&s_io_pendiente);
 			if(interrupcion){
-						sem_post(&s_interrupcion_atendida);
+				log_trace(logger, "------------------------------------------------------------------------");
+				log_trace(logger, "PCP || PID: %d\t|| VINO BLOQUEADO A LA VEZ QUE HAY UNA INTERRUPCION",pcb->pid);
+				log_trace(logger, "------------------------------------------------------------------------");
+				sem_post(&s_interrupcion_atendida);
 			}
 		}
 		else if(pcb->estado == FINALIZADO){
@@ -217,8 +220,10 @@ void* devoluciones(){
 			//
 			sem_post(&s_proceso_finalizado);
 			if(interrupcion){
+				log_trace(logger, "------------------------------------------------------------------------");
+				log_trace(logger, "PCP || PID: %d\t|| VINO FINALIZADO A LA VEZ QUE HAY UNA INTERRUPCION",pcb->pid);
+				log_trace(logger, "------------------------------------------------------------------------");
 				sem_post(&s_interrupcion_atendida);
-				interrupcion=0;
 			}
 		}
 		else{
@@ -358,6 +363,7 @@ void* agregar_a_ready_sjf(){
 			interrumpir();
 			sem_wait(&s_interrupcion_atendida);
 			if(!list_is_empty(interrumpidos_l)){
+				log_trace(logger, "PCP || LA LISTA DE INTERRUMPIDOS NO ESTA VACIA");
 				pcb = list_remove(interrumpidos_l,0);
 				log_trace(logger, "PCP || PCP-READY INTERRUMPIDO Ingreso un proceso con PID: %d a la cola de READY", pcb->pid);
 				list_add_sorted(ready_l,pcb,menor_estimacion);
