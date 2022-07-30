@@ -97,12 +97,22 @@ void* interrupciones(){
 	}
 }
 
+void calcular_estimacion(pcb_t* pcb){
+	log_trace(logger, "PCP || -----------CALCULO ESTIMACION ----------------");
+	log_trace(logger, "PCP || ALPHA: %f\t||TIEMPO DE EJECUCION: %f",alpha,tiempo_de_ejecucion);
+	pcb->estimado_rafaga = (uint32_t) (pcb->tiempo_ejecucion*(1-alpha)+alpha*pcb->estimado_rafaga);
+	log_trace(logger, "PCP || PID: %d\t||ESTIMACION ACTUAL: %d",pcb->pid,pcb->estimado_rafaga);
+	pcb->tiempo_ejecucion=0;
+}
+
 void actualizar_estimacion(pcb_t* pcb){
 	log_info(logger,"PCP || ---------- ACTUALIZACION DE ESTIMACION PROCESO POR SRT ----------");
 	log_trace(logger, "PCP || PID: %d\t||ESTIMACION ANTIGUA: %d",pcb->pid,pcb->estimado_rafaga);
 	log_trace(logger, "PCP || ALPHA: %f\t||TIEMPO DE EJECUCION: %f",alpha,tiempo_de_ejecucion);
-	log_trace(logger, "PCP || ESTIMACION EN FLOTANTE: %f",(tiempo_de_ejecucion*(1-alpha)*1000)+alpha*((double) pcb->estimado_rafaga));
-	pcb->estimado_rafaga = (uint32_t) (tiempo_de_ejecucion*(1-alpha)*1000+alpha*pcb->estimado_rafaga);
+	pcb->estimado_rafaga = pcb->estimado_rafaga - pcb->tiempo_ejecucion;
+	if(pcb->estimado_rafaga<0){
+		pcb->estimado_rafaga=0;
+	}
 	log_trace(logger, "PCP || PID: %d\t||ESTIMACION ACTUAL: %d",pcb->pid,pcb->estimado_rafaga);
 //	pcb_mostrar(pcb,logger);
 }
@@ -181,11 +191,12 @@ void* devoluciones(){
 //			printf("error en el clock final");
 		}
 		tiempo_de_ejecucion= difftime(tiempo_de_ejecucion_final,tiempo_de_ejecucion_inicial); // divido por mil para dejarlo en milisegundos
-		actualizar_estimacion(pcb);
+		pcb->tiempo_ejecucion+=tiempo_de_ejecucion*1000;
 		log_trace(logger,"PCP || ------------------------ MI ESTADO ES: %d-------------------------------------", pcb->estado);
 		//	Valido el estado del PCB que fue devuelto desde el CPU
 		if(pcb->estado==INTERRUMPIDO) {
 			log_trace(logger, "PCP || PID: %d\t||MOTIVO: INTERRUMPIDO\t||SE VA A AGREGAR A READY",pcb->pid);
+			actualizar_estimacion(pcb);
 			//	Agrego el PCB devuelto a la lista de interrumpidos
 			pthread_mutex_lock(&mx_interrumpidos_l);
 			list_add(interrumpidos_l, pcb);
@@ -197,6 +208,8 @@ void* devoluciones(){
 		}
 		else if(pcb->estado == BLOQUEADO){
 			//	Agrego el PCB a la lista de procesos bloqueados
+			calcular_estimacion(pcb);
+
 			pthread_mutex_lock(&mx_block_l);
 			list_add(block_l,pcb);
 			pthread_mutex_unlock(&mx_block_l);

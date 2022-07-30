@@ -30,6 +30,7 @@
 	   uint32_t program_counter;
 	   uint32_t estimado_rafaga;
 	   ESTADO estado;
+	   uint32_t tiempo_ejecucion;
 	   uint32_t tiempo_block;
 	   uint32_t tabla_paginas;
 	   t_list* instrucciones;
