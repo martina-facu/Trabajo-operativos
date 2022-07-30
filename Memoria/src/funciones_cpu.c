@@ -339,9 +339,10 @@ void clock_(t_entrada_2* entrada){
  *  Author: Grupo 99
  */
 void clock_M(t_entrada_2* entrada){
+	log_info(logger,"MEMORIA-CPU || ------ TABLA ANTES EJECUTAR ALGORITMO ------");
 	log_trace(logger,"MEMORIA-CPU || PUNTERO INICIAL: %d\t||CONTADOR: %d", proceso_->puntero, proceso_->contador);
-	log_info(logger,"MEMORIA-CPU || ------ TABLA ------");
 	mostrar_tabla_pagina();
+	log_info(logger,"MEMORIA-CPU || --------------- FIN  TABLA -----------------");
 	while(1){
 		log_trace(logger, "MEMORIA-CPU || Obtengo una posible victima");
 		for(int i = 0; i < list_size(proceso_->pagMem); i++){
@@ -408,6 +409,10 @@ void clock_M(t_entrada_2* entrada){
 			proceso_->puntero= proceso_->contador%list_size(proceso_->pagMem);
 		}
 	}
+	log_info(logger,"MEMORIA-CPU || ------ TABLA DESPUES EJECUTAR ALGORITMO ------");
+	log_info(logger,"MEMORIA-CPU || PUNTERO INICIAL: %d\t||CONTADOR: %d", proceso_->puntero, proceso_->contador);
+	mostrar_tabla_pagina();
+	log_info(logger,"MEMORIA-CPU || ----------------- FIN  TABLA -----------------");
 }
 /*
  *  Funcion: 	escritura
