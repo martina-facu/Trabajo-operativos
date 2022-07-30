@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 	t_list* instrucciones = obtener_intrucciones(input_file);
 	log_trace(logger, "Proceso el archivo de instrucciones y lo cargo en una lista");
 	//	Muestro las instrucciones obtenidas tanto en pantalla como en log.
-	mostrar_instrucciones(instrucciones, logger);
+	//mostrar_instrucciones(instrucciones, logger);
 
 	// ---------------------------------------------------------------------------- SERIALIZACION ----------------------------------------------------------------------------------------//
 	//	Serializo el mensaje a enviar al Kernel
@@ -72,21 +72,21 @@ int main(int argc, char *argv[]) {
 
 	close(conexion);
 
-	free(tamano_mensaje);
-	log_trace(logger, "Se libera tamaño del mensaje");
-	config_destroy(config);
-	log_trace(logger, "Se libera la configuracion");
-	destruir_lista_instrucciones(instrucciones);
-	log_trace(logger, "Se libera la lista de instrucciones");
-	free(stream_instrucciones);
-	log_trace(logger, "Se libera el stream de instrucciones");
-	free(buffer);
-	log_trace(logger, "Se libera el buffer");
-	free(paquete);
-	log_trace(logger, "Se libera el paquete");
-	free(a_enviar);
-	log_trace(logger, "Se libera la variable a_enviar");
-	log_destroy(logger);
+//	free(tamano_mensaje);
+//	log_trace(logger, "Se libera tamaño del mensaje");
+//	config_destroy(config);
+//	log_trace(logger, "Se libera la configuracion");
+//	destruir_lista_instrucciones(instrucciones);
+//	log_trace(logger, "Se libera la lista de instrucciones");
+//	free(stream_instrucciones);
+//	log_trace(logger, "Se libera el stream de instrucciones");
+//	free(buffer);
+//	log_trace(logger, "Se libera el buffer");
+//	free(paquete);
+//	log_trace(logger, "Se libera el paquete");
+//	free(a_enviar);
+//	log_trace(logger, "Se libera la variable a_enviar");
+//	log_destroy(logger);
 
 	return EXIT_SUCCESS;
 }

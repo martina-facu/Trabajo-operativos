@@ -268,6 +268,7 @@ void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
 void procesarPCB(void)
 {
 	log_trace(logger, "CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo");
+	log_trace(logger, "INTERRUPCION: %d",interrupcion);
 	while (devolver_pcb == false)
 		ejecutar_ciclo_instrucciones(pcb, &devolver_pcb, configuracion->retardoNoOp, cant, cliente_memoria,tam, &interrupcion);
 //		ejecutar_ciclo_instrucciones(pcb,config,&devolver_pcb);
@@ -283,6 +284,7 @@ void procesarPCB(void)
 	void* a_enviar = pcb_serializar(pcb,tamano_mensaje,1);
 	send(cliente_dispatch, a_enviar, *tamano_mensaje, 0);
 	log_info(logger, "CPU-COMUNICACION-KERNEL Se devuelve el PCB %d al Kernel", pcb->pid);
+	log_info(logger, "INTERRUPCION: %d", interrupcion);
 	interrupcion=false;
 	devolver_pcb = false;
 	recibiPCB = false;

@@ -22,6 +22,7 @@ pcb_t *pcb_create(uint32_t tamano, t_list* instrucciones,uint32_t pid, double es
 	pcb->tamano = tamano;
 	pcb->program_counter = 0;
 	pcb->estimado_rafaga = estimacion_inicial;
+	pcb->tiempo_ejecucion=0;
 //	pcb->estimado_rafaga = estimacion_inicial;
 	pcb->estado = INICIADO;
 	pcb->tiempo_block = 0;
@@ -34,7 +35,7 @@ pcb_t *pcb_create(uint32_t tamano, t_list* instrucciones,uint32_t pid, double es
 uint32_t pcb_calcular_espacio(pcb_t* pcb)
 {
 	uint32_t tamano_instrucciones = calcular_espacio_instrucciones(pcb->instrucciones);
-	return  tamano_instrucciones + sizeof(uint32_t) * 7; // PID, TAMANO, PC, ESTIMACION, estado, tiempo_bloqueo, TABLA
+	return  tamano_instrucciones + sizeof(uint32_t) * 8; // PID, TAMANO, PC, ESTIMACION, estado, tiempo_bloqueo, TABLA
 }
 
 void *pcb_armar_stream(pcb_t *pcb)
@@ -64,6 +65,10 @@ void *pcb_armar_stream(pcb_t *pcb)
 
 	memcpy(stream + desplazamiento, &pcb->tabla_paginas, sizeof(uint32_t)); // TABLA PAGINA
 	desplazamiento += sizeof(uint32_t);
+
+	memcpy(stream + desplazamiento, &pcb->tiempo_ejecucion, sizeof(uint32_t)); // TABLA PAGINA
+	desplazamiento += sizeof(uint32_t);
+
 
 	memcpy(stream + desplazamiento,armar_stream_instruccion(pcb->instrucciones),calcular_espacio_instrucciones(pcb->instrucciones)); // INSTRUCCIONES
 
@@ -110,13 +115,16 @@ pcb_t* pcb_deserializar(t_buffer* buffer, t_log* logger)
 	memcpy(&(pcb->tiempo_block), stream, sizeof(uint32_t));
 	stream += sizeof(uint32_t);
 
-	log_trace(logger, "VER ERROR TIEMPO DE IO");
-	log_trace(logger, "VER ERROR TIEMPO DE IO");
-	log_trace(logger, "-----------TIEMPO DE IO: %d", pcb->tiempo_block);
-	log_trace(logger, "VER ERROR TIEMPO DE IO");
-	log_trace(logger, "VER ERROR TIEMPO DE IO");
+//	log_trace(logger, "VER ERROR TIEMPO DE IO");
+//	log_trace(logger, "VER ERROR TIEMPO DE IO");
+//	log_trace(logger, "-----------TIEMPO DE IO: %d", pcb->tiempo_block);
+//	log_trace(logger, "VER ERROR TIEMPO DE IO");
+//	log_trace(logger, "VER ERROR TIEMPO DE IO");
 
 	memcpy(&(pcb->tabla_paginas), stream, sizeof(uint32_t));
+	stream += sizeof(uint32_t);
+
+	memcpy(&(pcb->tiempo_ejecucion), stream, sizeof(uint32_t));
 	stream += sizeof(uint32_t);
 
 

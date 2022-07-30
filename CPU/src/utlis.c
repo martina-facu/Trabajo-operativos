@@ -100,7 +100,7 @@ bool validar_codigo(t_paquete* paquete, uint8_t operacion)
 	}
 }
 
-uint32_t mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion)
+uint32_t mandar_lecto_escritura(uint32_t direccion,uint32_t numeroPagina, uint32_t* valor, uint8_t operacion, int conexion)
 {
 	uint32_t valorRecibido;
 
@@ -130,6 +130,7 @@ uint32_t mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t ope
 		recv(cliente_memoria,&valorRecibido,sizeof(uint32_t),0);
 		log_info(logger, "CPU-MEMORIA Se recibio el resultado de la operacion de escritura");
 	}
+	send(cliente_memoria, &numeroPagina, sizeof(uint32_t),0);
 
 	return valorRecibido;
 }
@@ -149,7 +150,7 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
 	log_info(logger, "CPU-MEMORIA ----- DIRECCION FISICA: %d ----- ", resultado->direccion_fisica);
 
 
-	valorRecibido = mandar_lecto_escritura(resultado->direccion_fisica, 0, SOLICITAR_LECTURA, datos->conexion_memoria);
+	valorRecibido = mandar_lecto_escritura(resultado->direccion_fisica, datos->numero_pagina, 0, SOLICITAR_LECTURA, datos->conexion_memoria);
 	log_info(logger, "CPU-MEMORIA Envie pedido de lectura a la Memoria");
 	log_info(logger, "CPU-MEMORIA -------- LECTURA: %d -------- ", valorRecibido);
 	return valorRecibido;
@@ -164,7 +165,7 @@ uint32_t escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calcul
 
 	log_info(logger, "CPU-MEMORIA ----- DIRECCION FISICA: %d ----- ", resultado->direccion_fisica);
 
-	mandar_lecto_escritura(resultado->direccion_fisica, valor_a_escribir, SOLICITAR_ESCRITURA, datos->conexion_memoria);
+	mandar_lecto_escritura(resultado->direccion_fisica, datos->numero_pagina, valor_a_escribir, SOLICITAR_ESCRITURA, datos->conexion_memoria);
 
 	return 0;
 }
@@ -183,11 +184,11 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 
 	if(catidad_parametros == 1){
 		parametro1 = list_get(parametros,0);
-//		log_trace(logger, "CPU-EXECUTE Obtengo lista de parametros de la instruccion: Parametro 1: %d\tParametro 2: %d", *parametro1);
+		log_info(logger, "CPU-EXECUTE || ------- PARAMETRO 1: %d ------- ", *parametro1);
 	}else if(catidad_parametros >= 1){
 		parametro1 = list_get(parametros,0);
 		parametro2 = list_get(parametros,1);
-//		log_trace(logger, "CPU-EXECUTE Obtengo lista de parametros de la instruccion: Parametro 1: %d\tParametro 2: %d", *parametro1,*parametro2);
+		log_info(logger, "CPU-EXECUTE ||------- PARAMETRO 1: %d\tPARAMETRO2: %d ------- ", *parametro1,*parametro2);
 	}
 
 
@@ -198,22 +199,23 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 	switch (id)
 	{
 		case NO_OP:
-			log_info(logger, "CPU-EXECUTE ------------------- OPERACION NO_OP PID: %d -------------------", dormir/1000, pcb->pid);
+			log_info(logger, "CPU-EXECUTE || --------- OPERACION NO_OP\t||PID: %d\t||PC: %3d ---------", pcb->pid, pcb->program_counter);
 			dormir = dormir/1000;
 			sleep(dormir);
 
 			return false;
 			break;
 		case I_O:
-			log_info(logger, "CPU-EXECUTE ------------------- OPERACION I/0 PID: %d -------------------", pcb->pid);
+			log_info(logger, "CPU-EXECUTE || --------- OPERACION I/0\t||PID: %d\t||PC: %3d ---------", pcb->pid, pcb->program_counter);
 			pcb->estado = BLOQUEADO;
 			pcb->tiempo_block = *parametro1;
+			log_trace(logger, "CPU-EXECUTE || SE VA A EJECUTO UNA I/O CON: %d, DEL PROCESO: %d",pcb->tiempo_block,pcb->pid);
 
 //			sleep(1);
 			return true;
 			break;
 		case WRITE:
-			log_info(logger, "CPU-EXECUTE ------------------- OPERACION WRITE PID: %d -------------------", pcb->pid);
+			log_info(logger, "CPU-EXECUTE || --------- OPERACION WRITE\t||PID: %d\t||PC: %3d ---------", pcb->pid, pcb->program_counter);
 			resultado = escribir(*parametro1, parametro2, datos);
 //			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 
@@ -221,8 +223,8 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			return false;
 			break;
 		case COPY: // COPY(destino, origen)
-			log_info(logger, "CPU-EXECUTE ------------------- OPERACION COPY PID: %d -------------------", pcb->pid);
-			valor_leido= leer(*parametro1,datos);
+			log_info(logger, "CPU-EXECUTE || --------- OPERACION COPY\t||PID: %d\t||PC: %3d ---------", pcb->pid, pcb->program_counter);
+//			valor_leido= leer(*parametro1,datos);
 			resultado = escribir(*parametro1, parametro2, datos);
 //			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
 
@@ -230,14 +232,14 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			return false;
 			break;
 		case READ:
-			log_info(logger, "CPU-EXECUTE ------------------- OPERACION READ PID: %d -------------------", pcb->pid);
+			log_info(logger, "CPU-EXECUTE || --------- OPERACION READ\t||PID: %d\t||PC: %3d ---------", pcb->pid, pcb->program_counter);
 			valor_leido = leer(*parametro1,datos);
 
 //			sleep(1);
 			return false;
 			break;
 		case EXIT:
-			log_info(logger, "CPU-EXECUTE ------------------- OPERACION EXIT PID: %d -------------------", pcb->pid);
+			log_info(logger, "CPU-EXECUTE || --------- OPERACION EXIT\t||PID: %d\t||PC: %3d ---------", pcb->pid, pcb->program_counter);
 			//	Esto es para hacer mas lenta la ejecucion y poder seguirlo por log
 			pcb->estado = FINALIZADO;
 //			log_info(logger, "Duermo 5 segundos antes de la siguiente operacion");
@@ -278,7 +280,7 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 	program_counter++;
 	pcb->program_counter = program_counter;
 
-	log_info(logger, "CPU-EXECUTE Aumento el program counter del PCB PID %d a: %d", pcb->pid, pcb->program_counter);
+//	log_info(logger, "CPU-EXECUTE Aumento el program counter del PCB PID %d a: %d", pcb->pid, pcb->program_counter);
 
 	//decode
 	bool requiere_fetch_operands = false;
@@ -286,11 +288,11 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 		requiere_fetch_operands = true;
 
 	//fetch_operands
-//	if (requiere_fetch_operands)
-//	{
-//		uint32_t* origen_dir = list_get(instruccion->parametros,1);
-//		*origen_dir = leer(*origen_dir,datos);
-//	}
+	if (requiere_fetch_operands)
+	{
+		uint32_t* origen_dir = list_get(instruccion->parametros,1);
+		*origen_dir = leer(*origen_dir,datos);
+	}
 
 	//	Ejecuto la instruccion
 	*devolver_pcb = execute(instruccion, retardoNoOp, datos, pcb);

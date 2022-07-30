@@ -85,6 +85,6 @@
 	uint32_t escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calculo_direccion* datos);
 	bool validar_codigo(t_paquete* paquete, uint8_t operacion);
 //	void mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion);
-	uint32_t mandar_lecto_escritura(uint32_t direccion, uint32_t* valor, uint8_t operacion, int conexion);
+	uint32_t mandar_lecto_escritura(uint32_t direccion,uint32_t numeroPagina, uint32_t* valor, uint8_t operacion, int conexion);
 
 #endif
