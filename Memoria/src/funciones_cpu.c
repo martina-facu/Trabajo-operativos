@@ -282,9 +282,10 @@ void ejecutar_algoritmo(t_entrada_2* entrada){
 
 
 void clock_(t_entrada_2* entrada){
+	log_info(logger,"MEMORIA-CPU || ------ TABLA ANTES EJECUTAR ALGORITMO ------");
 	log_info(logger,"MEMORIA-CPU || PUNTERO INICIAL: %d\t||CONTADOR: %d", proceso_->puntero, proceso_->contador);
-	log_info(logger,"MEMORIA-CPU || ------ TABLA ------");
 	mostrar_tabla_pagina();
+	log_info(logger,"MEMORIA-CPU || --------------- FIN  TABLA -----------------");
 	while(1){
 		log_trace(logger, "MEMORIA-CPU || BUSCO VICTIMA");
 		t_memory_pag* posible_victima = list_get(proceso_->pagMem,proceso_->puntero);
@@ -324,6 +325,10 @@ void clock_(t_entrada_2* entrada){
 		proceso_->puntero= proceso_->contador%list_size(proceso_->pagMem);
 		log_trace(logger, "MEMORIA-CPU || PUNTERO: %d", proceso_->puntero);
 	}
+	log_info(logger,"MEMORIA-CPU || ------ TABLA DESPUES EJECUTAR ALGORITMO ------");
+	log_info(logger,"MEMORIA-CPU || PUNTERO INICIAL: %d\t||CONTADOR: %d", proceso_->puntero, proceso_->contador);
+	mostrar_tabla_pagina();
+	log_info(logger,"MEMORIA-CPU || ----------------- FIN  TABLA -----------------");
 }
 
 /*
