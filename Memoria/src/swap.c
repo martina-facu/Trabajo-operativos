@@ -145,7 +145,7 @@ void traer_a_memoria(uint32_t pid,int numero_pagina,uint32_t frame){
 	log_trace(logger, "SWAP: Hice el mmap");
 	memcpy(memoria+frame*TAM_PAGINA , archivo+numero_pagina*TAM_PAGINA , TAM_PAGINA);
 //	log_info(logger, "SWAP---------> ||  LA PAGINA:%d, AL FRAME: %d CONTENIDO %d",numero_pagina,frame, (int)archivo+numero_pagina*TAM_PAGINA);
-	log_info(logger, "SWAP---------> ||  LA PAGINA:%d, AL FRAME: %d CONTENIDO %d",numero_pagina,frame, (int)(archivo+numero_pagina*TAM_PAGINA));
+	log_info(logger, "SWAP---------> ||  LA PAGINA:%d, AL FRAME: %d",numero_pagina,frame);
 
 	msync(archivo, sb.st_size, MS_SYNC);
 
