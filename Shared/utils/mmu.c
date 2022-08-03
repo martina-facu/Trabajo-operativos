@@ -44,15 +44,13 @@ void cargar_entrada(Entrada_TLB* entrada)
 	int tamano_lista = list_size(tlb_proceso);
 
 	if(tamano_lista < entradas_maximas){
-		log_trace(logger, "CPU-MMU || Agrego una entrada a la TLB");
+		log_info(logger, "CPU-MMU || Agrego una entrada a la TLB");
 		list_add(tlb_proceso, entrada);
 		mostrar_entradas(tlb_proceso);
 	}else{
-		log_trace(logger, "CPU-MMU || Voy a reemplazar una entrada");
+		log_info(logger, "CPU-MMU || Voy a reemplazar una entrada");
 		reemplazar_entrada(entrada);
 	}
-
-	log_info(logger, "CPU-MMU Se cargo una entrada a la tlb");
 }
 
 void reemplazar_entrada(Entrada_TLB* entrada){
@@ -74,8 +72,9 @@ void reemplazar_entrada_FIFO(Entrada_TLB* entrada){
 		return ((Entrada_TLB*)valor1)->tiempo_carga < ((Entrada_TLB*)valor2)->tiempo_carga;
 	}
 	log_info(logger, "CPU-MMU || Algoritmo de reemplazo: FIFO");
+	log_info(logger, "CPU-MMU || TLB antes del reemplazo");
 	mostrar_entradas(tlb_proceso);
-	log_trace(logger, "CPU-MMU || REORDENO TLB");
+	log_info(logger, "CPU-MMU || REORDENO TLB SEGUN TIEMPO DE CARGA");
 	list_sort(tlb_proceso, _funcion_comparacion);
 	mostrar_entradas(tlb_proceso);
 	Entrada_TLB* removido = (Entrada_TLB*)list_remove(tlb_proceso, 0);
@@ -83,13 +82,15 @@ void reemplazar_entrada_FIFO(Entrada_TLB* entrada){
 	log_info(logger, "CPU-MMU Pagina removida: %d",removido->numero_pagina);
 
 	list_add(tlb_proceso, entrada);
+	log_info(logger, "CPU-MMU || TLB despues del reemplazo: ");
+	mostrar_entradas(tlb_proceso);
 }
 
 void reemplazar_entrada_LRU(Entrada_TLB* entrada){
+	log_info(logger, "CPU-MMU || Algoritmo de reemplazo: LRU");
 	bool _funcion_comparacion(void* valor1, void* valor2){
 		time_t tiempo1 = ((Entrada_TLB*)valor1)->ultima_referencia;
 		time_t tiempo2 = ((Entrada_TLB*)valor2)->ultima_referencia;
-		log_info(logger, "CPU-MMU || Algoritmo de reemplazo: LRU");
 		if(tiempo1 == tiempo2){
 			log_trace(logger, "CPU-MMU || Tiempo de carga valor 1 es menor al 2");
 			return ((Entrada_TLB*)valor1)->tiempo_carga < ((Entrada_TLB*)valor2)->tiempo_carga;
@@ -97,17 +98,17 @@ void reemplazar_entrada_LRU(Entrada_TLB* entrada){
 			return tiempo1<tiempo2;
 		}
 	}
-	log_trace(logger, "CPU-MMU || Se muestra la TLB");
+	log_info(logger, "CPU-MMU || TLB antes del reemplazo");
 	mostrar_entradas(tlb_proceso);
-	log_trace(logger, "CPU-MMU || Voy a ordenar la tlb por tiempo de carga");
+	log_info(logger, "CPU-MMU || TLB reordenada por menor tiempo de acceso");
 	list_sort(tlb_proceso, _funcion_comparacion);
-	log_trace(logger, "CPU-MMU || Voy a ordenar la tlb por tiempo de carga");
 	mostrar_entradas(tlb_proceso);
 	Entrada_TLB* removido = (Entrada_TLB*)list_remove(tlb_proceso, 0);
 	log_info(logger, "CPU-MMU Pagina removida: %d",removido->numero_pagina);
 
-	log_trace(logger, "CPU-MMU || Se agrega la entrada a la TLB");
 	list_add(tlb_proceso, entrada);
+	log_info(logger, "CPU-MMU || TLB despues del reemplazo: ");
+	mostrar_entradas(tlb_proceso);
 }
 
 void set_numero_pagina(Datos_calculo_direccion* datos, uint32_t direccion_logica){
@@ -168,7 +169,7 @@ Pagina_direccion* traducir_direccion(Datos_calculo_direccion* datos)
 }
 
 uint32_t get_marco(Datos_calculo_direccion* datos){
-	log_trace(logger, "CPU-MMU Empiezo a buscar el marco de la pagina %d", datos->numero_pagina);
+	log_info(logger, "CPU-MMU Busco el marco de la pagina %d", datos->numero_pagina);
 
 	log_trace(logger, "CPU-MMU || Voy a buscar el marco en la tabla");
 	uint32_t marco = buscar_marco(datos->numero_pagina);
@@ -184,6 +185,7 @@ uint32_t get_marco(Datos_calculo_direccion* datos){
 
 		cargar_entrada(nueva_entrada);
 
+		log_info(logger, "CPU-MMU || ENCONTRE el MARCO %d de la PAGINA %d desde memoria", marco, datos->numero_pagina);
 		return marco;
 	}
 }

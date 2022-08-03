@@ -225,32 +225,18 @@ int main(void)
  */
 void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
 {
-	if(idAnteriorPCB == -1)
-	{
-		log_info(logger, "CPU-TLB Inicializo la tlb");
-		tlb = list_create();
-	}
-	else if(pcb->pid != idAnteriorPCB){
-		log_info(logger, "CPU-TLB Borro el contenido de la TLB ya que no es el mismo proceso que el anterior");
-		limpiar_tlb(tlb);
-	}
-
-
 	if((cantidad_clientes_dispatch > 0) && (cantidad_clientes_interrupt > 0) )
 	{
 		pcb = recibirPCB(acceptedConnectionDispatch, logger);
 		recibiPCB = true;
-//		log_trace(logger, "CPU-KERNEL-PCB Voy a loguear informacion del PCB recibida por el Dispatch");
-//		pcb_mostrar(pcb, logger);
 
-		log_trace(logger, "CPU-EXECUTE PID DEL PROCESO ANTERIOR %d",idAnteriorPCB);
+		log_info(logger, "CPU-EXECUTE PID DEL PROCESO ANTERIOR %d, PID proceso actual %d",idAnteriorPCB,pcb->pid);
 
 		if(idAnteriorPCB == -1){
 			log_info(logger, "CPU-TLB Inicializo la tlb");
 			tlb = list_create();
 			inicializar_mmu(config,tlb,logger);
 		} else if(pcb->pid != idAnteriorPCB){
-			mostrar_entradas(tlb);
 			log_info(logger, "CPU-TLB Borro el contenido de la TLB ya que no es el mismo proceso que el anterior");
 			limpiar_tlb(tlb);
 		}
@@ -267,7 +253,7 @@ void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
  */
 void procesarPCB(void)
 {
-	log_trace(logger, "CPU-EXECUTE Se recibio un PCB y procedo a ejecutar el mismo");
+	log_trace(logger, "CPU-EXECUTE Comienzo ejecucion del proceso");
 	log_trace(logger, "INTERRUPCION: %d",interrupcion);
 	while (devolver_pcb == false)
 		ejecutar_ciclo_instrucciones(pcb, &devolver_pcb, configuracion->retardoNoOp, cant, cliente_memoria,tam, &interrupcion);
