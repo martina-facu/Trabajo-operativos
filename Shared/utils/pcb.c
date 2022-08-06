@@ -69,8 +69,8 @@ void *pcb_armar_stream(pcb_t *pcb)
 	memcpy(stream + desplazamiento, &pcb->tiempo_ejecucion, sizeof(uint32_t)); // TABLA PAGINA
 	desplazamiento += sizeof(uint32_t);
 
-
-	memcpy(stream + desplazamiento,armar_stream_instruccion(pcb->instrucciones),calcular_espacio_instrucciones(pcb->instrucciones)); // INSTRUCCIONES
+	void* stream_instrucciones = (armar_stream_instruccion(pcb->instrucciones));
+	memcpy(stream + desplazamiento,stream_instrucciones,calcular_espacio_instrucciones(pcb->instrucciones)); // INSTRUCCIONES
 
 	free(stream_instrucciones);
 	return stream;

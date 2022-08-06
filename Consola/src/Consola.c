@@ -74,8 +74,6 @@ int main(int argc, char *argv[]) {
 
 	free(tamano_mensaje);
 	log_trace(logger, "Se libera tamaño del mensaje");
-	config_destroy(config);
-	log_trace(logger, "Se libera la configuracion");
 	destruir_lista_instrucciones(instrucciones);
 	log_trace(logger, "Se libera la lista de instrucciones");
 	free(stream_instrucciones);
@@ -86,7 +84,10 @@ int main(int argc, char *argv[]) {
 	log_trace(logger, "Se libera el paquete");
 	free(a_enviar);
 	log_trace(logger, "Se libera la variable a_enviar");
-	log_destroy(logger);
+//	log_destroy(logger);
+//	log_trace(logger, "Se libera el logger");
+//	config_destroy(config);
+//	log_trace(logger, "Se libera la configuracion");
 
 	return EXIT_SUCCESS;
 }
