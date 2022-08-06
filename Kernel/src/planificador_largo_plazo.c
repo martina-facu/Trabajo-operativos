@@ -223,7 +223,7 @@ void* finalizar_procesos(){
 	{
 		// ESPERO QUE HAYA UN PROCESO FINALIZADO
 		sem_wait(&s_proceso_finalizado);
-		log_trace(logP,"se va a finalizar un proceso");
+		log_trace(logger,"PLP || PLP-FINALIZAR Se va a finalizar un proceso");
 		pcb_t* pcb_finalizado;
 
 		// LO SACO DE LA LISTA DE FINALIZADOR QUE FUNCIONA COMO UN BUFFER
