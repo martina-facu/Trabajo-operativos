@@ -72,6 +72,7 @@ void *pcb_armar_stream(pcb_t *pcb)
 
 	memcpy(stream + desplazamiento,armar_stream_instruccion(pcb->instrucciones),calcular_espacio_instrucciones(pcb->instrucciones)); // INSTRUCCIONES
 
+	free(stream_instrucciones);
 	return stream;
 }
 
@@ -89,6 +90,9 @@ void* pcb_serializar(pcb_t* pcb, uint32_t* tamano_mensaje, uint8_t codigo_operac
 
 	*tamano_mensaje = paquete->size;
 
+	free(stream_pcb);
+	free(buffer);
+	free(paquete);
 	return a_enviar;
 }
 
@@ -114,12 +118,6 @@ pcb_t* pcb_deserializar(t_buffer* buffer, t_log* logger)
 
 	memcpy(&(pcb->tiempo_block), stream, sizeof(uint32_t));
 	stream += sizeof(uint32_t);
-
-//	log_trace(logger, "VER ERROR TIEMPO DE IO");
-//	log_trace(logger, "VER ERROR TIEMPO DE IO");
-//	log_trace(logger, "-----------TIEMPO DE IO: %d", pcb->tiempo_block);
-//	log_trace(logger, "VER ERROR TIEMPO DE IO");
-//	log_trace(logger, "VER ERROR TIEMPO DE IO");
 
 	memcpy(&(pcb->tabla_paginas), stream, sizeof(uint32_t));
 	stream += sizeof(uint32_t);
@@ -178,3 +176,15 @@ pcb_t* recibirPCB(int socket, t_log* logger)
 
 	return pcb;
 }
+
+
+void pcb_liberar (pcb_t* pcb){
+	t_list* instrucciones = pcb->instrucciones;
+	destruir_lista_instrucciones(instrucciones);
+	free(pcb);
+}
+
+
+
+
+

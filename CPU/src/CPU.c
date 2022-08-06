@@ -197,8 +197,10 @@ int main(void)
 		//	Proceso lo recibido, es decir actuo como CPU
 		//	Ejecutar ciclo de instrucciones
 
-		if(recibiPCB == true)
+		if(recibiPCB == true){
 			procesarPCB();
+			pcb_liberar(pcb);
+		}
 
 		//	Vuelvo a iniciar el proceso del While
 	}
@@ -277,6 +279,8 @@ void procesarPCB(void)
 	idAnteriorPCB = pcb->pid;
 	log_trace(logger, "CPU-COMUNICACION-KERNEL Seteo el flag para poder volver a recibir otro PCB del Kernel");
 
+	free(a_enviar);
+	free(tamano_mensaje);
 }
 
 

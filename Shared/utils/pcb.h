@@ -52,5 +52,6 @@
 	uint32_t pcb_calcular_espacio(pcb_t* pcb);
 	void* pcb_serializar(pcb_t* pcb, uint32_t* tamano_mensaje, uint8_t codigo_operacion);
 	pcb_t* recibirPCB(int socket, t_log* logger);
+	void pcb_liberar (pcb_t* pcb);
 
 #endif /* PCB_H_ */

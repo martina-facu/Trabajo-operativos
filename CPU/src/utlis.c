@@ -229,7 +229,7 @@ bool execute(Instruccion* instruccion,int dormir, Datos_calculo_direccion* datos
 			log_info(logger, "CPU-EXECUTE || --------- OPERACION COPY\t||PID: %d\t||PC: %3d ---------", pcb->pid, pcb->program_counter);
 //			valor_leido= leer(*parametro1,datos);
 			resultado = escribir(*parametro1, parametro2, datos);
-//			resultado == -1? printf("Fallo la escritura") : printf("Escritura exitosa");
+
 
 //			sleep(1);
 			return false;
@@ -311,6 +311,8 @@ void ejecutar_ciclo_instrucciones(pcb_t* pcb, bool* devolver_pcb, int retardoNoO
 		*devolver_pcb = *hubo_interrupcion;
 	}
 	pthread_mutex_unlock(&mutex_interrupt);
+
+	free(datos);
 }
 
 t_config_cpu* crearConfigCPU(void)
@@ -347,7 +349,6 @@ t_config_cpu* cargarConfiguracion(char* configPath)
 		strcpy(configTemp->IPCPU,"127.0.0.1");
 	}
 	log_trace(logger, "CPU-CONFIGURACION Se leyo la variable IP_CPU: %s", configTemp->IPCPU);
-
 
 	return configTemp;
 }
