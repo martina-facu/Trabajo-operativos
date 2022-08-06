@@ -6,10 +6,10 @@ void* stream_instrucciones;
 int main(int argc, char *argv[]) {
 
 	//	Se levanta el log de la consola.
-	t_log* logger;
+
 	t_config* config = config_create("consola.config");
 
-	logger = setearLogLevel(config,"consola.log", "CONSOLA");
+	t_log* logger = setearLogLevel(config,"consola.log", "CONSOLA");
 
 	//	Seteo el primer argumento como la ruta al archivo de instruccion del programa a ejecutar.
 	char* filename = argv[1];
@@ -72,21 +72,21 @@ int main(int argc, char *argv[]) {
 
 	close(conexion);
 
-//	free(tamano_mensaje);
-//	log_trace(logger, "Se libera tamaño del mensaje");
-//	config_destroy(config);
-//	log_trace(logger, "Se libera la configuracion");
-//	destruir_lista_instrucciones(instrucciones);
-//	log_trace(logger, "Se libera la lista de instrucciones");
-//	free(stream_instrucciones);
-//	log_trace(logger, "Se libera el stream de instrucciones");
-//	free(buffer);
-//	log_trace(logger, "Se libera el buffer");
-//	free(paquete);
-//	log_trace(logger, "Se libera el paquete");
-//	free(a_enviar);
-//	log_trace(logger, "Se libera la variable a_enviar");
-//	log_destroy(logger);
+	free(tamano_mensaje);
+	log_trace(logger, "Se libera tamaño del mensaje");
+	config_destroy(config);
+	log_trace(logger, "Se libera la configuracion");
+	destruir_lista_instrucciones(instrucciones);
+	log_trace(logger, "Se libera la lista de instrucciones");
+	free(stream_instrucciones);
+	log_trace(logger, "Se libera el stream de instrucciones");
+	free(buffer);
+	log_trace(logger, "Se libera el buffer");
+	free(paquete);
+	log_trace(logger, "Se libera el paquete");
+	free(a_enviar);
+	log_trace(logger, "Se libera la variable a_enviar");
+	log_destroy(logger);
 
 	return EXIT_SUCCESS;
 }

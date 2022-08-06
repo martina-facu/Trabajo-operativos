@@ -80,14 +80,15 @@
 	{
 		t_log* logger;
 		//	Variable para leer el nivel de log deseado.
-		char* logLevel;
+		char* logLevel= malloc(20*sizeof(char));
 		//	Busco el parametro LOG_LEVEL en el archivo de configuracion
 		//	Si no existe seteo el log en TRACE, de existir en lo que diga la variable.
 
 		logLevel = config_get_string_value(configFile, "LOG_LEVEL");
+
 		if(logLevel == NULL)
 		{
-			logLevel = malloc(16*sizeof(char));
+//			logLevel = malloc(16*sizeof(char));
 			strcpy(logLevel,"LOG_LEVEL_TRACE");
 		}
 
@@ -103,6 +104,7 @@
 			logger = initLogger(fileName, processName, LOG_LEVEL_ERROR);
 		else
 			logger = initLogger(fileName, processName, LOG_LEVEL_TRACE);
+
 		free(logLevel);
 
 		return logger;

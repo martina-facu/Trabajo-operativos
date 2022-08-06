@@ -153,6 +153,8 @@ uint32_t leer(uint32_t direccion_logica, Datos_calculo_direccion* datos)
 	valorRecibido = mandar_lecto_escritura(resultado->direccion_fisica, datos->numero_pagina, 0, SOLICITAR_LECTURA, datos->conexion_memoria);
 	log_info(logger, "CPU-MEMORIA Envie pedido de lectura a la Memoria");
 	log_info(logger, "CPU-MEMORIA -------- LECTURA: %d -------- ", valorRecibido);
+
+	free(resultado);
 	return valorRecibido;
 }
 
@@ -167,6 +169,7 @@ uint32_t escribir(int direccion_logica, uint32_t* valor_a_escribir, Datos_calcul
 
 	mandar_lecto_escritura(resultado->direccion_fisica, datos->numero_pagina, valor_a_escribir, SOLICITAR_ESCRITURA, datos->conexion_memoria);
 
+	free(resultado);
 	return 0;
 }
 
