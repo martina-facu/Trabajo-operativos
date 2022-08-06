@@ -32,12 +32,11 @@
 void mostrar_lista_ready(t_list* lista){
 	int i;
 	int lista_size= list_size(lista);
-	pcb_t* pcb= malloc(sizeof(pcb_t));
+	pcb_t* pcb;
 	log_info(logger,"PCP || ---------- LISTA DE READY FIFO ----------");
 	for(i=0;i<lista_size;i++){
 		pcb= list_get(lista,i);
 		log_info(logger,"PCP || PID = %d\t || Prioridad = %d", pcb->pid,i);
-//		printf("PCB = %d, prioridad= %d \n", pcb->pid,i);
 	}
 }
 
@@ -106,6 +105,9 @@ void* enviar_a_ejecutar()  {
 		// ENVIO EL PROCESO A EJECUTAR
 		void* a_enviar= pcb_serializar(pcb,&espacio,0);
 		send(socket_cpu_dispatch,a_enviar,espacio,0);
+
+
+		free(a_enviar);
 	}
 	return NULL;
 }
@@ -276,18 +278,23 @@ void* io(){
 }
 
 
-pcb_t* recibir_paquete_pcb()
+void recibir_paquete_pcb(pcb_t* pcb)
 {
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 	t_buffer* buffer = malloc(sizeof(t_buffer));
+
 	recv(socket_cpu_dispatch,&paquete->codigo_operacion,sizeof(uint8_t),0);
 	recv(socket_cpu_dispatch,&buffer->size,sizeof(uint32_t),0);
-	buffer->stream = malloc(buffer->size);
+	void* stream = malloc(buffer->size);
+	buffer->stream = stream;
 	recv(socket_cpu_dispatch,buffer->stream,buffer->size,0);
-	pcb_t* pcb = pcb_deserializar(buffer, logger);
+	pcb_deserializar(buffer,pcb);
 //	pcb_mostrar(pcb, logger);
 	log_trace(logger,"PCP || Recibi un proceso ID: %d ",pcb->pid);
-	return pcb;
+
+	free(stream);
+	free(buffer);
+	free(paquete);
 }
 
 //--------------------------------------------------------------------------------------//
@@ -301,7 +308,8 @@ pcb_t* recibir_paquete_pcb()
 void* recibir_proceso_de_cpu(){
 	while(1)
 	{
-		pcb_t* pcb = recibir_paquete_pcb();
+		pcb_t* pcb = malloc(sizeof(pcb_t));
+		recibir_paquete_pcb(pcb);
 		log_trace(logger,"PCP || KERNEL-CPU-PCB Recibi PCB desde la CPU");
 		log_trace(logger,"PCP || ------------------------ MI ESTADO ES: %d-------------------------------------", pcb->estado);
 		if(pcb->estado == FINALIZADO){ // SE PODRIA MODELAR CON UN SWITCH
@@ -334,6 +342,7 @@ void* recibir_proceso_de_cpu(){
 		// AVISAR QUE NO HAY NINGUN PROCESO EJECUTANDO
 		sem_post(&s_proceso_ejecutando);
 	}
+//	pcb_liberar(pcb);
 	return NULL;
 }
 

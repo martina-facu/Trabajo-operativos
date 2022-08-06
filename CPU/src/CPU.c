@@ -227,9 +227,11 @@ int main(void)
  */
 void reciboPCBdesdeKernel(int acceptedConnectionDispatch)
 {
+	pcb = malloc(sizeof(pcb_t));
+
 	if((cantidad_clientes_dispatch > 0) && (cantidad_clientes_interrupt > 0) )
 	{
-		pcb = recibirPCB(acceptedConnectionDispatch, logger);
+		recibirPCB(acceptedConnectionDispatch,pcb);
 		recibiPCB = true;
 
 		log_info(logger, "CPU-EXECUTE PID DEL PROCESO ANTERIOR %d, PID proceso actual %d",idAnteriorPCB,pcb->pid);

@@ -46,7 +46,8 @@ void mostrar_lista_ready_sjf(t_list* lista){
 	}
 }
 
-pcb_t* recibir_paquete_pcb_sjf(){
+//pcb_t* recibir_paquete_pcb_sjf(){
+void recibir_paquete_pcb_sjf(pcb_t* pcb){
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 	t_buffer* buffer = malloc(sizeof(t_buffer));
 	recv(socket_cpu_dispatch,&paquete->codigo_operacion,sizeof(uint8_t),0);
@@ -54,9 +55,9 @@ pcb_t* recibir_paquete_pcb_sjf(){
 	recv(socket_cpu_dispatch,&buffer->size,sizeof(uint32_t),0);
 	buffer->stream = malloc(buffer->size);
 	recv(socket_cpu_dispatch,buffer->stream,buffer->size,0);
-	pcb_t* pcb = pcb_deserializar(buffer, logger);
+	pcb_deserializar(buffer,pcb);
 	log_trace(logger,"PCP || Recibi un proceso con PID: %d ",pcb->pid);
-	return pcb;
+//	return pcb;
 }
 
 void* enviar_a_ejecutar_sjf(){
@@ -180,7 +181,8 @@ void* bloquear_proceso_sjf(void* pcb_){
 
 void* devoluciones(){
 	while(1){
-		pcb_t* pcb=recibir_paquete_pcb_sjf();
+		pcb_t* pcb = malloc(sizeof(pcb_t));
+		recibir_paquete_pcb_sjf(pcb);
 		pthread_mutex_lock(&mx_proceso_ejecutando);
 		proceso_ejecutando=0;
 		pthread_mutex_unlock(&mx_proceso_ejecutando);
@@ -231,7 +233,6 @@ void* devoluciones(){
 			pthread_mutex_lock(&mx_finalizado_l);
 			list_add(finalizado_l,pcb);
 			pthread_mutex_unlock(&mx_finalizado_l);
-			//
 			sem_post(&s_proceso_finalizado);
 			if(interrupcion){
 				log_trace(logger, "------------------------------------------------------------------------");

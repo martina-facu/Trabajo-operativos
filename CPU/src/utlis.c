@@ -1,28 +1,5 @@
 #include "utils.h"
 
-pcb_t* obtener_pcb(int cliente)
-{
-
-	t_paquete* paquete = malloc(sizeof(t_paquete));
-
-	paquete->buffer = malloc(sizeof(t_buffer));
-	t_buffer* buffer = paquete->buffer;
-
-	//recibimos el codigo del tipo de mensaje que nos llega
-	recv(cliente, &(paquete->codigo_operacion), sizeof(uint8_t), 0);
-
-	//recibo el tamaño del paquete
-	recv(cliente, &(buffer->size), sizeof(uint32_t), 0);
-
-	//recibo el buffer con el pcb
-	buffer->stream = malloc(buffer->size);
-	recv(cliente, buffer->stream, buffer->size, 0);
-
-	pcb_t* pcb = pcb_deserializar(buffer, logger);
-
-	return pcb;
-}
-
 
 int levantar_conexion_memoria_CPU(char* ipServer, char* portServer, uint32_t* cantidad_entradas,uint32_t* tamano_pagina)
 {
